@@ -7,7 +7,7 @@
 
     <!-- Left Column: Details & Logs -->
     <div class="md:col-span-8 space-y-4">
-        
+
         <!-- Application Summary Card -->
         <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
@@ -64,12 +64,12 @@
                 @foreach($application->logs as $log)
                     <div class="relative">
                         <!-- Bullet point icon -->
-                        <span class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 bg-white 
+                        <span class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 bg-white
                             @if(str_contains($log->action, 'approved')) border-emerald-500 bg-emerald-50
                             @elseif(str_contains($log->action, 'reject')) border-rose-500 bg-rose-50
                             @else border-gov-green bg-emerald-50 @endif">
                         </span>
-                        
+
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
                             <span class="font-bold text-slate-900 capitalize">{{ str_replace('_', ' ', $log->action) }}</span>
                             <span class="text-[9px] text-slate-400 font-semibold">{{ $log->created_at->format('d M Y, h:i A') }}</span>
@@ -87,7 +87,7 @@
 
     <!-- Right Column: Status & Security Clearance -->
     <div class="md:col-span-4 space-y-4">
-        
+
         <!-- Status Panel -->
         <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm text-center">
             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Current File Status</h3>

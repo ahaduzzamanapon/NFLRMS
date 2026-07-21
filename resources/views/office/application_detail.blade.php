@@ -151,7 +151,7 @@
                     <div class="flex space-x-3">
                         <div class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
                         <div>
-                            <div class="text-[9px] text-slate-400 font-bold">{{ $log->created_at->format('d M Y · H:i') }}</div>
+                            <div class="text-[9px] text-slate-400 font-bold">{{ $log->created_at->format('d M Y · h:i A') }}</div>
                             <div class="text-xs font-bold text-slate-900 mt-0.5">{{ $log->remarks }}</div>
                             @if($log->actor)
                             <div class="text-[9px] text-slate-500">by {{ $log->actor->name }}</div>
@@ -172,10 +172,20 @@
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
                     <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">Officer Actions</span>
                 </div>
+                @if ($errors->any())
+                    <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
+                        <span class="block text-sm font-black font-serif">⚠️ Please resolve the following errors:</span>
+                        <ul class="list-disc pl-4 space-y-0.5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="p-5 space-y-3">
                     <form action="{{ $actionRoute }}" method="POST" class="space-y-3">
                         @csrf
-                        <textarea name="remarks" rows="3" required placeholder="Remarks (mandatory)"
+                        <textarea name="remarks" rows="3" placeholder="Remarks (mandatory)"
                                   class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
 
                         @foreach($actions as $value => $label)
