@@ -25,18 +25,20 @@ Route::get('/', function () {
 
 // Public Verification Page
 Route::get('/verify', function (Request $request) {
-    $licenseNumber = $request->query('license_number');
+    $licenseNumber = trim($request->query('license_number', ''));
     $license = null;
     $status = null;
 
-    if ($licenseNumber) {
-        $license = License::where('license_number', $licenseNumber)->first();
-        $status = $license ? ($license->status === 'active' ? 'valid' : $license->status) : 'not_found';
+    if (! empty($licenseNumber)) {
+        $license = License::with(['user', 'application.district'])->where('license_number', $licenseNumber)->first();
+        if ($license) {
+            $status = $license->status === 'active' ? 'valid' : $license->status;
+        } else {
+            $status = 'not_found';
+        }
     }
 
-    $sampleLicenses = License::with('user')->latest()->take(3)->get();
-
-    return view('verify', compact('license', 'status', 'licenseNumber', 'sampleLicenses'));
+    return view('verify', compact('license', 'status', 'licenseNumber'));
 })->name('verify');
 
 // Authentication
@@ -58,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Profile — available to all logged-in users
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    // Document download
+    Route::get('/document/download', [ApplicationController::class, 'downloadDocument'])->name('document.download');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // Citizen / Dealer Applicant

@@ -99,7 +99,7 @@
             </div>
 
             <div>
-                <label for="ammo_ledger" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Ammunition Ledger (Used / Issued in past year)</label>
+                <label for="ammo_ledger" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Ammunition Ledger (Used / Issued in past year)</label>
                 <input type="text" name="ammo_ledger" id="ammo_ledger" required value="18 / 24"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
             </div>
@@ -131,7 +131,7 @@
         <!-- STEP 3: FEE & PAY -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5" id="panel-3">
             <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs" id="status-badge-container">
-                <span class="text-[8px] font-extrabold uppercase text-slate-400 block mb-0.5">Status</span>
+                <span class="text-[8px] font-extrabold uppercase text-slate-900 block mb-0.5">Status</span>
                 <span class="font-extrabold text-amber-800" id="status-badge-text">Tier 1 late (31-90d)</span>
             </div>
 
@@ -159,7 +159,7 @@
             </div>
 
             <div>
-                <label class="block text-[10px] font-extrabold uppercase text-slate-400 mb-2">Select Payment Channel</label>
+                <label class="block text-[10px] font-extrabold uppercase text-slate-900 mb-2">Select Payment Channel</label>
                 <div class="grid grid-cols-3 gap-3">
                     <button type="button" id="pay-bkash" onclick="selectPayment('bkash')" class="py-2.5 rounded-lg border-2 border-gov-green bg-emerald-50/10 text-xs font-black text-gov-green transition-all">bKash</button>
                     <button type="button" id="pay-nagad" onclick="selectPayment('nagad')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Nagad</button>

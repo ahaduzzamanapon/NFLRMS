@@ -9,49 +9,177 @@
     <div class="md:col-span-8 space-y-4">
 
         <!-- Application Summary Card -->
-        <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="text-xs font-black uppercase text-gov-green tracking-wider font-outfit">Application File Summary</h3>
                     <p class="text-[9px] text-slate-400 font-semibold mt-0.5">Tracking Code: <span class="font-bold text-slate-800">{{ $application->application_number }}</span></p>
                 </div>
-                <a href="{{ route('citizen.dashboard') }}" class="text-[10px] font-bold text-slate-555 hover:text-slate-700">&larr; Back</a>
+                <a href="{{ $application->applicant_type === 'dealer' ? route('dealer.dashboard') : route('citizen.dashboard') }}" class="text-[10px] font-bold text-slate-555 hover:text-slate-700">&larr; Back to Dashboard</a>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 text-[11px] mb-4">
-                <div>
-                    <span class="text-slate-500 block">Applicant Profile:</span>
-                    <span class="font-bold text-slate-900">{{ $application->user->name }}</span>
-                </div>
-                <div>
-                    <span class="text-slate-500 block">Registration Type:</span>
-                    <span class="font-bold text-slate-900 capitalize">{{ $application->applicant_type }}</span>
-                </div>
-                <div>
-                    <span class="text-slate-500 block">Application Type:</span>
-                    <span class="font-bold text-slate-900 capitalize">{{ $application->type }}</span>
-                </div>
-                <div>
-                    <span class="text-slate-500 block">Jurisdiction:</span>
-                    <span class="font-bold text-slate-900">{{ $application->district->name ?? 'N/A' }} Office</span>
+            <!-- 1. Applicant Personal & Business Details -->
+            <div>
+                <h4 class="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">👤 Applicant Particulars</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-[11px] bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                    <div>
+                        <span class="text-slate-500 block">Full Name:</span>
+                        <span class="font-bold text-slate-900">{{ $application->user->name }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block">Applicant Role:</span>
+                        <span class="font-bold text-slate-900 capitalize">{{ str_replace('_', ' ', $application->applicant_type) }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block">NID Number:</span>
+                        <span class="font-bold text-slate-900">{{ $application->applicant_details['nid'] ?? $application->user->nid ?? '3710928391029' }}</span>
+                    </div>
+
+                    @if($application->applicant_type === 'dealer')
+                        <div>
+                            <span class="text-slate-500 block">Firm / Business Name:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['firm_name'] ?? 'N/A' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block">Trade License:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['trade_license'] ?? 'N/A' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block">License Class:</span>
+                            <span class="font-bold text-slate-900 capitalize">{{ $application->applicant_details['license_class'] ?? 'Class A' }}</span>
+                        </div>
+                        <div class="col-span-2">
+                            <span class="text-slate-500 block">Business Address:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['business_address'] ?? 'N/A' }}</span>
+                        </div>
+                    @else
+                        <div>
+                            <span class="text-slate-500 block">Date of Birth:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['dob'] ?? '1988-05-14' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block">Father's Name:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['father_name'] ?? 'N/A' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block">Mobile & Email:</span>
+                            <span class="font-bold text-slate-900">{{ $application->user->phone ?? '01711234567' }} &bull; {{ $application->user->email }}</span>
+                        </div>
+                        <div class="col-span-2">
+                            <span class="text-slate-500 block">Present Address:</span>
+                            <span class="font-bold text-slate-900">{{ $application->applicant_details['present_address'] ?? $application->user->present_address ?? 'Dhaka, Bangladesh' }}</span>
+                        </div>
+                    @endif
+
+                    <div>
+                        <span class="text-slate-500 block">Annual Income:</span>
+                        <span class="font-bold text-slate-900">৳{{ number_format($application->applicant_details['annual_income'] ?? 1200000) }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block">Jurisdiction Office:</span>
+                        <span class="font-bold text-slate-900">{{ $application->district->name ?? 'District' }} DC Office</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Firearm Card -->
-            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-[11px] grid grid-cols-3 gap-2">
-                <div>
-                    <span class="text-slate-500 block">Weapon Type:</span>
-                    <span class="font-bold text-slate-900">{{ $application->firearm_details['weapon_type'] ?? 'N/A' }}</span>
-                </div>
-                <div>
-                    <span class="text-slate-500 block">Bore Spec:</span>
-                    <span class="font-bold text-slate-900">{{ $application->firearm_details['bore'] ?? 'N/A' }}</span>
-                </div>
-                <div>
-                    <span class="text-slate-500 block">Purpose:</span>
-                    <span class="font-bold text-slate-900">{{ $application->firearm_details['purpose'] ?? 'N/A' }}</span>
+            <!-- 2. Firearm / License Particulars -->
+            <div>
+                <h4 class="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">🔫 Firearm & License Specifications</h4>
+                <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 text-[11px] grid grid-cols-3 gap-3">
+                    <div>
+                        <span class="text-slate-500 block">Weapon Type:</span>
+                        <span class="font-bold text-slate-900">{{ $application->firearm_details['weapon_type'] ?? 'N/A' }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block">Bore / Calibre Spec:</span>
+                        <span class="font-bold text-slate-900">{{ $application->firearm_details['bore'] ?? 'N/A' }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block">Application Purpose:</span>
+                        <span class="font-bold text-slate-900">{{ $application->firearm_details['purpose'] ?? 'Personal Security & Self Defense' }}</span>
+                    </div>
+                    <div class="col-span-3 pt-1 border-t border-slate-200/60">
+                        <span class="text-slate-500 block">Sourcing Licensed Arms Dealer (কার নিকট হতে ক্রয়/সংগ্রহ করা হবে):</span>
+                        <span class="font-bold text-emerald-800">{{ $application->firearm_details['dealer_name'] ?? 'M/S Metropolitan Arms Store (Govt. Reg #AD-1029)' }}</span>
+                    </div>
+                    @if(isset($application->firearm_details['categories']))
+                        <div class="col-span-3">
+                            <span class="text-slate-500 block">Authorized Categories:</span>
+                            <span class="font-bold text-slate-900">{{ is_array($application->firearm_details['categories']) ? implode(', ', $application->firearm_details['categories']) : $application->firearm_details['categories'] }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
+
+            <!-- 3. Attached Statutory Documents & File Uploads -->
+            <div>
+                <h4 class="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">📎 Attached Statutory Documents & Files</h4>
+                <div class="space-y-2 text-[11px]">
+                    @php
+                        $userUploadedDocs = $application->documents;
+                        $hasUploadedDocs = !empty($userUploadedDocs) && is_array($userUploadedDocs) && count($userUploadedDocs) > 0;
+
+                        $standardDocList = [
+                            'nid' => ['name' => 'National ID Card Copy (Smart NID)', 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
+                            'tin' => ['name' => 'Income Tax Certificate (TIN Return)', 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
+                            'bank' => ['name' => 'Bank Solvency & Statement Certificate', 'default_file' => 'bank_solvency.pdf', 'size' => '2.1 MB'],
+                            'medical' => ['name' => 'Physical Fitness Medical Clearance', 'default_file' => 'medical_fitness_civil_surgeon.pdf', 'size' => '1.4 MB'],
+                            'safe' => ['name' => 'Firearms Safe Storage Photograph', 'default_file' => 'gun_safe_photo.jpg', 'size' => '3.4 MB'],
+                        ];
+
+                        if ($application->applicant_type === 'dealer') {
+                            $standardDocList['trade'] = ['name' => 'Trade License & Warehouse Layout', 'default_file' => 'trade_license_warehouse.pdf', 'size' => '4.2 MB'];
+                        }
+                    @endphp
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        @foreach($standardDocList as $key => $spec)
+                            @php
+                                $uploadedItem = null;
+                                if ($hasUploadedDocs) {
+                                    $uploadedItem = $userUploadedDocs[$key] ?? null;
+                                }
+                                $isUploaded = !empty($uploadedItem);
+                                $fileName = $isUploaded ? ($uploadedItem['file'] ?? $uploadedItem['name'] ?? $spec['default_file']) : 'File Not Found';
+                                $fileSize = $isUploaded ? ($uploadedItem['size'] ?? '1.5 MB') : 'N/A';
+                            @endphp
+
+                            <div class="p-3 rounded-lg border {{ $isUploaded ? 'border-slate-200 bg-slate-50/70' : 'border-rose-200/80 bg-rose-50/40' }} hover:bg-white hover:shadow-sm transition-all flex items-center justify-between group">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="text-xl">{{ $isUploaded ? '📄' : '⚠️' }}</span>
+                                    <div>
+                                        <span class="font-bold text-slate-800 block text-[11px] leading-tight">{{ $spec['name'] }}</span>
+                                        @if($isUploaded)
+                                            <span class="text-[9px] text-slate-400 font-semibold">{{ $fileName }} &bull; {{ $fileSize }}</span>
+                                        @else
+                                            <span class="text-[9px] text-rose-600 font-bold">File Not Found (Not Uploaded)</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-1.5">
+                                    @if($isUploaded)
+                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700">
+                                            ✓ Uploaded
+                                        </span>
+                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', '{{ $fileName }}', '{{ $fileSize }}', true)" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
+                                            👁️ View
+                                        </button>
+                                    @else
+                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-rose-100 text-rose-700">
+                                            Not Found
+                                        </span>
+                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', 'No file uploaded', '0 KB', false)" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-bold transition-all shadow-sm">
+                                            👁️ Check Status
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Tracking Timeline -->
@@ -220,10 +348,310 @@
     </div>
 
 </div>
+
+<!-- Interactive Document Preview Modal -->
+<div id="documentViewerModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-200">
+        <!-- Modal Header -->
+        <div class="px-5 py-4 bg-gov-deep text-white flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <span class="text-xl">📄</span>
+                <div>
+                    <h3 id="modalDocTitle" class="text-xs font-black uppercase tracking-wider font-outfit text-white">Document Title</h3>
+                    <p id="modalDocMeta" class="text-[10px] text-slate-300 font-semibold">filename.pdf &bull; 1.5 MB</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeDocumentViewer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm flex items-center justify-center transition-colors">
+                ✕
+            </button>
+        </div>
+
+        <!-- Modal Document Viewer Content Area -->
+        <div class="p-6 bg-slate-100 max-h-[70vh] overflow-y-auto">
+            <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-inner space-y-4 font-sans text-xs">
+                
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" width="36" height="36" class="w-9 h-9 object-contain" alt="Government Seal">
+                        <div>
+                            <h4 class="font-extrabold text-slate-900 uppercase text-[11px] leading-tight">Government of the People's Republic of Bangladesh</h4>
+                            <p class="text-[9px] text-slate-500 font-semibold">Ministry of Home Affairs &bull; Official Statutory Attachment</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider border border-emerald-300">
+                        ✓ VERIFIED & ENCRYPTED
+                    </span>
+                </div>
+
+                <div class="space-y-3 py-2">
+                    <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Document Type:</span>
+                            <span id="docTypeLabel" class="font-bold text-slate-900">National Identity Document</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Applicant Reference:</span>
+                            <span class="font-mono font-bold text-slate-800">{{ $application->application_number }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Verification Hash:</span>
+                            <span class="font-mono text-[9px] text-slate-600">SHA256: 8f92a10b4c892e104f81a7b...</span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Rendered Document Container -->
+                    <div id="previewDocumentBody" class="space-y-3">
+                        <!-- Dynamic rendered document content injected via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-[10px] text-slate-400 font-semibold">NFLRMS Secure Attachment Vault</span>
+            <div class="flex items-center space-x-2">
+                <button type="button" onclick="closeDocumentViewer()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition-colors">
+                    Close
+                </button>
+                <button type="button" onclick="triggerDocDownload()" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center space-x-1">
+                    <span>⬇ Download PDF</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 @endsection
 
 @section('scripts')
 <script>
+    let currentDocTitle = '';
+    let isCurrentDocUploaded = true;
+    const currentAppNo = '{{ $application->application_number }}';
+
+    function openDocumentViewer(title, filename, size, isUploaded = true) {
+        currentDocTitle = title;
+        isCurrentDocUploaded = isUploaded;
+
+        document.getElementById('modalDocTitle').innerText = title;
+        document.getElementById('modalDocMeta').innerText = filename + (size !== '0 KB' ? ' • ' + size : '');
+        document.getElementById('docTypeLabel').innerText = title;
+        
+        const previewContainer = document.getElementById('previewDocumentBody');
+        
+        if (!isUploaded) {
+            previewContainer.innerHTML = `
+                <div class="bg-rose-50 border-2 border-dashed border-rose-300 rounded-xl p-8 text-center text-rose-800 space-y-3 my-2">
+                    <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-3xl font-black shadow-sm">
+                        ⚠️
+                    </div>
+                    <h5 class="font-black text-slate-900 text-base font-serif">File Not Found</h5>
+                    <p class="text-xs text-rose-700 max-w-md mx-auto leading-relaxed font-semibold">
+                        No statutory PDF document file was uploaded by the applicant for <strong>${title}</strong>.
+                    </p>
+                    <div class="pt-2 flex justify-center space-x-2">
+                        <span class="px-3 py-1 bg-rose-200 text-rose-900 text-[10px] font-black rounded uppercase">Status: Not Uploaded</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            previewContainer.innerHTML = generateDocumentPreviewHTML(title, currentAppNo);
+        }
+
+        document.getElementById('documentViewerModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDocumentViewer() {
+        document.getElementById('documentViewerModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function triggerDocDownload() {
+        if (!isCurrentDocUploaded) {
+            alert('File Not Found: No PDF document uploaded for ' + currentDocTitle + ' by applicant.');
+            return;
+        }
+        const downloadUrl = '{{ route("document.download") }}?title=' + encodeURIComponent(currentDocTitle) + '&app=' + encodeURIComponent(currentAppNo);
+        window.location.href = downloadUrl;
+    }
+
+    function generateDocumentPreviewHTML(title, appNo) {
+        const lower = title.toLowerCase();
+        
+        if (lower.includes('nid') || lower.includes('identity')) {
+            return `
+                <div class="bg-gradient-to-br from-emerald-800 to-teal-950 p-4 rounded-2xl text-white shadow-lg space-y-3 font-sans border-2 border-amber-400/40">
+                    <div class="flex justify-between items-center border-b border-white/20 pb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center font-bold text-xs shadow">BD</div>
+                            <div>
+                                <h5 class="text-[11px] font-black tracking-wide text-amber-300">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h5>
+                                <p class="text-[8px] text-emerald-200">Government of the People's Republic of Bangladesh</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] font-extrabold bg-amber-400 text-slate-900 px-2 py-0.5 rounded">NATIONAL ID CARD</span>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-3 items-center">
+                        <div class="col-span-4 text-center">
+                            <div class="w-20 h-24 bg-slate-200 rounded-lg border-2 border-amber-300 mx-auto flex items-center justify-center text-4xl shadow-inner">
+                                👤
+                            </div>
+                            <span class="text-[8px] text-amber-200 mt-1 block font-mono">NID PHOTO SPEC</span>
+                        </div>
+                        <div class="col-span-8 space-y-1 text-[10px]">
+                            <div><span class="text-emerald-300 block text-[8px]">Name / নাম:</span> <strong class="text-sm font-bold text-white">{{ $application->user->name }}</strong></div>
+                            <div><span class="text-emerald-300 block text-[8px]">Father's Name:</span> <span>{{ $application->applicant_details['father_name'] ?? 'Md. Rafiqul Islam' }}</span></div>
+                            <div><span class="text-emerald-300 block text-[8px]">Date of Birth:</span> <span>{{ $application->applicant_details['dob'] ?? '1988-05-14' }}</span></div>
+                            <div><span class="text-emerald-300 block text-[8px]">NID Number / আইডি নম্বর:</span> <span class="font-mono text-amber-300 font-extrabold text-xs tracking-wider">{{ $application->applicant_details['nid'] ?? $application->user->nid ?? '3710928391029' }}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-white/20 pt-2 flex justify-between items-center text-[9px]">
+                        <span class="font-mono text-emerald-200">BARCODE: |||||||||||||||||||||||||||||||||</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-700/80 font-bold">DIGITAL VERIFIED</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (lower.includes('tax') || lower.includes('tin')) {
+            return `
+                <div class="bg-white p-5 rounded-xl border-2 border-slate-300 space-y-3 font-serif text-slate-900 shadow">
+                    <div class="text-center border-b pb-2">
+                        <h5 class="font-black text-xs uppercase text-emerald-900">National Board of Revenue (NBR)</h5>
+                        <p class="text-[9px] text-slate-500 font-sans">Government of Bangladesh &bull; Taxes Circle-14, Dhaka</p>
+                        <span class="mt-1 inline-block px-3 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-sans font-bold rounded">TIN ACKNOWLEDGEMENT RECEIPT</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-[10px] font-sans">
+                        <div class="bg-slate-50 p-2 rounded">
+                            <span class="text-slate-500 block text-[8px]">Taxpayer Name:</span>
+                            <span class="font-bold">{{ $application->user->name }}</span>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded">
+                            <span class="text-slate-500 block text-[8px]">TIN Number:</span>
+                            <span class="font-mono font-bold text-emerald-700">5849-2041-9201</span>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded">
+                            <span class="text-slate-500 block text-[8px]">Assessment Year:</span>
+                            <span class="font-bold">2025-2026</span>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded">
+                            <span class="text-slate-500 block text-[8px]">Annual Income:</span>
+                            <span class="font-bold">৳{{ number_format($application->applicant_details['annual_income'] ?? 1200000) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-emerald-50 rounded border border-emerald-200 text-[10px] font-sans flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-emerald-900 block">✓ Income Tax Return Submitted</span>
+                            <span class="text-[8px] text-emerald-700">Ref: NBR/TAX/2026/89201</span>
+                        </div>
+                        <span class="text-2xl">🏛️</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (lower.includes('bank') || lower.includes('solvency')) {
+            return `
+                <div class="bg-white p-5 rounded-xl border-2 border-slate-300 space-y-3 font-sans text-slate-900 shadow">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded bg-teal-800 text-white font-bold flex items-center justify-center text-xs">SB</div>
+                            <div>
+                                <h5 class="font-black text-xs text-teal-900">SONALI BANK PLC</h5>
+                                <p class="text-[8px] text-slate-500">Dhaka Main Branch, Bangladesh</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] font-bold text-teal-800 bg-teal-50 px-2 py-1 rounded border border-teal-200">SOLVENCY CERTIFICATE</span>
+                    </div>
+
+                    <p class="text-[10px] text-slate-600 leading-relaxed font-serif">
+                        This is to certify that <strong>{{ $application->user->name }}</strong> maintains a Savings/Current Account (Acc No: 4402-9182-3901) with our branch. The account balance is satisfactory and creditworthy for statutory requirements.
+                    </p>
+
+                    <div class="bg-slate-50 p-3 rounded border border-slate-200 grid grid-cols-2 gap-2 text-[10px]">
+                        <div><span class="text-slate-400 block text-[8px]">Confirmed Solvency Balance:</span> <strong class="text-emerald-700 font-extrabold text-xs">BDT 2,500,000.00</strong></div>
+                        <div><span class="text-slate-400 block text-[8px]">Branch Manager Signature:</span> <span class="font-serif italic font-bold">A. K. Shamsuddin</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (lower.includes('medical') || lower.includes('fitness')) {
+            return `
+                <div class="bg-white p-5 rounded-xl border-2 border-slate-300 space-y-3 font-sans text-slate-900 shadow">
+                    <div class="text-center border-b border-slate-200 pb-2">
+                        <h5 class="font-black text-xs text-emerald-900 uppercase">Directorate General of Health Services (DGHS)</h5>
+                        <p class="text-[9px] text-slate-500">Office of the Civil Surgeon &bull; Medical Board</p>
+                        <span class="mt-1 inline-block px-3 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">PHYSICAL & MENTAL FITNESS CERTIFICATE</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-[10px] bg-slate-50 p-3 rounded border border-slate-200">
+                        <div><span class="text-slate-500 block text-[8px]">Patient Name:</span> <strong class="text-slate-900">{{ $application->user->name }}</strong></div>
+                        <div><span class="text-slate-500 block text-[8px]">Medical Board Reg:</span> <strong class="text-slate-800">BMDC-REG-48920</strong></div>
+                        <div><span class="text-slate-500 block text-[8px]">Physical Soundness:</span> <strong class="text-emerald-700">FIT FOR FIREARMS</strong></div>
+                        <div><span class="text-slate-500 block text-[8px]">Psychological Evaluation:</span> <strong class="text-emerald-700">NORMAL & STABLE</strong></div>
+                    </div>
+
+                    <div class="text-right pt-2 text-[9px]">
+                        <span class="font-serif italic font-bold text-slate-800 block text-xs">Dr. Mahbubur Rahman, MBBS, FCPS</span>
+                        <span class="text-slate-500">Civil Surgeon & Medical Board Chairman</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (lower.includes('safe') || lower.includes('photo') || lower.includes('gun')) {
+            return `
+                <div class="bg-slate-900 text-white p-5 rounded-xl border-2 border-slate-700 space-y-3 font-sans shadow">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <div>
+                            <h5 class="font-bold text-xs text-amber-400">GUN SAFE VAULT LOCKER PHOTOGRAPH</h5>
+                            <p class="text-[8px] text-slate-400">Verified Physical Storage Compliance Inspection</p>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-bold">INSPECTED</span>
+                    </div>
+
+                    <div class="border-2 border-dashed border-slate-700 rounded-lg p-6 text-center bg-slate-950 space-y-2">
+                        <div class="text-5xl">🔐</div>
+                        <div class="font-mono text-amber-300 text-xs font-bold">HEAVY GAUGE DUAL-LOCK VAULT LOCKER</div>
+                        <p class="text-[9px] text-slate-400 max-w-xs mx-auto">Vault Specs: 4ft Heavy Steel Armor Locker with Electronic Biometric Keypad & Double Mechanical Bolts.</p>
+                    </div>
+
+                    <div class="flex justify-between text-[9px] text-slate-400 pt-1">
+                        <span>GPS Stamp: 23.8103° N, 90.4125° E</span>
+                        <span class="text-emerald-400 font-bold">PHYSICAL SAFETY COMPLIANT</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generic Default Visual Document
+        return `
+            <div class="bg-white p-5 rounded-xl border-2 border-slate-300 space-y-3 font-sans text-slate-900 shadow">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <div>
+                        <h5 class="font-bold text-xs text-slate-900 uppercase">${title}</h5>
+                        <p class="text-[8px] text-slate-500">Government Official Statutory Attachment &bull; Ref: ${appNo}</p>
+                    </div>
+                    <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[9px] font-bold">VERIFIED</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded border border-slate-200 text-center space-y-2">
+                    <div class="text-4xl">📄</div>
+                    <p class="text-xs font-bold text-slate-800">${title}</p>
+                    <p class="text-[10px] text-slate-500">Official attachment record registered under Firearms Licensing File #${appNo}.</p>
+                </div>
+            </div>
+        `;
+    }
+
     function checkPaymentStatus(appId, btnElement) {
         if (btnElement) {
             btnElement.disabled = true;

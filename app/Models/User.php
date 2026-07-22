@@ -18,6 +18,7 @@ use Illuminate\Notifications\Notifiable;
     'marital_status', 'nationality', 'religion', 'present_address',
     'permanent_address', 'occupation', 'employer_address',
     'edu_qualification', 'annual_income', 'tin_number', 'is_active',
+    'profile_photo_path',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable

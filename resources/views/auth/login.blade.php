@@ -103,7 +103,7 @@
                     
                     <!-- Mobile Field -->
                     <div class="space-y-1.5">
-                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-500">Mobile Number</label>
+                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Mobile Number</label>
                         <input type="text" name="phone" id="login-phone" required
                                class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                                placeholder="01711234567" value="{{ old('phone') }}">
@@ -114,7 +114,7 @@
 
                     <!-- Password Field -->
                     <div class="space-y-1.5">
-                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-500">Password</label>
+                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Password</label>
                         <input type="password" name="password" id="login-password" required
                                class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                                placeholder="••••••••">

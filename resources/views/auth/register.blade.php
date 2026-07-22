@@ -95,7 +95,7 @@
                 
                 <!-- Account Type Selector (Tabs) -->
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">Account Type</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Account Type</label>
                     <div class="grid grid-cols-2 gap-3">
                         <button type="button" onclick="selectRole('citizen_applicant')" id="btn-citizen"
                                 class="py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none bg-emerald-50/20 border-gov-green text-gov-green">
@@ -110,7 +110,7 @@
                 </div>
 
                 <div>
-                    <label for="name" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">Full Name</label>
+                    <label for="name" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Full Name</label>
                     <input type="text" name="name" id="name" required
                            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                            placeholder="Md. Rafikul Islam" value="{{ old('name') }}">
@@ -121,7 +121,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label for="district_id" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">District</label>
+                        <label for="district_id" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">District</label>
                         <select name="district_id" id="district_id" required
                                 class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all">
                             <option value="">Select District</option>
@@ -131,7 +131,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="upazila_id" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">Upazila / Thana</label>
+                        <label for="upazila_id" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Upazila / Thana</label>
                         <select name="upazila_id" id="upazila_id" required disabled
                                 class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all">
                             <option value="">Select District First</option>
@@ -140,7 +140,7 @@
                 </div>
 
                 <div>
-                    <label for="email" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">Email</label>
+                    <label for="email" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Email</label>
                     <input type="email" name="email" id="email" required
                            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                            placeholder="name@example.bd" value="{{ old('email') }}">
@@ -150,14 +150,14 @@
                 </div>
 
                 <div>
-                    <label for="nid" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">National ID (NID)</label>
+                    <label for="nid" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">National ID (NID)</label>
                     <input type="text" name="nid" id="nid" required
                            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                            placeholder="10 or 13-digit NID">
                 </div>
 
                 <div>
-                    <label for="password" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-550 mb-1.5">Password</label>
+                    <label for="password" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Password</label>
                     <input type="password" name="password" id="password" required
                            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
                            placeholder="Minimum 8 characters">

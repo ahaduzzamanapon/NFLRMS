@@ -24,13 +24,13 @@ class PaymentController extends Controller
         if ($baseUrl) {
             $baseUrl = Str::beforeLast($baseUrl, '/initiate-payment');
         } else {
-            $baseUrl = env('PAYSTATION_BASE_URL', 'https://api.paystation.com.bd');
+            $baseUrl = env('PAYSTATION_BASE_URL', 'https://sandbox.paystation.com.bd');
         }
 
         return [
             'base_url' => rtrim($baseUrl, '/'),
-            'merchant_id' => Setting::get('pay_store_id') ?: env('PAYSTATION_MERCHANT_ID', '2233-1771313076'),
-            'password' => Setting::get('pay_store_pass') ?: env('PAYSTATION_PASSWORD', 'J6g$d3@1'),
+            'merchant_id' => Setting::get('pay_store_id') ?: env('PAYSTATION_MERCHANT_ID', '104-1653730183'),
+            'password' => Setting::get('pay_store_pass') ?: env('PAYSTATION_PASSWORD', 'gamecoderstorepass'),
         ];
     }
 

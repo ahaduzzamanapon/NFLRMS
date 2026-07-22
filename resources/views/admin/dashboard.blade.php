@@ -113,22 +113,22 @@
         <form action="{{ route('admin.users.store') }}" method="POST" class="p-6 space-y-4">
             @csrf
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Full Name</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
                 <input type="text" name="name" required
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green">
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Email Address</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
                 <input type="email" name="email" required
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green">
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Password</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Password</label>
                 <input type="password" name="password" required minlength="8"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green">
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Role</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
                 <select name="role" required
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     @foreach($roles as $roleValue => $roleLabel)
@@ -137,7 +137,7 @@
                 </select>
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">District (optional)</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
                 <select name="district_id"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select District —</option>

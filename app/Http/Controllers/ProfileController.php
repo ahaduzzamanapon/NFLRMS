@@ -59,6 +59,11 @@ class ProfileController extends Controller
             $data['password'] = bcrypt($request->password);
         }
 
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profiles', 'public');
+            $data['profile_photo_path'] = $path;
+        }
+
         auth()->user()->update($data);
 
         return redirect()->route('profile.edit')->with('success', 'Profile updated successfully! Your next application will be auto-filled.');

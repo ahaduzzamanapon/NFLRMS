@@ -69,7 +69,7 @@
         <form action="{{ route('vetting.submit', $vetting->id) }}" method="POST" class="p-5 space-y-4">
             @csrf
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-2">Clearance Decision</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-2">Clearance Decision</label>
                 <div class="grid grid-cols-2 gap-3">
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-emerald-300">
                         <input type="radio" name="status" value="cleared" class="text-gov-green">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Remarks (mandatory)</label>
+                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Remarks (mandatory)</label>
                 <textarea name="remarks" rows="4" placeholder="Provide details of your vetting findings..."
                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
             </div>

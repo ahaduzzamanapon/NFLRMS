@@ -27,31 +27,31 @@
         <!-- Section 1: Business Information -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">1. Business Information</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-900">1. Business Information</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Firm / Business Name *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name *</label>
                     <input type="text" name="firm_name" required value="{{ old('firm_name') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="e.g. Karim Arms & Ammunition">
                     @error('firm_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Trade License Number *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Trade License Number *</label>
                     <input type="text" name="trade_license" required value="{{ old('trade_license') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="TL-DHK-2024-XXXXX">
                     @error('trade_license')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Business Address *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Business Address *</label>
                     <input type="text" name="business_address" required value="{{ old('business_address') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="Full address of premises">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">District *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">District *</label>
                     <select name="district_id" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District —</option>
@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Licence Class *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Licence Class *</label>
                     <select name="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select Class —</option>
@@ -76,27 +76,27 @@
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">2. Proprietor / Responsible Person</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Full Name *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Full Name *</label>
                     <input type="text" name="proprietor_name" required value="{{ auth()->user()->name }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">National ID (NID) *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) *</label>
                     <input type="text" name="nid" required value="{{ auth()->user()->nid ?? old('nid') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="17-digit NID number">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Mobile Number *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Mobile Number *</label>
                     <input type="text" name="mobile" required value="{{ auth()->user()->phone ?? old('mobile') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Annual Income (BDT) *</label>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) *</label>
                     <input type="number" name="annual_income" required value="{{ old('annual_income') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="0">

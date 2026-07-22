@@ -12,6 +12,7 @@ class Application extends Model
     protected $fillable = [
         'application_number',
         'user_id',
+        'dealer_id',
         'type',
         'applicant_type',
         'status',
@@ -42,6 +43,14 @@ class Application extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the sourcing dealer user.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dealer_id');
     }
 
     /**

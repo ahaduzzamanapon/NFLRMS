@@ -103,13 +103,13 @@
         <form action="{{ route('dealer.stock_ledger.save') }}" method="POST" class="space-y-4">
             @csrf
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Item Name</label>
+                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Item Name</label>
                 <input type="text" name="item" required
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="e.g. 12-bore Shotgun, .22 Rifle, 9mm Pistol">
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Category</label>
+                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Category</label>
                 <select name="category" required
                         class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="Firearm">Firearm</option>
@@ -118,13 +118,13 @@
                 </select>
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Quantity</label>
+                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Quantity</label>
                 <input type="number" name="quantity" min="0" required
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="0">
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Source (optional)</label>
+                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Source (optional)</label>
                 <input type="text" name="source"
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="e.g. Import — Turkey, Local, Import — USA">

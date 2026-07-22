@@ -38,7 +38,7 @@
                     ]; @endphp
                     @foreach($feeFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
@@ -60,7 +60,7 @@
                     ]; @endphp
                     @foreach($platformFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
@@ -85,7 +85,7 @@
                     ]; @endphp
                     @foreach($fineFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
@@ -107,7 +107,7 @@
                     ]; @endphp
                     @foreach($slaFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
