@@ -16,6 +16,25 @@ use Illuminate\Support\Str;
 class PaymentController extends Controller
 {
     /**
+     * Get PayStation config.
+     */
+    private function getPayStationConfig(): array
+    {
+        $baseUrl = Setting::get('pay_endpoint');
+        if ($baseUrl) {
+            $baseUrl = Str::beforeLast($baseUrl, '/initiate-payment');
+        } else {
+            $baseUrl = env('PAYSTATION_BASE_URL', 'https://api.paystation.com.bd');
+        }
+
+        return [
+            'base_url' => rtrim($baseUrl, '/'),
+            'merchant_id' => Setting::get('pay_store_id') ?: env('PAYSTATION_MERCHANT_ID', '2233-1771313076'),
+            'password' => Setting::get('pay_store_pass') ?: env('PAYSTATION_PASSWORD', 'J6g$d3@1'),
+        ];
+    }
+
+    /**
      * Initiate payment for PayStation.
      */
     public function initiate(Request $request, Application $application)
@@ -32,49 +51,98 @@ class PaymentController extends Controller
             $application->update(['service_fee_amount' => $amount]);
         }
 
-        // Get paystation settings
-        $storeId = Setting::get('pay_store_id');
-        $storePass = Setting::get('pay_store_pass');
-        $endpoint = Setting::get('pay_endpoint', 'https://api.paystation.com.bd/sandbox/initiate-payment');
+        $config = $this->getPayStationConfig();
 
-        if (empty($storeId) || empty($storePass)) {
+        if (empty($config['merchant_id']) || empty($config['password'])) {
             return redirect()->route($user->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard')
-                ->with('error', 'PayStation Sandbox credentials are not configured. Please login as System Admin and set them in the API Configuration tab.');
+                ->with('error', 'PayStation credentials are not configured. Please contact system administrator.');
         }
 
-        // Real PayStation API Call
-        try {
-            $invoiceNumber = $application->application_number.'_'.($type === 'service_fee' ? 'SF' : 'LF');
+        $invoiceNumber = $application->application_number.'_'.($type === 'service_fee' ? 'SF' : 'LF');
 
-            $response = Http::timeout(10)->post($endpoint, [
-                'merchantId' => $storeId,
-                'password' => $storePass,
-                'invoice_number' => $invoiceNumber,
-                'payment_amount' => $amount,
-                'cust_name' => $user->name,
-                'cust_phone' => $user->phone ?? '01711234567',
-                'cust_email' => $user->email,
-                'currency' => 'BDT',
-                'callback_url' => route('payment.callback'),
-            ]);
+        $postData = [
+            'merchantId' => $config['merchant_id'],
+            'password' => $config['password'],
+            'invoice_number' => $invoiceNumber,
+            'currency' => 'BDT',
+            'payment_amount' => $amount,
+            'reference' => 'REF-'.$invoiceNumber,
+            'cust_name' => $user->name,
+            'cust_phone' => $user->phone ?? '01711234567',
+            'cust_email' => $user->email ?? 'applicant@nflrms.gov.bd',
+            'cust_address' => $user->present_address ?? 'Dhaka, Bangladesh',
+            'callback_url' => route('payment.callback'),
+            'checkout_items' => ($type === 'service_fee' ? 'Platform Service Charge' : 'Statutory License Fee'),
+        ];
+
+        try {
+            // PayStation requires form-urlencoded POST (Http::asForm())
+            $endpoint = $config['base_url'].'/initiate-payment';
+            $response = Http::timeout(15)->asForm()->post($endpoint, $postData);
 
             if ($response->successful()) {
-                $data = $response->json();
-                $checkoutUrl = $data['checkout_url'] ?? $data['payment_url'] ?? null;
-                if ($checkoutUrl) {
-                    return redirect($checkoutUrl);
+                $result = $response->json();
+
+                Log::info('PayStation initiate response', ['invoice' => $invoiceNumber, 'response' => $result]);
+
+                $paymentUrl = $result['payment_url']
+                    ?? $result['url']
+                    ?? $result['redirect_url']
+                    ?? $result['gateway_url']
+                    ?? $result['checkout_url']
+                    ?? null;
+
+                if ($paymentUrl) {
+                    return redirect()->away($paymentUrl);
                 }
+
+                $errorMsg = $result['message'] ?? 'Unexpected response from payment gateway.';
+                Log::error('PayStation initiate response error', ['result' => $result]);
+
+                return redirect()->route($user->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard')
+                    ->with('error', 'PayStation payment initiation failed: '.$errorMsg);
             }
 
-            Log::error('PayStation initiation failed', ['response' => $response->body()]);
+            Log::error('PayStation payment initiation failed HTTP status', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
 
             return redirect()->route($user->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard')
-                ->with('error', 'PayStation payment initiation failed: '.($response->json()['message'] ?? 'Invalid response from PayStation.'));
+                ->with('error', 'PayStation payment service unavailable (HTTP '.$response->status().').');
+
         } catch (\Exception $e) {
-            Log::error('PayStation initiation exception', ['message' => $e->getMessage()]);
+            Log::error('PayStation payment exception', ['error' => $e->getMessage()]);
 
             return redirect()->route($user->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard')
-                ->with('error', 'PayStation payment initiation error: '.$e->getMessage());
+                ->with('error', 'Payment service error: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Check transaction status from PayStation API.
+     */
+    public function checkTransactionStatus(string $invoiceNumber): ?array
+    {
+        $config = $this->getPayStationConfig();
+        try {
+            $response = Http::timeout(10)
+                ->withHeaders([
+                    'merchantId' => $config['merchant_id'],
+                    'Content-Type' => 'application/json',
+                ])
+                ->post($config['base_url'].'/transaction-status', [
+                    'invoice_number' => $invoiceNumber,
+                ]);
+
+            $result = $response->json();
+            Log::info('PayStation transaction status check', ['invoice' => $invoiceNumber, 'response' => $result]);
+
+            return $result;
+        } catch (\Exception $e) {
+            Log::error('PayStation status check failed', ['invoice' => $invoiceNumber, 'error' => $e->getMessage()]);
+
+            return null;
         }
     }
 
@@ -85,7 +153,7 @@ class PaymentController extends Controller
     {
         $status = $request->input('status');
         $invoice = $request->input('invoice_number');
-        $trxId = $request->input('trx_id');
+        $trxId = $request->input('trx_id', 'TRX_'.Str::random(8));
 
         if (empty($invoice)) {
             return redirect()->route('login')->with('error', 'Invalid payment callback parameters.');
@@ -97,14 +165,28 @@ class PaymentController extends Controller
         $application = Application::where('application_number', $appNumber)->firstOrFail();
         $user = $application->user;
 
-        // Force log user in if they aren't (since webhook/callback can be outside session)
+        // Force log user in if they aren't logged in
         if (! Auth::check()) {
             Auth::login($user);
         }
 
-        if ($status !== 'Successful') {
+        // Validate status from callback or server-side API query
+        $isSuccess = ($status === 'Successful' || $status === 'success');
+        if (! $isSuccess && ! empty($invoice)) {
+            $statusResult = $this->checkTransactionStatus($invoice);
+            if (! empty($statusResult['status_code']) && $statusResult['status_code'] == '200'
+                && ! empty($statusResult['data']['trx_status'])
+                && in_array($statusResult['data']['trx_status'], ['successful', 'success'])) {
+                $isSuccess = true;
+                if (! empty($statusResult['data']['trx_id'])) {
+                    $trxId = $statusResult['data']['trx_id'];
+                }
+            }
+        }
+
+        if (! $isSuccess) {
             return redirect()->route($user->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard')
-                ->with('error', 'Payment was '.strtolower($status).'. Please try again.');
+                ->with('error', 'Payment was '.strtolower($status ?? 'failed').'. Please try again.');
         }
 
         // Save payment details

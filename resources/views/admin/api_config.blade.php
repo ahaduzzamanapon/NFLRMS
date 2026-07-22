@@ -55,12 +55,12 @@
         ],
         [
             'title' => 'Payment Gateway',
-            'desc'  => 'Online fee payment integration.',
-            'providers' => ['PayStation','bKash','Nagad'],
+            'desc'  => 'Online fee payment integration via PayStation BD.',
+            'providers' => ['PayStation Sandbox','bKash','Nagad'],
             'fields' => [
-                ['label'=>'Gateway Endpoint','name'=>'pay_endpoint','type'=>'text','placeholder'=>'https://api.paystation.com.bd/sandbox/initiate-payment','value'=>\App\Models\Setting::get('pay_endpoint', 'https://api.paystation.com.bd/sandbox/initiate-payment')],
-                ['label'=>'Merchant ID (Store ID)','name'=>'pay_store_id','type'=>'text','placeholder'=>'your-merchant-id','value'=>\App\Models\Setting::get('pay_store_id', '')],
-                ['label'=>'API Password (Store Password)','name'=>'pay_store_pass','type'=>'password','placeholder'=>'••••••••••','value'=>\App\Models\Setting::get('pay_store_pass', '')],
+                ['label'=>'Gateway Endpoint','name'=>'pay_endpoint','type'=>'text','placeholder'=>'https://api.paystation.com.bd/initiate-payment','value'=>\App\Models\Setting::get('pay_endpoint', env('PAYSTATION_BASE_URL', 'https://api.paystation.com.bd').'/initiate-payment')],
+                ['label'=>'Merchant ID (Store ID)','name'=>'pay_store_id','type'=>'text','placeholder'=>'2233-1771313076','value'=>\App\Models\Setting::get('pay_store_id', env('PAYSTATION_MERCHANT_ID', '2233-1771313076'))],
+                ['label'=>'API Password (Store Password)','name'=>'pay_store_pass','type'=>'password','placeholder'=>'••••••••••','value'=>\App\Models\Setting::get('pay_store_pass', env('PAYSTATION_PASSWORD', ''))],
             ],
         ],
         [
