@@ -72,7 +72,7 @@
     </div>
 
     <!-- Multi-Step Form Wrapper -->
-    <form action="{{ route('citizen.apply') }}" method="POST" id="apply-multi-form" class="space-y-6">
+    <form action="{{ route('citizen.apply') }}" method="POST" id="apply-multi-form" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- STEP 1: SERVICE -->

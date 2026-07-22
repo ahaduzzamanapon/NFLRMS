@@ -23,16 +23,32 @@
         @endif
     </div>
 
-    <form action="{{ route('profile.update') }}" method="POST" class="space-y-4">
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
         @method('PUT')
 
-        <!-- Section: Identity -->
+        <!-- Section: Identity & Photo -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Identity</span>
+            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Identity &amp; Profile Picture</span>
             </div>
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="sm:col-span-2 flex items-center space-x-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-gov-green bg-slate-200 flex items-center justify-center text-slate-400 font-bold text-xl flex-shrink-0">
+                        @if($user->profile_photo_path)
+                            <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile Photo" class="w-full h-full object-cover">
+                        @else
+                            <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                        @endif
+                    </div>
+                    <div class="space-y-1">
+                        <label for="profile_photo" class="block text-[10px] font-extrabold uppercase text-slate-900">Upload Profile Photo (Passport Size)</label>
+                        <input type="file" name="profile_photo" id="profile_photo" accept="image/*"
+                               class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-gov-green file:text-white hover:file:bg-gov-light cursor-pointer">
+                        <span class="text-[9px] text-slate-500 block font-medium">Supported: JPG, PNG, WEBP (Max 2MB)</span>
+                    </div>
+                </div>
+
                 <div>
                     <label for="name" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Full Name (English)</label>
                     <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required

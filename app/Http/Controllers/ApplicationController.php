@@ -127,6 +127,8 @@ class ApplicationController extends Controller
             ]);
         }
 
+        $this->processApplicationDocuments($request, $application);
+
         // Create log entry
         ApplicationLog::create([
             'application_id' => $application->id,
@@ -138,6 +140,48 @@ class ApplicationController extends Controller
         ]);
 
         return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
+    }
+
+    /**
+     * Helper to store uploaded application documents.
+     */
+    private function processApplicationDocuments(Request $request, Application $application): void
+    {
+        $documents = [];
+        $docLabels = [
+            'nid_copy' => 'National ID Copy',
+            'birth_cert' => 'Birth Certificate',
+            'edu_cert' => 'Educational Certificate',
+            'tax_yr1' => 'Income Tax Return (Year 1)',
+            'tax_yr2' => 'Income Tax Return (Year 2)',
+            'tax_yr3' => 'Income Tax Return (Year 3)',
+            'affidavit' => 'Notarized Affidavit',
+            'nationality_cert' => 'Nationality Certificate',
+            'photo' => 'Passport Photograph',
+            'firing_report' => 'Firing Range Report',
+            'medical_cert' => 'Medical Fitness Certificate',
+            'police_clearance' => 'Police Clearance Letter',
+            'trade_cert' => 'Trade License Document',
+            'bank_solvency' => 'Bank Solvency Certificate',
+            'safe_photo' => 'Vault Photo',
+        ];
+
+        foreach ($request->allFiles() as $key => $file) {
+            if ($file && $file->isValid()) {
+                $path = $file->store('documents', 'public');
+                $documents[$key] = [
+                    'name' => $docLabels[$key] ?? ucfirst(str_replace('_', ' ', $key)),
+                    'path' => $path,
+                    'file' => $file->getClientOriginalName(),
+                    'size' => round($file->getSize() / 1024, 1).' KB',
+                    'uploaded_at' => now()->toIso8601String(),
+                ];
+            }
+        }
+
+        if (! empty($documents)) {
+            $application->update(['documents' => $documents]);
+        }
     }
 
     /**
@@ -203,6 +247,8 @@ class ApplicationController extends Controller
             'firearm_details' => $license->firearm_details,
             'current_actor_role' => $user->role === Role::DealerApplicant ? Role::DealerApplicant->value : Role::CitizenApplicant->value,
         ]);
+
+        $this->processApplicationDocuments($request, $application);
 
         ApplicationLog::create([
             'application_id' => $application->id,

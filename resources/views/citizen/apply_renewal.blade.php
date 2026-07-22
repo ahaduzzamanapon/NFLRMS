@@ -38,7 +38,7 @@
     </div>
 
     <!-- Multi-Step Renewal Form -->
-    <form action="{{ route('citizen.renew', $license->id) }}" method="POST" id="renewal-multi-form" class="space-y-6">
+    <form action="{{ route('citizen.renew', $license->id) }}" method="POST" id="renewal-multi-form" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- STEP 1: SELECT LICENSE -->
