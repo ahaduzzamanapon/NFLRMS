@@ -56,6 +56,14 @@
                     @error('name')<span class="text-[9px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
+                <div>
+                    <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Full Name (Bengali)</label>
+                    <input type="text" name="name_bn" id="name_bn" value="{{ old('name_bn', $user->name_bn) }}" required
+                           placeholder="বাংলায় পূর্ণ নাম লিখুন"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('name_bn') border-rose-400 @enderror">
+                    @error('name_bn')<span class="text-[9px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
+                </div>
+                <div>
                     <label for="email" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Email Address</label>
                     <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('email') border-rose-400 @enderror">

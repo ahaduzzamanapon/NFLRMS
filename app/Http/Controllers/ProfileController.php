@@ -25,6 +25,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name'              => ['required', 'string', 'max:255'],
+            'name_bn'           => ['required', 'string', 'max:255'],
             'email'             => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
             'nid'               => ['nullable', 'string', 'min:10', 'max:17'],
             'phone'             => ['nullable', 'string', 'max:15'],
@@ -48,13 +49,13 @@ class ProfileController extends Controller
         ]);
 
         $data = $request->only([
-            'name', 'email', 'nid', 'phone', 'dob', 'father_name', 'mother_name',
+            'name', 'name_bn', 'email', 'nid', 'phone', 'dob', 'father_name', 'mother_name',
             'spouse_name', 'marital_status', 'nationality', 'religion',
             'present_address', 'permanent_address', 'occupation',
             'employer_address', 'edu_qualification', 'annual_income',
             'tin_number', 'district_id', 'upazila_id',
         ]);
-        
+
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
         }

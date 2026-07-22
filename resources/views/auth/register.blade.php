@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up - NFLRMS</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;750;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -92,7 +92,7 @@
 
             <form action="{{ route('register') }}" method="POST" class="space-y-4">
                 @csrf
-                
+
                 <!-- Account Type Selector (Tabs) -->
                 <div>
                     <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Account Type</label>
@@ -184,7 +184,7 @@
             document.getElementById('role-field').value = role;
             const btnCitizen = document.getElementById('btn-citizen');
             const btnDealer = document.getElementById('btn-dealer');
-            
+
             if (role === 'citizen_applicant') {
                 btnCitizen.className = 'py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none bg-emerald-50/20 border-gov-green text-gov-green';
                 btnDealer.className = 'py-2.5 rounded-lg border border-slate-200 text-center text-xs font-bold transition-all focus:outline-none text-slate-650 hover:bg-slate-50';
@@ -197,7 +197,7 @@
         document.getElementById('district_id').addEventListener('change', function () {
             const districtId = this.value;
             const upazilaSelect = document.getElementById('upazila_id');
-            
+
             upazilaSelect.innerHTML = '<option value="">Loading...</option>';
             upazilaSelect.disabled = true;
 
