@@ -23,7 +23,7 @@
             <span class="text-slate-900 step-label">Service</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
-        
+
         <div class="flex items-center space-x-1.5 step-indicator" data-step="2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">2</span>
             <span class="text-slate-500 step-label">Applicant</span>
@@ -64,6 +64,12 @@
             </ul>
         </div>
     @endif
+
+    <!-- Profile Incomplete Error -->
+    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-bold flex items-center space-x-2">
+        <span>⚠️</span>
+        <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+    </div>
 
     <!-- Multi-Step Form Wrapper -->
     <form action="{{ route('citizen.apply') }}" method="POST" id="apply-multi-form" class="space-y-6">
@@ -160,6 +166,9 @@
 
         <!-- STEP 2: APPLICANT -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-2">
+            <p class="text-[10px] text-slate-400 font-semibold -mt-1">
+                🔒 Fields below are pulled from your <span class="font-bold">Profile</span> and can't be edited here. To change them, update your Profile first.
+            </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (Bengali)</label>
@@ -168,149 +177,174 @@
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
                 <div>
-                    <label for="name_en" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters)</label>
-                    <input type="text" name="name" id="name_en" required value="{{ strtoupper(auth()->user()->name) }}"
+                    <label for="name_en" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) 🔒</label>
+                    <input type="text" id="name_en" disabled required value="{{ strtoupper(auth()->user()->name) }}"
                            placeholder="FULL NAME IN BLOCK LETTERS"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="name" value="{{ strtoupper(auth()->user()->name) }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="nid" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">National ID (NID)</label>
-                    <input type="text" name="nid" id="nid" required value="{{ auth()->user()->nid ?? '' }}"
+                    <label for="nid" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">National ID (NID) 🔒</label>
+                    <input type="text" id="nid" disabled required value="{{ auth()->user()->nid ?? '' }}"
                            placeholder="10 or 17 digit NID number"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="nid" value="{{ auth()->user()->nid ?? '' }}">
                 </div>
                 <div>
-                    <label for="dob" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Date of Birth</label>
-                    <input type="date" name="dob" id="dob" required value=""
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                    <label for="dob" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Date of Birth 🔒</label>
+                    @php $dobFormatted = auth()->user()->dob ? \Carbon\Carbon::parse(auth()->user()->dob)->format('Y-m-d') : ''; @endphp
+                    <input type="date" id="dob" disabled required value="{{ $dobFormatted }}"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="dob" value="{{ $dobFormatted }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Father's Name</label>
-                    <input type="text" name="father_name" id="father_name" required value=""
+                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Father's Name 🔒</label>
+                    <input type="text" id="father_name" disabled required value="{{ auth()->user()->father_name }}"
                            placeholder="Father's full name"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="father_name" value="{{ auth()->user()->father_name }}">
                 </div>
                 <div>
-                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Mother's Name</label>
-                    <input type="text" name="mother_name" id="mother_name" required value=""
+                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Mother's Name 🔒</label>
+                    <input type="text" id="mother_name" disabled required value="{{ auth()->user()->mother_name }}"
                            placeholder="Mother's full name"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="mother_name" value="{{ auth()->user()->mother_name }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="marital_status" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Marital Status</label>
-                    <select name="marital_status" id="marital_status" onchange="toggleSpouse(this.value)"
-                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                        <option value="Married">Married</option>
-                        <option value="Single">Single</option>
+                    <label for="marital_status" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Marital Status 🔒</label>
+                    <select id="marital_status" disabled required
+                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                        <option value="" {{ !auth()->user()->marital_status ? 'selected' : '' }}>Select</option>
+                        <option value="Married" {{ auth()->user()->marital_status === 'Married' ? 'selected' : '' }}>Married</option>
+                        <option value="Single" {{ auth()->user()->marital_status === 'Single' ? 'selected' : '' }}>Single</option>
+                        <option value="Divorced" {{ auth()->user()->marital_status === 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                        <option value="Widowed" {{ auth()->user()->marital_status === 'Widowed' ? 'selected' : '' }}>Widowed</option>
                     </select>
+                    <input type="hidden" name="marital_status" value="{{ auth()->user()->marital_status }}">
                 </div>
                 <div id="spouse-group">
-                    <label for="spouse_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Spouse Name</label>
-                    <input type="text" name="spouse_name" id="spouse_name" value=""
+                    <label for="spouse_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Spouse Name 🔒</label>
+                    <input type="text" id="spouse_name" disabled required value="{{ auth()->user()->spouse_name }}"
                            placeholder="Spouse's full name"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="spouse_name" value="{{ auth()->user()->spouse_name }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="nationality" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Nationality</label>
-                    <input type="text" name="nationality" id="nationality" required value="Bangladeshi"
+                    <label for="nationality" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Nationality 🔒</label>
+                    <input type="text" id="nationality" disabled required value="{{ auth()->user()->nationality }}"
                            placeholder="e.g. Bangladeshi"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="nationality" value="{{ auth()->user()->nationality }}">
                 </div>
                 <div>
-                    <label for="religion" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Religion</label>
-                    <input type="text" name="religion" id="religion" required value=""
+                    <label for="religion" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Religion 🔒</label>
+                    <input type="text" id="religion" disabled required value="{{ auth()->user()->religion }}"
                            placeholder="e.g. Islam, Hindu, Christian"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="religion" value="{{ auth()->user()->religion }}">
                 </div>
             </div>
         </div>
 
         <!-- STEP 3: ADDRESS & INCOME -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-3">
+            <p class="text-[10px] text-slate-400 font-semibold -mt-1">
+                🔒 Fields below are pulled from your <span class="font-bold">Profile</span> and can't be edited here. To change them, update your Profile first.
+            </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="present_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Present Address</label>
-                    <input type="text" name="present_address" id="present_address" required value=""
+                    <label for="present_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Present Address 🔒</label>
+                    <input type="text" id="present_address" disabled required value="{{ auth()->user()->present_address }}"
                            placeholder="House No, Road, Area, City"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="present_address" value="{{ auth()->user()->present_address }}">
                 </div>
                 <div>
-                    <label for="permanent_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Permanent Address</label>
-                    <input type="text" name="permanent_address" id="permanent_address" required value=""
+                    <label for="permanent_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Permanent Address 🔒</label>
+                    <input type="text" id="permanent_address" disabled required value="{{ auth()->user()->permanent_address }}"
                            placeholder="Village, Thana, District"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="permanent_address" value="{{ auth()->user()->permanent_address }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="district_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">District</label>
-                    <select name="district_id" id="district_id" required
-                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                    <label for="district_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">District 🔒</label>
+                    <select id="district_id" disabled required
+                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
                         <option value="">Select District</option>
                         @foreach($districts as $d)
                             <option value="{{ $d->id }}" {{ auth()->user()->district_id === $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
                         @endforeach
                     </select>
+                    <input type="hidden" name="district_id" value="{{ auth()->user()->district_id }}">
                 </div>
                 <div>
-                    <label for="upazila_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Upazila / Thana</label>
-                    <select name="upazila_id" id="upazila_id" required
-                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                    <label for="upazila_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Upazila / Thana 🔒</label>
+                    <select id="upazila_id" disabled required
+                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
                         <option value="">Select Upazila / Thana</option>
                     </select>
+                    <input type="hidden" name="upazila_id" value="{{ auth()->user()->upazila_id }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="edu_qualification" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Educational Qualification</label>
-                    <input type="text" name="edu_qualification" id="edu_qualification" required value=""
+                    <label for="edu_qualification" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Educational Qualification 🔒</label>
+                    <input type="text" id="edu_qualification" disabled required value="{{ auth()->user()->edu_qualification }}"
                            placeholder="e.g. HSC, Bachelor's, MBA"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="edu_qualification" value="{{ auth()->user()->edu_qualification }}">
                 </div>
                 <div>
-                    <label for="occupation" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Occupation</label>
-                    <input type="text" name="occupation" id="occupation" required value=""
+                    <label for="occupation" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Occupation 🔒</label>
+                    <input type="text" id="occupation" disabled required value="{{ auth()->user()->occupation }}"
                            placeholder="e.g. Business Owner, Government Officer"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="occupation" value="{{ auth()->user()->occupation }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="employer_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Employer / Office Address</label>
-                    <input type="text" name="employer_address" id="employer_address" required value=""
+                    <label for="employer_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Employer / Office Address 🔒</label>
+                    <input type="text" id="employer_address" disabled required value="{{ auth()->user()->employer_address }}"
                            placeholder="Office/employer address"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="employer_address" value="{{ auth()->user()->employer_address }}">
                 </div>
                 <div></div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="annual_income" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Annual Income (BDT)</label>
-                    <input type="number" name="annual_income" id="annual_income" required value=""
+                    <label for="annual_income" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Annual Income (BDT) 🔒</label>
+                    <input type="number" id="annual_income" disabled required value="{{ auth()->user()->annual_income }}"
                            placeholder="e.g. 500000"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                    <input type="hidden" name="annual_income" value="{{ auth()->user()->annual_income }}">
                 </div>
                 <div>
-                    <label for="tin_number" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">TIN Number</label>
-                    <input type="text" name="tin_number" id="tin_number" required value=""
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white"
+                    <label for="tin_number" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">TIN Number 🔒</label>
+                    <input type="text" id="tin_number" disabled required value="{{ auth()->user()->tin_number }}"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
                            placeholder="12-digit TIN Code">
+                    <input type="hidden" name="tin_number" value="{{ auth()->user()->tin_number }}">
                 </div>
             </div>
         </div>
@@ -348,7 +382,7 @@
         <!-- STEP 5: DOCUMENTS -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-5">
             <span class="text-[9px] font-extrabold uppercase text-slate-400">PDF/JPG/PNG &bull; Max 5MB per file. Documents are stored encrypted.</span>
-            
+
             <div class="divide-y divide-slate-100 text-xs">
                 @php
                     $docs = [
@@ -383,7 +417,7 @@
         <div class="step-panel hidden space-y-5" id="panel-6">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <h3 class="text-sm font-bold text-slate-900 font-serif">Review your submission</h3>
-                
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <!-- Service card -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
@@ -409,7 +443,7 @@
                         <div class="font-black text-gov-green text-sm mt-1" id="review-fee">BDT 40,850</div>
                     </div>
                 </div>
- 
+
                 <!-- Final Declaration Checkbox -->
                 <label class="flex items-start space-x-2.5 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                     <input type="checkbox" required class="rounded text-gov-green focus:ring-0 mt-0.5">
@@ -447,7 +481,7 @@
 
     function selectWeapon(weapon) {
         document.getElementById('weapon_type').value = weapon;
-        
+
         // Reset styles
         ['pistol', 'revolver', 'shotgun', 'rifle'].forEach(w => {
             const btn = document.getElementById(`btn-${w}`);
@@ -455,7 +489,7 @@
                 btn.className = 'py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50';
             }
         });
-        
+
         // Style selected
         const selectedBtn = document.getElementById(`btn-${weapon.toLowerCase()}`);
         if(selectedBtn) {
@@ -497,14 +531,15 @@
 
         document.getElementById('fee-statutory').innerText = `BDT ${statutory.toLocaleString()}`;
         document.getElementById('fee-total').innerText = `BDT ${total.toLocaleString()}`;
-        
+
         document.getElementById('review-service').innerText = serviceType === 'handgun' ? 'New License — Handgun' : 'New License — Long Gun';
         document.getElementById('review-weapon').innerText = weapon;
         document.getElementById('review-fee').innerText = `BDT ${total.toLocaleString()}`;
     }
 
     function toggleSpouse(val) {
-        document.getElementById('spouse-group').style.display = val === 'Married' ? 'block' : 'none';
+        const showSpouse = ['Married', 'Divorced', 'Widowed'].includes(val);
+        document.getElementById('spouse-group').style.display = showSpouse ? 'block' : 'none';
     }
 
     function updateStepIndicator() {
@@ -538,20 +573,20 @@
         document.getElementById(`panel-${currentStep}`).classList.remove('hidden');
 
         document.getElementById('btn-prev').disabled = currentStep === 1;
-        
+
         if (currentStep === totalSteps) {
             document.getElementById('btn-next').classList.add('hidden');
             document.getElementById('btn-submit').classList.remove('hidden');
-            
+
             // Sync form values into review card
             document.getElementById('review-name').innerText = document.getElementById('name_en').value;
             document.getElementById('review-nid').innerText = `NID ${document.getElementById('nid').value} &bull; DOB ${document.getElementById('dob').value}`;
-            
+
             const distSelect = document.getElementById('district_id');
             const selectedDistText = distSelect.options[distSelect.selectedIndex] ? distSelect.options[distSelect.selectedIndex].text : '';
             document.getElementById('review-address').innerText = document.getElementById('present_address').value;
             document.getElementById('review-district').innerText = `${selectedDistText} District`;
-            
+
             recalculateFees();
         } else {
             document.getElementById('btn-next').classList.remove('hidden');
@@ -559,7 +594,84 @@
         }
     }
 
+    // Field IDs that also exist on the Profile page. Used only to decide
+    // WHICH message to show when a required field is left empty.
+    const profileMatchedFieldIds = new Set([
+        'name_en', 'nid', 'dob', 'father_name', 'mother_name', 'marital_status', 'spouse_name',
+        'nationality', 'religion', 'present_address', 'permanent_address',
+        'district_id', 'upazila_id', 'edu_qualification', 'occupation',
+        'employer_address', 'annual_income', 'tin_number'
+    ]);
+
+    // Checks EVERY [required] field inside the current step's panel — not just
+    // profile-matching ones. If anything required is empty/unchecked, the user
+    // cannot move to the next tab.
+    function validateStepFields(step) {
+        const panel = document.getElementById(`panel-${step}`);
+        if (!panel) return true;
+
+        const fields = panel.querySelectorAll('[required]');
+        let firstInvalidEl = null;
+        let isProfileField = false;
+
+        fields.forEach(el => {
+            // Skip fields that are currently hidden (e.g. inside a collapsed
+            // section), since the user isn't expected to fill invisible inputs.
+            if (el.offsetParent === null) {
+                el.classList.remove('border-rose-400');
+                return;
+            }
+
+            const filled = (el.type === 'checkbox' || el.type === 'radio')
+                ? el.checked
+                : el.value !== null && el.value.trim() !== '';
+
+            if (!filled) {
+                el.classList.add('border-rose-400');
+                if (!firstInvalidEl) {
+                    firstInvalidEl = el;
+                    isProfileField = profileMatchedFieldIds.has(el.id);
+                }
+            } else {
+                el.classList.remove('border-rose-400');
+            }
+        });
+
+        if (firstInvalidEl) {
+            showIncompleteError(isProfileField);
+            firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+        }
+
+        return true;
+    }
+
+    function showIncompleteError(isProfileField) {
+        const box = document.getElementById('profile-incomplete-error');
+        const text = document.getElementById('profile-incomplete-error-text');
+        if (!box) return;
+
+        if (text) {
+            text.textContent = isProfileField
+                ? 'Complete your profile first — the highlighted field(s) above are missing.'
+                : 'Please fill in the highlighted required field(s) above before continuing.';
+        }
+
+        box.classList.remove('hidden');
+    }
+
+    function hideIncompleteError() {
+        const box = document.getElementById('profile-incomplete-error');
+        if (box) box.classList.add('hidden');
+    }
+
     function nextStep() {
+        hideIncompleteError();
+
+        if (!validateStepFields(currentStep)) {
+            return;
+        }
+
         if (currentStep < totalSteps) {
             currentStep++;
             updateStepIndicator();
@@ -568,6 +680,7 @@
     }
 
     function prevStep() {
+        hideIncompleteError();
         if (currentStep > 1) {
             currentStep--;
             updateStepIndicator();
@@ -598,7 +711,9 @@
                     const selected = selectedUpazilaId && parseInt(upazila.id) === parseInt(selectedUpazilaId) ? 'selected' : '';
                     upazilaSelect.innerHTML += `<option value="${upazila.id}" ${selected}>${upazila.name}</option>`;
                 });
-                upazilaSelect.disabled = false;
+                // upazila_id is a profile-locked field — keep it disabled even
+                // after options load, since the user can't edit it here.
+                upazilaSelect.disabled = true;
             })
             .catch(error => {
                 console.error('Error fetching upazilas:', error);
@@ -613,6 +728,12 @@
             loadUpazilas(districtSelect.value, "{{ auth()->user()->upazila_id }}");
         }
         recalculateFees();
+
+        // Show/hide spouse name based on the pre-filled marital status
+        const maritalSelect = document.getElementById('marital_status');
+        if (maritalSelect) {
+            toggleSpouse(maritalSelect.value);
+        }
     });
 
     function triggerUpload(key) {

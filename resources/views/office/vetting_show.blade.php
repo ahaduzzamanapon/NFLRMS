@@ -56,13 +56,23 @@
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
             <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">Submit Clearance Report</span>
         </div>
+        @if ($errors->any())
+            <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
+                <span class="block text-sm font-black font-serif">⚠️ Please resolve the following errors:</span>
+                <ul class="list-disc pl-4 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('vetting.submit', $vetting->id) }}" method="POST" class="p-5 space-y-4">
             @csrf
             <div>
                 <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-2">Clearance Decision</label>
                 <div class="grid grid-cols-2 gap-3">
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-emerald-300">
-                        <input type="radio" name="status" value="cleared" required class="text-gov-green">
+                        <input type="radio" name="status" value="cleared" class="text-gov-green">
                         <span class="text-xs font-bold text-emerald-700">✓ Cleared</span>
                     </label>
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-rose-300">
@@ -73,7 +83,7 @@
             </div>
             <div>
                 <label class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1.5">Remarks (mandatory)</label>
-                <textarea name="remarks" rows="4" required placeholder="Provide details of your vetting findings..."
+                <textarea name="remarks" rows="4" placeholder="Provide details of your vetting findings..."
                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
             </div>
             <button type="submit" class="w-full py-2.5 bg-gov-green hover:bg-gov-light text-white font-black text-xs rounded-lg transition-colors">

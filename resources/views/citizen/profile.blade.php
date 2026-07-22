@@ -54,7 +54,8 @@
                 </div>
                 <div>
                     <label for="dob" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Date of Birth</label>
-                    <input type="date" name="dob" id="dob" value="{{ old('dob', $user->dob?->format('Y-m-d')) }}"
+                    @php $dobFormatted = $user->dob ? \Carbon\Carbon::parse($user->dob)->format('Y-m-d') : ''; @endphp
+                    <input type="date" name="dob" id="dob" value="{{ old('dob', $dobFormatted) }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
                 <div>
