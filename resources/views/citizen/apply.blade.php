@@ -194,7 +194,7 @@
                     <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="name_bn" disabled required value="{{ strtoupper(auth()->user()->name_bn ?? '') }}"
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="name_bn" value="{{ strtoupper(auth()->user()->name_bn ?? '') }}">
                 </div>
                 <div>
@@ -411,6 +411,7 @@
                 @php
                     $docs = [
                         'nid_copy' => 'National ID copy',
+                        'tin_certificate' => 'TIN certificate',
                         'birth_cert' => 'Birth certificate',
                         'edu_cert' => 'Educational certificate',
                         'tax_yr1' => 'Income-tax return &bull; Year 1',
@@ -420,16 +421,20 @@
                         'nationality_cert' => 'Nationality certificate',
                         'photo' => 'Recent passport-size photograph'
                     ];
+                    $requiredDocs = ['nid_copy', 'tin_certificate'];
                 @endphp
                 @foreach($docs as $key => $label)
                     <div class="flex items-center justify-between py-2.5">
                         <div class="flex items-center space-x-2">
                             <span>📄</span>
                             <span class="font-semibold text-slate-800">{!! $label !!}</span>
+                            @if(in_array($key, $requiredDocs))
+                                <span class="text-rose-500 font-black" title="Required">*</span>
+                            @endif
                         </div>
                         <div class="flex items-center space-x-3 text-[10px]">
                             <span id="status-{{ $key }}" class="text-amber-600 font-bold">⚠️ Not uploaded</span>
-                            <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" onchange="handleFileSelected('{{ $key }}')">
+                            <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" {{ in_array($key, $requiredDocs) ? 'required' : '' }} onchange="handleFileSelected('{{ $key }}')">
                             <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold border border-slate-200/50 transition-colors">Upload</button>
                         </div>
                     </div>
@@ -645,9 +650,12 @@
         let isProfileField = false;
 
         fields.forEach(el => {
-            // Skip fields that are currently hidden (e.g. inside a collapsed
-            // section), since the user isn't expected to fill invisible inputs.
-            if (el.offsetParent === null) {
+            // Skip fields that are currently hidden because a conditional
+            // section is collapsed (e.g. spouse name when Single). File
+            // inputs are always styled `hidden` by design (a custom Upload
+            // button drives them), so they're deliberately excluded from
+            // this skip — they must still be validated.
+            if (el.offsetParent === null && el.type !== 'file') {
                 el.classList.remove('border-rose-400');
                 return;
             }
@@ -656,20 +664,25 @@
                 ? el.checked
                 : el.value !== null && el.value.trim() !== '';
 
+            const uploadBtn = el.type === 'file' ? document.getElementById(`btn-${el.name}`) : null;
+
             if (!filled) {
                 el.classList.add('border-rose-400');
+                if (uploadBtn) uploadBtn.classList.add('ring-2', 'ring-rose-400');
                 if (!firstInvalidEl) {
                     firstInvalidEl = el;
                     isProfileField = profileMatchedFieldIds.has(el.id);
                 }
             } else {
                 el.classList.remove('border-rose-400');
+                if (uploadBtn) uploadBtn.classList.remove('ring-2', 'ring-rose-400');
             }
         });
 
         if (firstInvalidEl) {
             showIncompleteError(isProfileField);
-            firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            (firstInvalidEl.type === 'file' ? document.getElementById(`btn-${firstInvalidEl.name}`) : firstInvalidEl)
+                ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return false;
         }
 
@@ -780,6 +793,8 @@
             statusSpan.className = 'text-emerald-600 font-bold';
             statusSpan.innerText = `✓ Uploaded (${fileName})`;
             btn.innerText = 'Replace';
+            btn.classList.remove('ring-2', 'ring-rose-400');
+            fileInput.classList.remove('border-rose-400');
         } else {
             statusSpan.className = 'text-amber-600 font-bold';
             statusSpan.innerText = '⚠️ Not uploaded';

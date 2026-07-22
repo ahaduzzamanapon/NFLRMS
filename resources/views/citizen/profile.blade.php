@@ -56,7 +56,6 @@
                     @error('name')<span class="text-[9px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                <div>
                     <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Full Name (Bengali)</label>
                     <input type="text" name="name_bn" id="name_bn" value="{{ old('name_bn', $user->name_bn) }}" required
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"

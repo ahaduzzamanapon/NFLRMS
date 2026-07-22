@@ -18,7 +18,7 @@
             <span class="text-slate-900 step-label">Select License</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
-        
+
         <div class="flex items-center space-x-1.5 step-indicator" data-step="2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">2</span>
             <span class="text-slate-500 step-label">Compliance</span>
@@ -38,13 +38,13 @@
     </div>
 
     <!-- Multi-Step Renewal Form -->
-    <form action="{{ route('citizen.renew', $license->id) }}" method="POST" id="renewal-multi-form" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ route('citizen.renew', $license->id) }}" method="POST" id="renewal-multi-form" enctype="multipart/form-data" class="space-y-6" onsubmit="return validateStep(4);" novalidate>
         @csrf
 
         <!-- STEP 1: SELECT LICENSE -->
         <div class="step-panel bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-1">
             <span class="text-[10px] font-extrabold uppercase text-slate-400">Pick the license you wish to renew:</span>
-            
+
             <div class="space-y-3">
                 @foreach($licenses as $idx => $lic)
                     @php
@@ -64,7 +64,7 @@
                             <div>
                                 <span class="text-xs font-black uppercase font-mono text-slate-900">{{ $lic->license_number }}</span>
                                 <p class="text-[10px] text-slate-500 mt-1 font-semibold">
-                                    {{ $weapon }} &bull; 
+                                    {{ $weapon }} &bull;
                                     @if(!$isExpired)
                                         Valid &mdash; expires in {{ $daysDiff }} days
                                     @else
@@ -84,16 +84,19 @@
         <!-- STEP 2: COMPLIANCE -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-2">
             <div class="space-y-3">
-                <label class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
-                    <input type="checkbox" required class="rounded text-gov-green focus:ring-0 mt-0.5">
+                <div class="hidden p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1" id="err-panel2-checks">
+                    <span class="text-[12px] font-black font-serif">⚠️ Please confirm mandatory two checklist items above before continuing.</span>
+                </div>
+                <label id="lbl_chk_firing_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_firing_ack" name="firing_report_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_firing_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Firing-range annual report attached (mandatory)</span>
                 </label>
-                <label class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
-                    <input type="checkbox" required class="rounded text-gov-green focus:ring-0 mt-0.5">
+                <label id="lbl_chk_medical_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_medical_ack" name="medical_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Medical fitness declaration (self + doctor)</span>
                 </label>
-                <label class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
-                    <input type="checkbox" required class="rounded text-gov-green focus:ring-0 mt-0.5">
+                <label id="lbl_chk_police_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_police_ack" name="police_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_police_ack')">
                     <span class="text-xs text-slate-600 font-semibold leading-normal">Local police station 'no adverse record' letter uploaded</span>
                 </label>
             </div>
@@ -105,18 +108,25 @@
             </div>
 
             <div class="divide-y divide-slate-100 text-xs">
+                <div class="hidden p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1 mb-1" id="err-panel2-docs">
+                    <span class="text-[12px] font-black font-serif">⚠️ Please upload the mandatory documents: Firing-range annual report and Local police station clearance letter.</span>
+                </div>
                 @php
                     $complianceDocs = [
                         'firing_report' => 'Firing-range annual report (mandatory)',
                         'medical_cert' => 'Medical fitness certificate (self + doctor)',
                         'police_clearance' => 'Local police station clearance letter'
                     ];
+                    $mandatoryDocs = ['firing_report', 'police_clearance'];
                 @endphp
                 @foreach($complianceDocs as $key => $label)
-                    <div class="flex items-center justify-between py-2.5">
+                    <div class="flex items-center justify-between py-2.5 px-2 rounded-lg border border-transparent transition-colors" id="row-{{ $key }}">
                         <div class="flex items-center space-x-2">
                             <span>📄</span>
                             <span class="font-semibold text-slate-800">{{ $label }}</span>
+                            @if(in_array($key, $mandatoryDocs))
+                                <span class="text-[9px] font-black uppercase text-red-500">*</span>
+                            @endif
                         </div>
                         <div class="flex items-center space-x-3 text-[10px]">
                             <span id="status-{{ $key }}" class="text-amber-600 font-bold">⚠️ Not uploaded</span>
@@ -160,12 +170,13 @@
 
             <div>
                 <label class="block text-[10px] font-extrabold uppercase text-slate-900 mb-2">Select Payment Channel</label>
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-3 gap-3" id="payment-channel-group">
                     <button type="button" id="pay-bkash" onclick="selectPayment('bkash')" class="py-2.5 rounded-lg border-2 border-gov-green bg-emerald-50/10 text-xs font-black text-gov-green transition-all">bKash</button>
                     <button type="button" id="pay-nagad" onclick="selectPayment('nagad')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Nagad</button>
                     <button type="button" id="pay-card" onclick="selectPayment('card')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Card / Bank</button>
                 </div>
-                <input type="hidden" name="payment_channel" id="payment_channel" value="bkash">
+                <input type="hidden" name="payment_channel" id="payment_channel" value="bkash" required>
+                <p id="err-panel3-payment" class="hidden text-[10px] text-red-600 font-bold pt-2">⚠️ Please select a payment channel to continue.</p>
             </div>
         </div>
 
@@ -175,11 +186,12 @@
                 <span class="text-[8px] font-extrabold uppercase text-slate-400 block mb-0.5">Ready to submit</span>
                 <span class="font-extrabold" id="ready-submit-text">Renewing {{ $license->license_number }} (Revolver) &mdash; total <span class="font-black">BDT 22,970</span>.</span>
             </div>
-            
-            <label class="flex items-start space-x-2.5 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
-                <input type="checkbox" required class="rounded text-gov-green focus:ring-0 mt-0.5">
+
+            <label id="lbl_chk_confirm_declare" class="flex items-start space-x-2.5 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer transition-colors">
+                <input type="checkbox" id="chk_confirm_declare" name="declaration_ack" class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_confirm_declare', 'err-panel4-confirm')">
                 <span class="text-xs text-slate-650 font-semibold leading-normal">I declare the information is true. I understand that a false declaration will render the renewal void.</span>
             </label>
+            <p id="err-panel4-confirm" class="hidden text-[10px] text-red-600 font-bold pl-1">⚠️ Please confirm the declaration before submitting.</p>
         </div>
 
         <!-- Wizard Navigation Bar -->
@@ -237,7 +249,7 @@
         document.getElementById(`panel-${currentStep}`).classList.remove('hidden');
 
         document.getElementById('btn-prev').disabled = currentStep === 1;
-        
+
         if (currentStep === totalSteps) {
             document.getElementById('btn-next').classList.add('hidden');
             document.getElementById('btn-submit').classList.remove('hidden');
@@ -248,11 +260,97 @@
     }
 
     function nextStep() {
+        if (!validateStep(currentStep)) {
+            return;
+        }
         if (currentStep < totalSteps) {
             currentStep++;
             updateStepIndicator();
             showStepPanel();
         }
+    }
+
+    function clearFieldError(labelId, errorId) {
+        const label = document.getElementById(labelId);
+        if (label) {
+            label.classList.remove('border-red-400', 'bg-red-50/40');
+        }
+        if (errorId) {
+            const err = document.getElementById(errorId);
+            if (err) err.classList.add('hidden');
+        }
+    }
+
+    function validateStep(step) {
+        let isValid = true;
+
+        if (step === 2) {
+            // Compliance checklist checkboxes must all be checked
+            const checklistItems = [
+                { inputId: 'chk_firing_ack', labelId: 'lbl_chk_firing_ack' },
+                { inputId: 'chk_police_ack', labelId: 'lbl_chk_police_ack' }
+            ];
+            let checksOk = true;
+            checklistItems.forEach(item => {
+                const input = document.getElementById(item.inputId);
+                const label = document.getElementById(item.labelId);
+                if (!input || !input.checked) {
+                    checksOk = false;
+                    if (label) label.classList.add('border-red-400', 'bg-red-50/40');
+                } else if (label) {
+                    label.classList.remove('border-red-400', 'bg-red-50/40');
+                }
+            });
+            document.getElementById('err-panel2-checks').classList.toggle('hidden', checksOk);
+            if (!checksOk) isValid = false;
+
+            // Mandatory document uploads: Firing-range annual report & Local police station clearance letter
+            const mandatoryDocs = ['firing_report', 'police_clearance'];
+            let docsOk = true;
+            mandatoryDocs.forEach(key => {
+                const fileInput = document.getElementById(`file-${key}`);
+                const row = document.getElementById(`row-${key}`);
+                const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+                if (!hasFile) {
+                    docsOk = false;
+                    if (row) row.classList.add('border-red-400', 'bg-red-50/40');
+                } else if (row) {
+                    row.classList.remove('border-red-400', 'bg-red-50/40');
+                }
+            });
+            document.getElementById('err-panel2-docs').classList.toggle('hidden', docsOk);
+            if (!docsOk) isValid = false;
+        }
+
+        if (step === 3) {
+            const channel = document.getElementById('payment_channel').value;
+            const group = document.getElementById('payment-channel-group');
+            const errPay = document.getElementById('err-panel3-payment');
+            if (!channel) {
+                isValid = false;
+                errPay.classList.remove('hidden');
+                if (group) group.classList.add('ring-1', 'ring-red-400', 'rounded-lg', 'p-1');
+            } else {
+                errPay.classList.add('hidden');
+                if (group) group.classList.remove('ring-1', 'ring-red-400', 'rounded-lg', 'p-1');
+            }
+        }
+
+        if (step === 4) {
+            const confirmChk = document.getElementById('chk_confirm_declare');
+            const label = document.getElementById('lbl_chk_confirm_declare');
+            const errConfirm = document.getElementById('err-panel4-confirm');
+            if (!confirmChk || !confirmChk.checked) {
+                isValid = false;
+                if (label) label.classList.add('border-red-400', 'bg-red-50/40');
+                errConfirm.classList.remove('hidden');
+            } else {
+                if (label) label.classList.remove('border-red-400', 'bg-red-50/40');
+                errConfirm.classList.add('hidden');
+            }
+        }
+
+        return isValid;
     }
 
     function prevStep() {
@@ -265,7 +363,10 @@
 
     function selectPayment(channel) {
         document.getElementById('payment_channel').value = channel;
-        
+        document.getElementById('err-panel3-payment').classList.add('hidden');
+        const group = document.getElementById('payment-channel-group');
+        if (group) group.classList.remove('ring-1', 'ring-red-400', 'rounded-lg', 'p-1');
+
         // Reset classes
         ['bkash', 'nagad', 'card'].forEach(c => {
             const btn = document.getElementById(`pay-${c}`);
@@ -273,7 +374,7 @@
                 btn.className = 'py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all';
             }
         });
-        
+
         // Style selected button
         const selectedBtn = document.getElementById(`pay-${channel}`);
         if (selectedBtn) {
@@ -305,11 +406,11 @@
         const isHandgun = (weaponType === 'Pistol' || weaponType === 'Revolver');
         const baseFee = isHandgun ? 20000 : 10000;
         const platformCharge = 720;
-        
+
         let lateFine = 0;
         let latePlatform = 0;
         let statusText = 'On Time';
-        
+
         if (expiryDays < 0) {
             const daysOverdue = Math.abs(expiryDays);
             if (daysOverdue <= 30) {
@@ -326,12 +427,12 @@
                 statusText = 'Tier 2 late (>90d)';
             }
         }
-        
+
         const total = baseFee + platformCharge + lateFine + latePlatform;
-        
+
         // Update DOM element values
         document.getElementById('status-badge-text').innerText = statusText;
-        
+
         const badgeContainer = document.getElementById('status-badge-container');
         if (expiryDays < 0) {
             badgeContainer.className = 'p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs';
@@ -345,7 +446,7 @@
         document.getElementById('fee-late').innerText = `BDT ${lateFine.toLocaleString()}`;
         document.getElementById('fee-platform-late').innerText = `BDT ${latePlatform.toLocaleString()}`;
         document.getElementById('fee-total').innerText = `BDT ${total.toLocaleString()}`;
-        
+
         document.getElementById('ready-submit-text').innerHTML = `Renewing <span class="font-mono font-bold">${licenseNumber}</span> (${weaponType}) &mdash; total <span class="font-black">BDT ${total.toLocaleString()}</span>.`;
     }
 
@@ -376,6 +477,17 @@
             statusSpan.innerText = '⚠️ Not uploaded';
             btn.innerText = 'Upload';
         }
+
+        // Live-clear the mandatory document error state for this row
+        const row = document.getElementById(`row-${key}`);
+        if (row) row.classList.remove('border-red-400', 'bg-red-50/40');
+        const mandatoryDocs = ['firing_report', 'police_clearance'];
+        const stillMissing = mandatoryDocs.some(k => {
+            const fi = document.getElementById(`file-${k}`);
+            return !(fi && fi.files && fi.files.length > 0);
+        });
+        const errDocs = document.getElementById('err-panel2-docs');
+        if (errDocs) errDocs.classList.toggle('hidden', !stillMissing);
     }
 </script>
 @endsection

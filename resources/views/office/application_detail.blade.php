@@ -314,7 +314,7 @@
         <!-- Modal Document Viewer Content Area -->
         <div class="p-6 bg-slate-100 max-h-[70vh] overflow-y-auto">
             <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-inner space-y-4 font-sans text-xs">
-                
+
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                     <div class="flex items-center space-x-3">
                         <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" width="36" height="36" class="w-9 h-9 object-contain" alt="Government Seal">
@@ -382,7 +382,7 @@
         document.getElementById('officeModalDocTitle').innerText = title;
         document.getElementById('officeModalDocMeta').innerText = filename + (size !== '0 KB' ? ' • ' + size : '');
         document.getElementById('officeDocTypeLabel').innerText = title;
-        
+
         const previewContainer = document.getElementById('officePreviewDocumentBody');
 
         if (!isUploaded) {
@@ -424,7 +424,7 @@
 
     function generateOfficeDocumentPreviewHTML(title, appNo) {
         const lower = title.toLowerCase();
-        
+
         if (lower.includes('nid') || lower.includes('identity')) {
             return `
                 <div class="bg-gradient-to-br from-emerald-800 to-teal-950 p-4 rounded-2xl text-white shadow-lg space-y-3 font-sans border-2 border-amber-400/40">

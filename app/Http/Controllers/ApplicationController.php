@@ -54,6 +54,8 @@ class ApplicationController extends Controller
                 'mobile' => ['required', 'string'],
                 'annual_income' => ['required', 'numeric', 'min:0'],
                 'categories' => ['required', 'array', 'min:1'],
+                'nid_copy' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'tin_certificate' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'DEAL-'.strtoupper(Str::random(8)).'-'.date('Y');
@@ -96,6 +98,8 @@ class ApplicationController extends Controller
                 'dealer_id' => ['nullable', 'integer', 'exists:users,id'],
                 'district_id' => ['required', 'integer', 'exists:districts,id'],
                 'upazila_id' => ['required', 'integer', 'exists:upazilas,id'],
+                'nid_copy' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'tin_certificate' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'FL-'.strtoupper(Str::random(8)).'-'.date('Y');
@@ -150,6 +154,7 @@ class ApplicationController extends Controller
         $documents = [];
         $docLabels = [
             'nid_copy' => 'National ID Copy',
+            'tin_certificate' => 'TIN Certificate',
             'birth_cert' => 'Birth Certificate',
             'edu_cert' => 'Educational Certificate',
             'tax_yr1' => 'Income Tax Return (Year 1)',
