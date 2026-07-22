@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
-use App\Models\License;
 use App\Models\District;
+use App\Models\License;
 use App\Models\Upazila;
-use App\Enums\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -32,6 +32,7 @@ class ApplicationController extends Controller
     {
         $user = auth()->user();
         $districts = District::orderBy('name')->get();
+
         return view('citizen.apply', compact('user', 'districts'));
     }
 
@@ -52,16 +53,16 @@ class ApplicationController extends Controller
                 'categories' => ['required', 'array', 'min:1'],
             ]);
 
-            $appNumber = 'DEAL-' . strtoupper(Str::random(8)) . '-' . date('Y');
+            $appNumber = 'DEAL-'.strtoupper(Str::random(8)).'-'.date('Y');
 
             $application = Application::create([
                 'application_number' => $appNumber,
                 'user_id' => auth()->id(),
                 'type' => 'new_dealing_license',
                 'applicant_type' => 'dealer',
-                'status' => 'submitted',
+                'status' => 'payment_pending',
                 'district_id' => $request->district_id,
-                'upazila_id' => auth()->user()->upazila_id ?? \App\Models\Upazila::where('district_id', $request->district_id)->first()?->id,
+                'upazila_id' => auth()->user()->upazila_id ?? Upazila::where('district_id', $request->district_id)->first()?->id,
                 'applicant_details' => [
                     'nid' => $request->nid,
                     'firm_name' => $request->firm_name,
@@ -75,7 +76,7 @@ class ApplicationController extends Controller
                     'weapon_type' => 'Dealing License',
                     'categories' => $request->categories,
                 ],
-                'current_actor_role' => Role::DcFrontDesk->value,
+                'current_actor_role' => Role::DealerApplicant->value,
             ]);
         } else {
             $request->validate([
@@ -92,14 +93,14 @@ class ApplicationController extends Controller
                 'upazila_id' => ['required', 'integer', 'exists:upazilas,id'],
             ]);
 
-            $appNumber = 'FL-' . strtoupper(Str::random(8)) . '-' . date('Y');
+            $appNumber = 'FL-'.strtoupper(Str::random(8)).'-'.date('Y');
 
             $application = Application::create([
                 'application_number' => $appNumber,
                 'user_id' => auth()->id(),
                 'type' => 'new',
                 'applicant_type' => 'citizen',
-                'status' => 'submitted',
+                'status' => 'payment_pending',
                 'district_id' => $request->district_id,
                 'upazila_id' => $request->upazila_id,
                 'applicant_details' => [
@@ -115,22 +116,21 @@ class ApplicationController extends Controller
                     'bore' => $request->bore,
                     'purpose' => $request->purpose,
                 ],
-                'current_actor_role' => Role::DcFrontDesk->value,
+                'current_actor_role' => Role::CitizenApplicant->value,
             ]);
         }
 
         // Create log entry
         ApplicationLog::create([
             'application_id' => $application->id,
-            'action' => 'submitted',
+            'action' => 'created',
             'from_status' => 'draft',
-            'to_status' => 'submitted',
+            'to_status' => 'payment_pending',
             'actor_id' => auth()->id(),
-            'remarks' => 'Application submitted and routed to Front Desk / ICT Cell.',
+            'remarks' => 'Application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        $route = auth()->user()->role === \App\Enums\Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
-        return redirect()->route($route)->with('success', 'Application submitted successfully! Your tracking number is ' . $appNumber);
+        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
     }
 
     /**
@@ -174,14 +174,14 @@ class ApplicationController extends Controller
             abort(403);
         }
 
-        $appNumber = 'RL-' . strtoupper(Str::random(8)) . '-' . date('Y');
+        $appNumber = 'RL-'.strtoupper(Str::random(8)).'-'.date('Y');
 
         $application = Application::create([
             'application_number' => $appNumber,
             'user_id' => $user->id,
             'type' => 'renewal',
             'applicant_type' => $user->role === Role::DealerApplicant ? 'dealer' : 'citizen',
-            'status' => 'submitted',
+            'status' => 'payment_pending',
             'district_id' => $user->district_id,
             'upazila_id' => $user->upazila_id,
             'applicant_details' => [
@@ -191,20 +191,19 @@ class ApplicationController extends Controller
                 'email' => $user->email,
             ],
             'firearm_details' => $license->firearm_details,
-            'current_actor_role' => Role::DcFrontDesk->value,
+            'current_actor_role' => $user->role === Role::DealerApplicant ? Role::DealerApplicant->value : Role::CitizenApplicant->value,
         ]);
 
         ApplicationLog::create([
             'application_id' => $application->id,
-            'action' => 'submitted',
+            'action' => 'created',
             'from_status' => 'draft',
-            'to_status' => 'submitted',
+            'to_status' => 'payment_pending',
             'actor_id' => $user->id,
-            'remarks' => 'License renewal application submitted to DC Front Desk.',
+            'remarks' => 'Renewal application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        $route = auth()->user()->role === \App\Enums\Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
-        return redirect()->route($route)->with('success', 'Renewal application submitted successfully! Tracking number is ' . $appNumber);
+        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
     }
 
     /**
@@ -217,7 +216,8 @@ class ApplicationController extends Controller
         if ($license) {
             return redirect()->route('citizen.renew', $license->id);
         }
-        $route = auth()->user()->role === \App\Enums\Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
+        $route = auth()->user()->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
+
         return redirect()->route($route)->with('error', 'You do not have any active licenses to renew.');
     }
 }

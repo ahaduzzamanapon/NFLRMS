@@ -56,11 +56,11 @@
         [
             'title' => 'Payment Gateway',
             'desc'  => 'Online fee payment integration.',
-            'providers' => ['bKash','Nagad','SSLCOMMERZ','EBL'],
+            'providers' => ['PayStation','bKash','Nagad'],
             'fields' => [
-                ['label'=>'Gateway Endpoint','name'=>'pay_endpoint','type'=>'text','placeholder'=>'https://sandbox.sslcommerz.com/gwprocess/v4/api.php','value'=>\App\Models\Setting::get('pay_endpoint', 'https://sandbox.sslcommerz.com/gwprocess/v4/api.php')],
-                ['label'=>'Store ID','name'=>'pay_store_id','type'=>'text','placeholder'=>'moha_nflrms','value'=>\App\Models\Setting::get('pay_store_id', 'moha_nflrms')],
-                ['label'=>'Store Password','name'=>'pay_store_pass','type'=>'password','placeholder'=>'••••••••••','value'=>\App\Models\Setting::get('pay_store_pass', '')],
+                ['label'=>'Gateway Endpoint','name'=>'pay_endpoint','type'=>'text','placeholder'=>'https://api.paystation.com.bd/sandbox/initiate-payment','value'=>\App\Models\Setting::get('pay_endpoint', 'https://api.paystation.com.bd/sandbox/initiate-payment')],
+                ['label'=>'Merchant ID (Store ID)','name'=>'pay_store_id','type'=>'text','placeholder'=>'your-merchant-id','value'=>\App\Models\Setting::get('pay_store_id', '')],
+                ['label'=>'API Password (Store Password)','name'=>'pay_store_pass','type'=>'password','placeholder'=>'••••••••••','value'=>\App\Models\Setting::get('pay_store_pass', '')],
             ],
         ],
         [

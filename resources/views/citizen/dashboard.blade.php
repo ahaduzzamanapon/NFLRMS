@@ -182,6 +182,8 @@
                             <td class="p-3">
                                 @php
                                     $badgeStyles = match($a->status) {
+                                        'payment_pending' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+                                        'waiting_for_license_fee' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
                                         'submitted' => 'bg-blue-500/10 text-blue-600 border-blue-500/20',
                                         'received' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
                                         'pending_vetting' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
@@ -193,6 +195,8 @@
                                         default => 'bg-slate-500/10 text-slate-600 border-slate-500/20',
                                     };
                                     $statusLabel = match($a->status) {
+                                        'payment_pending' => 'Payment Pending',
+                                        'waiting_for_license_fee' => 'Waiting for License Fee',
                                         'submitted' => 'Awaiting Verification',
                                         'received' => 'Under Review',
                                         'pending_vetting' => 'Awaiting Vetting Clearance',
@@ -208,8 +212,17 @@
                                     {{ $statusLabel }}
                                 </span>
                             </td>
-                            <td class="p-3 pr-5 text-right">
-                                <a href="{{ route('citizen.show', $a->id) }}" class="text-gov-green hover:underline font-black">
+                            <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">
+                                @if($a->status === 'payment_pending')
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[10px] font-bold shadow-sm transition-colors">
+                                        Pay Platform Fee
+                                    </a>
+                                @elseif($a->status === 'waiting_for_license_fee')
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[10px] font-bold shadow-sm transition-colors animate-pulse">
+                                        Pay License Fee
+                                    </a>
+                                @endif
+                                <a href="{{ route('citizen.show', $a->id) }}" class="text-gov-green hover:underline font-black ml-1.5">
                                     View &rarr;
                                 </a>
                             </td>

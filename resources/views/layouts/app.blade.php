@@ -69,14 +69,43 @@
             margin-bottom: 4px;
         }
         .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+        @media (max-width: 1023px) {
+            .mobile-sidebar {
+                position: fixed !important;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .mobile-sidebar.open {
+                transform: translateX(0) !important;
+            }
+            .sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(4px);
+                z-index: 45;
+            }
+        }
     </style>
 </head>
 
 <body class="h-full font-sans antialiased bg-[#faf8f5] text-slate-800 flex overflow-hidden">
 
+    <!-- Sidebar Backdrop for mobile -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop hidden" onclick="toggleSidebar(false)"></div>
+
     <!-- ===== SIDEBAR ===== -->
-    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto">        <!-- Brand -->
-        <div style="padding:24px 20px 16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto mobile-sidebar lg:translate-x-0">        <!-- Brand -->
+        <div style="padding:24px 20px 16px; border-bottom:1px solid rgba(255,255,255,0.06);" class="relative">
+            <!-- Close Button (visible only on mobile) -->
+            <button type="button" onclick="toggleSidebar(false)" class="lg:hidden absolute top-5 right-4 text-white/50 hover:text-white p-1 rounded-lg border border-white/10 hover:bg-white/5 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
             <div class="flex items-center gap-3 mb-3">
                 <div style="width:36px;height:36px;background:#e8b84b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#0b1e17;flex-shrink:0;font-weight:900;">🏛</div>
                 <div>
@@ -264,10 +293,14 @@
         <!-- Header Bar -->
         <header class="h-14 bg-transparent border-b border-slate-200/60 flex items-center justify-between px-7 flex-shrink-0">
             <div class="flex items-center gap-2 text-xs text-slate-400 font-medium">
-                <span>🏢</span>
+                <!-- Hamburger Button (visible on mobile/tablet) -->
+                <button type="button" onclick="toggleSidebar(true)" class="lg:hidden mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <span class="hidden sm:inline">🏢</span>
                 <span class="font-semibold text-slate-700">Ministry of Home Affairs</span>
-                <span class="text-slate-300">·</span>
-                <span>Government of the People's Republic of Bangladesh</span>
+                <span class="text-slate-300 hidden sm:inline">·</span>
+                <span class="hidden sm:inline">Government of the People's Republic of Bangladesh</span>
             </div>
 
             <div class="flex items-center gap-4">
@@ -317,6 +350,21 @@
         </main>
     </div>
 
+    <script>
+        function toggleSidebar(isOpen) {
+            const sidebar = document.querySelector('.mobile-sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (sidebar && backdrop) {
+                if (isOpen) {
+                    sidebar.classList.add('open');
+                    backdrop.classList.remove('hidden');
+                } else {
+                    sidebar.classList.remove('open');
+                    backdrop.classList.add('hidden');
+                }
+            }
+        }
+    </script>
     @yield('scripts')
 </body>
 </html>

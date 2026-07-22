@@ -92,13 +92,102 @@
         <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm text-center">
             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Current File Status</h3>
             <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-block
-                @if(str_contains($application->status, 'approved')) bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
+                @if($application->status === 'payment_pending') bg-amber-500/10 text-amber-600 border border-amber-500/20
+                @elseif($application->status === 'waiting_for_license_fee') bg-indigo-500/10 text-indigo-600 border border-indigo-500/20
+                @elseif(str_contains($application->status, 'approved')) bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
                 @elseif(str_contains($application->status, 'reject')) bg-rose-500/10 text-rose-600 border border-rose-500/20
                 @else bg-amber-500/10 text-amber-600 border border-amber-500/20 @endif">
                 {{ str_replace('_', ' ', $application->status) }}
             </span>
             <p class="text-[10px] text-slate-500 mt-2 font-semibold">Active Desk: {{ is_string($application->current_actor_role) ? ucwords(str_replace('_', ' ', $application->current_actor_role)) : (\App\Enums\Role::tryFrom($application->current_actor_role)?->label() ?? 'Applicant') }}</p>
+
+            @if($application->status === 'payment_pending')
+                <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase">Platform Service Charge Pending</p>
+                    <a href="{{ route('payment.initiate', [$application->id, 'type' => 'service_fee']) }}" class="w-full block py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-black shadow-sm transition-colors">
+                        💳 Pay Platform Fee (PayStation)
+                    </a>
+                </div>
+            @elseif($application->status === 'waiting_for_license_fee')
+                <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase block">Approved &bull; Waiting for License Fee</p>
+                    <p class="text-base font-black text-slate-800">৳{{ number_format($application->license_fee_amount ?? 0) }}</p>
+                    <a href="{{ route('payment.initiate', [$application->id, 'type' => 'license_fee']) }}" class="w-full block py-2 bg-gov-green hover:bg-gov-light text-white rounded-lg text-xs font-black shadow-sm transition-colors animate-pulse">
+                        💳 Pay License Fee (PayStation)
+                    </a>
+                </div>
+            @endif
         </div>
+
+        <!-- Stored Payment Details Breakdown -->
+        @if($application->payment_details || $application->service_fee_paid || $application->license_fee_paid)
+            <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                <h3 class="text-xs font-black uppercase text-gov-green tracking-wider font-outfit border-b border-slate-100 pb-2 mb-3">
+                    💳 Payment Transaction Records
+                </h3>
+                <div class="space-y-3 text-[11px]">
+                    <!-- Platform Fee Record -->
+                    <div class="p-2.5 rounded bg-slate-50 border border-slate-200/60 space-y-1">
+                        <div class="flex justify-between items-center font-bold">
+                            <span class="text-slate-700">Platform Service Charge</span>
+                            @if($application->service_fee_paid)
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-extrabold uppercase">Paid</span>
+                            @else
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-amber-100 text-amber-700 font-extrabold uppercase">Pending</span>
+                            @endif
+                        </div>
+                        <div class="flex justify-between text-slate-500">
+                            <span>Amount:</span>
+                            <span class="font-bold text-slate-800">৳{{ number_format($application->service_fee_amount ?? 850) }}</span>
+                        </div>
+                        @if(isset($application->payment_details['service_fee_trx_id']))
+                            <div class="flex justify-between text-slate-500">
+                                <span>Trx ID:</span>
+                                <span class="font-mono font-bold text-slate-800">{{ $application->payment_details['service_fee_trx_id'] }}</span>
+                            </div>
+                        @endif
+                        @if(isset($application->payment_details['service_fee_date']))
+                            <div class="flex justify-between text-slate-400 text-[9px]">
+                                <span>Paid Date:</span>
+                                <span>{{ $application->payment_details['service_fee_date'] }}</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- License Fee Record -->
+                    <div class="p-2.5 rounded bg-slate-50 border border-slate-200/60 space-y-1">
+                        <div class="flex justify-between items-center font-bold">
+                            <span class="text-slate-700">Statutory License Fee</span>
+                            @if($application->license_fee_paid)
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-extrabold uppercase">Paid</span>
+                            @elseif($application->license_fee_amount)
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-extrabold uppercase">Awaiting Payment</span>
+                            @else
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-extrabold uppercase">Not Due Yet</span>
+                            @endif
+                        </div>
+                        @if($application->license_fee_amount)
+                            <div class="flex justify-between text-slate-500">
+                                <span>Amount:</span>
+                                <span class="font-bold text-slate-800">৳{{ number_format($application->license_fee_amount) }}</span>
+                            </div>
+                        @endif
+                        @if(isset($application->payment_details['license_fee_trx_id']))
+                            <div class="flex justify-between text-slate-500">
+                                <span>Trx ID:</span>
+                                <span class="font-mono font-bold text-slate-800">{{ $application->payment_details['license_fee_trx_id'] }}</span>
+                            </div>
+                        @endif
+                        @if(isset($application->payment_details['license_fee_date']))
+                            <div class="flex justify-between text-slate-400 text-[9px]">
+                                <span>Paid Date:</span>
+                                <span>{{ $application->payment_details['license_fee_date'] }}</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <!-- Security Clearances -->
         @if($application->vettings->isNotEmpty())

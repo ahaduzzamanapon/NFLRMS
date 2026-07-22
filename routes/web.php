@@ -1,34 +1,40 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DealerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VettingController;
 use App\Http\Controllers\WorkflowController;
-use App\Http\Controllers\AdminController;
+use App\Models\District;
+use App\Models\License;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Public Welcome Page
 Route::get('/', function () {
     $stats = [
-        'total_licenses' => \App\Models\License::count(),
-        'total_districts' => \App\Models\District::count(),
+        'total_licenses' => License::count(),
+        'total_districts' => District::count(),
     ];
+
     return view('welcome', compact('stats'));
 });
 
 // Public Verification Page
-Route::get('/verify', function (\Illuminate\Http\Request $request) {
+Route::get('/verify', function (Request $request) {
     $licenseNumber = $request->query('license_number');
     $license = null;
     $status = null;
 
     if ($licenseNumber) {
-        $license = \App\Models\License::where('license_number', $licenseNumber)->first();
+        $license = License::where('license_number', $licenseNumber)->first();
         $status = $license ? ($license->status === 'active' ? 'valid' : $license->status) : 'not_found';
     }
 
-    $sampleLicenses = \App\Models\License::with('user')->latest()->take(3)->get();
+    $sampleLicenses = License::with('user')->latest()->take(3)->get();
 
     return view('verify', compact('license', 'status', 'licenseNumber', 'sampleLicenses'));
 })->name('verify');
@@ -41,8 +47,13 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/api/districts/{district}/upazilas', [AuthController::class, 'getUpazilas'])->name('api.upazilas');
 
+Route::match(['get', 'post'], '/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
+
+    // PayStation Checkout Actions
+    Route::get('/payment/initiate/{application}', [PaymentController::class, 'initiate'])->name('payment.initiate');
 
     // Profile — available to all logged-in users
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -61,13 +72,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Dealer Portal — dedicated routes (no /citizen/* for dealers)
     Route::middleware(['role:dealer_applicant'])->group(function () {
-        Route::get('/dealer/dashboard', [\App\Http\Controllers\DealerController::class, 'dashboard'])->name('dealer.dashboard');
-        Route::get('/dealer/apply', [\App\Http\Controllers\DealerController::class, 'applyForm'])->name('dealer.apply');
-        Route::post('/dealer/apply', [\App\Http\Controllers\DealerController::class, 'applyStore'])->name('dealer.apply.store');
-        Route::get('/dealer/renew', [\App\Http\Controllers\DealerController::class, 'renewForm'])->name('dealer.renew');
-        Route::get('/dealer/stock-ledger', [\App\Http\Controllers\DealerController::class, 'stockLedger'])->name('dealer.stock_ledger');
-        Route::post('/dealer/stock-ledger', [\App\Http\Controllers\DealerController::class, 'saveStock'])->name('dealer.stock_ledger.save');
-        Route::delete('/dealer/stock-ledger/{stock}', [\App\Http\Controllers\DealerController::class, 'deleteStock'])->name('dealer.stock_ledger.delete');
+        Route::get('/dealer/dashboard', [DealerController::class, 'dashboard'])->name('dealer.dashboard');
+        Route::get('/dealer/apply', [DealerController::class, 'applyForm'])->name('dealer.apply');
+        Route::post('/dealer/apply', [DealerController::class, 'applyStore'])->name('dealer.apply.store');
+        Route::get('/dealer/renew', [DealerController::class, 'renewForm'])->name('dealer.renew');
+        Route::get('/dealer/stock-ledger', [DealerController::class, 'stockLedger'])->name('dealer.stock_ledger');
+        Route::post('/dealer/stock-ledger', [DealerController::class, 'saveStock'])->name('dealer.stock_ledger.save');
+        Route::delete('/dealer/stock-ledger/{stock}', [DealerController::class, 'deleteStock'])->name('dealer.stock_ledger.delete');
     });
 
     // DC Front Desk
@@ -109,8 +120,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:executive'])->group(function () {
         Route::get('/office/executive', [WorkflowController::class, 'executiveDashboard'])->name('executive.dashboard');
         Route::get('/office/executive/licenses', [WorkflowController::class, 'allLicenses'])->name('executive.licenses');
-        Route::get('/office/executive/dealers', [\App\Http\Controllers\DealerController::class, 'executiveDealers'])->name('executive.dealers');
-        Route::get('/office/executive/dealing-central', [\App\Http\Controllers\DealerController::class, 'dealingCentral'])->name('executive.dealing_central');
+        Route::get('/office/executive/dealers', [DealerController::class, 'executiveDealers'])->name('executive.dealers');
+        Route::get('/office/executive/dealing-central', [DealerController::class, 'dealingCentral'])->name('executive.dealing_central');
     });
 
     // System Administrator

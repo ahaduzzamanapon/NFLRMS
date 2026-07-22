@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\User;
-use App\Models\District;
-use App\Models\Upazila;
-use App\Models\Application;
-use App\Models\Vetting;
-use App\Models\License;
 use App\Enums\Role;
+use App\Models\Application;
+use App\Models\District;
+use App\Models\License;
+use App\Models\Upazila;
+use App\Models\User;
+use App\Models\Vetting;
 
 beforeEach(function () {
     $this->seed();
@@ -78,13 +78,15 @@ test('citizen can submit a new license application', function () {
             'upazila_id' => $upazila->id,
         ]);
 
-    $response->assertRedirect(route('citizen.dashboard'));
+    $app = Application::where('user_id', $citizen->id)->latest()->first();
+
+    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $citizen->id,
         'type' => 'new',
-        'status' => 'submitted',
-        'current_actor_role' => Role::DcFrontDesk->value,
+        'status' => 'payment_pending',
+        'current_actor_role' => Role::CitizenApplicant->value,
     ]);
 });
 
@@ -105,13 +107,15 @@ test('dealer can submit Form K dealing license application', function () {
             'categories' => ['Pistol', 'Revolver', 'Shotgun'],
         ]);
 
-    $response->assertRedirect(route('dealer.dashboard'));
+    $app = Application::where('user_id', $dealer->id)->latest()->first();
+
+    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $dealer->id,
         'type' => 'new_dealing_license',
-        'status' => 'submitted',
-        'current_actor_role' => Role::DcFrontDesk->value,
+        'status' => 'payment_pending',
+        'current_actor_role' => Role::DealerApplicant->value,
     ]);
 });
 
@@ -166,7 +170,7 @@ test('agencies can submit vetting clearances and autocomplete workflow trigger',
 
     // Find the application with pending vetting
     $app = Application::where('status', 'pending_vetting')->first();
-    
+
     // Clear out preexisting mock vetting logs to ensure fresh run
     $app->vettings()->delete();
 
@@ -175,7 +179,7 @@ test('agencies can submit vetting clearances and autocomplete workflow trigger',
         'police' => $policeUser,
         'sb' => $sbUser,
         'nsi' => $nsiUser,
-        'dgfi' => $dgfiUser
+        'dgfi' => $dgfiUser,
     ];
 
     foreach ($agencies as $agency => $user) {
@@ -214,7 +218,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
     $app = Application::where('status', 'pending_vetting')->first();
     $app->update([
         'status' => 'vetted_cleared',
-        'current_actor_role' => Role::DcJmBranch->value
+        'current_actor_role' => Role::DcJmBranch->value,
     ]);
 
     // JM Branch forwards to DC
@@ -232,7 +236,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
         'current_actor_role' => Role::DistrictCommissioner->value,
     ]);
 
-    // DC approves and issues license
+    // DC approves
     $response2 = $this->actingAs($dc)
         ->post(route('dc.action', $app->id), [
             'action' => 'approve',
@@ -243,7 +247,25 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
+        'status' => 'waiting_for_license_fee',
+    ]);
+
+    $this->assertDatabaseMissing('licenses', [
+        'application_id' => $app->id,
+    ]);
+
+    // Simulate PayStation callback for license fee
+    $invoice = $app->application_number.'_LF';
+    $this->get(route('payment.callback', [
+        'status' => 'Successful',
+        'invoice_number' => $invoice,
+        'trx_id' => 'TEST_TRX_LF',
+    ]))->assertRedirect(route('citizen.dashboard'));
+
+    $this->assertDatabaseHas('applications', [
+        'id' => $app->id,
         'status' => 'approved',
+        'license_fee_paid' => true,
     ]);
 
     $this->assertDatabaseHas('licenses', [
@@ -263,7 +285,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
     $app = Application::where('status', 'pending_vetting')->first();
     $app->update([
         'status' => 'recommended',
-        'current_actor_role' => Role::DistrictCommissioner->value
+        'current_actor_role' => Role::DistrictCommissioner->value,
     ]);
 
     // DC forwards to MoHA
@@ -322,7 +344,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
         'current_actor_role' => Role::SeniorSecretary->value,
     ]);
 
-    // Senior Secretary approves and issues license
+    // Senior Secretary approves
     $this->actingAs($ss)
         ->post(route('moha.action', $app->id), [
             'action' => 'approve',
@@ -332,7 +354,25 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
+        'status' => 'waiting_for_license_fee',
+    ]);
+
+    $this->assertDatabaseMissing('licenses', [
+        'application_id' => $app->id,
+    ]);
+
+    // Simulate PayStation callback for license fee
+    $invoice = $app->application_number.'_LF';
+    $this->get(route('payment.callback', [
+        'status' => 'Successful',
+        'invoice_number' => $invoice,
+        'trx_id' => 'TEST_TRX_LF_MOHA',
+    ]))->assertRedirect(route('citizen.dashboard'));
+
+    $this->assertDatabaseHas('applications', [
+        'id' => $app->id,
         'status' => 'approved',
+        'license_fee_paid' => true,
     ]);
 
     $this->assertDatabaseHas('licenses', [

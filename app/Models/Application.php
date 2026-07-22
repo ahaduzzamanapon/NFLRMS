@@ -22,12 +22,18 @@ class Application extends Model
         'documents',
         'current_actor_role',
         'remarks',
+        'service_fee_paid',
+        'license_fee_paid',
+        'service_fee_amount',
+        'license_fee_amount',
+        'payment_details',
     ];
 
     protected $casts = [
         'applicant_details' => 'array',
         'firearm_details' => 'array',
         'documents' => 'array',
+        'payment_details' => 'array',
     ];
 
     /**
