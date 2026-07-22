@@ -19,6 +19,7 @@ class ApplicationController extends Controller
     public function index()
     {
         $user = auth()->user();
+        PaymentController::syncUserPendingPayments($user);
         $applications = $user->applications()->latest()->get();
         $licenses = $user->licenses()->latest()->get();
 
@@ -145,6 +146,9 @@ class ApplicationController extends Controller
                 abort(403);
             }
         }
+
+        PaymentController::syncUserPendingPayments($user);
+        $application->refresh();
 
         return view('citizen.show', compact('application'));
     }

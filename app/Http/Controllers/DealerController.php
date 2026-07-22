@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DealerStock;
-use App\Models\User;
 use App\Models\Application;
+use App\Models\DealerStock;
+use App\Models\District;
 use App\Models\License;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DealerController extends Controller
@@ -16,6 +17,7 @@ class DealerController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
+        PaymentController::syncUserPendingPayments($user);
         $applications = $user->applications()->latest()->get();
         $licenses = $user->licenses()->latest()->get();
 
@@ -27,7 +29,8 @@ class DealerController extends Controller
      */
     public function applyForm()
     {
-        $districts = \App\Models\District::orderBy('name')->get();
+        $districts = District::orderBy('name')->get();
+
         return view('dealer.apply', compact('districts'));
     }
 
@@ -38,7 +41,8 @@ class DealerController extends Controller
     {
         // Inject dealer type and delegate to ApplicationController
         $request->merge(['type' => 'new_dealing_license']);
-        return app(\App\Http\Controllers\ApplicationController::class)->store($request);
+
+        return app(ApplicationController::class)->store($request);
     }
 
     /**
@@ -46,8 +50,9 @@ class DealerController extends Controller
      */
     public function renewForm()
     {
-        $user     = auth()->user();
+        $user = auth()->user();
         $licenses = License::where('user_id', $user->id)->get();
+
         return view('dealer.renew', compact('licenses'));
     }
 
@@ -56,11 +61,11 @@ class DealerController extends Controller
      */
     public function stockLedger()
     {
-        $user   = auth()->user();
+        $user = auth()->user();
         $stocks = DealerStock::where('user_id', $user->id)->latest()->get();
 
         $totalFirearms = $stocks->where('category', 'Firearm')->sum('quantity');
-        $totalAmmo     = $stocks->where('category', 'Ammunition')->sum('quantity');
+        $totalAmmo = $stocks->where('category', 'Ammunition')->sum('quantity');
         $anomalyAlerts = $stocks->where('quantity', '<', 0)->count();
 
         return view('dealer.stock_ledger', compact('stocks', 'totalFirearms', 'totalAmmo', 'anomalyAlerts'));
@@ -72,18 +77,18 @@ class DealerController extends Controller
     public function saveStock(Request $request)
     {
         $request->validate([
-            'item'     => 'required|string|max:255',
+            'item' => 'required|string|max:255',
             'category' => 'required|in:Firearm,Ammunition,Accessory',
             'quantity' => 'required|integer|min:0',
-            'source'   => 'nullable|string|max:255',
+            'source' => 'nullable|string|max:255',
         ]);
 
         DealerStock::create([
-            'user_id'  => auth()->id(),
-            'item'     => $request->item,
+            'user_id' => auth()->id(),
+            'item' => $request->item,
             'category' => $request->category,
             'quantity' => $request->quantity,
-            'source'   => $request->source,
+            'source' => $request->source,
         ]);
 
         return redirect()->route('dealer.stock_ledger')->with('success', 'Stock item added successfully.');
@@ -109,15 +114,16 @@ class DealerController extends Controller
             ->with(['district', 'dealerStocks'])
             ->get()
             ->map(function ($dealer) {
-                $dealer->totalFirearms   = $dealer->dealerStocks->where('category', 'Firearm')->sum('quantity');
-                $dealer->totalAmmo       = $dealer->dealerStocks->where('category', 'Ammunition')->sum('quantity');
-                $dealer->totalStock      = $dealer->dealerStocks->sum('quantity');
-                $dealer->anomalyAlerts   = $dealer->dealerStocks->where('quantity', '<', 0)->count();
+                $dealer->totalFirearms = $dealer->dealerStocks->where('category', 'Firearm')->sum('quantity');
+                $dealer->totalAmmo = $dealer->dealerStocks->where('category', 'Ammunition')->sum('quantity');
+                $dealer->totalStock = $dealer->dealerStocks->sum('quantity');
+                $dealer->anomalyAlerts = $dealer->dealerStocks->where('quantity', '<', 0)->count();
+
                 return $dealer;
             });
 
         $totalArmsInStock = $dealers->sum('totalFirearms');
-        $totalDealers     = $dealers->count();
+        $totalDealers = $dealers->count();
 
         return view('executive.dealers', compact('dealers', 'totalArmsInStock', 'totalDealers'));
     }
@@ -139,12 +145,12 @@ class DealerController extends Controller
             ->get();
 
         $stats = [
-            'total'     => $dealingApps->count() + $dealingRenewals->count(),
-            'pending'   => $dealingApps->whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count() +
+            'total' => $dealingApps->count() + $dealingRenewals->count(),
+            'pending' => $dealingApps->whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count() +
                            $dealingRenewals->whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count(),
-            'approved'  => $dealingApps->whereIn('status', ['approved', 'license_issued'])->count() +
+            'approved' => $dealingApps->whereIn('status', ['approved', 'license_issued'])->count() +
                            $dealingRenewals->whereIn('status', ['approved', 'license_issued'])->count(),
-            'rejected'  => $dealingApps->where('status', 'rejected')->count() +
+            'rejected' => $dealingApps->where('status', 'rejected')->count() +
                            $dealingRenewals->where('status', 'rejected')->count(),
         ];
 

@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
 
     // PayStation Checkout Actions
     Route::get('/payment/initiate/{application}', [PaymentController::class, 'initiate'])->name('payment.initiate');
+    Route::get('/payment/check-status/{application}', [PaymentController::class, 'checkApplicationPaymentStatus'])->name('payment.check_status');
 
     // Profile — available to all logged-in users
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

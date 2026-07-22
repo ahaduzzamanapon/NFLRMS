@@ -71,13 +71,41 @@
             </div>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center space-x-3.5">
-                <a href="{{ route('login') }}" class="px-4 py-2 text-xs font-bold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
-                    Login
-                </a>
-                <a href="{{ route('register') }}" class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-md transition-all">
-                    Sign up
-                </a>
+            <div class="flex items-center space-x-3">
+                @auth
+                    @php
+                        $roleVal = auth()->user()->role instanceof \App\Enums\Role ? auth()->user()->role->value : auth()->user()->role;
+                        $dashRoute = match ($roleVal) {
+                            \App\Enums\Role::CitizenApplicant->value => 'citizen.dashboard',
+                            \App\Enums\Role::DealerApplicant->value => 'dealer.dashboard',
+                            \App\Enums\Role::DcFrontDesk->value => 'front_desk.dashboard',
+                            \App\Enums\Role::DcJmBranch->value => 'jm_branch.dashboard',
+                            \App\Enums\Role::DistrictCommissioner->value => 'dc.dashboard',
+                            \App\Enums\Role::PoliceOfficer->value, \App\Enums\Role::SpecialBranch->value, \App\Enums\Role::NsiOfficer->value, \App\Enums\Role::DgfiOfficer->value => 'vetting.dashboard',
+                            \App\Enums\Role::MohaDesk->value, \App\Enums\Role::JointSecretary->value, \App\Enums\Role::SeniorSecretary->value, \App\Enums\Role::NationalScreeningCommittee->value => 'moha.dashboard',
+                            \App\Enums\Role::Executive->value => 'executive.dashboard',
+                            \App\Enums\Role::SystemAdmin->value => 'admin.dashboard',
+                            default => 'profile.edit',
+                        };
+                    @endphp
+                    <a href="{{ route($dashRoute) }}" class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-md transition-all flex items-center space-x-1.5">
+                        <span>Dashboard ({{ auth()->user()->name }})</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="px-4 py-2 text-xs font-bold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}" class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-md transition-all">
+                        Sign up
+                    </a>
+                @endauth
             </div>
 
         </div>
@@ -103,16 +131,26 @@
                 </p>
 
                 <div class="flex flex-wrap gap-4 pt-2">
-                    <a href="{{ route('register') }}" class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
-                        <span>Create Citizen / Dealer Account</span>
-                        <span>&rarr;</span>
-                    </a>
-                    <a href="{{ route('login') }}" class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
-                        Executive Dashboard
-                    </a>
-                    <a href="{{ route('login') }}" class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
-                        Verify a Certificate
-                    </a>
+                    @auth
+                        <a href="{{ route($dashRoute) }}" class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            <span>Go to Your Dashboard</span>
+                            <span>&rarr;</span>
+                        </a>
+                        <a href="{{ route('verify') }}" class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
+                            Verify a Certificate
+                        </a>
+                    @else
+                        <a href="{{ route('register') }}" class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            <span>Create Citizen / Dealer Account</span>
+                            <span>&rarr;</span>
+                        </a>
+                        <a href="{{ route('login') }}" class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
+                            Executive Dashboard
+                        </a>
+                        <a href="{{ route('verify') }}" class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
+                            Verify a Certificate
+                        </a>
+                    @endauth
                 </div>
 
                 <!-- Stats Banner -->

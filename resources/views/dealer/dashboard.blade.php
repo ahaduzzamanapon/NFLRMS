@@ -264,10 +264,16 @@
                                     <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[10px] font-bold shadow-sm transition-colors">
                                         Pay Platform Fee
                                     </a>
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                        🔍 Verify
+                                    </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
                                     <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[10px] font-bold shadow-sm transition-colors animate-pulse">
                                         Pay License Fee
                                     </a>
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                        🔍 Verify
+                                    </button>
                                 @endif
                                 <a href="{{ route('citizen.show', $a->id) }}" class="text-gov-green hover:underline font-black ml-1.5">
                                     View &rarr;
@@ -307,5 +313,82 @@
             }
         });
     });
+
+    function checkPaymentStatus(appId, btnElement) {
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerText = '⏳ Verifying...';
+        }
+
+        fetch('/payment/check-status/' + appId, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Success: ' + data.message);
+                window.location.reload();
+            } else if (data.status === 'failed') {
+                alert('Payment Notice: ' + data.message);
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerText = '🔍 Verify';
+                }
+            } else {
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerText = '🔍 Verify';
+                }
+                alert(data.message || 'Status check complete.');
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerText = '🔍 Verify';
+            }
+        });
+    }
+
+    // Smart Auto-Polling (Polls pending payments every 10 sec, up to 4 mins = 24 checks max)
+    @php
+        $pendingAppIds = $applications->whereIn('status', ['payment_pending', 'waiting_for_license_fee'])->pluck('id')->toArray();
+    @endphp
+    @if(!empty($pendingAppIds))
+    (function autoPollPendingPayments() {
+        const pendingIds = @json($pendingAppIds);
+        let checkCount = 0;
+        const maxChecks = 24; // 24 * 10s = 240 seconds = 4 minutes max limit
+
+        const pollInterval = setInterval(() => {
+            checkCount++;
+            if (checkCount > maxChecks) {
+                clearInterval(pollInterval);
+                console.log('Payment auto-polling stopped after 4 minutes max limit.');
+                return;
+            }
+
+            pendingIds.forEach(id => {
+                fetch('/payment/check-status/' + id, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        clearInterval(pollInterval);
+                        window.location.reload();
+                    }
+                })
+                .catch(err => {});
+            });
+        }, 10000);
+    })();
+    @endif
 </script>
 @endsection

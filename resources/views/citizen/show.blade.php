@@ -107,6 +107,9 @@
                     <a href="{{ route('payment.initiate', [$application->id, 'type' => 'service_fee']) }}" class="w-full block py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-black shadow-sm transition-colors">
                         💳 Pay Platform Fee (PayStation)
                     </a>
+                    <button onclick="checkPaymentStatus('{{ $application->id }}', this)" class="w-full block py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold border border-slate-300 transition-colors">
+                        🔍 Verify Payment Status
+                    </button>
                 </div>
             @elseif($application->status === 'waiting_for_license_fee')
                 <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
@@ -115,6 +118,9 @@
                     <a href="{{ route('payment.initiate', [$application->id, 'type' => 'license_fee']) }}" class="w-full block py-2 bg-gov-green hover:bg-gov-light text-white rounded-lg text-xs font-black shadow-sm transition-colors animate-pulse">
                         💳 Pay License Fee (PayStation)
                     </a>
+                    <button onclick="checkPaymentStatus('{{ $application->id }}', this)" class="w-full block py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold border border-slate-300 transition-colors">
+                        🔍 Verify Payment Status
+                    </button>
                 </div>
             @endif
         </div>
@@ -214,4 +220,79 @@
     </div>
 
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function checkPaymentStatus(appId, btnElement) {
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerText = '⏳ Verifying with PayStation...';
+        }
+
+        fetch('/payment/check-status/' + appId, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Success: ' + data.message);
+                window.location.reload();
+            } else if (data.status === 'failed') {
+                alert('Payment Notice: ' + data.message);
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerText = '🔍 Verify Payment Status';
+                }
+            } else {
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerText = '🔍 Verify Payment Status';
+                }
+                alert(data.message || 'Status check complete.');
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerText = '🔍 Verify Payment Status';
+            }
+        });
+    }
+
+    @if(in_array($application->status, ['payment_pending', 'waiting_for_license_fee']))
+    (function autoPollPayment() {
+        const appId = '{{ $application->id }}';
+        let checkCount = 0;
+        const maxChecks = 24; // 24 * 10s = 240 seconds = 4 minutes max limit
+
+        const pollInterval = setInterval(() => {
+            checkCount++;
+            if (checkCount > maxChecks) {
+                clearInterval(pollInterval);
+                console.log('Payment auto-polling stopped after 4 minutes max limit.');
+                return;
+            }
+
+            fetch('/payment/check-status/' + appId, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    clearInterval(pollInterval);
+                    window.location.reload();
+                }
+            })
+            .catch(err => {});
+        }, 10000);
+    })();
+    @endif
+</script>
 @endsection
