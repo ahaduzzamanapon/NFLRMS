@@ -109,14 +109,25 @@
                     <input type="hidden" name="role" id="role-field" value="citizen_applicant">
                 </div>
 
-                <div>
-                    <label for="name" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Full Name</label>
-                    <input type="text" name="name" id="name" required
-                           class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
-                           placeholder="Md. Rafikul Islam" value="{{ old('name') }}">
-                    @error('name')
-                        <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
-                    @enderror
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="name" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Full Name (English)</label>
+                        <input type="text" name="name" id="name" required
+                               class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
+                               placeholder="Md. Rafikul Islam" value="{{ old('name') }}">
+                        @error('name')
+                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="name_bn" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Full Name (Bengali)</label>
+                        <input type="text" name="name_bn" id="name_bn" required
+                               class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
+                               placeholder="মো: রফিকুল ইসলাম" value="{{ old('name_bn') }}">
+                        @error('name_bn')
+                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">

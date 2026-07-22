@@ -24,7 +24,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-[11px] bg-slate-50 p-3.5 rounded-lg border border-slate-200">
                     <div>
                         <span class="text-slate-500 block">Full Name:</span>
-                        <span class="font-bold text-slate-900">{{ $application->user->name }}</span>
+                        <span class="font-bold text-slate-900">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-xs text-slate-500">({{ $application->user->name_bn }})</span> @endif</span>
                     </div>
                     <div>
                         <span class="text-slate-500 block">Applicant Role:</span>

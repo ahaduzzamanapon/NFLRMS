@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">District *</label>
-                    <select name="district_id" required
+                    <select name="district_id" id="dealer_district_id" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District —</option>
                         @foreach($districts as $d)
@@ -61,6 +61,13 @@
                     </select>
                 </div>
                 <div>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana *</label>
+                    <select name="upazila_id" id="dealer_upazila_id" required disabled
+                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                        <option value="">— Select District First —</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
                     <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Licence Class *</label>
                     <select name="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
@@ -173,4 +180,32 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('dealer_district_id')?.addEventListener('change', function () {
+        const districtId = this.value;
+        const upazilaSelect = document.getElementById('dealer_upazila_id');
+        upazilaSelect.innerHTML = '<option value="">Loading...</option>';
+        upazilaSelect.disabled = true;
+
+        if (!districtId) {
+            upazilaSelect.innerHTML = '<option value="">— Select District First —</option>';
+            return;
+        }
+
+        fetch(`/api/districts/${districtId}/upazilas`)
+            .then(response => response.json())
+            .then(data => {
+                upazilaSelect.innerHTML = '<option value="">— Select Upazila / Thana —</option>';
+                data.forEach(upazila => {
+                    upazilaSelect.innerHTML += `<option value="${upazila.id}">${upazila.name}</option>`;
+                });
+                upazilaSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error fetching upazilas:', error);
+                upazilaSelect.innerHTML = '<option value="">Error loading upazilas</option>';
+            });
+    });
+</script>
 @endsection

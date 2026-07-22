@@ -209,7 +209,7 @@ class PaymentController extends Controller
             ? ($application->service_fee_amount ?? $this->calculateAmount($application, 'service_fee'))
             : ($application->license_fee_amount ?? $this->calculateAmount($application, 'license_fee'));
 
-        if (in_array($trxStatus, ['success', 'successful']) && ($paidAmount >= $expectedAmount || app()->environment('testing'))) {
+        if (in_array($trxStatus, ['success', 'successful', 'completed', 'valid', 'paid']) && ($paidAmount >= $expectedAmount || app()->environment('testing'))) {
             $details[$keyPrefix.'trx_id'] = $trxId;
             $details[$keyPrefix.'status'] = 'paid';
             $details[$keyPrefix.'date'] = now()->toDateTimeString();
@@ -322,7 +322,7 @@ class PaymentController extends Controller
         $isVerifiedSuccess = false;
         if (! empty($statusResult['status_code']) && $statusResult['status_code'] == '200'
             && ! empty($statusResult['data']['trx_status'])
-            && in_array(strtolower($statusResult['data']['trx_status']), ['successful', 'success'])) {
+            && in_array(strtolower($statusResult['data']['trx_status']), ['successful', 'success', 'completed', 'valid', 'paid'])) {
 
             // Verify payment amount matches required fee
             $paidAmount = (float) ($statusResult['data']['payment_amount'] ?? 0);

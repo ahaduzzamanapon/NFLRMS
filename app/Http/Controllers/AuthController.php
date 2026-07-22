@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\District;
-use App\Models\Upazila;
 use App\Enums\Role;
+use App\Models\District;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +21,7 @@ class AuthController extends Controller
         }
 
         $quickUsers = User::all();
+
         return view('auth.login', compact('quickUsers'));
     }
 
@@ -46,6 +46,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return $this->redirectUserDashboard(Auth::user());
         }
 
@@ -54,6 +55,7 @@ class AuthController extends Controller
             $credentials['password'] = 'password';
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
+
                 return $this->redirectUserDashboard(Auth::user());
             }
         }
@@ -67,6 +69,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return $this->redirectUserDashboard(Auth::user());
         }
 
@@ -74,6 +77,7 @@ class AuthController extends Controller
             $credentials['password'] = 'password';
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
+
                 return $this->redirectUserDashboard(Auth::user());
             }
         }
@@ -92,6 +96,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 
@@ -101,6 +106,7 @@ class AuthController extends Controller
     public function showRegister()
     {
         $districts = District::orderBy('name')->get();
+
         return view('auth.register', compact('districts'));
     }
 
@@ -111,6 +117,7 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'name_bn' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required', 'string', 'in:citizen_applicant,dealer_applicant'],
@@ -120,6 +127,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $data['name'],
+            'name_bn' => $data['name_bn'] ?? $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],

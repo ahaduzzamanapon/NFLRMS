@@ -192,10 +192,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
-                    <input type="text" id="name_bn" disabled required value="{{ strtoupper(auth()->user()->name_bn) }}"
+                    <input type="text" id="name_bn" disabled required value="{{ strtoupper(auth()->user()->name_bn ?? '') }}"
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
-                    <input type="hidden" name="name_bn" value="{{ strtoupper(auth()->user()->name_bn) }}">
+                    <input type="hidden" name="name_bn" value="{{ strtoupper(auth()->user()->name_bn ?? '') }}">
                 </div>
                 <div>
                     <label for="name_en" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
@@ -627,7 +627,7 @@
     // Field IDs that also exist on the Profile page. Used only to decide
     // WHICH message to show when a required field is left empty.
     const profileMatchedFieldIds = new Set([
-        'name_en', 'nid', 'dob', 'father_name', 'mother_name', 'marital_status', 'spouse_name',
+        'name_bn', 'name_en', 'nid', 'dob', 'father_name', 'mother_name', 'marital_status', 'spouse_name',
         'nationality', 'religion', 'present_address', 'permanent_address',
         'district_id', 'upazila_id', 'edu_qualification', 'occupation',
         'employer_address', 'annual_income', 'tin_number'

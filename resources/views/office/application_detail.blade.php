@@ -64,7 +64,7 @@
                 <div class="p-5 grid grid-cols-2 gap-4 text-xs">
                     <div>
                         <span class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block">Name</span>
-                        <span class="font-bold text-slate-900">{{ $application->user->name }}</span>
+                        <span class="font-bold text-slate-900">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-[11px] text-slate-500 font-semibold">({{ $application->user->name_bn }})</span> @endif</span>
                     </div>
                     <div>
                         <span class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block">NID</span>
