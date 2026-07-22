@@ -54,8 +54,8 @@ class ApplicationController extends Controller
                 'mobile' => ['required', 'string'],
                 'annual_income' => ['required', 'numeric', 'min:0'],
                 'categories' => ['required', 'array', 'min:1'],
-                'nid_copy' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
-                'tin_certificate' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'nid_copy' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'tin_certificate' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'DEAL-'.strtoupper(Str::random(8)).'-'.date('Y');
@@ -98,8 +98,8 @@ class ApplicationController extends Controller
                 'dealer_id' => ['nullable', 'integer', 'exists:users,id'],
                 'district_id' => ['required', 'integer', 'exists:districts,id'],
                 'upazila_id' => ['required', 'integer', 'exists:upazilas,id'],
-                'nid_copy' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
-                'tin_certificate' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'nid_copy' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'tin_certificate' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'FL-'.strtoupper(Str::random(8)).'-'.date('Y');
@@ -287,6 +287,7 @@ class ApplicationController extends Controller
      */
     public function downloadDocument(Request $request)
     {
+        $key = $request->query('key');
         $title = $request->query('title', 'Statutory Document');
         $appNo = $request->query('app', 'NFLRMS-DOC');
 
@@ -294,11 +295,24 @@ class ApplicationController extends Controller
 
         // 1. Check if applicant uploaded a real file in documents array
         if ($application && is_array($application->documents)) {
-            foreach ($application->documents as $key => $docData) {
+            // Direct key match
+            if ($key && isset($application->documents[$key])) {
+                $docData = $application->documents[$key];
+                $docPath = is_array($docData) ? ($docData['path'] ?? $docData['file'] ?? '') : (is_string($docData) ? $docData : '');
+                $fullPath = storage_path('app/public/'.$docPath);
+                if (! empty($docPath) && file_exists($fullPath)) {
+                    return response()->download($fullPath);
+                }
+            }
+
+            // Loop and check title or key partial match
+            foreach ($application->documents as $docKey => $docData) {
                 $docName = is_array($docData) ? ($docData['name'] ?? $docData['title'] ?? '') : '';
                 $docPath = is_array($docData) ? ($docData['path'] ?? $docData['file'] ?? '') : (is_string($docData) ? $docData : '');
 
-                if (Str::contains(strtolower($docName), strtolower($title)) || Str::contains(strtolower($key), strtolower($title))) {
+                if (Str::contains(strtolower($docName), strtolower($title)) ||
+                    Str::contains(strtolower($docKey), strtolower($title)) ||
+                    ($key && Str::contains(strtolower($docKey), strtolower($key)))) {
                     $fullPath = storage_path('app/public/'.$docPath);
                     if (! empty($docPath) && file_exists($fullPath)) {
                         return response()->download($fullPath);

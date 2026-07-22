@@ -120,25 +120,44 @@
                         $hasUploadedDocs = !empty($userUploadedDocs) && is_array($userUploadedDocs) && count($userUploadedDocs) > 0;
 
                         $standardDocList = [
-                            'nid' => ['name' => 'National ID Card Copy (Smart NID)', 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
-                            'tin' => ['name' => 'Income Tax Certificate (TIN Return)', 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
-                            'bank' => ['name' => 'Bank Solvency & Statement Certificate', 'default_file' => 'bank_solvency.pdf', 'size' => '2.1 MB'],
-                            'medical' => ['name' => 'Physical Fitness Medical Clearance', 'default_file' => 'medical_fitness_civil_surgeon.pdf', 'size' => '1.4 MB'],
-                            'safe' => ['name' => 'Firearms Safe Storage Photograph', 'default_file' => 'gun_safe_photo.jpg', 'size' => '3.4 MB'],
+                            'nid' => ['name' => 'National ID Card Copy (Smart NID)', 'keys' => ['nid', 'nid_copy', 'nid_card'], 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
+                            'birth_cert' => ['name' => 'Birth Certificate', 'keys' => ['birth_cert', 'birth_certificate'], 'default_file' => 'birth_cert.pdf', 'size' => '950 KB'],
+                            'edu_cert' => ['name' => 'Educational Qualification Certificate', 'keys' => ['edu_cert', 'edu', 'educational_cert'], 'default_file' => 'educational_cert.pdf', 'size' => '1.1 MB'],
+                            'tin' => ['name' => 'Income Tax Certificate (TIN Return)', 'keys' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return'], 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
+                            'affidavit' => ['name' => 'Notarized Affidavit (BDT 300 Stamp)', 'keys' => ['affidavit', 'affidavit_copy'], 'default_file' => 'notarized_affidavit.pdf', 'size' => '1.8 MB'],
+                            'nationality_cert' => ['name' => 'Nationality Certificate', 'keys' => ['nationality_cert', 'nationality'], 'default_file' => 'nationality_certificate.pdf', 'size' => '720 KB'],
+                            'photo' => ['name' => 'Recent Passport-size Photograph', 'keys' => ['photo', 'passport_photo', 'profile_photo'], 'default_file' => 'passport_photo.jpg', 'size' => '650 KB'],
+                            'firing_report' => ['name' => 'Firing Range Annual Fitness Report', 'keys' => ['firing_report', 'firing_cert'], 'default_file' => 'firing_range_report.pdf', 'size' => '1.3 MB'],
+                            'medical' => ['name' => 'Physical & Mental Fitness Medical Clearance', 'keys' => ['medical', 'medical_cert', 'fitness_cert'], 'default_file' => 'medical_fitness_civil_surgeon.pdf', 'size' => '1.4 MB'],
+                            'police_clearance' => ['name' => 'Local Police Station Clearance Letter', 'keys' => ['police_clearance', 'police'], 'default_file' => 'police_clearance.pdf', 'size' => '1.5 MB'],
+                            'bank' => ['name' => 'Bank Solvency & Statement Certificate', 'keys' => ['bank', 'bank_solvency'], 'default_file' => 'bank_solvency.pdf', 'size' => '2.1 MB'],
+                            'safe' => ['name' => 'Firearms Safe Storage Photograph', 'keys' => ['safe', 'safe_photo'], 'default_file' => 'gun_safe_photo.jpg', 'size' => '3.4 MB'],
                         ];
 
                         if ($application->applicant_type === 'dealer') {
-                            $standardDocList['trade'] = ['name' => 'Trade License & Warehouse Layout', 'default_file' => 'trade_license_warehouse.pdf', 'size' => '4.2 MB'];
+                            $standardDocList['trade'] = ['name' => 'Trade License & Warehouse Layout', 'keys' => ['trade', 'trade_cert', 'trade_license'], 'default_file' => 'trade_license_warehouse.pdf', 'size' => '4.2 MB'];
                         }
+
+                        $matchedUploadedKeys = [];
                     @endphp
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        @foreach($standardDocList as $key => $spec)
+                        @foreach($standardDocList as $specKey => $spec)
                             @php
                                 $uploadedItem = null;
+                                $foundKey = null;
+
                                 if ($hasUploadedDocs) {
-                                    $uploadedItem = $userUploadedDocs[$key] ?? null;
+                                    foreach ($spec['keys'] as $searchKey) {
+                                        if (isset($userUploadedDocs[$searchKey])) {
+                                            $uploadedItem = $userUploadedDocs[$searchKey];
+                                            $foundKey = $searchKey;
+                                            $matchedUploadedKeys[] = $searchKey;
+                                            break;
+                                        }
+                                    }
                                 }
+
                                 $isUploaded = !empty($uploadedItem);
                                 $fileName = $isUploaded ? ($uploadedItem['file'] ?? $uploadedItem['name'] ?? $spec['default_file']) : 'File Not Found';
                                 $fileSize = $isUploaded ? ($uploadedItem['size'] ?? '1.5 MB') : 'N/A';
@@ -176,6 +195,36 @@
                                 </div>
                             </div>
                         @endforeach
+
+                        @if($hasUploadedDocs)
+                            @foreach($userUploadedDocs as $uploadedKey => $item)
+                                @if(!in_array($uploadedKey, $matchedUploadedKeys) && is_array($item))
+                                    @php
+                                        $fileName = $item['file'] ?? $item['name'] ?? 'Attached Document';
+                                        $fileSize = $item['size'] ?? '1.0 MB';
+                                        $displayName = $item['name'] ?? ucfirst(str_replace('_', ' ', $uploadedKey));
+                                    @endphp
+                                    <div class="p-3 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-white hover:shadow-sm transition-all flex items-center justify-between group">
+                                        <div class="flex items-center space-x-2.5">
+                                            <span class="text-xl">📄</span>
+                                            <div>
+                                                <span class="font-bold text-slate-800 block text-[11px] leading-tight">{{ $displayName }}</span>
+                                                <span class="text-[9px] text-slate-400 font-semibold">{{ $fileName }} &bull; {{ $fileSize }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-1.5">
+                                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700">
+                                                ✓ Uploaded
+                                            </span>
+                                            <button type="button" onclick="openDocumentViewer('{{ addslashes($displayName) }}', '{{ $fileName }}', '{{ $fileSize }}', true)" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
+                                                👁️ View
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
