@@ -25,7 +25,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name'              => ['required', 'string', 'max:255'],
-            'name_bn'           => ['required', 'string', 'max:255'],
+            'name_bn'           => ['required', 'string', 'max:255', 'regex:/^[\p{Bengali}\s().,\-\/]+$/u',],
             'email'             => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
             'nid'               => ['nullable', 'string', 'min:10', 'max:17'],
             'phone'             => ['nullable', 'string', 'max:15'],
