@@ -44,7 +44,6 @@ class AdminController extends Controller
     {
         $request->validate([
             'name'        => ['required', 'string', 'max:255'],
-            'name_bn'     => ['required', 'string', 'max:255', 'regex:/^[\p{Bengali}\s().,\-\/]+$/u',],
             'email'       => ['required', 'email', 'unique:users,email'],
             'password'    => ['required', 'min:8'],
             'role'        => ['required', 'string'],
@@ -53,7 +52,6 @@ class AdminController extends Controller
 
         User::create([
             'name'        => $request->name,
-            'name_bn'     => $request->name_bn,
             'email'       => $request->email,
             'password'    => bcrypt($request->password),
             'role'        => $request->role,

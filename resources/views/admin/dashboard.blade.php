@@ -133,14 +133,6 @@
                 @error('name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name (Bengali)</label>
-                <input type="text" name="name_bn" id="new_user_name_bn" required minlength="2"
-                       class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name_bn') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
-                       value="{{ old('name_bn') }}">
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="name_bn"></span>
-                @error('name_bn')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
-            </div>
-            <div>
                 <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
                 <input type="email" name="email" id="new_user_email" required
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('email') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
@@ -223,7 +215,6 @@
             let valid = true;
 
             valid = validateField(document.getElementById('new_user_name'), 'Full name must be at least 2 characters.') && valid;
-            valid = validateField(document.getElementById('new_user_name_bn'), 'Full name is required and must be in bengali.') && valid;
             valid = validateField(document.getElementById('new_user_email'), 'Enter a valid email address.') && valid;
             valid = validateField(document.getElementById('new_user_password'), 'Password must be at least 8 characters.') && valid;
             valid = validateField(document.getElementById('new_user_role'), 'Please select a role.') && valid;
