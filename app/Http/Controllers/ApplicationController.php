@@ -283,45 +283,109 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Download statutory document file as PDF.
+     * Download or view statutory document file.
      */
     public function downloadDocument(Request $request)
     {
         $key = $request->query('key');
         $title = $request->query('title', 'Statutory Document');
         $appNo = $request->query('app', 'NFLRMS-DOC');
+        $isInline = $request->boolean('inline') || $request->query('view') === '1';
 
         $application = Application::where('application_number', $appNo)->first();
 
-        // 1. Check if applicant uploaded a real file in documents array
-        if ($application && is_array($application->documents)) {
-            // Direct key match
-            if ($key && isset($application->documents[$key])) {
-                $docData = $application->documents[$key];
-                $docPath = is_array($docData) ? ($docData['path'] ?? $docData['file'] ?? '') : (is_string($docData) ? $docData : '');
-                $fullPath = storage_path('app/public/'.$docPath);
-                if (! empty($docPath) && file_exists($fullPath)) {
-                    return response()->download($fullPath);
+        if ($application && is_array($application->documents) && ! empty($application->documents)) {
+            $userDocs = $application->documents;
+            $matchedDocData = null;
+
+            // 1. Direct key match
+            if ($key && isset($userDocs[$key])) {
+                $matchedDocData = $userDocs[$key];
+            }
+
+            // 2. Alias group match
+            if (! $matchedDocData) {
+                $aliasGroups = [
+                    'nid' => ['nid', 'nid_copy', 'nid_card', 'national_id', 'identity'],
+                    'tin' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return', 'income_tax'],
+                    'birth' => ['birth_cert', 'birth_certificate', 'birth'],
+                    'edu' => ['edu_cert', 'edu', 'educational_cert', 'education'],
+                    'affidavit' => ['affidavit', 'affidavit_copy', 'notarized'],
+                    'nationality' => ['nationality_cert', 'nationality', 'citizenship'],
+                    'photo' => ['photo', 'passport_photo', 'profile_photo', 'photograph'],
+                    'firing' => ['firing_report', 'firing_cert', 'range'],
+                    'medical' => ['medical', 'medical_cert', 'fitness_cert', 'doctor', 'health'],
+                    'police' => ['police_clearance', 'police', 'clearance'],
+                    'bank' => ['bank', 'bank_solvency', 'statement', 'bank_statement'],
+                    'safe' => ['safe', 'safe_photo', 'vault'],
+                    'trade' => ['trade', 'trade_cert', 'trade_license', 'business', 'trade_license_doc'],
+                    'premises' => ['premises_photo', 'premises'],
+                ];
+
+                $searchTerms = array_filter(explode(' ', strtolower(preg_replace('/[^a-z0-9_\s]/i', ' ', ($key ?: '').' '.$title))));
+
+                foreach ($aliasGroups as $group => $aliases) {
+                    $hasGroupMatch = false;
+                    foreach ($searchTerms as $term) {
+                        if (in_array($term, $aliases) || Str::contains($term, $group)) {
+                            $hasGroupMatch = true;
+                            break;
+                        }
+                    }
+
+                    if ($hasGroupMatch) {
+                        foreach ($userDocs as $dKey => $dData) {
+                            if (in_array(strtolower($dKey), $aliases) || Str::contains(strtolower($dKey), $group)) {
+                                $matchedDocData = $dData;
+                                break 2;
+                            }
+                        }
+                    }
                 }
             }
 
-            // Loop and check title or key partial match
-            foreach ($application->documents as $docKey => $docData) {
-                $docName = is_array($docData) ? ($docData['name'] ?? $docData['title'] ?? '') : '';
-                $docPath = is_array($docData) ? ($docData['path'] ?? $docData['file'] ?? '') : (is_string($docData) ? $docData : '');
+            // 3. Keyword / partial substring match
+            if (! $matchedDocData) {
+                $searchStr = strtolower(($key ?: '').' '.$title);
+                foreach ($userDocs as $dKey => $dData) {
+                    $dName = strtolower(is_array($dData) ? ($dData['name'] ?? '') : '');
+                    $dKeyLower = strtolower($dKey);
 
-                if (Str::contains(strtolower($docName), strtolower($title)) ||
-                    Str::contains(strtolower($docKey), strtolower($title)) ||
-                    ($key && Str::contains(strtolower($docKey), strtolower($key)))) {
-                    $fullPath = storage_path('app/public/'.$docPath);
-                    if (! empty($docPath) && file_exists($fullPath)) {
-                        return response()->download($fullPath);
+                    if (Str::contains($searchStr, $dKeyLower) || Str::contains($dKeyLower, strtolower($key ?: 'xyz_never')) ||
+                        ($dName && (Str::contains($searchStr, $dName) || Str::contains($dName, strtolower($title))))) {
+                        $matchedDocData = $dData;
+                        break;
                     }
+                }
+            }
+
+            // 4. Fallback: if only 1 uploaded doc exists, return it
+            if (! $matchedDocData && count($userDocs) === 1) {
+                $matchedDocData = reset($userDocs);
+            }
+
+            // Serve matched document if found on storage disk
+            if ($matchedDocData) {
+                $docPath = is_array($matchedDocData) ? ($matchedDocData['path'] ?? $matchedDocData['file'] ?? '') : (is_string($matchedDocData) ? $matchedDocData : '');
+                $fullPath = storage_path('app/public/'.$docPath);
+
+                if (! empty($docPath) && file_exists($fullPath)) {
+                    $downloadFileName = is_array($matchedDocData) ? ($matchedDocData['file'] ?? basename($fullPath)) : basename($fullPath);
+                    $mimeType = mime_content_type($fullPath) ?: 'application/octet-stream';
+
+                    if ($isInline) {
+                        return response()->file($fullPath, [
+                            'Content-Type' => $mimeType,
+                            'Content-Disposition' => 'inline; filename="'.$downloadFileName.'"',
+                        ]);
+                    }
+
+                    return response()->download($fullPath, $downloadFileName);
                 }
             }
         }
 
-        // 2. If no uploaded file exists in storage, generate official verified document PDF download
+        // Fallback: If no uploaded file exists on disk, generate official verified demo PDF
         $fileName = Str::slug($title).'_'.$appNo.'.pdf';
 
         $pdfContent = "%PDF-1.4\n".

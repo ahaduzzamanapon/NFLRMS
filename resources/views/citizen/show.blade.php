@@ -181,14 +181,14 @@
                                         <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700">
                                             ✓ Uploaded
                                         </span>
-                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', '{{ $fileName }}', '{{ $fileSize }}', true)" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
+                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', '{{ $fileName }}', '{{ $fileSize }}', true, '{{ $foundKey ?? $specKey }}')" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
                                             👁️ View
                                         </button>
                                     @else
                                         <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-rose-100 text-rose-700">
                                             Not Found
                                         </span>
-                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', 'No file uploaded', '0 KB', false)" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-bold transition-all shadow-sm">
+                                        <button type="button" onclick="openDocumentViewer('{{ addslashes($spec['name']) }}', 'No file uploaded', '0 KB', false, '{{ $specKey }}')" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-bold transition-all shadow-sm">
                                             👁️ Check Status
                                         </button>
                                     @endif
@@ -217,7 +217,7 @@
                                             <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700">
                                                 ✓ Uploaded
                                             </span>
-                                            <button type="button" onclick="openDocumentViewer('{{ addslashes($displayName) }}', '{{ $fileName }}', '{{ $fileSize }}', true)" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
+                                            <button type="button" onclick="openDocumentViewer('{{ addslashes($displayName) }}', '{{ $fileName }}', '{{ $fileSize }}', true, '{{ $uploadedKey }}')" class="px-2.5 py-1 rounded bg-gov-green hover:bg-gov-light text-white text-[10px] font-bold transition-all shadow-sm">
                                                 👁️ View
                                             </button>
                                         </div>
@@ -478,11 +478,13 @@
 @section('scripts')
 <script>
     let currentDocTitle = '';
+    let currentDocKey = '';
     let isCurrentDocUploaded = true;
     const currentAppNo = '{{ $application->application_number }}';
 
-    function openDocumentViewer(title, filename, size, isUploaded = true) {
+    function openDocumentViewer(title, filename, size, isUploaded = true, key = '') {
         currentDocTitle = title;
+        currentDocKey = key;
         isCurrentDocUploaded = isUploaded;
 
         document.getElementById('modalDocTitle').innerText = title;
@@ -499,7 +501,7 @@
                     </div>
                     <h5 class="font-black text-slate-900 text-base font-serif">File Not Found</h5>
                     <p class="text-xs text-rose-700 max-w-md mx-auto leading-relaxed font-semibold">
-                        No statutory PDF document file was uploaded by the applicant for <strong>${title}</strong>.
+                        No statutory document file was uploaded by the applicant for <strong>${title}</strong>.
                     </p>
                     <div class="pt-2 flex justify-center space-x-2">
                         <span class="px-3 py-1 bg-rose-200 text-rose-900 text-[10px] font-black rounded uppercase">Status: Not Uploaded</span>
@@ -507,7 +509,29 @@
                 </div>
             `;
         } else {
-            previewContainer.innerHTML = generateDocumentPreviewHTML(title, currentAppNo);
+            const streamUrl = '{{ route("document.download") }}?key=' + encodeURIComponent(key) + '&title=' + encodeURIComponent(title) + '&app=' + encodeURIComponent(currentAppNo) + '&inline=1';
+            const isImage = filename.match(/\.(jpg|jpeg|png|webp)$/i);
+            
+            let realViewerHTML = '';
+            if (isImage) {
+                realViewerHTML = `
+                    <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 text-center mb-3">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">📸 Uploaded Attachment Image Preview</span>
+                        <img src="${streamUrl}" alt="${title}" class="max-h-96 mx-auto rounded-lg shadow-md object-contain border border-slate-300">
+                    </div>
+                `;
+            } else {
+                realViewerHTML = `
+                    <div class="mb-3 rounded-xl border border-slate-200 overflow-hidden shadow-inner bg-slate-950">
+                        <div class="bg-slate-900 px-3 py-1.5 flex justify-between items-center text-white text-[10px] border-b border-slate-800">
+                            <span class="font-bold text-emerald-400">📄 Attached File: ${filename}</span>
+                            <a href="${streamUrl}" target="_blank" class="text-amber-300 hover:underline font-bold">Open Fullscreen ↗</a>
+                        </div>
+                        <iframe src="${streamUrl}" class="w-full h-80 bg-white"></iframe>
+                    </div>
+                `;
+            }
+            previewContainer.innerHTML = realViewerHTML + generateDocumentPreviewHTML(title, currentAppNo);
         }
 
         document.getElementById('documentViewerModal').classList.remove('hidden');
@@ -521,10 +545,10 @@
 
     function triggerDocDownload() {
         if (!isCurrentDocUploaded) {
-            alert('File Not Found: No PDF document uploaded for ' + currentDocTitle + ' by applicant.');
+            alert('File Not Found: No document uploaded for ' + currentDocTitle + ' by applicant.');
             return;
         }
-        const downloadUrl = '{{ route("document.download") }}?title=' + encodeURIComponent(currentDocTitle) + '&app=' + encodeURIComponent(currentAppNo);
+        const downloadUrl = '{{ route("document.download") }}?key=' + encodeURIComponent(currentDocKey) + '&title=' + encodeURIComponent(currentDocTitle) + '&app=' + encodeURIComponent(currentAppNo);
         window.location.href = downloadUrl;
     }
 
