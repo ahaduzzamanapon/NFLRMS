@@ -54,8 +54,6 @@ class ApplicationController extends Controller
                 'mobile' => ['required', 'string'],
                 'annual_income' => ['required', 'numeric', 'min:0'],
                 'categories' => ['required', 'array', 'min:1'],
-                'nid_copy' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
-                'tin_certificate' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'DEAL-'.strtoupper(Str::random(8)).'-'.date('Y');
