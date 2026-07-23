@@ -474,7 +474,7 @@
                     </div>
                 `;
             }
-            previewContainer.innerHTML = realViewerHTML + generateOfficeDocumentPreviewHTML(title, currentOfficeAppNo);
+            previewContainer.innerHTML = realViewerHTML;
         }
 
         document.getElementById('officeDocumentViewerModal').classList.remove('hidden');

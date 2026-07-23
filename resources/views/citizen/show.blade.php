@@ -531,7 +531,7 @@
                     </div>
                 `;
             }
-            previewContainer.innerHTML = realViewerHTML + generateDocumentPreviewHTML(title, currentAppNo);
+            previewContainer.innerHTML = realViewerHTML;
         }
 
         document.getElementById('documentViewerModal').classList.remove('hidden');
