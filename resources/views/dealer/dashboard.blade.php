@@ -132,62 +132,73 @@
     </div>
 
     <!-- Dealer Stock Status Panel -->
-    @if($licenses->isNotEmpty())
-        @php
-            $stocks = auth()->user()->dealerStocks()->latest()->get();
-        @endphp
-        <div class="space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                <h3 class="text-sm font-bold text-slate-900 font-serif">Stock Ledger Summary</h3>
-                <a href="{{ route('dealer.stock_ledger') }}" class="text-[10px] font-extrabold text-gov-green hover:underline">Manage Stock Ledger &rarr;</a>
-            </div>
+    @php
+        $stocks = $stocks ?? auth()->user()->dealerStocks()->latest()->get();
+        $totalFirearms = $stocks->where('category', 'Firearm')->sum('quantity');
+        $totalAmmo = $stocks->where('category', 'Ammunition')->sum('quantity');
+        $anomalyCount = $stocks->where('quantity', '<', 0)->count();
+    @endphp
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
-                    <div class="text-2xl font-black text-slate-900 mt-1">{{ $stocks->where('item_type', 'firearm')->sum('quantity') }} items</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
-                    <div class="text-2xl font-black text-slate-900 mt-1">{{ $stocks->where('item_type', 'ammunition')->sum('quantity') }} rds</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
-                    <div class="text-2xl font-black text-gov-green mt-1">✓ Verified Clear</div>
-                </div>
-            </div>
+    <div class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h3 class="text-sm font-bold text-slate-900 font-serif">Stock Ledger Summary</h3>
+            <a href="{{ route('dealer.stock_ledger') }}" class="text-[10px] font-extrabold text-gov-green hover:underline">Manage Stock Ledger &rarr;</a>
+        </div>
 
-            <!-- Ledger Table -->
-            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
-                            <th class="p-3 pl-5">Item Name</th>
-                            <th class="p-3">Type</th>
-                            <th class="p-3">Bore / Caliber</th>
-                            <th class="p-3">Quantity</th>
-                            <th class="p-3 pr-5 text-right">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-xs divide-y divide-slate-100">
-                        @forelse($stocks->take(5) as $stk)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-bold text-slate-900">{{ $stk->item_name }}</td>
-                            <td class="p-3 font-semibold text-slate-500 uppercase">{{ $stk->item_type }}</td>
-                            <td class="p-3 font-semibold text-slate-600">{{ $stk->bore ?? 'N/A' }}</td>
-                            <td class="p-3 font-bold text-slate-800">{{ number_format($stk->quantity) }}</td>
-                            <td class="p-3 pr-5 text-right text-slate-400 font-semibold">{{ $stk->remarks ?? '—' }}</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="p-8 text-center text-slate-400 font-bold">No stock ledger entries found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
+                <div class="text-2xl font-black text-slate-900 mt-1">{{ number_format($totalFirearms) }} items</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
+                <div class="text-2xl font-black text-slate-900 mt-1">{{ number_format($totalAmmo) }} rds</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
+                <div class="text-2xl font-black {{ $anomalyCount > 0 ? 'text-rose-600' : 'text-gov-green' }} mt-1">
+                    {{ $anomalyCount > 0 ? $anomalyCount . ' Alerts' : '✓ Verified Clear' }}
+                </div>
             </div>
         </div>
-    @endif
+
+        <!-- Ledger Table -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
+                        <th class="p-3 pl-5">Item Name</th>
+                        <th class="p-3">Category</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3">Source</th>
+                        <th class="p-3 pr-5 text-right">Updated</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs divide-y divide-slate-100">
+                    @forelse($stocks->take(5) as $stk)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="p-3 pl-5 font-bold text-slate-900">{{ $stk->item }}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase border
+                                @if($stk->category === 'Firearm') border-gov-green/30 bg-emerald-50 text-gov-green
+                                @elseif($stk->category === 'Ammunition') border-amber-200 bg-amber-50 text-amber-700
+                                @else border-slate-200 bg-slate-50 text-slate-600 @endif">
+                                {{ $stk->category }}
+                            </span>
+                        </td>
+                        <td class="p-3 font-bold text-slate-800">{{ number_format($stk->quantity) }}</td>
+                        <td class="p-3 text-slate-600 font-medium">{{ $stk->source ?? '—' }}</td>
+                        <td class="p-3 pr-5 text-right text-slate-400 font-semibold">{{ $stk->updated_at->format('d M Y') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="p-8 text-center text-slate-400 font-bold">No stock ledger entries found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- My Applications Section -->
     <div class="space-y-3">
