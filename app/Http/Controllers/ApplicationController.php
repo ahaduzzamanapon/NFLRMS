@@ -231,6 +231,26 @@ class ApplicationController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            'selected_licence'    => 'required|string',
+            'firing_report_ack'   => 'required|accepted',
+            'medical_ack'         => 'required|accepted',
+            'police_ack'          => 'required|accepted',
+            'ammo_ledger'         => 'required|string|max:255',
+            'firing_report'       => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'medical_cert'        => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'police_clearance'    => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'payment_channel'     => 'required|in:bkash,nagad,card',
+            'declaration_ack'     => 'required|accepted',
+        ], [
+            'firing_report_ack.accepted' => 'Please confirm the firing-range annual report checklist item.',
+            'medical_ack.accepted'       => 'Please confirm the medical fitness declaration.',
+            'police_ack.accepted'        => 'Please confirm the police clearance checklist item.',
+            'firing_report.required'     => 'Firing-range annual report is mandatory.',
+            'police_clearance.required'  => 'Local police station clearance letter is mandatory.',
+            'declaration_ack.accepted'   => 'Please confirm the declaration before submitting.',
+        ]);
+
         $appNumber = 'RL-'.strtoupper(Str::random(8)).'-'.date('Y');
 
         $application = Application::create([

@@ -79,6 +79,9 @@
                     </label>
                 @endforeach
             </div>
+            @error('selected_licence')
+                <p class="text-[10px] text-red-600 font-bold pl-1">⚠️ {{ $message }}</p>
+            @enderror
         </div>
 
         <!-- STEP 2: COMPLIANCE -->
@@ -87,24 +90,36 @@
                 <div class="hidden p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1" id="err-panel2-checks">
                     <span class="text-[12px] font-black font-serif">⚠️ Please confirm mandatory two checklist items above before continuing.</span>
                 </div>
-                <label id="lbl_chk_firing_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
-                    <input type="checkbox" id="chk_firing_ack" name="firing_report_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_firing_ack')">
+                <label id="lbl_chk_firing_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('firing_report_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_firing_ack" name="firing_report_ack" required {{ old('firing_report_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_firing_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Firing-range annual report attached (mandatory)</span>
                 </label>
-                <label id="lbl_chk_medical_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
-                    <input type="checkbox" id="chk_medical_ack" name="medical_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5">
+                @error('firing_report_ack')
+                    <p class="text-[10px] text-red-600 font-bold pl-1">⚠️ {{ $message }}</p>
+                @enderror
+                <label id="lbl_chk_medical_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('medical_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_medical_ack" name="medical_ack" required {{ old('medical_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_medical_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Medical fitness declaration (self + doctor)</span>
                 </label>
-                <label id="lbl_chk_police_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
-                    <input type="checkbox" id="chk_police_ack" name="police_ack" required class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_police_ack')">
+                @error('medical_ack')
+                    <p class="text-[10px] text-red-600 font-bold pl-1">⚠️ {{ $message }}</p>
+                @enderror
+                <label id="lbl_chk_police_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('police_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
+                    <input type="checkbox" id="chk_police_ack" name="police_ack" required {{ old('police_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_police_ack')">
                     <span class="text-xs text-slate-600 font-semibold leading-normal">Local police station 'no adverse record' letter uploaded</span>
                 </label>
+                @error('police_ack')
+                    <p class="text-[10px] text-red-600 font-bold pl-1">⚠️ {{ $message }}</p>
+                @enderror
             </div>
 
             <div>
                 <label for="ammo_ledger" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Ammunition Ledger (Used / Issued in past year)</label>
-                <input type="text" name="ammo_ledger" id="ammo_ledger" required value="18 / 24"
-                       class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                <input type="text" name="ammo_ledger" id="ammo_ledger" required value="{{ old('ammo_ledger', '18 / 24') }}"
+                       class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('ammo_ledger') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                @error('ammo_ledger')
+                    <p class="text-[10px] text-red-600 font-bold mt-1">⚠️ {{ $message }}</p>
+                @enderror
             </div>
 
             <div class="divide-y divide-slate-100 text-xs">
@@ -120,7 +135,7 @@
                     $mandatoryDocs = ['firing_report', 'police_clearance'];
                 @endphp
                 @foreach($complianceDocs as $key => $label)
-                    <div class="flex items-center justify-between py-2.5 px-2 rounded-lg border border-transparent transition-colors" id="row-{{ $key }}">
+                    <div class="flex items-center justify-between py-2.5 px-2 rounded-lg border {{ $errors->has($key) ? 'border-red-400 bg-red-50/40' : 'border-transparent' }} transition-colors" id="row-{{ $key }}">
                         <div class="flex items-center space-x-2">
                             <span>📄</span>
                             <span class="font-semibold text-slate-800">{{ $label }}</span>
@@ -134,6 +149,9 @@
                             <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold border border-slate-200/50 transition-colors">Upload</button>
                         </div>
                     </div>
+                    @error($key)
+                        <p class="text-[10px] text-red-600 font-bold px-2 pb-1">⚠️ {{ $message }}</p>
+                    @enderror
                 @endforeach
             </div>
         </div>
@@ -175,8 +193,11 @@
                     <button type="button" id="pay-nagad" onclick="selectPayment('nagad')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Nagad</button>
                     <button type="button" id="pay-card" onclick="selectPayment('card')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Card / Bank</button>
                 </div>
-                <input type="hidden" name="payment_channel" id="payment_channel" value="bkash" required>
+                <input type="hidden" name="payment_channel" id="payment_channel" value="{{ old('payment_channel', 'bkash') }}" required>
                 <p id="err-panel3-payment" class="hidden text-[10px] text-red-600 font-bold pt-2">⚠️ Please select a payment channel to continue.</p>
+                @error('payment_channel')
+                    <p class="text-[10px] text-red-600 font-bold pt-2">⚠️ {{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -187,11 +208,14 @@
                 <span class="font-extrabold" id="ready-submit-text">Renewing {{ $license->license_number }} (Revolver) &mdash; total <span class="font-black">BDT 22,970</span>.</span>
             </div>
 
-            <label id="lbl_chk_confirm_declare" class="flex items-start space-x-2.5 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer transition-colors">
-                <input type="checkbox" id="chk_confirm_declare" name="declaration_ack" class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_confirm_declare', 'err-panel4-confirm')">
+            <label id="lbl_chk_confirm_declare" class="flex items-start space-x-2.5 p-3 bg-slate-50 rounded-lg border {{ $errors->has('declaration_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} cursor-pointer transition-colors">
+                <input type="checkbox" id="chk_confirm_declare" name="declaration_ack" required {{ old('declaration_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_confirm_declare', 'err-panel4-confirm')">
                 <span class="text-xs text-slate-650 font-semibold leading-normal">I declare the information is true. I understand that a false declaration will render the renewal void.</span>
             </label>
             <p id="err-panel4-confirm" class="hidden text-[10px] text-red-600 font-bold pl-1">⚠️ Please confirm the declaration before submitting.</p>
+            @error('declaration_ack')
+                <p class="text-[10px] text-red-600 font-bold pl-1">⚠️ {{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Wizard Navigation Bar -->
@@ -214,8 +238,25 @@
 @endsection
 
 @section('scripts')
+@php
+    $stepFieldsMap = [
+        1 => ['selected_licence'],
+        2 => ['firing_report_ack', 'medical_ack', 'police_ack', 'ammo_ledger', 'firing_report', 'medical_cert', 'police_clearance'],
+        3 => ['payment_channel'],
+        4 => ['declaration_ack'],
+    ];
+    $errorStep = null;
+    if ($errors->any()) {
+        foreach ($stepFieldsMap as $stepNo => $fields) {
+            if (collect($fields)->contains(fn ($f) => $errors->has($f))) {
+                $errorStep = $stepNo;
+                break;
+            }
+        }
+    }
+@endphp
 <script>
-    let currentStep = 1;
+    let currentStep = {{ $errorStep ?? 1 }};
     const totalSteps = 4;
 
     function updateStepIndicator() {
@@ -456,6 +497,27 @@
         if (checkedRadio) {
             onLicenseSelected(checkedRadio);
         }
+
+        // If the form was returned with server-side validation errors,
+        // jump straight to the step that needs attention instead of
+        // defaulting to step 1 (where those errors would stay hidden).
+        @if($errorStep)
+            currentStep = {{ $errorStep }};
+            updateStepIndicator();
+            showStepPanel();
+            @if($errorStep === 2)
+                @if($errors->has('firing_report_ack') || $errors->has('medical_ack') || $errors->has('police_ack'))
+                    document.getElementById('err-panel2-checks').classList.remove('hidden');
+                @endif
+                @if($errors->has('firing_report') || $errors->has('police_clearance'))
+                    document.getElementById('err-panel2-docs').classList.remove('hidden');
+                @endif
+            @elseif($errorStep === 3 && $errors->has('payment_channel'))
+                document.getElementById('err-panel3-payment').classList.remove('hidden');
+            @elseif($errorStep === 4 && $errors->has('declaration_ack'))
+                document.getElementById('err-panel4-confirm').classList.remove('hidden');
+            @endif
+        @endif
     });
 
     function triggerUpload(key) {

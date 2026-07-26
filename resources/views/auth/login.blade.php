@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in — NFLRMS</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -49,7 +49,7 @@
 
     <!-- Split Layout Grid -->
     <div class="w-full grid grid-cols-1 md:grid-cols-12 min-h-screen">
-        
+
         <!-- Left Banner: Forest Green (Col Span 5) -->
         <div class="hidden md:flex md:col-span-5 bg-gov-green text-white p-16 flex-col justify-between relative">
             <!-- Back to Home -->
@@ -62,14 +62,14 @@
             <!-- Center Welcome -->
             <div class="space-y-6 my-auto">
                 <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center border border-white/10 shadow-lg p-2.5">
-                    <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" 
+                    <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png"
                          alt="Government Seal" class="w-full h-full object-contain">
                 </div>
-                
+
                 <h1 class="text-4xl font-extrabold text-serif tracking-tight leading-[1.1] text-white">
                     Welcome back to NFLRMS
                 </h1>
-                
+
                 <p class="text-emerald-100/70 text-xs leading-relaxed max-w-sm font-semibold">
                     Sign in to manage your firearm license or dealing license applications.
                 </p>
@@ -100,27 +100,36 @@
                 <!-- Form -->
                 <form action="{{ route('login') }}" method="POST" class="space-y-5" id="main-login-form">
                     @csrf
-                    
+
+                    <!-- Validation Summary Alert -->
+                    <div id="loginValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
+                        <span class="block text-sm font-black font-serif">
+                            ⚠️ Please fill in the highlighted required field(s) above before continuing.
+                        </span>
+                    </div>
+
                     <!-- Mobile Field -->
                     <div class="space-y-1.5">
                         <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Mobile Number</label>
-                        <input type="text" name="phone" id="login-phone" required
-                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
+                        <input type="text" name="phone" id="login-phone"
+                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('phone') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
                                placeholder="01711234567" value="{{ old('phone') }}">
                         @error('phone')
                             <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
+                        <span id="js-error-login-phone" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit mobile number.</span>
                     </div>
 
                     <!-- Password Field -->
                     <div class="space-y-1.5">
                         <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Password</label>
-                        <input type="password" name="password" id="login-password" required
-                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border border-slate-200 bg-white outline-none focus:ring-1 focus:ring-gov-green transition-all"
+                        <input type="password" name="password" id="login-password"
+                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('password') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
                                placeholder="••••••••">
                         @error('password')
                             <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
+                        <span id="js-error-login-password" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Password is required.</span>
                     </div>
 
                     <!-- Button -->
@@ -238,10 +247,74 @@
     </form>
 
     <script>
+        // ---------- Client-side validation (login form) ----------
+        const LOGIN_ERROR_BORDER = ['border-rose-500', 'focus:ring-rose-500'];
+        const LOGIN_NORMAL_BORDER = ['border-slate-200', 'focus:ring-gov-green'];
+
+        function markLoginInvalid(fieldId) {
+            const el = document.getElementById(fieldId);
+            const msg = document.getElementById('js-error-' + fieldId);
+            if (el) {
+                el.classList.remove(...LOGIN_NORMAL_BORDER);
+                el.classList.add(...LOGIN_ERROR_BORDER);
+            }
+            if (msg) msg.classList.remove('hidden');
+        }
+
+        function markLoginValid(fieldId) {
+            const el = document.getElementById(fieldId);
+            const msg = document.getElementById('js-error-' + fieldId);
+            if (el) {
+                el.classList.remove(...LOGIN_ERROR_BORDER);
+                el.classList.add(...LOGIN_NORMAL_BORDER);
+            }
+            if (msg) msg.classList.add('hidden');
+        }
+
+        function validateLoginForm() {
+            let isValid = true;
+            const alertBox = document.getElementById('loginValidationAlert');
+
+            const phone = document.getElementById('login-phone');
+            const phonePattern = /^01[0-9]{9}$/;
+            if (!phonePattern.test(phone.value.trim())) { markLoginInvalid('login-phone'); isValid = false; } else { markLoginValid('login-phone'); }
+
+            const password = document.getElementById('login-password');
+            if (!password.value) { markLoginInvalid('login-password'); isValid = false; } else { markLoginValid('login-password'); }
+
+            if (alertBox) {
+                isValid ? alertBox.classList.add('hidden') : alertBox.classList.remove('hidden');
+            }
+
+            return isValid;
+        }
+
+        document.getElementById('main-login-form').addEventListener('submit', function (e) {
+            if (!validateLoginForm()) {
+                e.preventDefault();
+                const firstInvalid = document.querySelector('#main-login-form .border-rose-500');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        ['login-phone', 'login-password'].forEach(function (id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.addEventListener('input', function () {
+                if (id === 'login-phone') {
+                    const phonePattern = /^01[0-9]{9}$/;
+                    if (phonePattern.test(el.value.trim())) markLoginValid(id);
+                } else if (el.value) {
+                    markLoginValid(id);
+                }
+            });
+        });
+        // ---------- End client-side validation ----------
+
         function toggleDrawer(isOpen) {
             const drawer = document.getElementById('quick-roles-drawer');
             const backdrop = document.getElementById('drawer-backdrop');
-            
+
             if (isOpen) {
                 backdrop.classList.remove('hidden');
                 setTimeout(() => {
