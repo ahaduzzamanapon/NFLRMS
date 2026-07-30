@@ -72,7 +72,7 @@
     </div>
 
     <!-- Multi-Step Form Wrapper -->
-    <form action="{{ route('citizen.apply') }}" method="POST" id="apply-multi-form" enctype="multipart/form-data" class="space-y-6" novalidate>
+    <form action="{{ route('citizen.apply') }}" method="POST" id="apply-multi-form" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- STEP 1: SERVICE -->
@@ -530,7 +530,7 @@
 
                 <!-- Final Declaration Checkbox -->
                 <div class="js-error-wrapper" data-wrapper-for="final_declaration">
-                    <label class="flex items-start space-x-2.5 p-4 bg-slate-50 border {{ $errors->has('final_declaration') ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} rounded-lg cursor-pointer">
+                    <label class="flex items-start space-x-2.5 p-4 bg-slate-50 border {{ $errors->has('final_declaration') ? 'border-rose-400' : 'border-slate-200' }} rounded-lg cursor-pointer">
                         <input type="checkbox" name="final_declaration" id="final_declaration" value="1" required
                                data-required-message="You must accept this declaration to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
                         <div class="text-[11px] leading-relaxed text-slate-600 font-semibold">
@@ -738,11 +738,11 @@
                 if (wrapper) {
                     if (el.type === 'checkbox') {
                         const isFinalDeclaration = wrapper.dataset.wrapperFor === 'final_declaration';
-                        const target = wrapperLabelBorder || wrapper;
-                        target.classList.remove('border-slate-100', 'border-slate-200');
-                        target.classList.add('border-rose-400', 'bg-rose-50/40');
-                        if (isFinalDeclaration) {
-                            target.classList.remove('bg-slate-50');
+                        (wrapperLabelBorder || wrapper).classList.remove('border-slate-100', 'border-slate-200');
+                        (wrapperLabelBorder || wrapper).classList.add('border-rose-400');
+                        if (!isFinalDeclaration) {
+                            (wrapperLabelBorder || wrapper).classList.remove('bg-slate-50');
+                            (wrapperLabelBorder || wrapper).classList.add('bg-rose-50/40');
                         }
                     } else {
                         wrapper.classList.add('bg-rose-50/40');
@@ -761,11 +761,10 @@
                 if (wrapper) {
                     if (el.type === 'checkbox') {
                         const isFinalDeclaration = wrapper.dataset.wrapperFor === 'final_declaration';
-                        const target = wrapperLabelBorder || wrapper;
-                        target.classList.remove('border-rose-400', 'bg-rose-50/40');
-                        target.classList.add(isFinalDeclaration ? 'border-slate-200' : 'border-slate-100');
-                        if (isFinalDeclaration) {
-                            target.classList.add('bg-slate-50');
+                        (wrapperLabelBorder || wrapper).classList.remove('border-rose-400');
+                        (wrapperLabelBorder || wrapper).classList.add(isFinalDeclaration ? 'border-slate-200' : 'border-slate-100');
+                        if (!isFinalDeclaration) {
+                            (wrapperLabelBorder || wrapper).classList.remove('bg-rose-50/40');
                         }
                     } else {
                         wrapper.classList.remove('bg-rose-50/40', 'border-rose-400', '!border-rose-400', '!border-b');
@@ -886,46 +885,26 @@
             errorMessageEls[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Declaration checkbox live validation (matches dealer apply page behavior)
+        // Clear a declaration checkbox's card highlight the moment it's
+        // (re)checked, instead of waiting for the next step-navigation click.
         document.querySelectorAll('.js-error-wrapper input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', function () {
                 const wrapper = document.querySelector(`.js-error-wrapper[data-wrapper-for="${this.name}"]`);
                 const label = wrapper?.querySelector('label');
                 const errorSpan = document.querySelector(`.js-error[data-for="${this.name}"]`);
-                const requiredMessage = this.dataset.requiredMessage || 'This field is required.';
-                const isFinalDeclaration = wrapper?.dataset.wrapperFor === 'final_declaration';
-                const target = label || wrapper;
-
-                if (!this.checked) {
-                    this.classList.add('border-rose-400');
-                    if (errorSpan) errorSpan.textContent = requiredMessage;
-                    if (target) {
-                        target.classList.remove('border-slate-100', 'border-slate-200');
-                        target.classList.add('border-rose-400', 'bg-rose-50/40');
-                        if (isFinalDeclaration) {
-                            target.classList.remove('bg-slate-50');
-                        }
-                    }
-                } else {
+                if (this.checked) {
                     this.classList.remove('border-rose-400');
                     if (errorSpan) errorSpan.textContent = '';
-                    if (target) {
-                        target.classList.remove('border-rose-400', 'bg-rose-50/40');
-                        target.classList.add(isFinalDeclaration ? 'border-slate-200' : 'border-slate-100');
-                        if (isFinalDeclaration) {
-                            target.classList.add('bg-slate-50');
+                    if (wrapper) {
+                        const isFinalDeclaration = wrapper.dataset.wrapperFor === 'final_declaration';
+                        (label || wrapper).classList.remove('border-rose-400');
+                        (label || wrapper).classList.add(isFinalDeclaration ? 'border-slate-200' : 'border-slate-100');
+                        if (!isFinalDeclaration) {
+                            (label || wrapper).classList.remove('bg-rose-50/40');
                         }
                     }
                 }
             });
-        });
-
-        // Form submit validation handler (prevents default browser tooltips)
-        const form = document.getElementById('apply-multi-form');
-        form?.addEventListener('submit', function (e) {
-            if (!validateStepFields(currentStep)) {
-                e.preventDefault();
-            }
         });
     });
 
