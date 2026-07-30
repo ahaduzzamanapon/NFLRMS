@@ -351,8 +351,8 @@
             <div class="flex items-center space-x-2.5">
                 <span class="text-xl">📄</span>
                 <div>
-                    <h3 id="officeModalDocTitle" class="text-xs font-black uppercase tracking-wider font-outfit text-white">Document Title</h3>
-                    <p id="officeModalDocMeta" class="text-[10px] text-slate-300 font-semibold">filename.pdf &bull; 1.5 MB</p>
+                    <h3 id="officeModalDocTitle" class="text-xs font-black uppercase tracking-wider font-outfit text-slate-600">Document Title</h3>
+                    <p id="officeModalDocMeta" class="text-[10px] text-slate-400 font-semibold">filename.pdf &bull; 1.5 MB</p>
                 </div>
             </div>
             <button type="button" onclick="closeOfficeDocumentViewer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm flex items-center justify-center transition-colors">
@@ -372,9 +372,9 @@
                             <p class="text-[9px] text-slate-500 font-semibold">Ministry of Home Affairs &bull; Official Officer Document Inspection Vault</p>
                         </div>
                     </div>
-                    <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider border border-emerald-300">
+                    {{-- <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider border border-emerald-300">
                         ✓ VERIFIED & ENCRYPTED
-                    </span>
+                    </span> --}}
                 </div>
 
                 <div class="space-y-3 py-2">
@@ -454,7 +454,7 @@
         } else {
             const streamUrl = '{{ route("document.download") }}?key=' + encodeURIComponent(key) + '&title=' + encodeURIComponent(title) + '&app=' + encodeURIComponent(currentOfficeAppNo) + '&inline=1';
             const isImage = filename.match(/\.(jpg|jpeg|png|webp)$/i);
-            
+
             let realViewerHTML = '';
             if (isImage) {
                 realViewerHTML = `
@@ -474,7 +474,8 @@
                     </div>
                 `;
             }
-            previewContainer.innerHTML = realViewerHTML + generateOfficeDocumentPreviewHTML(title, currentOfficeAppNo);
+            previewContainer.innerHTML = realViewerHTML;
+            // previewContainer.innerHTML = realViewerHTML + generateOfficeDocumentPreviewHTML(title, currentOfficeAppNo);
         }
 
         document.getElementById('officeDocumentViewerModal').classList.remove('hidden');
