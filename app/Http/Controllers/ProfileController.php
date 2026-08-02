@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\District;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -27,8 +28,8 @@ class ProfileController extends Controller
             'name'              => ['required', 'string', 'max:255'],
             'name_bn'           => ['string', 'max:255', 'regex:/^[\p{Bengali}\s().,\-\/]+$/u',],
             'email'             => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
-            'nid'               => ['nullable', 'string', 'min:10', 'max:17'],
-            'phone'             => ['nullable', 'string', 'max:15'],
+            'nid'               => ['nullable', 'string', 'regex:/^(\d{10}|\d{17})$/', Rule::unique('users', 'nid')->ignore(auth()->id())],
+            'phone'             => ['nullable', 'string', 'regex:/^01[3-9]\d{8}$/'],
             'dob'               => ['nullable', 'date'],
             'father_name'       => ['nullable', 'string', 'max:255'],
             'mother_name'       => ['nullable', 'string', 'max:255'],
@@ -46,6 +47,10 @@ class ProfileController extends Controller
             'district_id'       => ['nullable', 'integer', 'exists:districts,id'],
             'upazila_id'        => ['nullable', 'integer', 'exists:upazilas,id'],
             'password'          => ['nullable', 'string', 'min:6', 'confirmed'],
+        ], [
+            'phone.regex'       => 'The mobile number must be a valid 11-digit Bangladeshi phone number (e.g. 01712345678).',
+            'nid.regex'         => 'National ID (NID) must be exactly 10 or 17 digits.',
+            'nid.unique'        => 'This National ID (NID) has already been registered.',
         ]);
 
         $data = $request->only([

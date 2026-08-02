@@ -10,17 +10,20 @@ use App\Http\Controllers\VettingController;
 use App\Http\Controllers\WorkflowController;
 use App\Models\District;
 use App\Models\License;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Public Welcome Page
 Route::get('/', function () {
     $stats = [
-        'total_licenses' => License::count(),
+        'total_licenses'  => License::count(),
         'total_districts' => District::count(),
     ];
 
-    return view('welcome', compact('stats'));
+    $fees = Setting::getFees();
+
+    return view('welcome', compact('stats', 'fees'));
 });
 
 // Public Verification Page

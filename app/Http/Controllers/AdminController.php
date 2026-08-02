@@ -162,29 +162,13 @@ class AdminController extends Controller
 
     public function feeConfig()
     {
-        $defaults = [
-            'fee_pistol_new'       => 60000,
-            'fee_pistol_renewal'   => 20000,
-            'fee_longgun_new'      => 40000,
-            'fee_longgun_renewal'  => 10000,
-            'fee_platform_new'     => 850,
-            'fee_platform_renewal' => 720,
-            'fee_platform_late'    => 250,
-            'fine_t1_pistol'       => 2000,
-            'fine_t1_longgun'      => 1000,
-            'fine_t2_pistol'       => 5000,
-            'fine_t2_longgun'      => 2500,
-            'fine_t3_pistol'       => 10000,
-            'fine_t3_longgun'      => 5000,
-            'sla_vetting'          => 10,
-            'sla_moha'             => 15,
-            'sla_committee'        => 20,
+        $slaDefaults = [
+            'sla_vetting'   => 10,
+            'sla_moha'      => 15,
+            'sla_committee' => 20,
         ];
 
-        $settings = [];
-        foreach ($defaults as $key => $default) {
-            $settings[$key] = Setting::get($key, $default);
-        }
+        $settings = array_merge(Setting::getFees(), Setting::getMany($slaDefaults));
 
         return view('admin.fee_config', compact('settings'));
     }

@@ -184,14 +184,25 @@
                 </div>
 
                 <div>
+                    <label for="phone" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">Mobile Phone (Bangladeshi 11 Digits)</label>
+                    <input type="text" name="phone" id="phone" maxlength="11"
+                           class="w-full px-3 py-2 text-xs rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('phone') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
+                           placeholder="01712345678" value="{{ old('phone') }}">
+                    @error('phone')
+                        <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                    @enderror
+                    <span id="js-error-phone" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit Bangladeshi mobile number (e.g. 01712345678).</span>
+                </div>
+
+                <div>
                     <label for="nid" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">National ID (NID)</label>
                     <input type="text" name="nid" id="nid"
                            class="w-full px-3 py-2 text-xs rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('nid') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
-                           placeholder="10 or 13-digit NID" value="{{ old('nid') }}">
+                           placeholder="10 or 17-digit NID" value="{{ old('nid') }}">
                     @error('nid')
                         <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                     @enderror
-                    <span id="js-error-nid" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 10 or 13-digit NID.</span>
+                    <span id="js-error-nid" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 10 or 17-digit NID.</span>
                 </div>
 
                 <div>
@@ -213,10 +224,14 @@
                 </button>
             </form>
 
-            <div class="pt-4 border-t border-slate-100 text-center">
+            <div class="pt-3 text-center space-y-3">
                 <p class="text-[11px] text-slate-500">
                     Already registered? <a href="{{ route('login') }}" class="text-gov-green hover:underline font-bold">Sign in</a>
                 </p>
+                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-semibold pt-2 border-t border-slate-100">
+                    <span>Developed By</span>
+                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
+                </div>
             </div>
         </div>
     </div>
@@ -278,8 +293,12 @@
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email.value.trim() || !emailPattern.test(email.value.trim())) { markInvalid('email'); isValid = false; } else { markValid('email'); }
 
+            const phone = document.getElementById('phone');
+            const phonePattern = /^01[3-9]\d{8}$/;
+            if (!phonePattern.test(phone.value.trim())) { markInvalid('phone'); isValid = false; } else { markValid('phone'); }
+
             const nid = document.getElementById('nid');
-            const nidPattern = /^\d{10}$|^\d{13}$|^\d{17}$/;
+            const nidPattern = /^\d{10}$|^\d{17}$/;
             if (!nidPattern.test(nid.value.trim())) { markInvalid('nid'); isValid = false; } else { markValid('nid'); }
 
             const password = document.getElementById('password');
@@ -303,7 +322,7 @@
         });
 
         // Clear error state as the user fixes each field
-        ['name', 'name_bn', 'district_id', 'upazila_id', 'email', 'nid', 'password'].forEach(function (id) {
+        ['name', 'name_bn', 'district_id', 'upazila_id', 'email', 'phone', 'nid', 'password'].forEach(function (id) {
             const el = document.getElementById(id);
             if (el) el.addEventListener('input', function () { validateFieldOnBlur(id); });
             if (el) el.addEventListener('change', function () { validateFieldOnBlur(id); });
@@ -315,6 +334,9 @@
             if (id === 'email') {
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 emailPattern.test(el.value.trim()) ? markValid(id) : null;
+            } else if (id === 'phone') {
+                const phonePattern = /^01[3-9]\d{8}$/;
+                phonePattern.test(el.value.trim()) ? markValid(id) : null;
             } else if (id === 'nid') {
                 const nidPattern = /^\d{10}$|^\d{13}$|^\d{17}$/;
                 nidPattern.test(el.value.trim()) ? markValid(id) : null;

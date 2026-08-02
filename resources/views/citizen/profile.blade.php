@@ -82,10 +82,11 @@
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
                 <div>
-                    <label for="phone" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Mobile Number</label>
-                    <input type="text" name="phone" id="phone" value="{{ old('phone', $user->phone) }}"
-                           placeholder="01XXXXXXXXX"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                    <label for="phone" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Mobile Number (BD 11 Digits)</label>
+                    <input type="text" name="phone" id="phone" value="{{ old('phone', $user->phone) }}" maxlength="11"
+                           placeholder="01712345678"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border outline-none focus:ring-1 focus:ring-gov-green bg-white @error('phone') border-rose-400 @else border-slate-200 @enderror">
+                    @error('phone')<span class="text-[9px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
                     <label for="marital_status" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Marital Status</label>

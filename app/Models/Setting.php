@@ -25,4 +25,45 @@ class Setting extends Model
     {
         static::updateOrCreate(['key' => $key], ['value' => $value]);
     }
+
+    /**
+     * Get multiple settings with defaults in a single query.
+     */
+    public static function getMany(array $defaults): array
+    {
+        $keys = array_keys($defaults);
+        $settings = static::whereIn('key', $keys)->pluck('value', 'key');
+
+        $result = [];
+        foreach ($defaults as $key => $default) {
+            $value = $settings[$key] ?? $default;
+            $result[$key] = is_numeric($value) ? (int) $value : $value;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get all statutory and platform fee settings with defaults.
+     */
+    public static function getFees(): array
+    {
+        $defaults = [
+            'fee_pistol_new'       => 60000,
+            'fee_pistol_renewal'   => 20000,
+            'fee_longgun_new'      => 40000,
+            'fee_longgun_renewal'  => 10000,
+            'fee_platform_new'     => 850,
+            'fee_platform_renewal' => 720,
+            'fee_platform_late'    => 250,
+            'fine_t1_pistol'       => 2000,
+            'fine_t1_longgun'      => 1000,
+            'fine_t2_pistol'       => 5000,
+            'fine_t2_longgun'      => 2500,
+            'fine_t3_pistol'       => 10000,
+            'fine_t3_longgun'      => 5000,
+        ];
+
+        return static::getMany($defaults);
+    }
 }
