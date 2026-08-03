@@ -218,7 +218,8 @@ class AdminController extends Controller
             'SB Vetting', 'NSI Vetting', 'DGFI Vetting', 'MoHA — Political-4',
             'MoHA — Joint Secretary', 'MoHA — Minister', 'National Screening Committee',
             'Executive Dashboards', 'Reports', 'Fee & Fine Config', 'User Management',
-            'ACL / RBAC', 'API Configuration', 'Audit Log', 'Emergency Kill-Switch'
+            'ACL / RBAC', 'API Configuration', 'Audit Log', 'Emergency Kill-Switch',
+            'Custom Comment'
         ];
 
         $defaultMatrix = [
@@ -238,6 +239,7 @@ class AdminController extends Controller
             'API Configuration' => ['system_admin' => 'approve'],
             'Fee & Fine Config' => ['system_admin' => 'approve'],
             'Reports' => ['system_admin' => 'approve'],
+            'Custom Comment' => ['system_admin' => 'approve'],
         ];
 
         $savedMatrixJson = Setting::get('acl_matrix');

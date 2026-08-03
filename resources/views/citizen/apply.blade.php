@@ -96,11 +96,11 @@
             @if(!$isDealer)
             <div>
                 <label class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Weapon Category</label>
-                <div class="grid grid-cols-4 gap-3">
-                    <button type="button" onclick="selectWeapon('Pistol')" id="btn-pistol" class="py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Pistol</button>
-                    <button type="button" onclick="selectWeapon('Revolver')" id="btn-revolver" class="py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Revolver</button>
-                    <button type="button" onclick="selectWeapon('Shotgun')" id="btn-shotgun" class="py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none border-gov-green text-gov-green bg-emerald-50/10">Shotgun</button>
-                    <button type="button" onclick="selectWeapon('Rifle')" id="btn-rifle" class="py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Rifle</button>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="selectWeapon('Pistol')" id="btn-pistol" data-service-type="handgun" class="hidden py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Pistol</button>
+                    <button type="button" onclick="selectWeapon('Revolver')" id="btn-revolver" data-service-type="handgun" class="hidden py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Revolver</button>
+                    <button type="button" onclick="selectWeapon('Shotgun')" id="btn-shotgun" data-service-type="long" class="py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none border-gov-green text-gov-green bg-emerald-50/10">Shotgun</button>
+                    <button type="button" onclick="selectWeapon('Rifle')" id="btn-rifle" data-service-type="long" class="py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Rifle</button>
                 </div>
                 <input type="hidden" name="weapon_type" id="weapon_type" value="Shotgun">
             </div>
@@ -196,7 +196,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="name_bn" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="name_bn" disabled required value="{{ strtoupper(auth()->user()->name_bn ?? '') }}"
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name_bn') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -204,7 +204,7 @@
                     @error('name_bn')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="name_en" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="name_en" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="name_en" disabled required value="{{ strtoupper(auth()->user()->name) }}"
                            placeholder="FULL NAME IN BLOCK LETTERS"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -215,7 +215,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="nid" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">National ID (NID) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="nid" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">National ID (NID) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="nid" disabled required value="{{ auth()->user()->nid ?? '' }}"
                            placeholder="10 or 17 digit NID number"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -223,7 +223,7 @@
                     @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="dob" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Date of Birth <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="dob" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Date of Birth <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     @php $dobFormatted = auth()->user()->dob ? \Carbon\Carbon::parse(auth()->user()->dob)->format('Y-m-d') : ''; @endphp
                     <input type="date" id="dob" disabled required value="{{ $dobFormatted }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('dob') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -234,7 +234,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Father's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Father's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="father_name" disabled required value="{{ auth()->user()->father_name }}"
                            placeholder="Father's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('father_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -242,7 +242,7 @@
                     @error('father_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Mother's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Mother's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="mother_name" disabled required value="{{ auth()->user()->mother_name }}"
                            placeholder="Mother's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('mother_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -253,7 +253,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="marital_status" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Marital Status <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="marital_status" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Marital Status <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <select id="marital_status" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('marital_status') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="" {{ !auth()->user()->marital_status ? 'selected' : '' }}>Select</option>
@@ -266,7 +266,7 @@
                     @error('marital_status')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div id="spouse-group">
-                    <label for="spouse_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Spouse Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="spouse_name" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Spouse Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="spouse_name" disabled required value="{{ auth()->user()->spouse_name }}"
                            placeholder="Spouse's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('spouse_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -276,16 +276,16 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
+                {{-- <div>
                     <label for="nationality" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Nationality <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="nationality" disabled required value="{{ auth()->user()->nationality }}"
                            placeholder="e.g. Bangladeshi"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('nationality') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="nationality" value="{{ auth()->user()->nationality }}">
                     @error('nationality')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
-                </div>
+                </div> --}}
                 <div>
-                    <label for="religion" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Religion <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="religion" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Religion <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="religion" disabled required value="{{ auth()->user()->religion }}"
                            placeholder="e.g. Islam, Hindu, Christian"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('religion') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -305,7 +305,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="present_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Present Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="present_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Present Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="present_address" disabled required value="{{ auth()->user()->present_address }}"
                            placeholder="House No, Road, Area, City"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('present_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -313,7 +313,7 @@
                     @error('present_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="permanent_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Permanent Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="permanent_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Permanent Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="permanent_address" disabled required value="{{ auth()->user()->permanent_address }}"
                            placeholder="Village, Thana, District"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('permanent_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -324,7 +324,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="district_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">District <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="district_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">District <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <select id="district_id" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="">Select District</option>
@@ -336,7 +336,7 @@
                     @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="upazila_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Upazila / Thana <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="upazila_id" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Upazila / Thana <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <select id="upazila_id" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('upazila_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="">Select Upazila / Thana</option>
@@ -348,7 +348,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="edu_qualification" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Educational Qualification <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="edu_qualification" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Educational Qualification <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="edu_qualification" disabled required value="{{ auth()->user()->edu_qualification }}"
                            placeholder="e.g. HSC, Bachelor's, MBA"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('edu_qualification') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -356,7 +356,7 @@
                     @error('edu_qualification')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="occupation" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Occupation <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="occupation" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Occupation <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="occupation" disabled required value="{{ auth()->user()->occupation }}"
                            placeholder="e.g. Business Owner, Government Officer"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('occupation') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -367,27 +367,26 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="employer_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Employer / Office Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="employer_address" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Employer / Office Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="employer_address" disabled required value="{{ auth()->user()->employer_address }}"
                            placeholder="Office/employer address"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('employer_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="employer_address" value="{{ auth()->user()->employer_address }}">
                     @error('employer_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
-                <div></div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="annual_income" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Annual Income (BDT) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="annual_income" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">Annual Income (BDT) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="number" id="annual_income" disabled required value="{{ auth()->user()->annual_income }}"
                            placeholder="e.g. 500000"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="annual_income" value="{{ auth()->user()->annual_income }}">
                     @error('annual_income')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="tin_number" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">TIN Number <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="tin_number" class="block text-[10px] font-extrabold uppercase text-slate-400 mb-1.5">TIN Number <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="tin_number" disabled required value="{{ auth()->user()->tin_number }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('tin_number') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed"
                            placeholder="12-digit TIN Code">
@@ -568,6 +567,14 @@
     let currentStep = 1;
     const totalSteps = 6;
 
+    function setWeaponButtonClass(btn, className) {
+        const isHidden = btn.classList.contains('hidden');
+        btn.className = className;
+        if (isHidden) {
+            btn.classList.add('hidden');
+        }
+    }
+
     function selectWeapon(weapon) {
         document.getElementById('weapon_type').value = weapon;
 
@@ -575,14 +582,14 @@
         ['pistol', 'revolver', 'shotgun', 'rifle'].forEach(w => {
             const btn = document.getElementById(`btn-${w}`);
             if (btn) {
-                btn.className = 'py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50';
+                setWeaponButtonClass(btn, 'py-2.5 rounded-lg border text-center text-xs font-bold transition-all focus:outline-none border-slate-200 hover:bg-slate-50');
             }
         });
 
         // Style selected
         const selectedBtn = document.getElementById(`btn-${weapon.toLowerCase()}`);
         if(selectedBtn) {
-            selectedBtn.className = 'py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none border-gov-green text-gov-green bg-emerald-50/10';
+            setWeaponButtonClass(selectedBtn, 'py-2.5 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none border-gov-green text-gov-green bg-emerald-50/10');
         }
 
         // Set default bore based on weapon category
@@ -601,10 +608,19 @@
     }
 
     function onServiceTypeChanged(val) {
-        // Automatically default selected weapon based on service tier to assist user
+        // Show/hide weapon category buttons based on service type (citizen only)
+        ['pistol', 'revolver', 'shotgun', 'rifle'].forEach(w => {
+            const btn = document.getElementById(`btn-${w}`);
+            if (btn && btn.dataset.serviceType) {
+                btn.classList.toggle('hidden', btn.dataset.serviceType !== val);
+            }
+        });
+
+        // Automatically default selected weapon based on service tier
+        // (only for citizen service types; dealer class values are untouched)
         if (val === 'long') {
             selectWeapon('Shotgun');
-        } else {
+        } else if (val === 'handgun') {
             selectWeapon('Pistol');
         }
     }
@@ -867,6 +883,13 @@
             loadUpazilas(districtSelect.value, "{{ auth()->user()->upazila_id }}");
         }
         recalculateFees();
+
+        // Initialize weapon category visibility based on default service type
+        // (citizen only — dealer buttons don't have data-service-type)
+        const serviceTypeSelect = document.getElementById('service_type');
+        if (serviceTypeSelect && document.querySelector('[data-service-type]')) {
+            onServiceTypeChanged(serviceTypeSelect.value);
+        }
 
         // Show/hide spouse name based on the pre-filled marital status
         const maritalSelect = document.getElementById('marital_status');

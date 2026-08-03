@@ -131,8 +131,8 @@
 
         <!-- Nav -->
         <nav style="flex:1;padding:8px 12px;" class="space-y-0.5">
-            @php 
-                $role = auth()->user()->role; 
+            @php
+                $role = auth()->user()->role;
                 $roleVal = $role instanceof \App\Enums\Role ? $role->value : $role;
             @endphp
 
@@ -187,6 +187,10 @@
                 </a>
                 <a href="{{ route('dealer.stock_ledger') }}" class="nav-link {{ Route::currentRouteName()==='dealer.stock_ledger'?'active':'' }}">
                     <span class="nav-icon">📦</span><span>Stock Ledger</span>
+                </a>
+                <div class="nav-section">Account</div>
+                <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
+                    <span class="nav-icon">👤</span><span>My Profile</span>
                 </a>
 
             {{-- DC FRONT DESK --}}
@@ -255,6 +259,18 @@
                 </a>
                 <a href="{{ route('admin.reports') }}" class="nav-link {{ Route::currentRouteName()==='admin.reports'?'active':'' }}">
                     <span class="nav-icon">📈</span><span>Reports &amp; Analytics</span>
+                </a>
+            @endif
+
+            {{-- Custom Comment (ACL permission-based) --}}
+            @php
+                $aclMatrix = json_decode(\App\Models\Setting::get('acl_matrix', '{}'), true) ?: [];
+                $customCommentPerm = $aclMatrix['Custom Comment'][$roleVal] ?? 'none';
+            @endphp
+            @if($customCommentPerm !== 'none')
+                <div class="nav-section">Tools</div>
+                <a href="{{ route('custom_comment.index') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','custom_comment')?'active':'' }}">
+                    <span class="nav-icon">💬</span><span>Custom Comment</span>
                 </a>
             @endif
 

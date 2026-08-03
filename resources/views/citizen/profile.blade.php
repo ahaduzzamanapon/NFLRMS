@@ -2,7 +2,7 @@
 @section('title', 'My Profile')
 
 @section('content')
-<div class="max-w-2xl space-y-5">
+<div class="max-w-3xl space-y-5">
 
     <!-- Page Header -->
     <div class="flex items-center justify-between">
@@ -27,10 +27,30 @@
         @csrf
         @method('PUT')
 
-        <!-- Section: Identity & Photo -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- Tab Navigation -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+            <button type="button" data-tab="personal" onclick="switchTab('personal')"
+                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
+                <span>👤</span><span>Personal Info</span>
+            </button>
+            <button type="button" data-tab="address" onclick="switchTab('address')"
+                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                <span>📍</span><span>Address</span>
+            </button>
+            <button type="button" data-tab="education" onclick="switchTab('education')"
+                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                <span>🎓</span><span>Education & Income</span>
+            </button>
+            <button type="button" data-tab="security" onclick="switchTab('security')"
+                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                <span>🔒</span><span>Security</span>
+            </button>
+        </div>
+
+        <!-- TAB 1: PERSONAL INFO -->
+        <div class="profile-panel bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-personal">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
-                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Identity &amp; Profile Picture</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Personal Information</span>
             </div>
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="sm:col-span-2 flex items-center space-x-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
@@ -61,6 +81,18 @@
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('name_bn') border-rose-400 @enderror">
                     @error('name_bn')<span class="text-[9px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
+                </div>
+                <div>
+                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Father's Name</label>
+                    <input type="text" name="father_name" id="father_name" value="{{ old('father_name', $user->father_name) }}"
+                           placeholder="Father's full name"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                </div>
+                <div>
+                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Mother's Name</label>
+                    <input type="text" name="mother_name" id="mother_name" value="{{ old('mother_name', $user->mother_name) }}"
+                           placeholder="Mother's full name"
+                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
                 <div>
                     <label for="email" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Email Address</label>
@@ -104,11 +136,11 @@
                            placeholder="Spouse full name (if married)"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
-                <div>
+                {{-- <div>
                     <label for="nationality" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Nationality</label>
                     <input type="text" name="nationality" id="nationality" value="{{ old('nationality', $user->nationality ?? 'Bangladeshi') }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                </div>
+                </div> --}}
                 <div>
                     <label for="religion" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Religion</label>
                     <input type="text" name="religion" id="religion" value="{{ old('religion', $user->religion) }}"
@@ -118,31 +150,10 @@
             </div>
         </div>
 
-        <!-- Section: Family -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- TAB 2: ADDRESS -->
+        <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-address">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Family</span>
-            </div>
-            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="father_name" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Father's Name</label>
-                    <input type="text" name="father_name" id="father_name" value="{{ old('father_name', $user->father_name) }}"
-                           placeholder="Father's full name"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                </div>
-                <div>
-                    <label for="mother_name" class="block text-[10px] font-extrabold uppercase text-slate-900 mb-1.5">Mother's Name</label>
-                    <input type="text" name="mother_name" id="mother_name" value="{{ old('mother_name', $user->mother_name) }}"
-                           placeholder="Mother's full name"
-                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Address & District -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Address</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Address Information</span>
             </div>
             <div class="p-5 space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -179,10 +190,10 @@
             </div>
         </div>
 
-        <!-- Section: Occupation & Income -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- TAB 3: EDUCATION & INCOME -->
+        <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-education">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Occupation & Income</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Education, Occupation & Income</span>
             </div>
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -218,8 +229,8 @@
             </div>
         </div>
 
-        <!-- Section: Security & Password -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- TAB 4: SECURITY -->
+        <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-security">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
                 <span class="text-[10px] font-extrabold uppercase text-slate-900 font-black tracking-widest">Security & Password</span>
             </div>
@@ -253,6 +264,24 @@
 
 @section('scripts')
 <script>
+    // Tab switching
+    function switchTab(tabName) {
+        // Hide all panels
+        document.querySelectorAll('.profile-panel').forEach(p => p.classList.add('hidden'));
+
+        // Show selected panel
+        const panel = document.getElementById(`panel-${tabName}`);
+        if (panel) panel.classList.remove('hidden');
+
+        // Update tab button styles
+        document.querySelectorAll('.profile-tab').forEach(btn => {
+            const isActive = btn.dataset.tab === tabName;
+            btn.className = isActive
+                ? 'profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm'
+                : 'profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50';
+        });
+    }
+
     // Load upazilas on district change
     document.getElementById('district_id').addEventListener('change', function () {
         loadUpazilas(this.value);

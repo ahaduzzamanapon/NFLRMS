@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
+use App\Models\CustomComment;
 use App\Models\DealerStock;
 use App\Models\License;
 use App\Models\Setting;
@@ -22,7 +23,12 @@ class WorkflowController extends Controller
     {
         $application->load(['user.district', 'user.upazila', 'vettings', 'logs.actor', 'district', 'upazila']);
 
-        return view('office.application_detail', compact('application'));
+        // Custom comments for the current user (used in the remarks quick-fill dropdown)
+        $customComments = CustomComment::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('office.application_detail', compact('application', 'customComments'));
     }
 
     /**

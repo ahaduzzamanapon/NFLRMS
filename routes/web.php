@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomCommentController;
 use App\Http\Controllers\DealerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -131,6 +132,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/office/executive/licenses', [WorkflowController::class, 'allLicenses'])->name('executive.licenses');
         Route::get('/office/executive/dealers', [DealerController::class, 'executiveDealers'])->name('executive.dealers');
         Route::get('/office/executive/dealing-central', [DealerController::class, 'dealingCentral'])->name('executive.dealing_central');
+    });
+
+    // Custom Comment Module (permission-based via ACL)
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/custom-comments', [CustomCommentController::class, 'index'])->name('custom_comment.index');
+        Route::post('/custom-comments', [CustomCommentController::class, 'store'])->name('custom_comment.store');
+        Route::get('/custom-comments/{customComment}/edit', [CustomCommentController::class, 'edit'])->name('custom_comment.edit');
+        Route::put('/custom-comments/{customComment}', [CustomCommentController::class, 'update'])->name('custom_comment.update');
+        Route::delete('/custom-comments/{customComment}', [CustomCommentController::class, 'destroy'])->name('custom_comment.destroy');
     });
 
     // System Administrator
