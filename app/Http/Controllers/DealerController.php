@@ -20,8 +20,9 @@ class DealerController extends Controller
         PaymentController::syncUserPendingPayments($user);
         $applications = $user->applications()->latest()->get();
         $licenses = $user->licenses()->latest()->get();
+        $stocks = $user->dealerStocks()->latest()->get();
 
-        return view('dealer.dashboard', compact('applications', 'licenses'));
+        return view('dealer.dashboard', compact('applications', 'licenses', 'stocks'));
     }
 
     /**
