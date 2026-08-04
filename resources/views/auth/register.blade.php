@@ -134,7 +134,10 @@
 
             <!-- Bottom Footer -->
             <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-6 border-t border-white/10">
-                <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
+                <span class="flex items-center gap-2">
+                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90">
+                    <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
+                </span>
                 <span class="text-slate-500">v1.0</span>
             </div>
         </div>
