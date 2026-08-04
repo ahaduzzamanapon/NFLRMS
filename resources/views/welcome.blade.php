@@ -174,19 +174,19 @@
                             <span>Create Citizen / Dealer Account</span>
                             <span>&rarr;</span>
                         </a>
-                        <a href="{{ route('login') }}"
+                        {{-- <a href="{{ route('login') }}"
                             class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
                             Executive Dashboard
                         </a>
                         <a href="{{ route('verify') }}"
                             class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
                             Verify a Certificate
-                        </a>
+                        </a> --}}
                     @endauth
                 </div>
 
                 <!-- Stats Banner -->
-                <div class="grid grid-cols-4 gap-4 pt-10 border-t border-white/10">
+                {{-- <div class="grid grid-cols-4 gap-4 pt-10 border-t border-white/10">
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">
                             {{ number_format($stats['total_licenses']) }}</h4>
@@ -207,7 +207,7 @@
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">3</h4>
                         <p class="text-[9px] text-slate-400 uppercase font-black tracking-wider mt-1.5">MoHA tiers</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Hero Right Side Graphics Mockup -->

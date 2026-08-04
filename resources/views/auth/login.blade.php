@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;750;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Raleway:ital,wght@0,300..900;1,300..900&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,8 +33,8 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                        serif: ['"Raleway"', 'sans-serif'],
                         bn: ['"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
@@ -95,7 +95,7 @@
 
                 <div class="h-px w-16 bg-gold/60"></div>
 
-                <h2 class="text-3xl lg:text-[2.6rem] font-extrabold font-serif leading-[1.1]">
+                <h2 class="text-3xl lg:text-[1.9rem] font-extrabold font-serif leading-[1.1]">
                     Welcome back to NFLRMS
                 </h2>
                 <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-semibold max-w-sm">
