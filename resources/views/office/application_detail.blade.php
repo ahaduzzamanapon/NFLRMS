@@ -137,15 +137,17 @@
 
 <div class="max-w-7xl space-y-4">
 
+    <!-- Back to queue (top-left, outside header) -->
+    <a href="{{ $backRoute }}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-extrabold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
+        <span>←</span><span>Back to queue</span>
+    </a>
+
     <!-- ===== COMPACT HEADER ===== -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center space-x-3">
+        <div class="px-5 py-3 flex flex-wrap items-start justify-between gap-3">
+            <div class="flex items-start space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 border border-gov-green/20 flex items-center justify-center text-xl flex-shrink-0">📋</div>
                 <div>
-                    <a href="{{ $backRoute }}" class="text-[9px] font-extrabold text-slate-400 hover:text-gov-green flex items-center space-x-1">
-                        <span>←</span><span>Back to queue</span>
-                    </a>
                     <h2 class="text-base font-black font-serif text-slate-900 leading-tight">Case {{ $application->application_number }}</h2>
                     <p class="text-[10px] text-slate-500 font-semibold">
                         {{ ucfirst(str_replace('_', ' ', $application->type)) }} &bull;
@@ -154,14 +156,14 @@
                     </p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-col items-end gap-1.5">
                 <span class="px-2.5 py-1 rounded-full text-[9px] font-black uppercase border
                     @if(in_array($status, ['approved','license_issued','vetted_cleared'])) border-emerald-500/30 bg-emerald-50 text-emerald-700
                     @elseif($isRejected || $status === 'vetted_flagged') border-rose-500/30 bg-rose-50 text-rose-700
                     @else border-amber-500/30 bg-amber-50 text-amber-700 @endif">
                     {{ ucfirst(str_replace('_', ' ', $status)) }}
                 </span>
-                <span class="text-[9px] text-slate-400 font-semibold hidden sm:block">Updated {{ $application->updated_at->diffForHumans() }}</span>
+                <span class="text-[9px] text-slate-400 font-semibold">Updated {{ $application->updated_at->diffForHumans() }}</span>
             </div>
         </div>
 
@@ -433,29 +435,40 @@
                     <div class="p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             @foreach($application->vettings as $v)
-                            <div class="flex items-center justify-between px-3.5 py-3 rounded-xl border transition-all
+                            <div class="rounded-xl border transition-all overflow-hidden
                                 @if($v->status === 'cleared') border-emerald-200 bg-emerald-50/50
                                 @elseif($v->status === 'flagged') border-rose-200 bg-rose-50/50
                                 @else border-amber-200 bg-amber-50/50 @endif">
-                                <div class="flex items-center space-x-2.5">
-                                    <span class="text-lg">
-                                        @if($v->status === 'cleared') ✅
-                                        @elseif($v->status === 'flagged') ⚠️
-                                        @else ⏳ @endif
-                                    </span>
-                                    <div>
-                                        <span class="text-xs font-bold text-slate-800 uppercase">{{ $v->agency }}</span>
-                                        @if($v->vetted_at)
-                                            <span class="text-[9px] text-slate-400 font-semibold block">{{ $v->vetted_at->format('d M Y') }}</span>
-                                        @endif
+                                <div class="flex items-center justify-between px-3.5 py-3">
+                                    <div class="flex items-center space-x-2.5">
+                                        <span class="text-lg">
+                                            @if($v->status === 'cleared') ✅
+                                            @elseif($v->status === 'flagged') ⚠️
+                                            @else ⏳ @endif
+                                        </span>
+                                        <div>
+                                            <span class="text-xs font-bold text-slate-800 uppercase">{{ $v->agency }}</span>
+                                            @if($v->vetted_at)
+                                                <span class="text-[9px] text-slate-400 font-semibold block">{{ $v->vetted_at->format('d M Y') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
+                                    <span class="text-[9px] font-black uppercase px-2.5 py-1 rounded-full
+                                        @if($v->status === 'cleared') bg-emerald-100 text-emerald-700
+                                        @elseif($v->status === 'flagged') bg-rose-100 text-rose-700
+                                        @else bg-amber-100 text-amber-700 @endif">
+                                        {{ $v->status }}
+                                    </span>
                                 </div>
-                                <span class="text-[9px] font-black uppercase px-2.5 py-1 rounded-full
-                                    @if($v->status === 'cleared') bg-emerald-100 text-emerald-700
-                                    @elseif($v->status === 'flagged') bg-rose-100 text-rose-700
-                                    @else bg-amber-100 text-amber-700 @endif">
-                                    {{ $v->status }}
-                                </span>
+                                @if($v->remarks)
+                                <div class="px-3.5 py-2.5 border-t bg-white/60
+                                    @if($v->status === 'cleared') border-emerald-100
+                                    @elseif($v->status === 'flagged') border-rose-100
+                                    @else border-amber-100 @endif">
+                                    <span class="text-[8px] font-extrabold uppercase text-slate-400 tracking-widest block mb-1">📝 Remarks</span>
+                                    <p class="text-[11px] text-slate-700 font-medium leading-relaxed">{{ $v->remarks }}</p>
+                                </div>
+                                @endif
                             </div>
                             @endforeach
                         </div>

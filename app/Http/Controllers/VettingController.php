@@ -44,7 +44,12 @@ class VettingController extends Controller
     {
         $vetting->load(['application.user.district', 'application.logs']);
 
-        return view('office.vetting_show', compact('vetting'));
+        // Custom comments for the current user (used in the remarks quick-fill dropdown)
+        $customComments = \App\Models\CustomComment::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('office.vetting_show', compact('vetting', 'customComments'));
     }
 
     /**

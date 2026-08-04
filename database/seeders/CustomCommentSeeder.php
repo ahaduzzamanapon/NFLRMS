@@ -22,6 +22,10 @@ class CustomCommentSeeder extends Seeder
             Role::JointSecretary,
             Role::SeniorSecretary,
             Role::NationalScreeningCommittee,
+            Role::PoliceOfficer,
+            Role::SpecialBranch,
+            Role::NsiOfficer,
+            Role::DgfiOfficer,
         ];
 
         // Reusable comments mapped to the officer roles that use the application detail page
@@ -55,6 +59,26 @@ class CustomCommentSeeder extends Seeder
             Role::SeniorSecretary->value => [
                 ['title' => 'Final Approval', 'comment' => 'Final approval granted by the Senior Secretary / Hon\'ble Minister. Awaiting license fee payment.'],
                 ['title' => 'Rejected', 'comment' => 'Application rejected at the final stage. Applicant has been notified of the decision.'],
+            ],
+            Role::PoliceOfficer->value => [
+                ['title' => 'No Criminal Record', 'comment' => 'Local police station records verified. No criminal case or involvement found against the applicant. Cleared.'],
+                ['title' => 'Criminal Case Pending', 'comment' => 'A criminal case is pending against the applicant at the local police station. Flagged for further investigation.'],
+                ['title' => 'Clean Background', 'comment' => 'Thorough background check completed through police database. No adverse findings. Cleared.'],
+            ],
+            Role::SpecialBranch->value => [
+                ['title' => 'No Security Concern', 'comment' => 'Special Branch intelligence check completed. No security or subversive activity found against the applicant. Cleared.'],
+                ['title' => 'Under Surveillance', 'comment' => 'Applicant is currently under Special Branch surveillance for suspicious activity. Flagged.'],
+                ['title' => 'Verified Through SB Database', 'comment' => 'SB national database verified. No threat assessment identified against the applicant. Cleared.'],
+            ],
+            Role::NsiOfficer->value => [
+                ['title' => 'Background Verified', 'comment' => 'NSI background investigation completed. Applicant\'s credentials, associates and affiliations verified with no concerns. Cleared.'],
+                ['title' => 'Intelligence Concern', 'comment' => 'NSI intelligence report indicates associations with persons of interest. Flagged for review.'],
+                ['title' => 'No Adverse Intelligence', 'comment' => 'No adverse intelligence information found against the applicant in NSI records. Cleared.'],
+            ],
+            Role::DgfiOfficer->value => [
+                ['title' => 'National Security Cleared', 'comment' => 'DGFI national security screening completed. No threat to national security identified. Cleared.'],
+                ['title' => 'Security Risk Identified', 'comment' => 'DGFI assessment identified potential national security risk associated with the applicant. Flagged.'],
+                ['title' => 'No Strategic Concerns', 'comment' => 'No strategic or national security concerns found after DGFI screening. Cleared.'],
             ],
         ];
 

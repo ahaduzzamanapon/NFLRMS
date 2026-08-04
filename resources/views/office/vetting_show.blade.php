@@ -5,7 +5,7 @@
 <div class="max-w-3xl space-y-5">
 
     <div>
-        <a href="{{ route('vetting.dashboard') }}" class="text-[10px] font-extrabold text-slate-400 hover:text-gov-green flex items-center space-x-1 mb-3">
+        <a href="{{ route('vetting.dashboard') }}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-extrabold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all mb-3">
             <span>←</span><span>Back to vetting queue</span>
         </a>
         <div class="flex items-start justify-between">
@@ -81,9 +81,21 @@
                     </label>
                 </div>
             </div>
+            @if($customComments->isNotEmpty())
+            <div>
+                <label for="custom_comment_select" class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">💬 Quick Fill from Custom Comments</label>
+                <select id="custom_comment_select" onchange="fillRemarksFromCustomComment(this)"
+                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                    <option value="">— Select a saved comment —</option>
+                    @foreach($customComments as $cc)
+                        <option value="{{ $cc->comment }}">{{ $cc->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div>
                 <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Remarks (mandatory)</label>
-                <textarea name="remarks" rows="4" placeholder="Provide details of your vetting findings..."
+                <textarea name="remarks" id="remarks" rows="4" placeholder="Provide details of your vetting findings..."
                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
             </div>
             <button type="submit" class="w-full py-2.5 bg-gov-green hover:bg-gov-light text-white font-black text-xs rounded-lg transition-colors">
@@ -102,4 +114,16 @@
     </div>
     @endif
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    // Fill the remarks textarea with the selected custom comment
+    function fillRemarksFromCustomComment(selectEl) {
+        const remarks = document.getElementById('remarks');
+        if (remarks && selectEl.value) {
+            remarks.value = selectEl.value;
+        }
+    }
+</script>
 @endsection
