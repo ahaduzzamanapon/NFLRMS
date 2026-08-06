@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Raleway:ital,wght@0,300..900;1,300..900&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,15 +33,25 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Lato"', 'sans-serif'],
-                        serif: ['"Raleway"', 'sans-serif'],
-                        bn: ['"Noto Sans Bengali"', 'sans-serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                        serif: ['"Poppins"', 'sans-serif'],
+                        bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Nikosh';
+            src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        body { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         /* Fine hairline seal-ring used behind the emblem */
         .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
         /* Section letter chip */
@@ -80,7 +90,7 @@
                     <span>&larr;</span>
                     <span>Back to home</span>
                 </a>
-                <span class="text-[10px] tracking-[0.2em] uppercase text-gold-soft font-bold">Form NFLRMS&ndash;01</span>
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;01</span>
             </div>
 
             <!-- Middle Content -->
@@ -97,10 +107,10 @@
 
                 <div class="h-px w-16 bg-gold/60"></div>
 
-                <h2 class="text-3xl lg:text-[1.9rem] font-extrabold font-serif leading-[1.1]">
+                <h2 class="text-3xl lg:text-[1.8rem] font-extrabold font-serif leading-[1.1]">
                     Create your NFLRMS account
                 </h2>
-                <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-semibold max-w-sm">
+                <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-medium max-w-sm">
                     Citizens and arms dealers register once with a verified mobile number and NID, then apply for any license service.
                 </p>
 
@@ -149,7 +159,7 @@
 
             <div class="flex items-start justify-between gap-4">
                 <div>
-                    <h3 class="text-2xl font-black font-serif text-slate-800 leading-none">Sign up</h3>
+                    <h3 class="text-2xl font-bold font-serif text-slate-800 leading-none">Sign up</h3>
                     <p class="text-[11px] text-slate-500 mt-2 font-medium">Step 1 of 2 &middot; Personal details</p>
                 </div>
                 <div class="flex items-center gap-1.5 pt-1" aria-hidden="true">
@@ -163,18 +173,18 @@
 
                 <!-- Account Type Selector (Tabs) -->
                 <div>
-                    <label class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-950 mb-1.5">
+                    <label class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950 mb-1.5">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">A</span>
                         Account Type
                     </label>
                     <div id="role-wrap" class="grid grid-cols-2 gap-3 @error('role') ring-1 ring-rose-500 rounded-lg p-0.5 @enderror">
                         <button type="button" onclick="selectRole('citizen_applicant')" id="btn-citizen"
-                                class="py-2.5 px-2 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none bg-emerald-50/40 border-gov-green text-gov-green flex flex-col items-center gap-1.5">
+                                class="py-2.5 px-2 rounded-lg border-2 text-center text-xs font-semibold transition-all focus:outline-none bg-emerald-50/40 border-gov-green text-gov-green flex flex-col items-center gap-1.5">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" /></svg>
                             <span>Citizen (Individual)</span>
                         </button>
                         <button type="button" onclick="selectRole('dealer_applicant')" id="btn-dealer"
-                                class="py-2.5 px-2 rounded-lg border border-slate-200 text-center text-xs font-bold transition-all focus:outline-none text-slate-600 hover:bg-slate-50 flex flex-col items-center gap-1.5">
+                                class="py-2.5 px-2 rounded-lg border border-slate-200 text-center text-xs font-semibold transition-all focus:outline-none text-slate-600 hover:bg-slate-50 flex flex-col items-center gap-1.5">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.098a2.25 2.25 0 01-2.25 2.25h-12a2.25 2.25 0 01-2.25-2.25v-4.098M20.25 14.15L12 15.75 3.75 14.15M20.25 14.15V9.6a2.25 2.25 0 00-1.183-1.98l-6.75-3.6a2.25 2.25 0 00-2.134 0l-6.75 3.6A2.25 2.25 0 003.75 9.6v4.55" /></svg>
                             <span>Arms Dealer / Firm</span>
                         </button>
@@ -187,21 +197,21 @@
                 </div>
 
                 <!-- Validation Summary Alert -->
-                <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
-                    <span class="block text-sm font-black font-serif">
-                        &#9888; Please fill in the highlighted required field(s) below before continuing.
+                <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-semibold space-y-1">
+                    <span class="block text-sm font-bold font-serif">
+                        <span>⚠️</span> Please fill in the highlighted required field(s) below before continuing.
                     </span>
                 </div>
 
                 <!-- Section B: Personal information -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
+                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">B</span>
                         Personal Information
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="name" class="block text-[10px] font-bold text-slate-600 mb-1.5">Full Name (English)</label>
+                            <label for="name" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Full Name (English)</label>
                             <input type="text" name="name" id="name"
                                    class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('name') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
                                    placeholder="Md. Rafikul Islam" value="{{ old('name') }}">
@@ -211,7 +221,7 @@
                             <span id="js-error-name" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Full name (English) is required.</span>
                         </div>
                         <div>
-                            <label for="name_bn" class="block text-[10px] font-bold text-slate-600 mb-1.5">Full Name (Bengali)</label>
+                            <label for="name_bn" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Full Name (Bengali)</label>
                             <input type="text" name="name_bn" id="name_bn"
                                    class="w-full px-3 py-2.5 text-xs font-bn rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('name_bn') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
                                    placeholder="মো: রফিকুল ইসলাম" value="{{ old('name_bn') }}">
@@ -225,13 +235,13 @@
 
                 <!-- Section C: Location -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
+                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">C</span>
                         Location
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="district_id" class="block text-[10px] font-bold text-slate-600 mb-1.5">District</label>
+                            <label for="district_id" class="block text-[10px] font-semibold text-slate-600 mb-1.5">District</label>
                             <select name="district_id" id="district_id"
                                     class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('district_id') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror">
                                 <option value="">Select District</option>
@@ -245,7 +255,7 @@
                             <span id="js-error-district_id" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Please select a district.</span>
                         </div>
                         <div>
-                            <label for="upazila_id" class="block text-[10px] font-bold text-slate-600 mb-1.5">Upazila / Thana</label>
+                            <label for="upazila_id" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Upazila / Thana</label>
                             <select name="upazila_id" id="upazila_id" disabled
                                     class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all disabled:bg-slate-50 disabled:text-slate-400 @error('upazila_id') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror">
                                 <option value="">Select District First</option>
@@ -260,14 +270,14 @@
 
                 <!-- Section D: Contact & identity -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
+                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">D</span>
                         Contact &amp; Identity
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="email" class="block text-[10px] font-bold text-slate-600 mb-1.5">Email</label>
+                            <label for="email" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Email</label>
                             <div class="relative">
                                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.414.336-.75.75-.75h18a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-18a.75.75 0 01-.75-.75V6.75zm0 0l9.75 6.75 9.75-6.75" /></svg>
                                 <input type="email" name="email" id="email"
@@ -281,7 +291,7 @@
                         </div>
 
                         <div>
-                            <label for="phone" class="block text-[10px] font-bold text-slate-600 mb-1.5">Mobile Phone (11 Digits)</label>
+                            <label for="phone" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Mobile Phone (11 Digits)</label>
                             <div class="relative">
                                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
                                 <input type="text" name="phone" id="phone" maxlength="11"
@@ -296,7 +306,7 @@
                     </div>
 
                     <div>
-                        <label for="nid" class="block text-[10px] font-bold text-slate-600 mb-1.5">National ID (NID)</label>
+                        <label for="nid" class="block text-[10px] font-semibold text-slate-600 mb-1.5">National ID (NID)</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 15.75h19.5M6 4.5h12A2.25 2.25 0 0120.25 6.75v10.5A2.25 2.25 0 0118 19.5H6a2.25 2.25 0 01-2.25-2.25V6.75A2.25 2.25 0 016 4.5z" /></svg>
                             <input type="text" name="nid" id="nid"
@@ -312,12 +322,12 @@
 
                 <!-- Section E: Security -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
+                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">E</span>
                         Security
                     </p>
                     <div>
-                        <label for="password" class="block text-[10px] font-bold text-slate-600 mb-1.5">Password</label>
+                        <label for="password" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Password</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                             <input type="password" name="password" id="password"
@@ -341,9 +351,9 @@
 
             <div class="pt-3 text-center space-y-3">
                 <p class="text-[11px] text-slate-500">
-                    Already registered? <a href="{{ route('login') }}" class="text-gov-green hover:underline font-bold">Sign in</a>
+                    Already registered? <a href="{{ route('login') }}" class="text-gov-green hover:underline font-semibold">Sign in</a>
                 </p>
-                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-semibold pt-3 border-t border-slate-100">
+                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium pt-3 border-t border-slate-100">
                     <span>Developed By</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
                 </div>
@@ -472,8 +482,8 @@
             const dotRoleCitizen = document.getElementById('dot-role-citizen');
             const dotRoleDealer = document.getElementById('dot-role-dealer');
 
-            const ACTIVE = 'py-2.5 px-2 rounded-lg border-2 text-center text-xs font-bold transition-all focus:outline-none bg-emerald-50/40 border-gov-green text-gov-green flex flex-col items-center gap-1.5';
-            const INACTIVE = 'py-2.5 px-2 rounded-lg border border-slate-200 text-center text-xs font-bold transition-all focus:outline-none text-slate-600 hover:bg-slate-50 flex flex-col items-center gap-1.5';
+            const ACTIVE = 'py-2.5 px-2 rounded-lg border-2 text-center text-xs font-semibold transition-all focus:outline-none bg-emerald-50/40 border-gov-green text-gov-green flex flex-col items-center gap-1.5';
+            const INACTIVE = 'py-2.5 px-2 rounded-lg border border-slate-200 text-center text-xs font-semibold transition-all focus:outline-none text-slate-600 hover:bg-slate-50 flex flex-col items-center gap-1.5';
             const DOT_ACTIVE = 'w-5 h-1.5 rounded-full bg-gov-green transition-colors';
             const DOT_INACTIVE = 'w-5 h-1.5 rounded-full bg-slate-200 transition-colors';
 

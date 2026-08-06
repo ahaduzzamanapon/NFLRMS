@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,8 +26,9 @@
                         }
                     },
                     fontFamily: {
-                        sans:  ['"Inter"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
+                        sans:  ['"Poppins"', 'sans-serif'],
+                        serif: ['"Poppins"', 'sans-serif'],
+                        bn:    ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
@@ -35,18 +36,27 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        @font-face {
+            font-family: 'Nikosh';
+            src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        body { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
-        .nav-link {
+.nav-link {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 9px 12px;
             border-radius: 12px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             color: rgba(255, 255, 255, 0.65) !important;
             transition: all 0.15s;
             text-decoration: none;
@@ -56,11 +66,11 @@
         .nav-link.active {
             background: #d99432 !important;
             color: #0b1e17 !important;
-            font-weight: 800;
+            font-weight: 700;
         }
         .nav-section {
             font-size: 9px;
-            font-weight: 800;
+            font-weight: 600;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.35);
@@ -109,8 +119,8 @@
             <div class="flex items-center gap-3 mb-3">
                 <div style="width:36px;height:36px;background:#e8b84b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#0b1e17;flex-shrink:0;font-weight:900;">🏛</div>
                 <div>
-                    <div style="color:#fff;font-weight:900;font-size:14px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
-                    <div style="color:#e8b84b;font-size:12px;font-weight:700;margin-top:2px;line-height:1.1;">Home Affairs</div>
+<div style="color:#fff;font-weight:800;font-size:14px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
+                    <div style="color:#e8b84b;font-size:12px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
                 </div>
             </div>
             <p style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
@@ -119,11 +129,11 @@
         <!-- User Pill -->
         @auth
         <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);">
-            <div style="font-size:9px;color:rgba(255, 255, 255, 0.35);font-weight:800;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
+<div style="font-size:9px;color:rgba(255, 255, 255, 0.35);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
             <a href="{{ route('profile.edit') }}" style="display:flex;align-items:center;justify-content:between;gap:8px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:background 0.15s;width:100%;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
                     <span style="color:#10b981;font-size:12px;flex-shrink:0;">➔</span>
-                    <span style="color:#fff;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
+<span style="color:#fff;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
                 </div>
                 <svg style="width:12px;height:12px;color:rgba(255, 255, 255, 0.5);flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
             </a>
@@ -293,12 +303,12 @@
                 @auth
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" style="font-size:11px;color:rgba(255, 255, 255, 0.5);font-weight:700;background:none;border:none;cursor:pointer;transition:color 0.15s;" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='rgba(255, 255, 255, 0.5)'">
+<button type="submit" style="font-size:11px;color:rgba(255, 255, 255, 0.5);font-weight:500;background:none;border:none;cursor:pointer;transition:color 0.15s;" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='rgba(255, 255, 255, 0.5)'">
                         → Sign out
                     </button>
                 </form>
                 @endauth
-                <span style="font-size:8px;color:rgba(255, 255, 255, 0.25);font-weight:700;">v1.0 · PROD</span>
+<span style="font-size:8px;color:rgba(255, 255, 255, 0.25);font-weight:500;">v1.0 · PROD</span>
             </div>
         </div>
     </aside>
@@ -314,7 +324,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
                 <span class="hidden sm:inline">🏢</span>
-                <span class="font-semibold text-slate-700">Ministry of Home Affairs</span>
+<span class="font-medium text-slate-700">Ministry of Home Affairs</span>
                 <span class="text-slate-300 hidden sm:inline">·</span>
                 <span class="hidden sm:inline">Government of the People's Republic of Bangladesh</span>
             </div>
@@ -322,14 +332,14 @@
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Live</span>
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
                 </div>
-                <div class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-black text-slate-600 uppercase tracking-wider">
+<div class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
                     @yield('title','Dashboard')
                 </div>
                 @auth
                 <a href="{{ route('profile.edit') }}"
-                   style="width:34px;height:34px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:11px;font-weight:900;text-decoration:none;"
+style="width:34px;height:34px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:11px;font-weight:700;text-decoration:none;"
                    onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
                     @php
                         $ws = explode(' ',auth()->user()->name);

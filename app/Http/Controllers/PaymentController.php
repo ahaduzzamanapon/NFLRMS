@@ -159,7 +159,7 @@ class PaymentController extends Controller
     public function checkApplicationPaymentStatus(Application $application)
     {
         // If already approved and license fee paid
-        if ($application->status === 'approved' && $application->license_fee_paid) {
+        if (in_array($application->status, ['license_issued', 'approved']) && $application->license_fee_paid) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Payment verified. Application is approved and license is active.',
@@ -384,7 +384,7 @@ class PaymentController extends Controller
         } else {
             $application->update([
                 'license_fee_paid' => true,
-                'status' => 'approved',
+                'status' => 'license_issued',
                 'payment_details' => $details,
             ]);
 

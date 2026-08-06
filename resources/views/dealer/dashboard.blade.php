@@ -7,12 +7,12 @@
     <!-- Top Profile & Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900 leading-tight">
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
                 Dealer Portal
             </h2>
-            <p class="text-xs text-slate-500 mt-1 font-semibold">
+            <p class="text-xs text-slate-500 mt-1 font-normal">
                 {{ auth()->user()->name }} &bull; {{ auth()->user()->district->name ?? 'N/A' }} &bull;
-                <span class="text-gov-green font-black">Dealer Applicant</span>
+                <span class="text-gov-green font-semibold">Dealer Applicant</span>
             </p>
         </div>
         <div class="flex-shrink-0">
@@ -26,33 +26,33 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Dealer Licences</h4>
-            <p class="text-3xl font-black font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
+            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Dealer Licences</h4>
+            <p class="text-3xl font-bold font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">In Progress</h4>
-            <p class="text-3xl font-black font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
+            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
+            <p class="text-3xl font-bold font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
-            <p class="text-3xl font-black font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
+            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
+            <p class="text-3xl font-bold font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Total Applications</h4>
-            <p class="text-3xl font-black font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
+            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
+            <p class="text-3xl font-bold font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
         </div>
     </div>
 
     <!-- My Dealer Licence Section -->
     <div class="space-y-3">
-        <h3 class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
+        <h3 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">
             My Dealer Licence
         </h3>
 
         @if($licenses->isEmpty())
             <div class="max-w-xl p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md">
-                <p class="text-xs text-slate-400 font-semibold text-center py-4">
-                    No active dealer license found. <a href="{{ route('dealer.apply') }}" class="text-gov-green font-black hover:underline">Apply for a new dealer license (Form K) →</a>
+                <p class="text-xs text-slate-400 font-normal text-center py-4">
+                    No active dealer license found. <a href="{{ route('dealer.apply') }}" class="text-gov-green font-semibold hover:underline">Apply for a new dealer license (Form K) →</a>
                 </p>
             </div>
         @else
@@ -64,7 +64,7 @@
                         <div class="flex items-center space-x-2">
                             <span class="text-2xl">🏪</span>
                             <div>
-                                <h4 class="text-[9px] font-black uppercase text-slate-500 leading-none">
+                                <h4 class="text-[9px] font-bold uppercase text-slate-500 leading-none">
                                     Government of Bangladesh &bull; MoHA
                                 </h4>
                                 <h3 class="text-xs font-bold text-slate-900 mt-1 leading-none">
@@ -72,7 +72,7 @@
                                 </h3>
                             </div>
                         </div>
-                        <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase
+                        <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase
                             {{ $l->status === 'active' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/25' : 'bg-rose-500/10 text-rose-600 border border-rose-500/25' }}">
                             {{ ucfirst($l->status) }}
                         </span>
@@ -81,28 +81,28 @@
                     <!-- Fields -->
                     <div class="grid grid-cols-2 gap-4 text-[10px]">
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">Firm Name</span>
-                            <span class="font-extrabold text-slate-900">{{ auth()->user()->name }}</span>
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">Firm Name</span>
+                            <span class="font-semibold text-slate-900">{{ auth()->user()->name }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">Licence Class</span>
-                            <span class="font-extrabold text-slate-900">Class A Dealer</span>
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">Licence Class</span>
+                            <span class="font-semibold text-slate-900">Class A Dealer</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">Licence No.</span>
-                            <span class="font-extrabold text-slate-900 uppercase font-mono">{{ $l->license_number }}</span>
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">Licence No.</span>
+                            <span class="font-semibold text-slate-900 uppercase font-mono">{{ $l->license_number }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">District</span>
-                            <span class="font-extrabold text-slate-900">{{ auth()->user()->district->name ?? 'N/A' }}</span>
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">District</span>
+                            <span class="font-semibold text-slate-900">{{ auth()->user()->district->name ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">Issued</span>
-                            <span class="font-extrabold text-slate-900">{{ $l->issue_date->format('d M Y') }}</span>
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">Issued</span>
+                            <span class="font-semibold text-slate-900">{{ $l->issue_date->format('d M Y') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[8px]">Expires</span>
-                            <span class="font-extrabold text-slate-900 {{ $l->expiry_date->isPast() ? 'text-rose-600' : '' }}">
+                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[8px]">Expires</span>
+                            <span class="font-semibold text-slate-900 {{ $l->expiry_date->isPast() ? 'text-rose-600' : '' }}">
                                 {{ $l->expiry_date->format('d M Y') }}
                             </span>
                         </div>
@@ -110,9 +110,9 @@
 
                     <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between">
                         <a href="{{ route('dealer.renew') }}"
-                           class="text-[9px] font-black text-gov-green hover:underline">🔄 Renew License</a>
+                           class="text-[9px] font-semibold text-gov-green hover:underline">🔄 Renew License</a>
                         <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
-                           class="text-[9px] font-black text-gov-green hover:underline">⬇ Download / Verify</a>
+                           class="text-[9px] font-semibold text-gov-green hover:underline">⬇ Download / Verify</a>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@
                              class="w-full h-full">
                         </div>
                     </div>
-                    <span class="text-[7px] text-slate-400 font-bold uppercase mt-2 leading-tight">Scan to verify<br>on NFLRMS portal</span>
+                    <span class="text-[7px] text-slate-400 font-medium uppercase mt-2 leading-tight">Scan to verify<br>on NFLRMS portal</span>
                 </div>
             </div>
             @endforeach
@@ -138,22 +138,22 @@
         @endphp
         <div class="space-y-3">
             <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                <h3 class="text-sm font-bold text-slate-900 font-serif">Stock Ledger Summary</h3>
-                <a href="{{ route('dealer.stock_ledger') }}" class="text-[10px] font-extrabold text-gov-green hover:underline">Manage Stock Ledger &rarr;</a>
+                <h3 class="text-sm font-semibold text-slate-900 font-serif">Stock Ledger Summary</h3>
+                <a href="{{ route('dealer.stock_ledger') }}" class="text-[10px] font-semibold text-gov-green hover:underline">Manage Stock Ledger &rarr;</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
-                    <div class="text-2xl font-black text-slate-900 mt-1">{{ $stocks->where('item_type', 'firearm')->sum('quantity') }} items</div>
+                    <div class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
+                    <div class="text-2xl font-bold text-slate-900 mt-1">{{ $stocks->where('item_type', 'firearm')->sum('quantity') }} items</div>
                 </div>
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
-                    <div class="text-2xl font-black text-slate-900 mt-1">{{ $stocks->where('item_type', 'ammunition')->sum('quantity') }} rds</div>
+                    <div class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
+                    <div class="text-2xl font-bold text-slate-900 mt-1">{{ $stocks->where('item_type', 'ammunition')->sum('quantity') }} rds</div>
                 </div>
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[9px] font-black uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
-                    <div class="text-2xl font-black text-gov-green mt-1">✓ Verified Clear</div>
+                    <div class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
+                    <div class="text-2xl font-bold text-gov-green mt-1">✓ Verified Clear</div>
                 </div>
             </div>
 
@@ -161,7 +161,7 @@
             <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
+                        <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                             <th class="p-3 pl-5">Item Name</th>
                             <th class="p-3">Type</th>
                             <th class="p-3">Bore / Caliber</th>
@@ -172,15 +172,15 @@
                     <tbody class="text-xs divide-y divide-slate-100">
                         @forelse($stocks->take(5) as $stk)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-bold text-slate-900">{{ $stk->item_name }}</td>
-                            <td class="p-3 font-semibold text-slate-500 uppercase">{{ $stk->item_type }}</td>
-                            <td class="p-3 font-semibold text-slate-600">{{ $stk->bore ?? 'N/A' }}</td>
-                            <td class="p-3 font-bold text-slate-800">{{ number_format($stk->quantity) }}</td>
-                            <td class="p-3 pr-5 text-right text-slate-400 font-semibold">{{ $stk->remarks ?? '—' }}</td>
+                            <td class="p-3 pl-5 font-semibold text-slate-900">{{ $stk->item_name }}</td>
+                            <td class="p-3 font-normal text-slate-500 uppercase">{{ $stk->item_type }}</td>
+                            <td class="p-3 font-normal text-slate-600">{{ $stk->bore ?? 'N/A' }}</td>
+                            <td class="p-3 font-semibold text-slate-800">{{ number_format($stk->quantity) }}</td>
+                            <td class="p-3 pr-5 text-right text-slate-400 font-normal">{{ $stk->remarks ?? '—' }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="p-8 text-center text-slate-400 font-bold">No stock ledger entries found.</td>
+                            <td colspan="5" class="p-8 text-center text-slate-400 font-normal">No stock ledger entries found.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -192,8 +192,8 @@
     <!-- My Applications Section -->
     <div class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 class="text-sm font-bold text-slate-900 font-serif">My Applications</h3>
-            <button onclick="window.location.reload()" class="text-[10px] font-extrabold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
+            <h3 class="text-sm font-semibold text-slate-900 font-serif">My Applications</h3>
+            <button onclick="window.location.reload()" class="text-[10px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
                 <span>🔄</span>
                 <span>Refresh</span>
             </button>
@@ -202,7 +202,7 @@
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                         <th class="p-3 pl-5">Reference</th>
                         <th class="p-3">Service</th>
                         <th class="p-3">Submitted</th>
@@ -213,9 +213,9 @@
                 <tbody class="text-xs divide-y divide-slate-100">
                     @forelse($applications as $a)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-bold font-mono text-slate-900">{{ $a->application_number }}</td>
+                            <td class="p-3 pl-5 font-semibold font-mono text-slate-900">{{ $a->application_number }}</td>
                             <td class="p-3">
-                                <span class="font-bold text-slate-800">
+                                <span class="font-semibold text-slate-800">
                                     @if($a->type === 'renewal')
                                         Dealing Licence Renewal
                                     @else
@@ -223,7 +223,7 @@
                                     @endif
                                 </span>
                             </td>
-                            <td class="p-3 font-semibold text-slate-500">
+                            <td class="p-3 font-normal text-slate-500">
                                 {{ $a->created_at->format('d M Y') }}
                             </td>
                             <td class="p-3">
@@ -255,34 +255,34 @@
                                         default => ucfirst($a->status),
                                     };
                                 @endphp
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider {{ $badgeStyles }}">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold border uppercase tracking-wider {{ $badgeStyles }}">
                                     {{ $statusLabel }}
                                 </span>
                             </td>
                             <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">
                                 @if($a->status === 'payment_pending')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[10px] font-bold shadow-sm transition-colors">
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[10px] font-semibold shadow-sm transition-colors">
                                         Pay Platform Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[10px] font-bold shadow-sm transition-colors animate-pulse">
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[10px] font-semibold shadow-sm transition-colors animate-pulse">
                                         Pay License Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @endif
-                                <a href="{{ route('citizen.show', $a->id) }}" class="text-gov-green hover:underline font-black ml-1.5">
+                                <a href="{{ route('citizen.show', $a->id) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
                                     View &rarr;
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center p-8 text-slate-400 font-bold">
+                            <td colspan="5" class="text-center p-8 text-slate-400 font-normal">
                                 No application records found.
                             </td>
                         </tr>

@@ -7,10 +7,10 @@
     <!-- Header -->
     <div class="flex items-start justify-between">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900">
+            <h2 class="text-2xl font-bold font-serif text-slate-900">
                 {{ auth()->user()->name }} — Stock Ledger
             </h2>
-            <p class="text-xs text-slate-500 mt-1">
+            <p class="text-xs text-slate-500 mt-1 font-medium">
                 Declared inventory · auditable by MoHA · Issued licences automatically deduct from stock.
             </p>
         </div>
@@ -23,28 +23,28 @@
     <!-- Stat Cards -->
     <div class="grid grid-cols-3 gap-4">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest">Total Firearms in Stock</div>
-            <div class="text-3xl font-black text-slate-900 mt-1">{{ number_format($totalFirearms) }}</div>
+            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Total Firearms in Stock</div>
+            <div class="text-3xl font-bold text-slate-900 mt-1">{{ number_format($totalFirearms) }}</div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest">Total Ammunition Rounds</div>
-            <div class="text-3xl font-black text-slate-900 mt-1">{{ number_format($totalAmmo) }}</div>
+            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Total Ammunition Rounds</div>
+            <div class="text-3xl font-bold text-slate-900 mt-1">{{ number_format($totalAmmo) }}</div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
-            <div class="text-3xl font-black {{ $anomalyAlerts > 0 ? 'text-rose-600' : 'text-gov-green' }} mt-1">{{ $anomalyAlerts }}</div>
+            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
+            <div class="text-3xl font-bold {{ $anomalyAlerts > 0 ? 'text-rose-600' : 'text-gov-green' }} mt-1">{{ $anomalyAlerts }}</div>
         </div>
     </div>
 
     <!-- Stock Table -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-            <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">Stock Items</span>
+            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-widest">Stock Items</span>
             <span class="text-[10px] text-slate-400 font-semibold">{{ $stocks->count() }} items</span>
         </div>
         <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="border-b border-slate-100 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider bg-slate-50">
+                <tr class="border-b border-slate-100 text-[10px] font-bold uppercase text-slate-400 tracking-wider bg-slate-50">
                     <th class="p-3 pl-5">Item</th>
                     <th class="p-3">Category</th>
                     <th class="p-3">Quantity</th>
@@ -53,27 +53,27 @@
                     <th class="p-3 pr-5 text-right">Action</th>
                 </tr>
             </thead>
-            <tbody class="text-xs divide-y divide-slate-100">
+            <tbody class="text-xs font-normal divide-y divide-slate-100">
                 @forelse($stocks as $s)
                 <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="p-3 pl-5 font-bold text-slate-900">{{ $s->item }}</td>
+                     <td class="p-3 pl-5 font-semibold text-slate-900">{{ $s->item }}</td>
                     <td class="p-3">
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase border
+                             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase border
                             @if($s->category === 'Firearm') border-gov-green/30 bg-emerald-50 text-gov-green
                             @elseif($s->category === 'Ammunition') border-amber-200 bg-amber-50 text-amber-700
                             @else border-slate-200 bg-slate-50 text-slate-600 @endif">
                             {{ $s->category }}
                         </span>
                     </td>
-                    <td class="p-3 font-black text-slate-900">{{ number_format($s->quantity) }}</td>
-                    <td class="p-3 text-slate-500">{{ $s->source ?? '—' }}</td>
-                    <td class="p-3 text-slate-400">{{ $s->updated_at->format('d M Y') }}</td>
+                     <td class="p-3 font-bold text-slate-900">{{ number_format($s->quantity) }}</td>
+                     <td class="p-3 text-slate-500 font-medium">{{ $s->source ?? '—' }}</td>
+                     <td class="p-3 text-slate-400 font-normal">{{ $s->updated_at->format('d M Y') }}</td>
                     <td class="p-3 pr-5 text-right">
                         <form action="{{ route('dealer.stock_ledger.delete', $s->id) }}" method="POST"
                               onsubmit="return confirm('Remove this item?')">
                             @csrf @method('DELETE')
                             <button type="submit"
-                                    class="text-[10px] font-black text-rose-500 hover:text-rose-700 transition-colors">
+                                     class="text-[10px] font-bold text-rose-500 hover:text-rose-700 transition-colors">
                                 Remove
                             </button>
                         </form>
@@ -81,7 +81,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="p-10 text-center text-slate-400 font-bold">
+                     <td colspan="6" class="p-10 text-center text-slate-400 font-medium">
                         No stock items recorded yet. Click "Add Item" to begin.
                     </td>
                 </tr>
@@ -162,7 +162,7 @@
 
         <!-- Header -->
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
-            <h3 class="text-sm font-black text-slate-900">
+            <h3 class="text-sm font-bold text-slate-900">
                 Add Stock Item
             </h3>
 
@@ -197,7 +197,7 @@
                         stroke-linejoin="round" />
                 </svg>
 
-                <span class="text-xs font-bold text-rose-700 leading-relaxed">
+                <span class="text-xs font-semibold text-rose-700 leading-relaxed">
                     Please fill in the highlighted required field(s) above before continuing.
                 </span>
 
@@ -208,7 +208,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-extrabold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Item Name
                 </label>
 
@@ -238,7 +238,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-extrabold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Category
                 </label>
 
@@ -285,7 +285,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-extrabold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Quantity
                 </label>
 
@@ -315,7 +315,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-extrabold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Source (Optional)
                 </label>
 
@@ -342,7 +342,7 @@
                 <button
                     type="button"
                     onclick="document.getElementById('add-stock-modal').classList.add('hidden')"
-                    class="flex-1 py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">
+                     class="flex-1 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
 
                     Cancel
 
@@ -350,7 +350,7 @@
 
                 <button
                     type="submit"
-                    class="flex-1 py-2.5 bg-gov-green hover:bg-gov-light text-white font-black text-xs rounded-lg transition-colors">
+                     class="flex-1 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors">
 
                     + Add Item
 
