@@ -72,7 +72,7 @@
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
             <div class="flex items-center space-x-3.5">
-                <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png"
+                <img src="{{ asset('assets/brand/govt-logo.png') }}"
                     alt="Government of Bangladesh" width="40" height="40" class="w-10 h-10 object-contain" />
                 <div class="leading-tight">
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
