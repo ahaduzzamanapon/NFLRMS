@@ -12,12 +12,17 @@
         </p>
     </div>
 
-    <!-- Fee Summary -->
+    @php
+        $dealerFees = \App\Models\Setting::getFees();
+    @endphp
+
+    <!-- Fee Summary (dynamic based on selected License Class) -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
         <div class="text-xs font-medium text-amber-800">
-            Statutory Fee: <span class="font-bold">৳1,50,000</span> &bull; Platform Charge: <span class="font-bold">৳2,500</span>
+            Statutory Fee: <span class="font-bold" id="fee-statutory">৳{{ number_format($dealerFees['dealer_fee_class_a_new'] ?? 150000) }}</span>
+            &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($dealerFees['dealer_platform_new'] ?? 2500) }}</span>
         </div>
-        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: ৳1,52,500</span>
+        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($dealerFees['dealer_fee_class_a_new'] ?? 150000) + ($dealerFees['dealer_platform_new'] ?? 2500)) }}</span></span>
     </div>
 
     <!-- Validation Summary Alert -->
@@ -220,6 +225,49 @@
 </div>
 
 <script>
+    // ===== DYNAMIC FEE SUMMARY (based on License Class) =====
+    const dealerFeeMap = {
+        A: {
+            statutory: {{ $dealerFees['dealer_fee_class_a_new'] ?? 150000 }},
+            platform: {{ $dealerFees['dealer_platform_new'] ?? 2500 }},
+        },
+        B: {
+            statutory: {{ $dealerFees['dealer_fee_class_b_new'] ?? 200000 }},
+            platform: {{ $dealerFees['dealer_platform_new'] ?? 2500 }},
+        },
+        C: {
+            statutory: {{ $dealerFees['dealer_fee_class_c_new'] ?? 250000 }},
+            platform: {{ $dealerFees['dealer_platform_new'] ?? 2500 }},
+        },
+    };
+
+    function formatBDT(amount) {
+        return '৳' + Number(amount).toLocaleString('en-IN');
+    }
+
+    function updateFeeSummary(licenseClass) {
+        const fee = dealerFeeMap[licenseClass];
+        if (!fee) return;
+
+        const statutoryEl = document.getElementById('fee-statutory');
+        const platformEl = document.getElementById('fee-platform');
+        const totalEl = document.getElementById('fee-total');
+
+        if (statutoryEl) statutoryEl.textContent = formatBDT(fee.statutory);
+        if (platformEl) platformEl.textContent = formatBDT(fee.platform);
+        if (totalEl) totalEl.textContent = formatBDT(fee.statutory + fee.platform);
+    }
+
+    document.getElementById('license_class')?.addEventListener('change', function () {
+        updateFeeSummary(this.value);
+    });
+
+    // Initialize fee summary on page load (if a class is pre-selected)
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectedClass = document.getElementById('license_class')?.value;
+        if (selectedClass) updateFeeSummary(selectedClass);
+    });
+
     document.getElementById('dealer_district_id')?.addEventListener('change', function () {
         const districtId = this.value;
         const upazilaSelect = document.getElementById('dealer_upazila_id');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
 use App\Models\District;
@@ -43,20 +42,20 @@ class AdminController extends Controller
     public function storeUser(Request $request)
     {
         $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'email'       => ['required', 'email', 'unique:users,email'],
-            'password'    => ['required', 'min:8'],
-            'role'        => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:8'],
+            'role' => ['required', 'string'],
             'district_id' => ['nullable', 'integer'],
         ]);
 
         User::create([
-            'name'        => $request->name,
-            'email'       => $request->email,
-            'password'    => bcrypt($request->password),
-            'role'        => $request->role,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
             'district_id' => $request->district_id,
-            'is_active'   => true,
+            'is_active' => true,
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
@@ -91,17 +90,17 @@ class AdminController extends Controller
     public function updateUser(Request $request, User $user)
     {
         $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'email'       => ['required', 'email', 'unique:users,email,' . $user->id],
-            'role'        => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'role' => ['required', 'string'],
             'district_id' => ['nullable', 'integer'],
-            'password'    => ['nullable', 'min:8'],
+            'password' => ['nullable', 'min:8'],
         ]);
 
         $data = [
-            'name'        => $request->name,
-            'email'       => $request->email,
-            'role'        => $request->role,
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
             'district_id' => $request->district_id,
         ];
 
@@ -129,7 +128,7 @@ class AdminController extends Controller
     {
         $user->update(['is_active' => ! $user->is_active]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'User status updated to ' . ($user->is_active ? 'Active' : 'Inactive') . '.');
+        return redirect()->route('admin.dashboard')->with('success', 'User status updated to '.($user->is_active ? 'Active' : 'Inactive').'.');
     }
 
     public function saveAcl(Request $request)
@@ -147,7 +146,7 @@ class AdminController extends Controller
             'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_from',
             'pay_endpoint', 'pay_store_id', 'pay_store_pass',
             'nid_endpoint', 'nid_client_id', 'nid_secret',
-            'wh_approved', 'wh_issued', 'wh_secret'
+            'wh_approved', 'wh_issued', 'wh_secret',
         ];
 
         foreach ($fields as $field) {
@@ -159,12 +158,11 @@ class AdminController extends Controller
         return redirect()->route('admin.api_config')->with('success', 'API configuration saved successfully.');
     }
 
-
     public function feeConfig()
     {
         $slaDefaults = [
-            'sla_vetting'   => 10,
-            'sla_moha'      => 15,
+            'sla_vetting' => 10,
+            'sla_moha' => 15,
             'sla_committee' => 20,
         ];
 
@@ -181,6 +179,12 @@ class AdminController extends Controller
             'fine_t1_pistol', 'fine_t1_longgun', 'fine_t2_pistol', 'fine_t2_longgun',
             'fine_t3_pistol', 'fine_t3_longgun',
             'sla_vetting', 'sla_moha', 'sla_committee',
+            // Dealer statutory fees (per license class)
+            'dealer_fee_class_a_new', 'dealer_fee_class_a_renewal',
+            'dealer_fee_class_b_new', 'dealer_fee_class_b_renewal',
+            'dealer_fee_class_c_new', 'dealer_fee_class_c_renewal',
+            // Dealer platform charges
+            'dealer_platform_new', 'dealer_platform_renewal',
         ];
 
         foreach ($fields as $field) {
@@ -189,7 +193,10 @@ class AdminController extends Controller
             }
         }
 
-        return redirect()->route('admin.fee_config')->with('success', 'Fee configuration saved successfully.');
+        // Return to the tab the user was editing (query param only, not persisted)
+        $tab = $request->input('active_tab', 'citizen');
+
+        return redirect()->route('admin.fee_config', ['tab' => $tab])->with('success', 'Fee configuration saved successfully.');
     }
 
     public function acl()
@@ -219,7 +226,7 @@ class AdminController extends Controller
             'MoHA — Joint Secretary', 'MoHA — Minister', 'National Screening Committee',
             'Executive Dashboards', 'Reports', 'Fee & Fine Config', 'User Management',
             'ACL / RBAC', 'API Configuration', 'Audit Log', 'Emergency Kill-Switch',
-            'Custom Comment'
+            'Custom Comment',
         ];
 
         $defaultMatrix = [
@@ -262,7 +269,7 @@ class AdminController extends Controller
 
         Setting::set('custom_roles', json_encode($customRoles));
 
-        return redirect()->route('admin.acl')->with('success', 'Custom role "' . $name . '" added successfully.');
+        return redirect()->route('admin.acl')->with('success', 'Custom role "'.$name.'" added successfully.');
     }
 
     public function apiConfig()
@@ -282,10 +289,10 @@ class AdminController extends Controller
     public function reports()
     {
         $stats = [
-            'total_licenses'   => License::count(),
-            'total_apps'       => Application::count(),
-            'active_licenses'  => License::where('status', 'active')->count(),
-            'pending_apps'     => Application::whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count(),
+            'total_licenses' => License::count(),
+            'total_apps' => Application::count(),
+            'active_licenses' => License::where('status', 'active')->count(),
+            'pending_apps' => Application::whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count(),
         ];
 
         // Count approved applications per district (applications has district_id)
@@ -295,5 +302,4 @@ class AdminController extends Controller
 
         return view('admin.reports', compact('stats', 'byDistrict'));
     }
-
 }
