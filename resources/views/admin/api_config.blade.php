@@ -7,10 +7,10 @@
 
     <div class="flex items-start justify-between">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900">API Configuration</h2>
-            <p class="text-xs text-slate-500 mt-1">Third-party integrations · secrets stored encrypted · rotate keys quarterly (BRS §5.14 · NFR-SEC-04)</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">API Configuration</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Third-party integrations &bull; secrets stored encrypted &bull; rotate keys quarterly (BRS §5.14 &bull; NFR-SEC-04)</p>
         </div>
-        <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
+        <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
             <span>💾</span><span>Save All Settings</span>
         </button>
     </div>
@@ -19,7 +19,7 @@
     <div class="flex space-x-1 border-b border-slate-200" id="api-tabs">
         @foreach(['SMS Gateway','Email (SMTP)','Payment Gateway','NID / Identity','Webhooks'] as $i => $tab)
         <button type="button" onclick="switchTab({{ $i }})" id="tab-{{ $i }}"
-                class="px-4 py-2.5 text-xs font-bold transition-colors border-b-2 -mb-px
+                class="px-4 py-2.5 text-xs font-semibold transition-colors border-b-2 -mb-px
                 {{ $i === 0 ? 'border-gov-green text-gov-green' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             {{ $tab }}
         </button>
@@ -91,21 +91,21 @@
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-start justify-between">
                 <div>
-                    <div class="text-sm font-bold text-slate-900">{{ $panel['title'] }}</div>
-                    <div class="text-[10px] text-slate-500 mt-0.5">{{ $panel['desc'] }}</div>
+                    <div class="text-sm font-semibold text-slate-900">{{ $panel['title'] }}</div>
+                    <div class="text-[10px] text-slate-500 font-normal mt-0.5">{{ $panel['desc'] }}</div>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button type="button" class="px-3 py-1.5 border border-slate-200 text-xs font-bold text-slate-600 rounded-lg hover:bg-slate-50">Test connection</button>
-                    <button type="submit" class="px-3 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg shadow-sm">Save</button>
+                    <button type="button" class="px-3 py-1.5 border border-slate-200 text-xs font-semibold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">Test connection</button>
+                    <button type="submit" class="px-3 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">Save</button>
                 </div>
             </div>
 
             @if(!empty($panel['providers']))
             <div class="p-5 border-b border-slate-100">
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-2">Provider</label>
+                <label class="text-[9px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Provider</label>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     @foreach($panel['providers'] as $j => $provider)
-                    <button type="button" class="py-2 px-3 rounded-lg border text-xs font-bold transition-colors
+                    <button type="button" class="py-2 px-3 rounded-lg border text-xs font-semibold transition-colors
                         {{ $j === 0 ? 'border-gov-green bg-gov-green/5 text-gov-green' : 'border-slate-200 text-slate-600 hover:border-gov-green hover:text-gov-green' }}">
                         {{ $provider }}
                     </button>
@@ -117,7 +117,7 @@
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 @foreach($panel['fields'] as $field)
                 <div class="{{ $field['name'] === 'sms_endpoint' || $field['name'] === 'pay_endpoint' || $field['name'] === 'nid_endpoint' ? 'sm:col-span-2' : '' }}">
-                    <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $field['label'] }}</label>
+                    <label class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5">{{ $field['label'] }}</label>
                     <div class="relative">
                         <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" placeholder="{{ $field['placeholder'] }}" value="{{ $field['value'] }}"
                                class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">

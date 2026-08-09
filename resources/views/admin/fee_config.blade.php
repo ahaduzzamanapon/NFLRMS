@@ -6,7 +6,7 @@
 
     <div class="flex items-start justify-between">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900">Administration &amp; Configuration</h2>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">Administration &amp; Configuration</h2>
             <p class="text-xs text-slate-500 mt-1">Fees, fines, quotas &amp; SLAs · BRS §5.12 · FR-ADM-02</p>
         </div>
         <button form="fee-form" type="submit"
@@ -26,7 +26,7 @@
             <!-- Statutory License Fees -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                    <div class="text-sm font-bold text-slate-900">Statutory License Fees (BDT)</div>
+                    <div class="text-sm font-semibold text-slate-900">Statutory License Fees (BDT)</div>
                     <div class="text-[10px] text-gov-green font-semibold">Government revenue — Table 8.1</div>
                 </div>
                 <div class="p-5 grid grid-cols-2 gap-4">
@@ -38,9 +38,9 @@
                     ]; @endphp
                     @foreach($feeFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
-                               class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
+                               class="w-full px-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
                     @endforeach
                 </div>
@@ -49,7 +49,7 @@
             <!-- Platform Service Charges -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                    <div class="text-sm font-bold text-slate-900">Platform Service Charges (BDT)</div>
+                    <div class="text-sm font-semibold text-slate-900">Platform Service Charges (BDT)</div>
                     <div class="text-[10px] text-gov-green font-semibold">Table 8.2</div>
                 </div>
                 <div class="p-5 grid grid-cols-2 gap-4">
@@ -60,9 +60,9 @@
                     ]; @endphp
                     @foreach($platformFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
-                               class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
+                               class="w-full px-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
                     @endforeach
                 </div>
@@ -71,7 +71,7 @@
             <!-- Late-Fine Tiers -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                    <div class="text-sm font-bold text-slate-900">Late-Fine Tiers (BDT)</div>
+                    <div class="text-sm font-semibold text-slate-900">Late-Fine Tiers (BDT)</div>
                     <div class="text-[10px] text-gov-green font-semibold">Statutory late-fine framework — Table 8.3</div>
                 </div>
                 <div class="p-5 grid grid-cols-2 gap-4">
@@ -85,9 +85,9 @@
                     ]; @endphp
                     @foreach($fineFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
-                               class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
+                               class="w-full px-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
                     @endforeach
                 </div>
@@ -96,7 +96,7 @@
             <!-- SLA Timers -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                    <div class="text-sm font-bold text-slate-900">SLA Timers (business days)</div>
+                    <div class="text-sm font-semibold text-slate-900">SLA Timers (business days)</div>
                     <div class="text-[10px] text-gov-green font-semibold">FR-VET-04 &amp; MoHA workflow</div>
                 </div>
                 <div class="p-5 grid grid-cols-2 gap-4">
@@ -107,9 +107,9 @@
                     ]; @endphp
                     @foreach($slaFields as $key => $label)
                     <div>
-                        <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                        <label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                         <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
-                               class="w-full px-3 py-2 text-xs font-bold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
+                               class="w-full px-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                     </div>
                     @endforeach
                 </div>

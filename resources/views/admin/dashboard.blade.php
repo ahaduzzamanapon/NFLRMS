@@ -7,7 +7,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900">User Management</h2>
+<h2 class="text-2xl font-bold font-serif text-slate-900">User Management</h2>
             <p class="text-xs text-slate-500 mt-1">Create, deactivate & reassign accounts — no deployment required (FR-ADM-01)</p>
         </div>
         <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')"
@@ -24,7 +24,7 @@
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
+<tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Name</th>
                     <th class="p-3">Role</th>
                     <th class="p-3">Unit / Office</th>
@@ -55,11 +55,11 @@
                 <tr class="hover:bg-slate-50/50 transition-colors">
                     <td class="p-3 pl-5">
                         <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-slate-100 text-[10px] font-black text-slate-600 flex items-center justify-center border border-slate-200/50 flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-slate-100 text-[10px] font-semibold text-slate-600 flex items-center justify-center border border-slate-200/50 flex-shrink-0">
                                 {{ $initials }}
                             </div>
                             <div>
-                                <div class="font-bold text-slate-900">{{ $u->name }}</div>
+                                <div class="font-semibold text-slate-900">{{ $u->name }}</div>
                                 <div class="text-[9px] text-slate-400">{{ $u->email }}</div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                     <td class="p-3 font-semibold text-slate-600">{{ $u->roleLabel() }}</td>
                     <td class="p-3 text-slate-500 font-medium">{{ $unit }}</td>
                     <td class="p-3">
-                        <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase
+<span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase
                             {{ $isActive ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200' }}">
                             {{ $isActive ? 'Active' : 'Inactive' }}
                         </span>
@@ -75,12 +75,12 @@
                     <td class="p-3 pr-5 text-right">
                         <div class="flex items-center justify-end gap-3">
                             <a href="{{ route('admin.users.edit', $u->id) }}"
-                               class="text-[10px] font-black text-blue-500 hover:underline">Edit</a>
+class="text-[10px] font-semibold text-blue-500 hover:underline">Edit</a>
 
                             <form action="{{ route('admin.users.toggle', $u->id) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-                                        class="text-[10px] font-black {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
+class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
                                     {{ $isActive ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
@@ -90,7 +90,7 @@
                                   onsubmit="return confirm('Delete {{ addslashes($u->name) }}? This cannot be undone.')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-[10px] font-black text-rose-500 hover:underline">Delete</button>
+<button type="submit" class="text-[10px] font-semibold text-rose-500 hover:underline">Delete</button>
                             </form>
                             @endif
                         </div>
@@ -106,7 +106,7 @@
 <div id="add-user-modal" class="{{ $errors->any() ? '' : 'hidden' }} fixed inset-0 bg-black/50 flex items-start md:items-center justify-center z-50 p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md my-8 md:my-0 max-h-[90vh] flex flex-col overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
-            <h3 class="text-sm font-black text-slate-900">Add New User</h3>
+<h3 class="text-sm font-bold text-slate-900">Add New User</h3>
             <button onclick="document.getElementById('add-user-modal').classList.add('hidden')"
                     class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
         </div>
@@ -125,7 +125,7 @@
             </div>
 
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
+<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
                 <input type="text" name="name" id="new_user_name" required minlength="2"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                        value="{{ old('name') }}">
@@ -133,7 +133,7 @@
                 @error('name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
+<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
                 <input type="email" name="email" id="new_user_email" required
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('email') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                        value="{{ old('email') }}">
@@ -141,14 +141,14 @@
                 @error('email')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Password</label>
+<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Password</label>
                 <input type="password" name="password" id="new_user_password" required minlength="8"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('password') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
                 <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="password"></span>
                 @error('password')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
+<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
                 <select name="role" id="new_user_role" required
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('role') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select Role —</option>
@@ -160,7 +160,7 @@
                 @error('role')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
+<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
                 <select name="district_id"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select District —</option>
@@ -171,7 +171,7 @@
                 @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <button type="submit"
-                    class="w-full py-2.5 bg-gov-green hover:bg-gov-light text-white font-black text-xs rounded-lg transition-colors">
+class="w-full py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors">
                 Create User
             </button>
         </form>

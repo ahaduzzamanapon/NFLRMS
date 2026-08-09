@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in — NFLRMS</title>
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,146 +21,218 @@
                             deep: '#033425',
                             green: '#0b523a',
                             light: '#07805c',
-                            gold: '#dfa32b',
-                            accent: '#e8a838',
+                            ink: '#0c1b14',
+                        },
+                        gold: {
+                            DEFAULT: '#c9a24b',
+                            soft: '#e3cd93',
+                        },
+                        paper: {
+                            DEFAULT: '#faf8f2',
+                            line: '#e8e2d0',
                         }
                     },
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['Lora', 'serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                        serif: ['"Poppins"', 'sans-serif'],
+                        bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        @font-face {
+            font-family: 'Nikosh';
+            src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
-        .text-serif {
-            font-family: 'Lora', serif;
-        }
-        .drawer-transition {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        body { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
+        .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
+        .sec-chip { font-variant-numeric: tabular-nums; }
+        .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="h-full antialiased text-slate-800 bg-slate-50 flex overflow-hidden">
+<body class="min-h-full font-sans antialiased text-slate-800 flex flex-col lg:flex-row">
 
-    <!-- Split Layout Grid -->
-    <div class="w-full grid grid-cols-1 md:grid-cols-12 min-h-screen">
+    <!-- Left Pane: Ceremonial / letterhead side -->
+    <div class="w-full lg:w-1/2 bg-gov-deep text-white relative">
 
-        <!-- Left Banner: Forest Green (Col Span 5) -->
-        <div class="hidden md:flex md:col-span-5 bg-gov-green text-white p-16 flex-col justify-between relative">
-            <!-- Back to Home -->
-            <div>
-                <a href="/" class="inline-flex items-center space-x-2 text-xs font-semibold text-emerald-100 hover:text-white transition-colors">
-                    <span>←</span> <span>Back to home</span>
-                </a>
-            </div>
-
-            <!-- Center Welcome -->
-            <div class="space-y-6 my-auto">
-                <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center border border-white/10 shadow-lg p-2.5">
-                    <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png"
-                         alt="Government Seal" class="w-full h-full object-contain">
-                </div>
-
-                <h1 class="text-4xl font-extrabold text-serif tracking-tight leading-[1.1] text-white">
-                    Welcome back to NFLRMS
-                </h1>
-
-                <p class="text-emerald-100/70 text-xs leading-relaxed max-w-sm font-semibold">
-                    Sign in to manage your firearm license or dealing license applications.
-                </p>
-            </div>
-
-            <!-- Footer info -->
-            <div class="text-[10px] text-emerald-100/40 font-bold uppercase tracking-wider">
-                Ministry of Home Affairs &bull; Government of Bangladesh
-            </div>
+        <!-- Guilloché-style security pattern, signature background element (spans the full column height) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <svg class="w-full h-full opacity-[0.10]" preserveAspectRatio="xMidYMid slice" viewBox="0 0 800 800" aria-hidden="true">
+                <defs>
+                    <pattern id="guilloche" width="80" height="80" patternUnits="userSpaceOnUse">
+                        <circle cx="40" cy="40" r="38" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                        <circle cx="40" cy="40" r="26" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                        <circle cx="0" cy="0" r="38" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                        <circle cx="80" cy="0" r="38" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                        <circle cx="0" cy="80" r="38" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                        <circle cx="80" cy="80" r="38" fill="none" stroke="#e3cd93" stroke-width="0.6"/>
+                    </pattern>
+                </defs>
+                <rect width="800" height="800" fill="url(#guilloche)"/>
+            </svg>
         </div>
 
-        <!-- Right Form: Off-white (Col Span 7) -->
-        <div class="col-span-12 md:col-span-7 bg-[#FAF9F6] flex flex-col justify-center px-8 sm:px-16 py-12 relative">
-            <!-- Mobile Navigation fallback -->
-            <div class="absolute top-6 left-8 md:hidden">
-                <a href="/" class="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors">
-                    <span>←</span> <span>Back to home</span>
+        <!-- Sticky content layer: pins to the viewport while the outer panel stretches to match the form's height -->
+        <div class="relative z-10 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-8 pb-12 lg:p-16 lg:pb-20">
+
+            <!-- Top: back link + form reference -->
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-2 transition-colors">
+                    <span>&larr;</span>
+                    <span>Back to home</span>
                 </a>
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;02</span>
             </div>
 
-            <div class="max-w-[400px] w-full mx-auto space-y-8">
-                <!-- Header -->
-                <div class="space-y-1">
-                    <h2 class="text-4xl font-bold text-serif text-slate-950">Sign in</h2>
-                    <p class="text-slate-500 text-xs font-semibold">Use your mobile number and password.</p>
+            <!-- Middle Content -->
+            <div class="my-10 space-y-7 max-w-md">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
+                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
+                    </div>
+                    <div class="text-[11px] leading-snug text-slate-300 font-semibold uppercase tracking-wider">
+                        <p>Government of the People&rsquo;s Republic of Bangladesh</p>
+                        <p class="font-bn normal-case text-slate-400 mt-0.5">বাংলাদেশ গণপ্রজাতন্ত্রী সরকার</p>
+                    </div>
                 </div>
 
-                <!-- Form -->
-                <form action="{{ route('login') }}" method="POST" class="space-y-5" id="main-login-form">
-                    @csrf
+                <div class="h-px w-16 bg-gold/60"></div>
 
-                    <!-- Validation Summary Alert -->
-                    <div id="loginValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
-                        <span class="block text-sm font-black font-serif">
-                            ⚠️ Please fill in the highlighted required field(s) above before continuing.
+                <h2 class="text-3xl lg:text-[1.9rem] font-extrabold font-serif leading-[1.1]">
+                    Welcome back to NFLRMS
+                </h2>
+                <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-medium max-w-sm">
+                    Sign in to manage your firearm license or dealing license applications.
+                </p>
+
+                <ul class="space-y-3 text-xs text-slate-200 font-medium pt-2">
+                    <li class="flex items-start gap-3">
+                        <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                    </div>
+                        <span>Mobile number sign-in <span class="text-slate-400 font-normal">(no separate username)</span></span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                        </span>
+                        <span>Role-based secure access</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                        </span>
+                        <span>Every session logged for audit</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                        </span>
+                        <span>Bilingual (Bangla + English) notifications</span>
+                    </li>
+                </ul>
+            </div>
 
-                    <!-- Mobile Field -->
-                    <div class="space-y-1.5">
-                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Mobile Number</label>
-                        <input type="text" name="phone" id="login-phone"
-                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('phone') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
-                               placeholder="01711234567" value="{{ old('phone') }}">
+            <!-- Bottom Footer -->
+            <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-6 border-t border-white/10">
+                <span class="flex items-center gap-2">
+                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90">
+                    <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
+                </span>
+                <span class="text-slate-500">v1.0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Pane: Sign In Form -->
+    <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-5 sm:p-6 lg:px-8 lg:py-8">
+        <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
+
+            <div>
+                <h3 class="text-2xl font-bold font-serif text-slate-900 leading-none">Sign in</h3>
+                <p class="text-[11px] text-slate-500 mt-1.5 font-medium">Use your mobile number and password.</p>
+            </div>
+
+            <form action="{{ route('login') }}" method="POST" class="space-y-4" id="main-login-form">
+                @csrf
+
+                <!-- Validation Summary Alert -->
+                <div id="loginValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-semibold space-y-1">
+                    <span class="block text-sm font-bold font-serif">
+                        <span>⚠️</span> Please fill in the highlighted required field(s) below before continuing.
+                    </span>
+                </div>
+
+                <!-- Section A: Access credentials -->
+                <div class="space-y-3">
+                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">A</span>
+                        Access Credentials
+                    </p>
+
+                    <div>
+                        <label for="login-phone" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Mobile Number</label>
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                            <input type="text" name="phone" id="login-phone"
+                                   class="w-full pl-9 pr-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('phone') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
+                                   placeholder="01711234567" value="{{ old('phone') }}">
+                        </div>
                         @error('phone')
                             <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
                         <span id="js-error-login-phone" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit mobile number.</span>
                     </div>
 
-                    <!-- Password Field -->
-                    <div class="space-y-1.5">
-                        <label class="block text-[9px] font-black uppercase tracking-widest text-slate-950">Password</label>
-                        <input type="password" name="password" id="login-password"
-                               class="w-full px-4 py-3 text-xs font-bold text-slate-800 rounded-lg border bg-white outline-none focus:ring-1 transition-all @error('password') border-rose-500 focus:ring-rose-500 @else border-slate-200 focus:ring-gov-green @enderror"
-                               placeholder="••••••••">
+                    <div>
+                        <label for="login-password" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Password</label>
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+                            <input type="password" name="password" id="login-password"
+                                   class="w-full pl-9 pr-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('password') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
+                                   placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+                        </div>
                         @error('password')
                             <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
                         <span id="js-error-login-password" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Password is required.</span>
                     </div>
+                </div>
 
-                    <!-- Button -->
-                    <button type="submit"
-                            class="w-full py-3 rounded-lg bg-gov-green hover:bg-[#08402e] text-white font-bold text-xs shadow-md transition-colors flex items-center justify-center space-x-1.5">
-                        <span>→]</span> <span>Sign in</span>
-                    </button>
-                </form>
+                <button type="submit"
+                        class="w-full py-3 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md shadow-gov-green/20 transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H3" /></svg>
+                    <span>Sign in</span>
+                </button>
+            </form>
 
-                <!-- Mockup details -->
-                <div class="text-[10px] text-slate-500 leading-relaxed font-semibold pt-2">
+            <div class="text-center space-y-2">
+                <p class="text-[10px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
                     Demo credentials: 01711234567 / demo1234 (citizen), 01711000111 / demo1234 (dealer)
+                </p>
+                <p class="text-[11px] text-slate-500">
+                    No account? <a href="{{ route('register') }}" class="text-gov-green hover:underline font-semibold">Sign up</a>
+                </p>
+                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium pt-3 border-t border-slate-100">
+                    <span>Developed By</span>
+                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
                 </div>
-
-                <!-- Sign up Link -->
-                <div class="text-xs text-slate-500 font-semibold text-center pt-2">
-                    No account? <a href="{{ route('register') }}" class="text-gov-green hover:underline font-extrabold">Sign up</a>
-                </div>
-            </div>
-
-            <!-- Footer for mobile view -->
-            <div class="absolute bottom-6 left-8 right-8 text-center md:hidden text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                Ministry of Home Affairs &bull; GoB
             </div>
         </div>
     </div>
 
     <!-- Quick Roles Floating Button -->
     <button type="button" onclick="toggleDrawer(true)"
-            class="fixed bottom-6 right-6 px-4 py-2.5 bg-gov-green hover:bg-[#08402e] text-white text-xs font-black rounded-full shadow-lg flex items-center space-x-2 z-40 transition-transform active:scale-95 border border-white/10">
-        <span>🔑</span> <span>Quick Login</span>
+            class="fixed bottom-6 right-6 px-4 py-2.5 bg-gov-deep hover:bg-gov-green text-white text-xs font-bold rounded-full shadow-lg shadow-gov-deep/30 flex items-center gap-2 z-40 transition-transform active:scale-95 border border-gold/40">
+        <svg class="w-4 h-4 text-gold-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
+        <span>Quick Login</span>
     </button>
 
     <!-- Backdrop Blur for Drawer -->
@@ -169,12 +241,12 @@
     <!-- Quick Roles Sliding Drawer (Right Side) -->
     <div id="quick-roles-drawer" class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform translate-x-full drawer-transition flex flex-col justify-between border-l border-slate-200">
         <!-- Header -->
-        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div class="p-5 bg-gov-deep text-white flex items-center justify-between">
             <div>
-                <h3 class="text-xs font-black uppercase tracking-wider text-slate-900">Registered Accounts</h3>
-                <p class="text-[9px] text-slate-500 font-semibold mt-0.5">Click to sign in instantly with mock profile</p>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-white">Registered Accounts</h3>
+                <p class="text-[9px] text-slate-300 font-medium mt-0.5">Click to sign in instantly with mock profile</p>
             </div>
-            <button type="button" onclick="toggleDrawer(false)" class="text-slate-400 hover:text-slate-600 text-sm font-black p-1">✕</button>
+            <button type="button" onclick="toggleDrawer(false)" class="text-slate-300 hover:text-white text-sm font-bold p-1">&#10005;</button>
         </div>
 
         <!-- Scrollable accounts list -->
@@ -213,19 +285,19 @@
 
             @foreach($roleGroups as $group => $rolesList)
             <div class="space-y-1.5">
-                <h4 class="text-[9px] font-black uppercase tracking-wider text-slate-400 px-1">{{ $group }}</h4>
+                <h4 class="text-[9px] font-bold uppercase tracking-wider text-slate-400 px-1">{{ $group }}</h4>
                 <div class="space-y-1">
                     @foreach($rolesList as $roleVal => $details)
                     <button type="button" onclick="quickLogin('{{ $details[0] }}')"
                             class="w-full flex items-center justify-between p-2.5 rounded-lg border border-slate-200 hover:border-gov-green hover:bg-emerald-50/20 text-left transition-all group">
-                        <div class="flex items-center space-x-3.5">
+                        <div class="flex items-center gap-3.5">
                             <span class="w-1.5 h-1.5 rounded-full group-hover:scale-125 transition-transform" style="background: {{ $details[2] }}"></span>
                             <div>
                                 <div class="text-[10px] font-bold text-slate-800 leading-none">{{ $details[1] }}</div>
-                                <div class="text-[9px] text-slate-400 font-bold mt-1 leading-none">{{ $details[0] }}</div>
+                                <div class="text-[9px] text-slate-400 font-medium mt-1 leading-none">{{ $details[0] }}</div>
                             </div>
                         </div>
-                        <span class="text-[9px] text-gov-green font-extrabold opacity-0 group-hover:opacity-100 transition-opacity">Login &rarr;</span>
+                        <span class="text-[9px] text-gov-green font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Login &rarr;</span>
                     </button>
                     @endforeach
                 </div>
@@ -234,7 +306,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="p-4 bg-slate-50 border-t border-slate-100 text-center text-[8px] text-slate-400 font-bold uppercase tracking-wider">
+        <div class="p-4 bg-slate-50 border-t border-slate-100 text-center text-[8px] text-slate-400 font-semibold uppercase tracking-wider">
             NFLRMS &bull; GRS Verified Session
         </div>
     </div>
@@ -248,8 +320,8 @@
 
     <script>
         // ---------- Client-side validation (login form) ----------
-        const LOGIN_ERROR_BORDER = ['border-rose-500', 'focus:ring-rose-500'];
-        const LOGIN_NORMAL_BORDER = ['border-slate-200', 'focus:ring-gov-green'];
+        const LOGIN_ERROR_BORDER = ['border-rose-500', 'focus:ring-rose-200'];
+        const LOGIN_NORMAL_BORDER = ['border-slate-200', 'focus:ring-gov-green/25', 'focus:border-gov-green'];
 
         function markLoginInvalid(fieldId) {
             const el = document.getElementById(fieldId);

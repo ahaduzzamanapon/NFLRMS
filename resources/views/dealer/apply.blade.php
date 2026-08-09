@@ -6,23 +6,23 @@
 
     <!-- Header -->
     <div>
-        <h2 class="text-2xl font-black font-serif text-slate-900">New Dealing Licence (Form K)</h2>
-        <p class="text-xs text-slate-500 mt-1 font-semibold">
+        <h2 class="text-2xl font-bold font-serif text-slate-900">New Dealing Licence (Form K)</h2>
+        <p class="text-xs text-slate-500 mt-1 font-normal">
             Arms Dealing Authorization · Appendix B, BRS §7.2 · 4-agency vetting required
         </p>
     </div>
 
     <!-- Fee Summary -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
-        <div class="text-xs font-bold text-amber-800">
-            Statutory Fee: <span class="font-black">৳1,50,000</span> &bull; Platform Charge: <span class="font-black">৳2,500</span>
+        <div class="text-xs font-medium text-amber-800">
+            Statutory Fee: <span class="font-bold">৳1,50,000</span> &bull; Platform Charge: <span class="font-bold">৳2,500</span>
         </div>
-        <span class="text-[10px] font-black text-amber-600 uppercase tracking-wider">Total: ৳1,52,500</span>
+        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: ৳1,52,500</span>
     </div>
 
     <!-- Validation Summary Alert -->
-    <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
-        <span class="block text-sm font-black font-serif">
+    <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
+        <span class="block text-sm font-bold font-serif">
             ⚠️ Please fill in the highlighted required field(s) above before continuing.
         </span>
     </div>
@@ -34,11 +34,11 @@
         <!-- Section 1: Business Information -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-900">1. Business Information</span>
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">1. Business Information</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="firm_name" id="firm_name" required minlength="3" value="{{ old('firm_name') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="e.g. Karim Arms & Ammunition">
@@ -46,7 +46,7 @@
                     @error('firm_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Trade License Number <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Trade License Number <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="trade_license" id="trade_license" required
                            pattern="^TL-[A-Z]{2,4}-\d{4}-\d{3,6}$" value="{{ old('trade_license') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
@@ -55,7 +55,7 @@
                     @error('trade_license')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="business_address" id="business_address" required minlength="10" value="{{ old('business_address') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('business_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="Full address of premises">
@@ -63,7 +63,7 @@
                     @error('business_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">District <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">District <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="district_id" id="dealer_district_id" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District —</option>
@@ -75,7 +75,7 @@
                     @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="upazila_id" id="dealer_upazila_id" required disabled
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('upazila_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District First —</option>
@@ -84,7 +84,7 @@
                     @error('upazila_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="license_class" id="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('license_class') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select Class —</option>
@@ -101,18 +101,18 @@
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="proprietor_name" id="proprietor_name" required value="{{ old('proprietor_name', auth()->user()->name) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('proprietor_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
                     <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
                     @error('proprietor_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="nid" id="nid" required pattern="^\d{10}(\d{7})?$" inputmode="numeric"
                            value="{{ old('nid', auth()->user()->nid) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
@@ -121,7 +121,7 @@
                     @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="mobile" id="mobile" required pattern="^01[3-9]\d{8}$" inputmode="numeric"
                            value="{{ old('mobile', auth()->user()->phone) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('mobile') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
@@ -130,7 +130,7 @@
                     @error('mobile')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="number" name="annual_income" id="annual_income" required min="1" step="1" value="{{ old('annual_income') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="0">
@@ -143,7 +143,7 @@
         <!-- Section 3: Stock Categories -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
             </div>
             <div class="p-5">
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 p-2 rounded-lg border {{ $errors->has('categories') ? 'border-rose-400 bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="categories">
@@ -152,7 +152,7 @@
                         <input type="checkbox" name="categories[]" value="{{ $cat }}"
                                class="rounded border-slate-300 text-gov-green focus:ring-gov-green"
                                {{ in_array($cat, old('categories', [])) ? 'checked' : '' }}>
-                        <span class="text-xs font-semibold text-slate-700">{{ $cat }}</span>
+                        <span class="text-xs font-medium text-slate-700">{{ $cat }}</span>
                     </label>
                     @endforeach
                 </div>
@@ -164,7 +164,7 @@
         <!-- Section 4: Documents -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">4. Required Documents</span>
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">4. Required Documents</span>
             </div>
             <div class="p-5 space-y-3">
                 @foreach([
@@ -176,7 +176,7 @@
                 <div>
                     <div class="flex items-center justify-between p-3 rounded-lg border {{ $errors->has($doc['name']) ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} js-error-wrapper" data-wrapper-for="{{ $doc['name'] }}">
                         <div>
-                            <div class="text-xs font-bold text-slate-900">{{ $doc['label'] }}</div>
+                            <div class="text-xs font-semibold text-slate-900">{{ $doc['label'] }}</div>
                             <div class="text-[10px] text-slate-400 font-medium">PDF or JPG/PNG · Max 5MB</div>
                         </div>
                         <input type="file" name="{{ $doc['name'] }}" id="{{ $doc['name'] }}" required
@@ -208,11 +208,11 @@
         <!-- Submit -->
         <div class="flex gap-3 justify-end">
             <a href="{{ route('dealer.dashboard') }}"
-               class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">
+               class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                 Cancel
             </a>
             <button type="submit"
-                    class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-black text-xs shadow-md transition-colors">
+                    class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
                 Submit Form K Application →
             </button>
         </div>

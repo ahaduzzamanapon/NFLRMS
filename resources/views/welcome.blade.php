@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -30,18 +30,28 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['Lora', 'serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                        serif: ['"Poppins"', 'sans-serif'],
+                        bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Nikosh';
+            src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #fafbfc;
         }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
 
         .hero-bg {
             background: linear-gradient(rgba(3, 52, 37, 0.93), rgba(3, 52, 37, 0.95)), url('https://flms.lovable.app/__l5e/assets-v1/d9f2dc6d-2e28-4bf1-b5d5-e32f5583aae4/home.jpg');
@@ -50,7 +60,7 @@
         }
 
         .text-serif {
-            font-family: 'Lora', serif;
+            font-family: 'Poppins', sans-serif;
         }
     </style>
 </head>
@@ -65,9 +75,9 @@
                 <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png"
                     alt="Government of Bangladesh" width="40" height="40" class="w-10 h-10 object-contain" />
                 <div class="leading-tight">
-                    <h1 class="text-xs font-black uppercase tracking-wider leading-none text-slate-100 text-accent">
+                    <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
                         Govt. of Bangladesh</h1>
-                    <p class="text-[9px] text-slate-400 font-bold uppercase mt-1 leading-none">Ministry of Home Affairs
+                    <p class="text-[9px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
                     </p>
                 </div>
             </div>
@@ -109,24 +119,24 @@
                         };
                     @endphp
                     <a href="{{ route($dashRoute) }}"
-                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-md transition-all flex items-center space-x-1.5">
+                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow-md transition-all flex items-center space-x-1.5">
                         <span>Dashboard ({{ auth()->user()->name }})</span>
                         <span>&rarr;</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
-                            class="px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
+                            class="px-3 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
                             Logout
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}"
-                        class="px-4 py-2 text-xs font-bold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
+                        class="px-4 py-2 text-xs font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
                         Login
                     </a>
                     <a href="{{ route('register') }}"
-                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-md transition-all">
+                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow-md transition-all">
                         Sign up
                     </a>
                 @endauth
@@ -143,7 +153,7 @@
             <div class="lg:col-span-7 space-y-6">
                 <!-- Badge -->
                 <span
-                    class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[9px] font-black uppercase tracking-wider">
+                    class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[9px] font-bold uppercase tracking-wider">
                     <span>💎</span> <span>NFLRMS . PRODUCTION SYSTEM</span>
                 </span>
 
@@ -160,54 +170,54 @@
                 <div class="flex flex-wrap gap-4 pt-2">
                     @auth
                         <a href="{{ route($dashRoute) }}"
-                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
                             <span>Go to Your Dashboard</span>
                             <span>&rarr;</span>
                         </a>
                         <a href="{{ route('verify') }}"
-                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
+                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-semibold text-xs transition-colors">
                             Verify a Certificate
                         </a>
                     @else
                         <a href="{{ route('register') }}"
-                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-black text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
                             <span>Create Citizen / Dealer Account</span>
                             <span>&rarr;</span>
                         </a>
-                        <a href="{{ route('login') }}"
+                        {{-- <a href="{{ route('login') }}"
                             class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
                             Executive Dashboard
                         </a>
                         <a href="{{ route('verify') }}"
                             class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
                             Verify a Certificate
-                        </a>
+                        </a> --}}
                     @endauth
                 </div>
 
                 <!-- Stats Banner -->
-                <div class="grid grid-cols-4 gap-4 pt-10 border-t border-white/10">
+                {{-- <div class="grid grid-cols-4 gap-4 pt-10 border-t border-white/10">
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">
                             {{ number_format($stats['total_licenses']) }}</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-black tracking-wider mt-1.5">Active licenses
+                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Active licenses
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">{{ $stats['total_districts'] }}</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-black tracking-wider mt-1.5">Districts served
+                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Districts served
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">4</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-black tracking-wider mt-1.5">Vetting agencies
+                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Vetting agencies
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">3</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-black tracking-wider mt-1.5">MoHA tiers</p>
+                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">MoHA tiers</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Hero Right Side Graphics Mockup -->
@@ -224,7 +234,7 @@
                         <span>✓</span> Certificate Issued
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
-                    <div class="text-[10px] text-slate-500 font-semibold mt-1">Md. Nasrin Sultana · Revolver</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
                     <div class="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full bg-emerald-500 w-[92%]"></div>
                     </div>
@@ -233,9 +243,9 @@
 
                 <div
                     class="absolute -top-4 -right-4 w-56 bg-white text-slate-800 rounded-xl p-4 shadow-2xl ring-1 ring-black/5 rotate-3">
-                    <div class="text-[10px] uppercase text-slate-400 font-bold">Renewal reminder</div>
+                    <div class="text-[10px] uppercase text-slate-400 font-semibold">Renewal reminder</div>
                     <div class="text-sm font-bold mt-1 text-slate-900">28 days remaining</div>
-                    <div class="text-[10px] text-slate-500 font-semibold mt-1">SMS + email dispatched at 60d / 30d / 15d
+                    <div class="text-[10px] text-slate-500 font-medium mt-1">SMS + email dispatched at 60d / 30d / 15d
                     </div>
                 </div>
             </div>
@@ -245,7 +255,7 @@
 
     <!-- Why NFLRMS Features -->
     <section class="max-w-7xl mx-auto py-20 px-6">
-        <span class="text-[10px] font-black uppercase text-gov-accent tracking-widest block text-center mb-2">Why
+        <span class="text-[10px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
             NFLRMS</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
             A statutory workflow, digitized without losing a single approval.
@@ -256,7 +266,7 @@
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">🛡️</span>
-                <h3 class="text-sm font-bold text-serif text-slate-900">Statutory Chain Preserved</h3>
+                <h3 class="text-sm font-semibold text-serif text-slate-900">Statutory Chain Preserved</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
                     DC Office &rarr; Police / SB (individuals) or Police/SB/NSI/DGFI (dealers) &rarr; MoHA Political-4
                     &rarr; Joint Secretary &rarr; Minister. Every signature, every register.
@@ -266,7 +276,7 @@
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">⏳</span>
-                <h3 class="text-sm font-bold text-serif text-slate-900">Automatic Renewal Lifecycle</h3>
+                <h3 class="text-sm font-semibold text-serif text-slate-900">Automatic Renewal Lifecycle</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
                     60/30/15-day reminders, grace period, 3-tier late-fine engine, auto-suspension, mandatory re-vetting
                     — no case is forgotten.
@@ -276,7 +286,7 @@
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">🏛️</span>
-                <h3 class="text-sm font-bold text-serif text-slate-900">Ministry-grade Oversight</h3>
+                <h3 class="text-sm font-semibold text-serif text-slate-900">Ministry-grade Oversight</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
                     Real-time revenue, quota, and heatmap dashboards for the Secretary and Minister — with an emergency
                     national kill-switch.
@@ -294,10 +304,10 @@
         <div class="flex items-center justify-between mb-12">
             <div>
                 <span
-                    class="text-[10px] font-black uppercase text-gov-green tracking-widest block mb-2">Services</span>
+                    class="text-[10px] font-bold uppercase text-gov-green tracking-widest block mb-2">Services</span>
                 <h2 class="text-3xl font-bold text-serif text-slate-900">Five end-to-end digital workflows</h2>
             </div>
-            <a href="{{ route('register') }}" class="text-xs font-bold text-gov-green hover:underline">Create account
+            <a href="{{ route('register') }}" class="text-xs font-semibold text-gov-green hover:underline">Create account
                 to apply &rarr;</a>
         </div>
 
@@ -305,56 +315,56 @@
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">New Firearm License — Long Gun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">Shotgun / Rifle.
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">New Firearm License — Long Gun</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Shotgun / Rifle.
                         DC-level approval.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳{{ number_format($fees['fee_longgun_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
+                <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_longgun_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
             </div>
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">New Firearm License — Handgun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">Pistol / Revolver. MoHA
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">New Firearm License — Handgun</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Pistol / Revolver. MoHA
                         approval chain.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳{{ number_format($fees['fee_pistol_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
+                <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_pistol_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
             </div>
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">Renewal — Long Gun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">Annual, with automatic
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">Renewal — Long Gun</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, with automatic
                         late-fine tiers.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳{{ number_format($fees['fee_longgun_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
+                <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_longgun_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
             </div>
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">Renewal — Handgun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">Annual, DC + Political-4
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">Renewal — Handgun</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, DC + Political-4
                         verification.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳{{ number_format($fees['fee_pistol_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
+                <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_pistol_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
             </div>
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">Arms Dealing License (Form K)</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">4-agency vetting +
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">Arms Dealing License (Form K)</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">4-agency vetting +
                         Screening Committee.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳150,000 + ৳2,500</div>
+                <div class="text-xs font-bold text-slate-700">৳150,000 + ৳2,500</div>
             </div>
             <div
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-900 font-serif">Dealing License Renewal</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-semibold">Stock ledger
+                    <h4 class="text-xs font-semibold text-slate-900 font-serif">Dealing License Renewal</h4>
+                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Stock ledger
                         reconciliation + committee.</p>
                 </div>
-                <div class="text-xs font-black text-slate-700">৳75,000 + ৳2,500</div>
+                <div class="text-xs font-bold text-slate-700">৳75,000 + ৳2,500</div>
             </div>
         </div>
     </section>
@@ -362,7 +372,7 @@
     <!-- Pricing Section -->
     <section id="pricing" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
         <span
-            class="text-[10px] font-black uppercase text-gov-green tracking-widest block text-center mb-2">Transparent
+            class="text-[10px] font-bold uppercase text-gov-green tracking-widest block text-center mb-2">Transparent
             Pricing</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center mb-2">Statutory fees & platform charges
         </h2>
@@ -384,37 +394,37 @@
                         <td class="p-4 pl-6 font-semibold">New Licence &mdash; Pistol/Revolver</td>
                         <td class="p-4">৳{{ number_format($fees['fee_pistol_new']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_new']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_pistol_new'] + $fees['fee_platform_new']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_pistol_new'] + $fees['fee_platform_new']) }}</td>
                     </tr>
                     <tr>
                         <td class="p-4 pl-6 font-semibold">New Licence &mdash; Shotgun/Rifle</td>
                         <td class="p-4">৳{{ number_format($fees['fee_longgun_new']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_new']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_longgun_new'] + $fees['fee_platform_new']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_longgun_new'] + $fees['fee_platform_new']) }}</td>
                     </tr>
                     <tr>
                         <td class="p-4 pl-6 font-semibold">Renewal (on time) &mdash; Pistol/Revolver</td>
                         <td class="p-4">৳{{ number_format($fees['fee_pistol_renewal']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_renewal']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_pistol_renewal'] + $fees['fee_platform_renewal']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_pistol_renewal'] + $fees['fee_platform_renewal']) }}</td>
                     </tr>
                     <tr>
                         <td class="p-4 pl-6 font-semibold">Renewal (on time) &mdash; Shotgun/Rifle</td>
                         <td class="p-4">৳{{ number_format($fees['fee_longgun_renewal']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_renewal']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_longgun_renewal'] + $fees['fee_platform_renewal']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_longgun_renewal'] + $fees['fee_platform_renewal']) }}</td>
                     </tr>
                     <tr>
                         <td class="p-4 pl-6 font-semibold">Renewal (Late Tier 1) &mdash; Pistol/Revolver</td>
                         <td class="p-4">৳{{ number_format($fees['fee_pistol_renewal']) }} + ৳{{ number_format($fees['fine_t1_pistol']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_renewal']) }} + ৳{{ number_format($fees['fee_platform_late']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_pistol_renewal'] + $fees['fine_t1_pistol'] + $fees['fee_platform_renewal'] + $fees['fee_platform_late']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_pistol_renewal'] + $fees['fine_t1_pistol'] + $fees['fee_platform_renewal'] + $fees['fee_platform_late']) }}</td>
                     </tr>
                     <tr>
                         <td class="p-4 pl-6 font-semibold">Renewal (Late Tier 2) &mdash; Shotgun/Rifle</td>
                         <td class="p-4">৳{{ number_format($fees['fee_longgun_renewal']) }} + ৳{{ number_format($fees['fine_t2_longgun']) }}</td>
                         <td class="p-4">৳{{ number_format($fees['fee_platform_renewal']) }} + ৳{{ number_format($fees['fee_platform_late']) }}</td>
-                        <td class="p-4 pr-6 font-black text-gov-green">৳{{ number_format($fees['fee_longgun_renewal'] + $fees['fine_t2_longgun'] + $fees['fee_platform_renewal'] + $fees['fee_platform_late']) }}</td>
+                        <td class="p-4 pr-6 font-bold text-gov-green">৳{{ number_format($fees['fee_longgun_renewal'] + $fees['fine_t2_longgun'] + $fees['fee_platform_renewal'] + $fees['fee_platform_late']) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -426,12 +436,12 @@
         <div
             class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs gap-6 text-slate-300">
             <div>
-                <h4 class="font-extrabold text-white font-serif text-sm">Ministry of Home Affairs</h4>
+                <h4 class="font-bold text-white font-serif text-sm">Ministry of Home Affairs</h4>
                 <p class="text-[10px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
             </div>
             <div class="text-center md:text-right text-[10px]">
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
-                <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-semibold">
+                <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
                     <span>Powered by</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd."
                         class="h-7 w-auto object-contain">
