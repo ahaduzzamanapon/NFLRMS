@@ -25,19 +25,19 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Active Licenses</h4>
+            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Active Licenses</h4>
             <p class="text-3xl font-bold font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
+            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
             <p class="text-3xl font-bold font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
+            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
             <p class="text-3xl font-bold font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
+            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
             <p class="text-3xl font-bold font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
         </div>
     </div>
@@ -55,7 +55,7 @@
 
     <!-- My Active Licence Section -->
     <div class="space-y-3">
-        <h3 class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">
+        <h3 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">
             My Active Licence
         </h3>
 
@@ -74,7 +74,7 @@
                         <div class="flex items-center space-x-2">
                             <span class="text-2xl">🇧🇩</span>
                             <div>
-                                <h4 class="text-[9px] font-semibold uppercase text-slate-500 leading-none">
+                                <h4 class="text-[10px] font-semibold uppercase text-slate-500 leading-none">
                                     Government of Bangladesh &bull; MoHA
                                 </h4>
                                 <h3 class="text-xs font-bold text-slate-900 mt-1 leading-none">
@@ -82,36 +82,36 @@
                                 </h3>
                             </div>
                         </div>
-                        <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase
                             {{ $l->status === 'active' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/25' : 'bg-rose-500/10 text-rose-600 border border-rose-500/25' }}">
                             {{ ucfirst($l->status) }}
                         </span>
                     </div>
 
                     <!-- Fields -->
-                    <div class="grid grid-cols-2 gap-4 text-[10px]">
+                    <div class="grid grid-cols-2 gap-4 text-[11px]">
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">Holder</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Holder</span>
                             <span class="font-bold text-slate-900">{{ auth()->user()->name }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">Weapon</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Weapon</span>
                             <span class="font-bold text-slate-900">{{ $l->firearm_details['weapon_type'] ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">Licence No.</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Licence No.</span>
                             <span class="font-bold text-slate-900 uppercase font-mono">{{ $l->license_number }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">District</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">District</span>
                             <span class="font-bold text-slate-900">{{ auth()->user()->district->name ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">Issued</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Issued</span>
                             <span class="font-bold text-slate-900">{{ $l->issue_date->format('d M Y') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[8px]">Expires</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Expires</span>
                             <span class="font-bold text-slate-900 {{ $l->expiry_date->isPast() ? 'text-rose-600' : '' }}">
                                 {{ $l->expiry_date->format('d M Y') }}
                             </span>
@@ -120,9 +120,9 @@
 
                     <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between">
                         <a href="{{ route('citizen.renew', $l->id) }}"
-                           class="text-[9px] font-semibold text-gov-green hover:underline">🔄 Renew License</a>
+                           class="text-[10px] font-semibold text-gov-green hover:underline">🔄 Renew License</a>
                         <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
-                           class="text-[9px] font-semibold text-gov-green hover:underline">⬇ Download / Verify</a>
+                           class="text-[10px] font-semibold text-gov-green hover:underline">⬇ Download / Verify</a>
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
                              class="w-full h-full">
                         </div>
                     </div>
-                    <span class="text-[7px] text-slate-400 font-medium uppercase mt-2 leading-tight">Scan to verify<br>on NFLRMS portal</span>
+                    <span class="text-[8px] text-slate-400 font-medium uppercase mt-2 leading-tight">Scan to verify<br>on NFLRMS portal</span>
                 </div>
             </div>
             @endforeach
@@ -145,7 +145,7 @@
     <div class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
             <h3 class="text-sm font-bold text-slate-900 font-serif">My Applications</h3>
-            <button onclick="window.location.reload()" class="text-[10px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
+            <button onclick="window.location.reload()" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
                 <span>🔄</span>
                 <span>Refresh</span>
             </button>
@@ -154,7 +154,7 @@
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                         <th class="p-3 pl-5">Reference</th>
                         <th class="p-3">Service</th>
                         <th class="p-3">Submitted</th>
@@ -208,23 +208,23 @@
                                         default => ucfirst($a->status),
                                     };
                                 @endphp
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider {{ $badgeStyles }}">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border uppercase tracking-wider {{ $badgeStyles }}">
                                     {{ $statusLabel }}
                                 </span>
                             </td>
                             <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">
                                 @if($a->status === 'payment_pending')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[10px] font-bold shadow-sm transition-colors">
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-bold shadow-sm transition-colors">
                                         Pay Platform Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[10px] font-bold shadow-sm transition-colors animate-pulse">
+                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-bold shadow-sm transition-colors animate-pulse">
                                         Pay License Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @endif

@@ -12,27 +12,27 @@
     </div>
 
     <!-- Stepper Navigation Header -->
-    <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm text-[10px] font-semibold">
+    <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm text-[11px] font-semibold">
         <div class="flex items-center space-x-1.5 step-indicator" data-step="1">
-            <span class="w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[9px] step-number">1</span>
+            <span class="w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number">1</span>
             <span class="text-slate-900 step-label">Select License</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="2">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">2</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">2</span>
             <span class="text-slate-500 step-label">Compliance</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="3">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">3</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">3</span>
             <span class="text-slate-500 step-label">Fee & Pay</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="4">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">4</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">4</span>
             <span class="text-slate-500 step-label">Confirm</span>
         </div>
     </div>
@@ -43,7 +43,7 @@
 
         <!-- STEP 1: SELECT LICENSE -->
         <div class="step-panel bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-1">
-            <span class="text-[10px] font-semibold uppercase text-slate-400">Pick the license you wish to renew:</span>
+            <span class="text-[11px] font-semibold uppercase text-slate-400">Pick the license you wish to renew:</span>
 
             <div class="space-y-3">
                 @foreach($licenses as $idx => $lic)
@@ -63,7 +63,7 @@
                                    onchange="onLicenseSelected(this)">
                             <div>
                                 <span class="text-xs font-bold uppercase font-mono text-slate-900">{{ $lic->license_number }}</span>
-                                <p class="text-[10px] text-slate-500 mt-1 font-normal">
+                                <p class="text-[11px] text-slate-500 mt-1 font-normal">
                                     {{ $weapon }} &bull;
                                     @if(!$isExpired)
                                         Valid &mdash; expires in {{ $daysDiff }} days
@@ -74,13 +74,13 @@
                             </div>
                         </div>
                         @if($isExpired)
-                            <span class="text-[9px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">⚠️ Late fine applicable</span>
+                            <span class="text-[10px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">⚠️ Late fine applicable</span>
                         @endif
                     </label>
                 @endforeach
             </div>
             @error('selected_licence')
-                <p class="text-[10px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
             @enderror
         </div>
 
@@ -95,30 +95,30 @@
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Firing-range annual report attached (mandatory)</span>
                 </label>
                 @error('firing_report_ack')
-                    <p class="text-[10px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
                 @enderror
                 <label id="lbl_chk_medical_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('medical_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
                     <input type="checkbox" id="chk_medical_ack" name="medical_ack" required {{ old('medical_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_medical_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Medical fitness declaration (self + doctor)</span>
                 </label>
                 @error('medical_ack')
-                    <p class="text-[10px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
                 @enderror
                 <label id="lbl_chk_police_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('police_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
                     <input type="checkbox" id="chk_police_ack" name="police_ack" required {{ old('police_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_police_ack')">
                     <span class="text-xs text-slate-600 font-semibold leading-normal">Local police station 'no adverse record' letter uploaded</span>
                 </label>
                 @error('police_ack')
-                    <p class="text-[10px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
                 @enderror
             </div>
 
             <div>
-                <label for="ammo_ledger" class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Ammunition Ledger (Used / Issued in past year)</label>
+                <label for="ammo_ledger" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Ammunition Ledger (Used / Issued in past year)</label>
                 <input type="text" name="ammo_ledger" id="ammo_ledger" required value="{{ old('ammo_ledger', '18 / 24') }}"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('ammo_ledger') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 @error('ammo_ledger')
-                    <p class="text-[10px] text-red-600 font-semibold mt-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold mt-1">⚠️ {{ $message }}</p>
                 @enderror
             </div>
 
@@ -140,17 +140,17 @@
                             <span>📄</span>
                             <span class="font-semibold text-slate-800">{{ $label }}</span>
                             @if(in_array($key, $mandatoryDocs))
-                                <span class="text-[9px] font-bold uppercase text-red-500">*</span>
+                                <span class="text-[10px] font-bold uppercase text-red-500">*</span>
                             @endif
                         </div>
-                        <div class="flex items-center space-x-3 text-[10px]">
+                        <div class="flex items-center space-x-3 text-[11px]">
                             <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
                             <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" onchange="handleFileSelected('{{ $key }}')">
                             <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors">Upload</button>
                         </div>
                     </div>
                     @error($key)
-                        <p class="text-[10px] text-red-600 font-semibold px-2 pb-1">⚠️ {{ $message }}</p>
+                        <p class="text-[11px] text-red-600 font-semibold px-2 pb-1">⚠️ {{ $message }}</p>
                     @enderror
                 @endforeach
             </div>
@@ -159,7 +159,7 @@
         <!-- STEP 3: FEE & PAY -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5" id="panel-3">
             <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs" id="status-badge-container">
-                <span class="text-[8px] font-semibold uppercase text-slate-900 block mb-0.5">Status</span>
+                <span class="text-[9px] font-semibold uppercase text-slate-900 block mb-0.5">Status</span>
                 <span class="font-semibold text-amber-800" id="status-badge-text">Tier 1 late (31-90d)</span>
             </div>
 
@@ -187,16 +187,16 @@
             </div>
 
             <div>
-                <label class="block text-[10px] font-semibold uppercase text-slate-900 mb-2">Select Payment Channel</label>
+                <label class="block text-[11px] font-semibold uppercase text-slate-900 mb-2">Select Payment Channel</label>
                 <div class="grid grid-cols-3 gap-3" id="payment-channel-group">
                     <button type="button" id="pay-bkash" onclick="selectPayment('bkash')" class="py-2.5 rounded-lg border-2 border-gov-green bg-emerald-50/10 text-xs font-bold text-gov-green transition-all">bKash</button>
                     <button type="button" id="pay-nagad" onclick="selectPayment('nagad')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-500 hover:bg-slate-50 transition-all">Nagad</button>
                     <button type="button" id="pay-card" onclick="selectPayment('card')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-500 hover:bg-slate-50 transition-all">Card / Bank</button>
                 </div>
                 <input type="hidden" name="payment_channel" id="payment_channel" value="{{ old('payment_channel', 'bkash') }}" required>
-                <p id="err-panel3-payment" class="hidden text-[10px] text-red-600 font-semibold pt-2">⚠️ Please select a payment channel to continue.</p>
+                <p id="err-panel3-payment" class="hidden text-[11px] text-red-600 font-semibold pt-2">⚠️ Please select a payment channel to continue.</p>
                 @error('payment_channel')
-                    <p class="text-[10px] text-red-600 font-semibold pt-2">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pt-2">⚠️ {{ $message }}</p>
                 @enderror
             </div>
         </div>
@@ -204,7 +204,7 @@
         <!-- STEP 4: CONFIRM -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-4">
             <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-500/5 text-xs text-emerald-800">
-                <span class="text-[8px] font-semibold uppercase text-slate-400 block mb-0.5">Ready to submit</span>
+                <span class="text-[9px] font-semibold uppercase text-slate-400 block mb-0.5">Ready to submit</span>
                 <span class="font-semibold" id="ready-submit-text">Renewing {{ $license->license_number }} (Revolver) &mdash; total <span class="font-bold">BDT 22,970</span>.</span>
             </div>
 
@@ -212,9 +212,9 @@
                 <input type="checkbox" id="chk_confirm_declare" name="declaration_ack" required {{ old('declaration_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_confirm_declare', 'err-panel4-confirm')">
                 <span class="text-xs text-slate-650 font-semibold leading-normal">I declare the information is true. I understand that a false declaration will render the renewal void.</span>
             </label>
-            <p id="err-panel4-confirm" class="hidden text-[10px] text-red-600 font-semibold pl-1">⚠️ Please confirm the declaration before submitting.</p>
+            <p id="err-panel4-confirm" class="hidden text-[11px] text-red-600 font-semibold pl-1">⚠️ Please confirm the declaration before submitting.</p>
             @error('declaration_ack')
-                <p class="text-[10px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
             @enderror
         </div>
 
@@ -270,15 +270,15 @@
             }
 
             if (stepNum < currentStep) {
-                numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = '✓';
                 sisterLabel.className = 'text-slate-400 step-label';
             } else if (stepNum === currentStep) {
-                numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = stepNum;
                 sisterLabel.className = 'text-slate-900 step-label';
             } else {
-                numSpan.className = 'w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = stepNum;
                 sisterLabel.className = 'text-slate-550 step-label';
             }

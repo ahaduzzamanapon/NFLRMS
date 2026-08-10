@@ -17,39 +17,39 @@
     </div>
 
     <!-- Stepper Navigation Header -->
-    <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm text-[10px] font-semibold">
+    <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm text-[11px] font-semibold">
         <div class="flex items-center space-x-1.5 step-indicator" data-step="1">
-            <span class="w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[9px] step-number">1</span>
+            <span class="w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number">1</span>
             <span class="text-slate-900 step-label">Service</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="2">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">2</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">2</span>
             <span class="text-slate-500 step-label">Applicant</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="3">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">3</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">3</span>
             <span class="text-slate-500 step-label">Address & Income</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="4">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">4</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">4</span>
             <span class="text-slate-500 step-label">Declarations</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="5">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">5</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">5</span>
             <span class="text-slate-500 step-label">Documents</span>
         </div>
         <span class="text-slate-300 hidden sm:inline">&mdash;</span>
 
         <div class="flex items-center space-x-1.5 step-indicator" data-step="6">
-            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number">6</span>
+            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number">6</span>
             <span class="text-slate-500 step-label">Review & Submit</span>
         </div>
     </div>
@@ -78,7 +78,7 @@
         <!-- STEP 1: SERVICE -->
         <div class="step-panel bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6" id="panel-1">
             <div>
-                <label for="service_type" class="block text-[10px] font-semibold uppercase text-slate-455 mb-1.5">Service Type</label>
+                <label for="service_type" class="block text-[11px] font-semibold uppercase text-slate-455 mb-1.5">Service Type</label>
                 <select name="service_type" id="service_type" onchange="onServiceTypeChanged(this.value)"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('service_type') ? 'border-rose-400' : 'border-slate-200' }} bg-white focus:ring-1 focus:ring-gov-green focus:border-transparent outline-none">
                     @if($isDealer)
@@ -90,12 +90,12 @@
                         <option value="handgun">New License &mdash; Handgun (Pistol/Revolver) &bull; MoHA Approval</option>
                     @endif
                 </select>
-                @error('service_type')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
+                @error('service_type')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
             </div>
 
             @if(!$isDealer)
             <div>
-                <label class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Weapon Category</label>
+                <label class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Weapon Category</label>
                 <div class="grid grid-cols-2 gap-3">
                     <button type="button" onclick="selectWeapon('Pistol')" id="btn-pistol" data-service-type="handgun" class="hidden py-2.5 rounded-lg border text-center text-xs font-semibold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Pistol</button>
                     <button type="button" onclick="selectWeapon('Revolver')" id="btn-revolver" data-service-type="handgun" class="hidden py-2.5 rounded-lg border text-center text-xs font-semibold transition-all focus:outline-none border-slate-200 hover:bg-slate-50">Revolver</button>
@@ -106,18 +106,18 @@
             </div>
 
             <div>
-                <label for="bore" class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Bore / Caliber / Size</label>
+                <label for="bore" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Bore / Caliber / Size</label>
                 <select name="bore" id="bore"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('bore') ? 'border-rose-400' : 'border-slate-200' }} bg-white focus:ring-1 focus:ring-gov-green focus:border-transparent outline-none">
                     <option value="12 Bore">12 Bore (Shotgun)</option>
                     <option value=".32 Caliber">.32 Caliber (Pistol/Revolver)</option>
                     <option value=".22 Bore">.22 Bore (Rifle)</option>
                 </select>
-                @error('bore')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
+                @error('bore')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
             </div>
 
             <div>
-                <label for="dealer_name" class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Licensed Arms Dealer / Sourcing Store (যার নিকট হইতে অস্ত্র ক্রয়/সংগ্রহ করা হইবে)</label>
+                <label for="dealer_name" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Licensed Arms Dealer / Sourcing Store (যার নিকট হইতে অস্ত্র ক্রয়/সংগ্রহ করা হইবে)</label>
                 <select name="dealer_name" id="dealer_name" onchange="const selectedOpt = this.options[this.selectedIndex]; document.getElementById('dealer_id_input').value = selectedOpt.getAttribute('data-id') || '';"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('dealer_name') ? 'border-rose-400' : 'border-slate-200' }} bg-white focus:ring-1 focus:ring-gov-green focus:border-transparent outline-none font-semibold text-slate-800">
                     <option value="M/S Metropolitan Arms Store (Govt. Reg #AD-1029)" data-id="">M/S Metropolitan Arms Store (Govt. Reg #AD-1029)</option>
@@ -131,13 +131,13 @@
                     @endif
                 </select>
                 <input type="hidden" name="dealer_id" id="dealer_id_input" value="">
-                @error('dealer_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
-                @error('dealer_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
+                @error('dealer_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
+                @error('dealer_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
             </div>
             @else
             <!-- Dealer-specific fields -->
             <div>
-                <label class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Stock Category</label>
+                <label class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Stock Category</label>
                 <div class="grid grid-cols-3 gap-3">
                     <button type="button" onclick="selectWeapon('Handgun')"
                             id="btn-pistol"
@@ -153,20 +153,20 @@
             </div>
 
             <div>
-                <label for="bore" class="block text-[10px] font-semibold uppercase text-slate-900 mb-1.5">Licensed Stock Quantity (annual quota)</label>
+                <label for="bore" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Licensed Stock Quantity (annual quota)</label>
                 <select name="bore" id="bore"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('bore') ? 'border-rose-400' : 'border-slate-200' }} bg-white focus:ring-1 focus:ring-gov-green focus:border-transparent outline-none">
                     <option value="Up to 50 units">Up to 50 units/year</option>
                     <option value="Up to 200 units">Up to 200 units/year</option>
                     <option value="Unlimited">Unlimited (Ministry approval required)</option>
                 </select>
-                @error('bore')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
+                @error('bore')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
             </div>
             @endif
 
             <!-- Fee Preview -->
             <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
-                <span class="text-[9px] font-semibold uppercase text-slate-900">Fee Preview</span>
+                <span class="text-[10px] font-semibold uppercase text-slate-900">Fee Preview</span>
                 <div class="flex justify-between items-center text-xs">
                     <span class="text-slate-500 font-semibold">Statutory license fee</span>
                     <span class="font-semibold text-slate-800" id="fee-statutory">
@@ -196,64 +196,64 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="name_bn" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="name_bn" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Full Name (Bengali) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="name_bn" disabled required value="{{ strtoupper(auth()->user()->name_bn ?? '') }}"
                            placeholder="বাংলায় পূর্ণ নাম লিখুন"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name_bn') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="name_bn" value="{{ strtoupper(auth()->user()->name_bn ?? '') }}">
-                    @error('name_bn')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('name_bn')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="name_en" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="name_en" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Full Name (English, Block Letters) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="name_en" disabled required value="{{ strtoupper(auth()->user()->name) }}"
                            placeholder="FULL NAME IN BLOCK LETTERS"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="name" value="{{ strtoupper(auth()->user()->name) }}">
-                    @error('name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="nid" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">National ID (NID) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="nid" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">National ID (NID) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="nid" disabled required value="{{ auth()->user()->nid ?? '' }}"
                            placeholder="10 or 17 digit NID number"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="nid" value="{{ auth()->user()->nid ?? '' }}">
-                    @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('nid')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="dob" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Date of Birth <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="dob" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Date of Birth <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     @php $dobFormatted = auth()->user()->dob ? \Carbon\Carbon::parse(auth()->user()->dob)->format('Y-m-d') : ''; @endphp
                     <input type="date" id="dob" disabled required value="{{ $dobFormatted }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('dob') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="dob" value="{{ $dobFormatted }}">
-                    @error('dob')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('dob')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="father_name" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Father's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="father_name" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Father's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="father_name" disabled required value="{{ auth()->user()->father_name }}"
                            placeholder="Father's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('father_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="father_name" value="{{ auth()->user()->father_name }}">
-                    @error('father_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('father_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="mother_name" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Mother's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="mother_name" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Mother's Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="mother_name" disabled required value="{{ auth()->user()->mother_name }}"
                            placeholder="Mother's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('mother_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="mother_name" value="{{ auth()->user()->mother_name }}">
-                    @error('mother_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('mother_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="marital_status" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Marital Status <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="marital_status" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Marital Status <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <select id="marital_status" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('marital_status') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="" {{ !auth()->user()->marital_status ? 'selected' : '' }}>Select</option>
@@ -263,34 +263,34 @@
                         <option value="Widowed" {{ auth()->user()->marital_status === 'Widowed' ? 'selected' : '' }}>Widowed</option>
                     </select>
                     <input type="hidden" name="marital_status" value="{{ auth()->user()->marital_status }}">
-                    @error('marital_status')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('marital_status')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
                 <div id="spouse-group">
-                    <label for="spouse_name" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Spouse Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="spouse_name" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Spouse Name <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="spouse_name" disabled required value="{{ auth()->user()->spouse_name }}"
                            placeholder="Spouse's full name"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('spouse_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="spouse_name" value="{{ auth()->user()->spouse_name }}">
-                    @error('spouse_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('spouse_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {{-- <div>
-                    <label for="nationality" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Nationality <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="nationality" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Nationality <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="nationality" disabled required value="{{ auth()->user()->nationality }}"
                            placeholder="e.g. Bangladeshi"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('nationality') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="nationality" value="{{ auth()->user()->nationality }}">
-                    @error('nationality')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('nationality')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div> --}}
                 <div>
-                    <label for="religion" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Religion <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="religion" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Religion <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="religion" disabled required value="{{ auth()->user()->religion }}"
                            placeholder="e.g. Islam, Hindu, Christian"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('religion') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="religion" value="{{ auth()->user()->religion }}">
-                    @error('religion')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
+                    @error('religion')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="2">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -305,26 +305,26 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="present_address" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Present Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="present_address" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Present Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="present_address" disabled required value="{{ auth()->user()->present_address }}"
                            placeholder="House No, Road, Area, City"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('present_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="present_address" value="{{ auth()->user()->present_address }}">
-                    @error('present_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('present_address')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="permanent_address" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Permanent Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="permanent_address" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Permanent Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="permanent_address" disabled required value="{{ auth()->user()->permanent_address }}"
                            placeholder="Village, Thana, District"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('permanent_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="permanent_address" value="{{ auth()->user()->permanent_address }}">
-                    @error('permanent_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('permanent_address')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="district_id" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">District <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="district_id" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">District <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <select id="district_id" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="">Select District</option>
@@ -333,65 +333,65 @@
                         @endforeach
                     </select>
                     <input type="hidden" name="district_id" value="{{ auth()->user()->district_id }}">
-                    @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('district_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="upazila_id" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Upazila / Thana <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="upazila_id" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Upazila / Thana <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <select id="upazila_id" disabled required
                             class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('upazila_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                         <option value="">Select Upazila / Thana</option>
                     </select>
                     <input type="hidden" name="upazila_id" value="{{ auth()->user()->upazila_id }}">
-                    @error('upazila_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('upazila_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="edu_qualification" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Educational Qualification <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="edu_qualification" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Educational Qualification <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="edu_qualification" disabled required value="{{ auth()->user()->edu_qualification }}"
                            placeholder="e.g. HSC, Bachelor's, MBA"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('edu_qualification') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="edu_qualification" value="{{ auth()->user()->edu_qualification }}">
-                    @error('edu_qualification')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('edu_qualification')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="occupation" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Occupation <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="occupation" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Occupation <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="occupation" disabled required value="{{ auth()->user()->occupation }}"
                            placeholder="e.g. Business Owner, Government Officer"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('occupation') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="occupation" value="{{ auth()->user()->occupation }}">
-                    @error('occupation')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('occupation')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="employer_address" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Employer / Office Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="employer_address" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Employer / Office Address <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="employer_address" disabled required value="{{ auth()->user()->employer_address }}"
                            placeholder="Office/employer address"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('employer_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="employer_address" value="{{ auth()->user()->employer_address }}">
-                    @error('employer_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('employer_address')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="annual_income" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">Annual Income (BDT) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="annual_income" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">Annual Income (BDT) <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="number" id="annual_income" disabled required value="{{ auth()->user()->annual_income }}"
                            placeholder="e.g. 500000"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="annual_income" value="{{ auth()->user()->annual_income }}">
-                    @error('annual_income')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('annual_income')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="tin_number" class="block text-[10px] font-semibold uppercase text-slate-400 mb-1.5">TIN Number <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[9px] font-bold normal-case">From Profile</span></label>
+                    <label for="tin_number" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1.5">TIN Number <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="tin_number" disabled required value="{{ auth()->user()->tin_number }}"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('tin_number') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed"
                            placeholder="12-digit TIN Code">
                     <input type="hidden" name="tin_number" value="{{ auth()->user()->tin_number }}">
-                    @error('tin_number')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
+                    @error('tin_number')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="3">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -399,11 +399,11 @@
         <!-- STEP 4: DECLARATIONS -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-4">
             <div>
-                <label for="purpose" class="block text-[10px] font-semibold uppercase text-slate-455 mb-1.5">Justification / Purpose of License</label>
+                <label for="purpose" class="block text-[11px] font-semibold uppercase text-slate-455 mb-1.5">Justification / Purpose of License</label>
                 <textarea name="purpose" id="purpose" required rows="3"
                           placeholder="Describe the reason you are applying for a firearm license..."
                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('purpose') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white"></textarea>
-                @error('purpose')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
+                @error('purpose')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
             </div>
 
             <!-- Declarations checkboxes list -->
@@ -414,8 +414,8 @@
                                data-required-message="You must confirm this to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
                         <span class="text-xs text-slate-600 font-semibold leading-normal">I confirm no prior duty-free weapon import</span>
                     </label>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_duty_free_import"></span>
-                    @error('declare_no_duty_free_import')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_duty_free_import"></span>
+                    @error('declare_no_duty_free_import')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
                 </div>
                 <div>
                     <label class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('declare_no_cancellation_history') ? 'border-rose-400 bg-rose-50/40' : 'border-slate-100' }} hover:bg-slate-50 cursor-pointer js-error-wrapper" data-wrapper-for="declare_no_cancellation_history">
@@ -423,8 +423,8 @@
                                data-required-message="You must confirm this to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
                         <span class="text-xs text-slate-600 font-semibold leading-normal">I have no prior license cancellation history</span>
                     </label>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_cancellation_history"></span>
-                    @error('declare_no_cancellation_history')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_cancellation_history"></span>
+                    @error('declare_no_cancellation_history')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
                 </div>
                 <div>
                     <label class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('declare_no_other_license') ? 'border-rose-400 bg-rose-50/40' : 'border-slate-100' }} hover:bg-slate-50 cursor-pointer js-error-wrapper" data-wrapper-for="declare_no_other_license">
@@ -432,8 +432,8 @@
                                data-required-message="You must confirm this to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
                         <span class="text-xs text-slate-600 font-semibold leading-normal">I hold no other firearm license (notarized affidavit uploaded)</span>
                     </label>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_other_license"></span>
-                    @error('declare_no_other_license')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_other_license"></span>
+                    @error('declare_no_other_license')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
                 </div>
                 <div>
                     <label class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('declare_no_criminal_history') ? 'border-rose-400 bg-rose-50/40' : 'border-slate-100' }} hover:bg-slate-50 cursor-pointer js-error-wrapper" data-wrapper-for="declare_no_criminal_history">
@@ -441,15 +441,15 @@
                                data-required-message="You must confirm this to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
                         <span class="text-xs text-slate-600 font-semibold leading-normal">I have no criminal case history</span>
                     </label>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_criminal_history"></span>
-                    @error('declare_no_criminal_history')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declare_no_criminal_history"></span>
+                    @error('declare_no_criminal_history')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
 
         <!-- STEP 5: DOCUMENTS -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-5">
-            <span class="text-[9px] font-semibold uppercase text-slate-400">PDF/JPG/PNG &bull; Max 5MB per file. Documents are stored encrypted.</span>
+            <span class="text-[10px] font-semibold uppercase text-slate-400">PDF/JPG/PNG &bull; Max 5MB per file. Documents are stored encrypted.</span>
 
             <div class="divide-y divide-slate-100 text-xs">
                 @php
@@ -477,15 +477,15 @@
                                     <span class="text-rose-500 font-bold" title="Required">*</span>
                                 @endif
                             </div>
-                            <div class="flex items-center space-x-3 text-[10px]">
+                            <div class="flex items-center space-x-3 text-[11px]">
                                 <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
                                 <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" {{ in_array($key, $requiredDocs) ? 'required' : '' }}
                                        data-required-message="This document is required." onchange="handleFileSelected('{{ $key }}')">
                                 <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors {{ $errors->has($key) ? 'ring-2 ring-rose-400' : '' }}">Upload</button>
                             </div>
                         </div>
-                        <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block text-right js-error" data-for="{{ $key }}"></span>
-                        @error($key)<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block text-right" data-error-step="5">{{ $message }}</span>@enderror
+                        <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block text-right js-error" data-for="{{ $key }}"></span>
+                        @error($key)<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block text-right" data-error-step="5">{{ $message }}</span>@enderror
                     </div>
                 @endforeach
             </div>
@@ -499,30 +499,30 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <!-- Service card -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <span class="text-[8px] font-semibold uppercase text-slate-400 block mb-1">Service</span>
+                        <span class="text-[9px] font-semibold uppercase text-slate-400 block mb-1">Service</span>
                         <div class="font-semibold text-slate-900 leading-tight" id="review-service">New License &mdash; Long Gun</div>
-                        <div class="text-[10px] text-slate-500 font-semibold mt-1" id="review-weapon">Shotgun</div>
+                        <div class="text-[11px] text-slate-500 font-semibold mt-1" id="review-weapon">Shotgun</div>
                     </div>
                     <!-- Applicant card (populated dynamically from form inputs) -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <span class="text-[8px] font-semibold uppercase text-slate-400 block mb-1">Applicant</span>
+                        <span class="text-[9px] font-semibold uppercase text-slate-400 block mb-1">Applicant</span>
                         <div class="font-semibold text-slate-900 leading-tight" id="review-name">—</div>
-                        <div class="text-[10px] text-slate-500 font-semibold mt-1" id="review-nid">—</div>
+                        <div class="text-[11px] text-slate-500 font-semibold mt-1" id="review-nid">—</div>
                     </div>
                     <!-- Address card (populated dynamically) -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <span class="text-[8px] font-semibold uppercase text-slate-400 block mb-1">Address</span>
+                        <span class="text-[9px] font-semibold uppercase text-slate-400 block mb-1">Address</span>
                         <div class="font-semibold text-slate-900 leading-tight" id="review-address">—</div>
-                        <div class="text-[10px] text-slate-500 font-semibold mt-1" id="review-district">—</div>
+                        <div class="text-[11px] text-slate-500 font-semibold mt-1" id="review-district">—</div>
                     </div>
                     <!-- Fee card -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <span class="text-[8px] font-semibold uppercase text-slate-400 block mb-1">Fee</span>
+                        <span class="text-[9px] font-semibold uppercase text-slate-400 block mb-1">Fee</span>
                         <div class="font-bold text-gov-green text-sm mt-1" id="review-fee">BDT 40,850</div>
                     </div>
                     <!-- Sourcing Dealer card -->
                     <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg sm:col-span-2">
-                        <span class="text-[8px] font-semibold uppercase text-slate-900 block mb-1">Licensed Arms Dealer / Sourcing Store</span>
+                        <span class="text-[9px] font-semibold uppercase text-slate-900 block mb-1">Licensed Arms Dealer / Sourcing Store</span>
                         <div class="font-semibold text-emerald-800 leading-tight" id="review-dealer">M/S Metropolitan Arms Store</div>
                     </div>
                 </div>
@@ -532,13 +532,13 @@
                     <label class="flex items-start space-x-2.5 p-4 bg-slate-50 border {{ $errors->has('final_declaration') ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} rounded-lg cursor-pointer">
                         <input type="checkbox" name="final_declaration" id="final_declaration" value="1" required
                                data-required-message="You must accept this declaration to continue." class="rounded text-gov-green focus:ring-0 mt-0.5">
-                        <div class="text-[11px] leading-relaxed text-slate-600 font-semibold">
+                        <div class="text-xs leading-relaxed text-slate-600 font-semibold">
                             I declare that the information provided is true and correct. I understand that false statements will render the license void.
-                            <p class="text-[9px] text-slate-400 mt-1 font-medium">Digital consent + OTP is legally equivalent to wet-ink signature.</p>
+                            <p class="text-[10px] text-slate-400 mt-1 font-medium">Digital consent + OTP is legally equivalent to wet-ink signature.</p>
                     </div>
                     </label>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="final_declaration"></span>
-                    @error('final_declaration')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block" data-error-step="6">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="final_declaration"></span>
+                    @error('final_declaration')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="6">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -659,15 +659,15 @@
             }
 
             if (stepNum < currentStep) {
-                numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = '✓';
                 sisterLabel.className = 'text-slate-400 step-label';
             } else if (stepNum === currentStep) {
-                numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = stepNum;
                 sisterLabel.className = 'text-slate-900 step-label';
             } else {
-                numSpan.className = 'w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[9px] step-number';
+                numSpan.className = 'w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[10px] step-number';
                 numSpan.innerText = stepNum;
                 sisterLabel.className = 'text-slate-550 step-label';
             }
