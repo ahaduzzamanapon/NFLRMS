@@ -94,9 +94,12 @@
             <!-- Middle Content -->
             <div class="my-10 space-y-7 max-w-lg">
                 <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
-                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0">
+                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-15 h-15 object-contain"/>
                     </div>
+                    {{-- <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
+                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
+                    </div> --}}
                     <div class="text-xs leading-snug text-slate-300 font-semibold uppercase tracking-wider">
                         <p>Government of the People&rsquo;s Republic of Bangladesh</p>
                         <p class="font-bn normal-case text-slate-400 mt-0.5">বাংলাদেশ গণপ্রজাতন্ত্রী সরকার</p>

@@ -77,7 +77,7 @@
                 <div class="leading-tight">
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
                         Govt. of Bangladesh</h1>
-                    <p class="text-[9px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
+                    <p class="text-[10px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
                     </p>
                 </div>
             </div>
@@ -153,7 +153,7 @@
             <div class="lg:col-span-7 space-y-6">
                 <!-- Badge -->
                 <span
-                    class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[9px] font-bold uppercase tracking-wider">
+                    class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[10px] font-bold uppercase tracking-wider">
                     <span>💎</span> <span>NFLRMS . PRODUCTION SYSTEM</span>
                 </span>
 
@@ -200,22 +200,22 @@
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">
                             {{ number_format($stats['total_licenses']) }}</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Active licenses
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Active licenses
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">{{ $stats['total_districts'] }}</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Districts served
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Districts served
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">4</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Vetting agencies
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Vetting agencies
                         </p>
                     </div>
                     <div>
                         <h4 class="text-2xl font-bold text-serif text-gov-accent">3</h4>
-                        <p class="text-[9px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">MoHA tiers</p>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">MoHA tiers</p>
                     </div>
                 </div> --}}
             </div>
@@ -234,18 +234,18 @@
                         <span>✓</span> Certificate Issued
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
+                    <div class="text-[11px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
                     <div class="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full bg-emerald-500 w-[92%]"></div>
                     </div>
-                    <div class="text-[10px] text-slate-400 mt-1">92% of validity remaining</div>
+                    <div class="text-[11px] text-slate-400 mt-1">92% of validity remaining</div>
                 </div>
 
                 <div
                     class="absolute -top-4 -right-4 w-56 bg-white text-slate-800 rounded-xl p-4 shadow-2xl ring-1 ring-black/5 rotate-3">
-                    <div class="text-[10px] uppercase text-slate-400 font-semibold">Renewal reminder</div>
+                    <div class="text-[11px] uppercase text-slate-400 font-semibold">Renewal reminder</div>
                     <div class="text-sm font-bold mt-1 text-slate-900">28 days remaining</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-1">SMS + email dispatched at 60d / 30d / 15d
+                    <div class="text-[11px] text-slate-500 font-medium mt-1">SMS + email dispatched at 60d / 30d / 15d
                     </div>
                 </div>
             </div>
@@ -255,7 +255,7 @@
 
     <!-- Why NFLRMS Features -->
     <section class="max-w-7xl mx-auto py-20 px-6">
-        <span class="text-[10px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
+        <span class="text-[11px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
             NFLRMS</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
             A statutory workflow, digitized without losing a single approval.
@@ -304,7 +304,7 @@
         <div class="flex items-center justify-between mb-12">
             <div>
                 <span
-                    class="text-[10px] font-bold uppercase text-gov-green tracking-widest block mb-2">Services</span>
+                    class="text-[11px] font-bold uppercase text-gov-green tracking-widest block mb-2">Services</span>
                 <h2 class="text-3xl font-bold text-serif text-slate-900">Five end-to-end digital workflows</h2>
             </div>
             <a href="{{ route('register') }}" class="text-xs font-semibold text-gov-green hover:underline">Create account
@@ -316,7 +316,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">New Firearm License — Long Gun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Shotgun / Rifle.
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">Shotgun / Rifle.
                         DC-level approval.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_longgun_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
@@ -325,7 +325,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">New Firearm License — Handgun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Pistol / Revolver. MoHA
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">Pistol / Revolver. MoHA
                         approval chain.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_pistol_new']) }} + ৳{{ number_format($fees['fee_platform_new']) }}</div>
@@ -334,7 +334,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">Renewal — Long Gun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, with automatic
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, with automatic
                         late-fine tiers.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_longgun_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
@@ -343,7 +343,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">Renewal — Handgun</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, DC + Political-4
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">Annual, DC + Political-4
                         verification.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳{{ number_format($fees['fee_pistol_renewal']) }} + ৳{{ number_format($fees['fee_platform_renewal']) }}</div>
@@ -352,7 +352,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">Arms Dealing License (Form K)</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">4-agency vetting +
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">4-agency vetting +
                         Screening Committee.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳150,000 + ৳2,500</div>
@@ -361,7 +361,7 @@
                 class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between h-36">
                 <div>
                     <h4 class="text-xs font-semibold text-slate-900 font-serif">Dealing License Renewal</h4>
-                    <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed font-normal">Stock ledger
+                    <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed font-normal">Stock ledger
                         reconciliation + committee.</p>
                 </div>
                 <div class="text-xs font-bold text-slate-700">৳75,000 + ৳2,500</div>
@@ -372,17 +372,17 @@
     <!-- Pricing Section -->
     <section id="pricing" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
         <span
-            class="text-[10px] font-bold uppercase text-gov-green tracking-widest block text-center mb-2">Transparent
+            class="text-[11px] font-bold uppercase text-gov-green tracking-widest block text-center mb-2">Transparent
             Pricing</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center mb-2">Statutory fees & platform charges
         </h2>
-        <p class="text-center text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-10">Effective 2026
+        <p class="text-center text-[11px] text-slate-500 font-bold uppercase tracking-wider mb-10">Effective 2026
             revision &bull; all amounts in BDT (৳)</p>
 
         <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gov-deep text-white text-[10px] uppercase font-bold tracking-wider">
+                    <tr class="bg-gov-deep text-white text-[11px] uppercase font-bold tracking-wider">
                         <th class="p-4 pl-6">Transaction</th>
                         <th class="p-4">Statutory Fee</th>
                         <th class="p-4">Platform Charge</th>
@@ -437,9 +437,9 @@
             class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs gap-6 text-slate-300">
             <div>
                 <h4 class="font-bold text-white font-serif text-sm">Ministry of Home Affairs</h4>
-                <p class="text-[10px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
+                <p class="text-[11px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
             </div>
-            <div class="text-center md:text-right text-[10px]">
+            <div class="text-center md:text-right text-[11px]">
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
                 <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
                     <span>Powered by</span>
