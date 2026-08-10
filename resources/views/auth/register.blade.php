@@ -97,7 +97,7 @@
             <div class="my-10 space-y-7 max-w-md">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
-                        <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
+                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
                     </div>
                     <div class="text-[11px] leading-snug text-slate-300 font-semibold uppercase tracking-wider">
                         <p>Government of the People&rsquo;s Republic of Bangladesh</p>

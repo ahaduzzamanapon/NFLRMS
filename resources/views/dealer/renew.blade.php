@@ -12,12 +12,17 @@
         </p>
     </div>
 
-    <!-- Fee -->
+    @php
+        $renewalFees = \App\Models\Setting::getFees();
+    @endphp
+
+    <!-- Fee (dynamic based on selected License Class) -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
         <div class="text-xs font-medium text-amber-800">
-            Renewal Fee: <span class="font-bold">৳75,000</span> &bull; Platform Charge: <span class="font-bold">৳2,500</span>
+            Renewal Fee: <span class="font-bold" id="fee-renewal">৳{{ number_format($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) }}</span>
+            &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($renewalFees['dealer_platform_renewal'] ?? 2500) }}</span>
         </div>
-        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: ৳77,500</span>
+        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) + ($renewalFees['dealer_platform_renewal'] ?? 2500)) }}</span></span>
     </div>
 
     @if($licenses->isEmpty())
@@ -48,9 +53,13 @@
             </div>
             <div class="p-5 space-y-3 rounded-lg border border-transparent js-error-wrapper" data-wrapper-for="license_id">
                 @foreach($licenses as $lic)
+                @php
+                    $licClass = $lic->application?->applicant_details['license_class'] ?? 'A';
+                @endphp
                 <label class="flex items-center space-x-3 p-3.5 rounded-lg border border-slate-200 cursor-pointer hover:border-gov-green hover:bg-emerald-50/50 transition-colors">
                     <input type="radio" name="license_id" value="{{ $lic->id }}" required
                            data-action="{{ route('citizen.renew', $lic->id) }}"
+                           data-class="{{ $licClass }}"
                            {{ (old('license_id', $loop->first ? $lic->id : null)) == $lic->id ? 'checked' : '' }}
                            class="border-slate-300 text-gov-green focus:ring-gov-green">
                     <div>
@@ -131,6 +140,39 @@
 
 @section('scripts')
 <script>
+    // ===== RENEWAL FEE MAP (based on License Class) =====
+    const renewalFeeMap = {
+        A: {
+            renewal: {{ $renewalFees['dealer_fee_class_a_renewal'] ?? 75000 }},
+            platform: {{ $renewalFees['dealer_platform_renewal'] ?? 2500 }},
+        },
+        B: {
+            renewal: {{ $renewalFees['dealer_fee_class_b_renewal'] ?? 100000 }},
+            platform: {{ $renewalFees['dealer_platform_renewal'] ?? 2500 }},
+        },
+        C: {
+            renewal: {{ $renewalFees['dealer_fee_class_c_renewal'] ?? 125000 }},
+            platform: {{ $renewalFees['dealer_platform_renewal'] ?? 2500 }},
+        },
+    };
+
+    function formatBDT(amount) {
+        return '৳' + Number(amount).toLocaleString('en-IN');
+    }
+
+    function updateRenewalFee(licenseClass) {
+        const fee = renewalFeeMap[licenseClass];
+        if (!fee) return;
+
+        const renewalEl = document.getElementById('fee-renewal');
+        const platformEl = document.getElementById('fee-platform');
+        const totalEl = document.getElementById('fee-total');
+
+        if (renewalEl) renewalEl.textContent = formatBDT(fee.renewal);
+        if (platformEl) platformEl.textContent = formatBDT(fee.platform);
+        if (totalEl) totalEl.textContent = formatBDT(fee.renewal + fee.platform);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('renewal-form');
         if (!form) return;
@@ -140,6 +182,8 @@
             const checkedRadio = document.querySelector('input[name="license_id"]:checked');
             if (checkedRadio) {
                 form.action = checkedRadio.dataset.action;
+                // Update fee based on the selected license's class
+                updateRenewalFee(checkedRadio.dataset.class || 'A');
             }
         }
 
@@ -147,7 +191,7 @@
             radio.addEventListener('change', updateAction);
         });
 
-        // Initial set
+        // Initial set (also sets initial fee based on pre-selected radio)
         updateAction();
 
         // ---- Renewal form client-side validation ----
