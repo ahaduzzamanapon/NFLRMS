@@ -23,15 +23,15 @@
     <!-- Stat Cards -->
     <div class="grid grid-cols-3 gap-4">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Total Firearms in Stock</div>
+            <div class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Total Firearms in Stock</div>
             <div class="text-3xl font-bold text-slate-900 mt-1">{{ number_format($totalFirearms) }}</div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Total Ammunition Rounds</div>
+            <div class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Total Ammunition Rounds</div>
             <div class="text-3xl font-bold text-slate-900 mt-1">{{ number_format($totalAmmo) }}</div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <div class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
+            <div class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
             <div class="text-3xl font-bold {{ $anomalyAlerts > 0 ? 'text-rose-600' : 'text-gov-green' }} mt-1">{{ $anomalyAlerts }}</div>
         </div>
     </div>
@@ -39,12 +39,12 @@
     <!-- Stock Table -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-widest">Stock Items</span>
-            <span class="text-[10px] text-slate-400 font-semibold">{{ $stocks->count() }} items</span>
+            <span class="text-[11px] font-bold uppercase text-slate-500 tracking-widest">Stock Items</span>
+            <span class="text-[11px] text-slate-400 font-semibold">{{ $stocks->count() }} items</span>
         </div>
         <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="border-b border-slate-100 text-[10px] font-bold uppercase text-slate-400 tracking-wider bg-slate-50">
+                <tr class="border-b border-slate-100 text-[11px] font-bold uppercase text-slate-400 tracking-wider bg-slate-50">
                     <th class="p-3 pl-5">Item</th>
                     <th class="p-3">Category</th>
                     <th class="p-3">Quantity</th>
@@ -58,7 +58,7 @@
                 <tr class="hover:bg-slate-50/50 transition-colors">
                      <td class="p-3 pl-5 font-semibold text-slate-900">{{ $s->item }}</td>
                     <td class="p-3">
-                             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase border
+                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border
                             @if($s->category === 'Firearm') border-gov-green/30 bg-emerald-50 text-gov-green
                             @elseif($s->category === 'Ammunition') border-amber-200 bg-amber-50 text-amber-700
                             @else border-slate-200 bg-slate-50 text-slate-600 @endif">
@@ -73,7 +73,7 @@
                               onsubmit="return confirm('Remove this item?')">
                             @csrf @method('DELETE')
                             <button type="submit"
-                                     class="text-[10px] font-bold text-rose-500 hover:text-rose-700 transition-colors">
+                                     class="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition-colors">
                                 Remove
                             </button>
                         </form>
@@ -113,13 +113,13 @@
                 </span>
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Item Name</label>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Item Name</label>
                 <input type="text" name="item" id="stock_item" required
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="e.g. 12-bore Shotgun, .22 Rifle, 9mm Pistol">
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Category</label>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Category</label>
                 <select name="category" id="stock_category" required
                         class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="Firearm">Firearm</option>
@@ -128,13 +128,13 @@
                 </select>
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Quantity</label>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Quantity</label>
                 <input type="number" name="quantity" min="0" required
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="0">
             </div>
             <div>
-                <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Source (optional)</label>
+                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-900 mb-1">Source (optional)</label>
                 <input type="text" name="source"
                        class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                        placeholder="e.g. Import — Turkey, Local, Import — USA">
@@ -208,7 +208,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[10px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Item Name
                 </label>
 
@@ -222,11 +222,11 @@
                     placeholder="e.g. 12-bore Shotgun, .22 Rifle, 9mm Pistol"
                     class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('item') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
 
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error"
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error"
                     data-for="item"></span>
 
                 @error('item')
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">
                         {{ $message }}
                     </span>
                 @enderror
@@ -238,7 +238,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[10px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Category
                 </label>
 
@@ -269,11 +269,11 @@
 
                 </select>
 
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error"
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error"
                     data-for="category"></span>
 
                 @error('category')
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">
                         {{ $message }}
                     </span>
                 @enderror
@@ -285,7 +285,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[10px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Quantity
                 </label>
 
@@ -299,11 +299,11 @@
                     placeholder="0"
                     class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('quantity') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
 
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error"
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error"
                     data-for="quantity"></span>
 
                 @error('quantity')
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">
                         {{ $message }}
                     </span>
                 @enderror
@@ -315,7 +315,7 @@
             <div>
 
                 <label
-                    class="text-[9px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
+                    class="text-[10px] font-bold uppercase tracking-widest text-slate-900 block mb-1.5">
                     Source (Optional)
                 </label>
 
@@ -328,7 +328,7 @@
                     class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('source') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
 
                 @error('source')
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">
                         {{ $message }}
                     </span>
                 @enderror

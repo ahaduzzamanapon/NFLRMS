@@ -22,7 +22,7 @@
             Statutory Fee: <span class="font-bold" id="fee-statutory">৳{{ number_format($dealerFees['dealer_fee_class_a_new'] ?? 150000) }}</span>
             &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($dealerFees['dealer_platform_new'] ?? 2500) }}</span>
         </div>
-        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($dealerFees['dealer_fee_class_a_new'] ?? 150000) + ($dealerFees['dealer_platform_new'] ?? 2500)) }}</span></span>
+        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($dealerFees['dealer_fee_class_a_new'] ?? 150000) + ($dealerFees['dealer_platform_new'] ?? 2500)) }}</span></span>
     </div>
 
     <!-- Validation Summary Alert -->
@@ -39,36 +39,36 @@
         <!-- Section 1: Business Information -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">1. Business Information</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">1. Business Information</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="firm_name" id="firm_name" required minlength="3" value="{{ old('firm_name') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="e.g. Karim Arms & Ammunition">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="firm_name"></span>
-                    @error('firm_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="firm_name"></span>
+                    @error('firm_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Trade License Number <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Trade License Number <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="trade_license" id="trade_license" required
                            pattern="^TL-[A-Z]{2,4}-\d{4}-\d{3,6}$" value="{{ old('trade_license') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="TL-DHK-2024-XXXXX">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="trade_license"></span>
-                    @error('trade_license')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="trade_license"></span>
+                    @error('trade_license')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="business_address" id="business_address" required minlength="10" value="{{ old('business_address') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('business_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="Full address of premises">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="business_address"></span>
-                    @error('business_address')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="business_address"></span>
+                    @error('business_address')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">District <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">District <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="district_id" id="dealer_district_id" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District —</option>
@@ -76,20 +76,20 @@
                         <option value="{{ $d->id }}" {{ old('district_id')==$d->id?'selected':'' }}>{{ $d->name }}</option>
                         @endforeach
                     </select>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="district_id"></span>
-                    @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="district_id"></span>
+                    @error('district_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="upazila_id" id="dealer_upazila_id" required disabled
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('upazila_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select District First —</option>
                     </select>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="upazila_id"></span>
-                    @error('upazila_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="upazila_id"></span>
+                    @error('upazila_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="license_class" id="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('license_class') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         <option value="">— Select Class —</option>
@@ -97,8 +97,8 @@
                         <option value="B" {{ old('license_class')=='B'?'selected':'' }}>Class B — Wholesale</option>
                         <option value="C" {{ old('license_class')=='C'?'selected':'' }}>Class C — Import / Export</option>
                     </select>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="license_class"></span>
-                    @error('license_class')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="license_class"></span>
+                    @error('license_class')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -106,41 +106,41 @@
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="proprietor_name" id="proprietor_name" required value="{{ old('proprietor_name', auth()->user()->name) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('proprietor_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
-                    @error('proprietor_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
+                    @error('proprietor_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="nid" id="nid" required pattern="^\d{10}(\d{7})?$" inputmode="numeric"
                            value="{{ old('nid', auth()->user()->nid) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="10 or 17-digit NID number">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="nid"></span>
-                    @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="nid"></span>
+                    @error('nid')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="mobile" id="mobile" required pattern="^01[3-9]\d{8}$" inputmode="numeric"
                            value="{{ old('mobile', auth()->user()->phone) }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('mobile') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="01XXXXXXXXX">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="mobile"></span>
-                    @error('mobile')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="mobile"></span>
+                    @error('mobile')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="number" name="annual_income" id="annual_income" required min="1" step="1" value="{{ old('annual_income') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                            placeholder="0">
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="annual_income"></span>
-                    @error('annual_income')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="annual_income"></span>
+                    @error('annual_income')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -148,7 +148,7 @@
         <!-- Section 3: Stock Categories -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
             </div>
             <div class="p-5">
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 p-2 rounded-lg border {{ $errors->has('categories') ? 'border-rose-400 bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="categories">
@@ -161,15 +161,15 @@
                     </label>
                     @endforeach
                 </div>
-                <span class="text-[10px] text-rose-500 font-semibold mt-2 block js-error" data-for="categories"></span>
-                @error('categories')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-2 block js-error" data-for="categories"></span>
+                @error('categories')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
         </div>
 
         <!-- Section 4: Documents -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">4. Required Documents</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">4. Required Documents</span>
             </div>
             <div class="p-5 space-y-3">
                 @foreach([
@@ -182,14 +182,14 @@
                     <div class="flex items-center justify-between p-3 rounded-lg border {{ $errors->has($doc['name']) ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} js-error-wrapper" data-wrapper-for="{{ $doc['name'] }}">
                         <div>
                             <div class="text-xs font-semibold text-slate-900">{{ $doc['label'] }}</div>
-                            <div class="text-[10px] text-slate-400 font-medium">PDF or JPG/PNG · Max 5MB</div>
+                            <div class="text-[11px] text-slate-400 font-medium">PDF or JPG/PNG · Max 5MB</div>
                         </div>
                         <input type="file" name="{{ $doc['name'] }}" id="{{ $doc['name'] }}" required
                                accept=".pdf,.jpg,.jpeg,.png" data-max-size="5242880"
-                               class="text-[10px] text-slate-600 js-file-input">
+                               class="text-[11px] text-slate-600 js-file-input">
                     </div>
-                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="{{ $doc['name'] }}"></span>
-                    @error($doc['name'])<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="{{ $doc['name'] }}"></span>
+                    @error($doc['name'])<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 @endforeach
             </div>
@@ -206,8 +206,8 @@
                     under the Arms Act 1878 and applicable provisions of the Penal Code.
                 </span>
             </label>
-            <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
-            @error('declaration')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+            <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
+            @error('declaration')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
         </div>
 
         <!-- Submit -->
