@@ -88,16 +88,16 @@
                     <span>&larr;</span>
                     <span>Back to home</span>
                 </a>
-                <span class="text-[10px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;02</span>
+                <span class="text-[11px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;02</span>
             </div>
 
             <!-- Middle Content -->
-            <div class="my-10 space-y-7 max-w-md">
+            <div class="my-10 space-y-7 max-w-lg">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
                         <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
                     </div>
-                    <div class="text-[11px] leading-snug text-slate-300 font-semibold uppercase tracking-wider">
+                    <div class="text-xs leading-snug text-slate-300 font-semibold uppercase tracking-wider">
                         <p>Government of the People&rsquo;s Republic of Bangladesh</p>
                         <p class="font-bn normal-case text-slate-400 mt-0.5">বাংলাদেশ গণপ্রজাতন্ত্রী সরকার</p>
                     </div>
@@ -105,7 +105,7 @@
 
                 <div class="h-px w-16 bg-gold/60"></div>
 
-                <h2 class="text-3xl lg:text-[1.9rem] font-extrabold font-serif leading-[1.1]">
+                <h2 class="text-3xl lg:text-[2.0rem] font-extrabold font-serif leading-[1.1]">
                     Welcome back to NFLRMS
                 </h2>
                 <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-medium max-w-sm">
@@ -141,7 +141,7 @@
             </div>
 
             <!-- Bottom Footer -->
-            <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-6 border-t border-white/10">
+            <div class="flex items-center justify-between text-[11px] text-slate-400 font-medium pt-6 border-t border-white/10">
                 <span class="flex items-center gap-2">
                     <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90">
                     <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
@@ -157,7 +157,7 @@
 
             <div>
                 <h3 class="text-2xl font-bold font-serif text-slate-900 leading-none">Sign in</h3>
-                <p class="text-[11px] text-slate-500 mt-1.5 font-medium">Use your mobile number and password.</p>
+                <p class="text-xs text-slate-500 mt-1.5 font-medium">Use your mobile number and password.</p>
             </div>
 
             <form action="{{ route('login') }}" method="POST" class="space-y-4" id="main-login-form">
@@ -172,13 +172,13 @@
 
                 <!-- Section A: Access credentials -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">A</span>
+                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">A</span>
                         Access Credentials
                     </p>
 
                     <div>
-                        <label for="login-phone" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Mobile Number</label>
+                        <label for="login-phone" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Mobile Number</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
                             <input type="text" name="phone" id="login-phone"
@@ -186,13 +186,13 @@
                                    placeholder="01711234567" value="{{ old('phone') }}">
                         </div>
                         @error('phone')
-                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
-                        <span id="js-error-login-phone" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit mobile number.</span>
+                        <span id="js-error-login-phone" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit mobile number.</span>
                     </div>
 
                     <div>
-                        <label for="login-password" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Password</label>
+                        <label for="login-password" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Password</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                             <input type="password" name="password" id="login-password"
@@ -200,9 +200,9 @@
                                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
                         </div>
                         @error('password')
-                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
-                        <span id="js-error-login-password" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Password is required.</span>
+                        <span id="js-error-login-password" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Password is required.</span>
                     </div>
                 </div>
 
@@ -214,13 +214,13 @@
             </form>
 
             <div class="text-center space-y-2">
-                <p class="text-[10px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+                <p class="text-[11px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
                     Demo credentials: 01711234567 / demo1234 (citizen), 01711000111 / demo1234 (dealer)
                 </p>
-                <p class="text-[11px] text-slate-500">
+                <p class="text-xs text-slate-500">
                     No account? <a href="{{ route('register') }}" class="text-gov-green hover:underline font-semibold">Sign up</a>
                 </p>
-                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium pt-3 border-t border-slate-100">
+                <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
                     <span>Developed By</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
                 </div>
@@ -244,7 +244,7 @@
         <div class="p-5 bg-gov-deep text-white flex items-center justify-between">
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-white">Registered Accounts</h3>
-                <p class="text-[9px] text-slate-300 font-medium mt-0.5">Click to sign in instantly with mock profile</p>
+                <p class="text-[10px] text-slate-300 font-medium mt-0.5">Click to sign in instantly with mock profile</p>
             </div>
             <button type="button" onclick="toggleDrawer(false)" class="text-slate-300 hover:text-white text-sm font-bold p-1">&#10005;</button>
         </div>
@@ -285,7 +285,7 @@
 
             @foreach($roleGroups as $group => $rolesList)
             <div class="space-y-1.5">
-                <h4 class="text-[9px] font-bold uppercase tracking-wider text-slate-400 px-1">{{ $group }}</h4>
+                <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">{{ $group }}</h4>
                 <div class="space-y-1">
                     @foreach($rolesList as $roleVal => $details)
                     <button type="button" onclick="quickLogin('{{ $details[0] }}')"
@@ -293,11 +293,11 @@
                         <div class="flex items-center gap-3.5">
                             <span class="w-1.5 h-1.5 rounded-full group-hover:scale-125 transition-transform" style="background: {{ $details[2] }}"></span>
                             <div>
-                                <div class="text-[10px] font-bold text-slate-800 leading-none">{{ $details[1] }}</div>
-                                <div class="text-[9px] text-slate-400 font-medium mt-1 leading-none">{{ $details[0] }}</div>
+                                <div class="text-[11px] font-bold text-slate-800 leading-none">{{ $details[1] }}</div>
+                                <div class="text-[10px] text-slate-400 font-medium mt-1 leading-none">{{ $details[0] }}</div>
                             </div>
                         </div>
-                        <span class="text-[9px] text-gov-green font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Login &rarr;</span>
+                        <span class="text-[10px] text-gov-green font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Login &rarr;</span>
                     </button>
                     @endforeach
                 </div>
@@ -306,7 +306,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="p-4 bg-slate-50 border-t border-slate-100 text-center text-[8px] text-slate-400 font-semibold uppercase tracking-wider">
+        <div class="p-4 bg-slate-50 border-t border-slate-100 text-center text-[9px] text-slate-400 font-semibold uppercase tracking-wider">
             NFLRMS &bull; GRS Verified Session
         </div>
     </div>

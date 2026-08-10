@@ -90,16 +90,16 @@
                     <span>&larr;</span>
                     <span>Back to home</span>
                 </a>
-                <span class="text-[10px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;01</span>
+                <span class="text-[11px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;01</span>
             </div>
 
             <!-- Middle Content -->
-            <div class="my-10 space-y-7 max-w-md">
+            <div class="my-10 space-y-7 max-w-lg">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
                         <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
                     </div>
-                    <div class="text-[11px] leading-snug text-slate-300 font-semibold uppercase tracking-wider">
+                    <div class="text-xs leading-snug text-slate-300 font-semibold uppercase tracking-wider">
                         <p>Government of the People&rsquo;s Republic of Bangladesh</p>
                         <p class="font-bn normal-case text-slate-400 mt-0.5">বাংলাদেশ গণপ্রজাতন্ত্রী সরকার</p>
                     </div>
@@ -107,7 +107,7 @@
 
                 <div class="h-px w-16 bg-gold/60"></div>
 
-                <h2 class="text-3xl lg:text-[1.8rem] font-extrabold font-serif leading-[1.1]">
+                <h2 class="text-3xl lg:text-[1.9rem] font-extrabold font-serif leading-[1.1]">
                     Create your NFLRMS account
                 </h2>
                 <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-medium max-w-sm">
@@ -143,7 +143,7 @@
             </div>
 
             <!-- Bottom Footer -->
-            <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-6 border-t border-white/10">
+            <div class="flex items-center justify-between text-[11px] text-slate-400 font-medium pt-6 border-t border-white/10">
                 <span class="flex items-center gap-2">
                     <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90">
                     <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
@@ -160,7 +160,7 @@
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <h3 class="text-2xl font-bold font-serif text-slate-800 leading-none">Sign up</h3>
-                    <p class="text-[11px] text-slate-500 mt-2 font-medium">Step 1 of 2 &middot; Personal details</p>
+                    <p class="text-xs text-slate-500 mt-2 font-medium">Step 1 of 2 &middot; Personal details</p>
                 </div>
                 <div class="flex items-center gap-1.5 pt-1" aria-hidden="true">
                     <span id="dot-role-citizen" class="w-5 h-1.5 rounded-full bg-gov-green transition-colors"></span>
@@ -173,8 +173,8 @@
 
                 <!-- Account Type Selector (Tabs) -->
                 <div>
-                    <label class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950 mb-1.5">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">A</span>
+                    <label class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950 mb-1.5">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">A</span>
                         Account Type
                     </label>
                     <div id="role-wrap" class="grid grid-cols-2 gap-3 @error('role') ring-1 ring-rose-500 rounded-lg p-0.5 @enderror">
@@ -191,9 +191,9 @@
                     </div>
                     <input type="hidden" name="role" id="role-field" value="{{ old('role', 'citizen_applicant') }}">
                     @error('role')
-                        <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                        <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                     @enderror
-                    <span id="js-error-role" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Please select an account type.</span>
+                    <span id="js-error-role" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Please select an account type.</span>
                 </div>
 
                 <!-- Validation Summary Alert -->
@@ -205,43 +205,43 @@
 
                 <!-- Section B: Personal information -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">B</span>
+                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">B</span>
                         Personal Information
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="name" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Full Name (English)</label>
+                            <label for="name" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Full Name (English)</label>
                             <input type="text" name="name" id="name"
                                    class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('name') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
                                    placeholder="Md. Rafikul Islam" value="{{ old('name') }}">
                             @error('name')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-name" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Full name (English) is required.</span>
+                            <span id="js-error-name" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Full name (English) is required.</span>
                         </div>
                         <div>
-                            <label for="name_bn" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Full Name (Bengali)</label>
+                            <label for="name_bn" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Full Name (Bengali)</label>
                             <input type="text" name="name_bn" id="name_bn"
                                    class="w-full px-3 py-2.5 text-xs font-bn rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('name_bn') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
                                    placeholder="মো: রফিকুল ইসলাম" value="{{ old('name_bn') }}">
                             @error('name_bn')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-name_bn" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Full name (Bengali) is required.</span>
+                            <span id="js-error-name_bn" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Full name (Bengali) is required.</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section C: Location -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">C</span>
+                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">C</span>
                         Location
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="district_id" class="block text-[10px] font-semibold text-slate-600 mb-1.5">District</label>
+                            <label for="district_id" class="block text-[11px] font-semibold text-slate-600 mb-1.5">District</label>
                             <select name="district_id" id="district_id"
                                     class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('district_id') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror">
                                 <option value="">Select District</option>
@@ -250,34 +250,34 @@
                                 @endforeach
                             </select>
                             @error('district_id')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-district_id" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Please select a district.</span>
+                            <span id="js-error-district_id" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Please select a district.</span>
                         </div>
                         <div>
-                            <label for="upazila_id" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Upazila / Thana</label>
+                            <label for="upazila_id" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Upazila / Thana</label>
                             <select name="upazila_id" id="upazila_id" disabled
                                     class="w-full px-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all disabled:bg-slate-50 disabled:text-slate-400 @error('upazila_id') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror">
                                 <option value="">Select District First</option>
                             </select>
                             @error('upazila_id')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-upazila_id" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Please select an upazila / thana.</span>
+                            <span id="js-error-upazila_id" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Please select an upazila / thana.</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section D: Contact & identity -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">D</span>
+                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">D</span>
                         Contact &amp; Identity
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="email" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Email</label>
+                            <label for="email" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Email</label>
                             <div class="relative">
                                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.414.336-.75.75-.75h18a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-18a.75.75 0 01-.75-.75V6.75zm0 0l9.75 6.75 9.75-6.75" /></svg>
                                 <input type="email" name="email" id="email"
@@ -285,13 +285,13 @@
                                        placeholder="name@example.bd" value="{{ old('email') }}">
                             </div>
                             @error('email')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-email" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid email address.</span>
+                            <span id="js-error-email" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid email address.</span>
                         </div>
 
                         <div>
-                            <label for="phone" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Mobile Phone (11 Digits)</label>
+                            <label for="phone" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Mobile Phone (11 Digits)</label>
                             <div class="relative">
                                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
                                 <input type="text" name="phone" id="phone" maxlength="11"
@@ -299,14 +299,14 @@
                                        placeholder="01712345678" value="{{ old('phone') }}">
                             </div>
                             @error('phone')
-                                <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                                <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                             @enderror
-                            <span id="js-error-phone" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit Bangladeshi mobile number (e.g. 01712345678).</span>
+                            <span id="js-error-phone" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit Bangladeshi mobile number (e.g. 01712345678).</span>
                         </div>
                     </div>
 
                     <div>
-                        <label for="nid" class="block text-[10px] font-semibold text-slate-600 mb-1.5">National ID (NID)</label>
+                        <label for="nid" class="block text-[11px] font-semibold text-slate-600 mb-1.5">National ID (NID)</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 15.75h19.5M6 4.5h12A2.25 2.25 0 0120.25 6.75v10.5A2.25 2.25 0 0118 19.5H6a2.25 2.25 0 01-2.25-2.25V6.75A2.25 2.25 0 016 4.5z" /></svg>
                             <input type="text" name="nid" id="nid"
@@ -314,20 +314,20 @@
                                    placeholder="10 or 17-digit NID" value="{{ old('nid') }}">
                         </div>
                         @error('nid')
-                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
-                        <span id="js-error-nid" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 10 or 17-digit NID.</span>
+                        <span id="js-error-nid" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 10 or 17-digit NID.</span>
                     </div>
                 </div>
 
                 <!-- Section E: Security -->
                 <div class="space-y-3">
-                    <p class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-950">
-                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[9px]">E</span>
+                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
+                        <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">E</span>
                         Security
                     </p>
                     <div>
-                        <label for="password" class="block text-[10px] font-semibold text-slate-600 mb-1.5">Password</label>
+                        <label for="password" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Password</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                             <input type="password" name="password" id="password"
@@ -335,9 +335,9 @@
                                    placeholder="Minimum 6 characters">
                         </div>
                         @error('password')
-                            <span class="text-[10px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
+                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
                         @enderror
-                        <span id="js-error-password" class="text-[10px] text-rose-500 font-semibold mt-1 hidden">Password must be at least 6 characters.</span>
+                        <span id="js-error-password" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Password must be at least 6 characters.</span>
                         <input type="hidden" name="password_confirmation" id="password_confirmation">
                     </div>
                 </div>
@@ -350,10 +350,10 @@
             </form>
 
             <div class="pt-3 text-center space-y-3">
-                <p class="text-[11px] text-slate-500">
+                <p class="text-xs text-slate-500">
                     Already registered? <a href="{{ route('login') }}" class="text-gov-green hover:underline font-semibold">Sign in</a>
                 </p>
-                <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium pt-3 border-t border-slate-100">
+                <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
                     <span>Developed By</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
                 </div>

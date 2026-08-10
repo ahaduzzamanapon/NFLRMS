@@ -117,7 +117,7 @@
 
     <!-- Back to dashboard (top-left, outside header) -->
     <a href="{{ $application->applicant_type === 'dealer' ? route('dealer.dashboard') : route('citizen.dashboard') }}"
-       class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-semibold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
+       class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[11px] font-semibold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
         <span>←</span><span>Back to Dashboard</span>
     </a>
 
@@ -128,7 +128,7 @@
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 border border-gov-green/20 flex items-center justify-center text-xl flex-shrink-0">📋</div>
                 <div>
                     <h2 class="text-base font-bold font-serif text-slate-900 leading-tight">Application {{ $application->application_number }}</h2>
-                    <p class="text-[10px] text-slate-500 font-normal">
+                    <p class="text-[11px] text-slate-500 font-normal">
                         {{ ucfirst(str_replace('_', ' ', $application->type)) }} &bull;
                         {{ $application->firearm_details['weapon_type'] ?? 'N/A' }} &bull;
                         {{ $application->user->name }}
@@ -136,13 +136,13 @@
                 </div>
             </div>
             <div class="flex flex-col items-end gap-1.5">
-                <span class="px-2.5 py-1 rounded-full text-[9px] font-semibold uppercase border
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border
                     @if(in_array($status, ['approved','license_issued','vetted_cleared'])) border-emerald-500/30 bg-emerald-50 text-emerald-700
                     @elseif($isRejected || $status === 'vetted_flagged') border-rose-500/30 bg-rose-50 text-rose-700
                     @else border-amber-500/30 bg-amber-50 text-amber-700 @endif">
                     {{ ucfirst(str_replace('_', ' ', $status)) }}
                 </span>
-                <span class="text-[9px] text-slate-400 font-normal">Updated {{ $application->updated_at->diffForHumans() }}</span>
+                <span class="text-[10px] text-slate-400 font-normal">Updated {{ $application->updated_at->diffForHumans() }}</span>
             </div>
         </div>
 
@@ -164,7 +164,7 @@
                                 @else bg-white border-slate-200 text-slate-300 @endif">
                                 @if($isDone) ✓ @else {{ $step['icon'] }} @endif
                             </div>
-                            <span class="mt-1 text-[8px] font-semibold uppercase tracking-wider
+                            <span class="mt-1 text-[9px] font-semibold uppercase tracking-wider
                                 @if($isDone) text-emerald-600
                                 @elseif($isCurrent) @if($isRejectedStep) text-rose-600 @else text-gov-green @endif
                                 @else text-slate-400 @endif">
@@ -184,24 +184,24 @@
     <!-- ===== TAB NAVIGATION ===== -->
     <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <button type="button" data-tab="overview" onclick="switchDetailTab('overview')"
-                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
+                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
             <span>👤</span><span>Overview</span>
         </button>
         <button type="button" data-tab="documents" onclick="switchDetailTab('documents')"
-                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>📎</span><span>Documents</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold {{ $uploadedCount === count($standardDocList) ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">{{ $uploadedCount }}/{{ count($standardDocList) }}</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold {{ $uploadedCount === count($standardDocList) ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">{{ $uploadedCount }}/{{ count($standardDocList) }}</span>
         </button>
         <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
-                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🕐</span><span>Timeline</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
         </button>
         @if($application->vettings->count())
         <button type="button" data-tab="vetting" onclick="switchDetailTab('vetting')"
-                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🛡️</span><span>Vetting</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->vettings->count() }}</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold bg-slate-100 text-slate-500">{{ $application->vettings->count() }}</span>
         </button>
         @endif
     </div>
@@ -213,60 +213,60 @@
                 <!-- TAB: OVERVIEW -->
                 <div class="detail-panel" id="panel-overview">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">👤 Application Summary</span>
+                        <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">👤 Application Summary</span>
                     </div>
                     <div class="p-5">
                         <!-- Applicant Particulars -->
                         <div class="mb-5">
-                            <span class="text-[9px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5">Applicant Particulars</span>
+                            <span class="text-[10px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5">Applicant Particulars</span>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Full Name</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-[10px] text-slate-500 font-normal">({{ $application->user->name_bn }})</span> @endif</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Full Name</span>
+                                     <span class="font-semibold text-slate-900">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-[11px] text-slate-500 font-normal">({{ $application->user->name_bn }})</span> @endif</span>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Applicant Role</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Applicant Role</span>
                                      <span class="font-semibold text-slate-900 capitalize">{{ str_replace('_', ' ', $application->applicant_type) }}</span>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">NID Number</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">NID Number</span>
                                      <span class="font-semibold text-slate-900">{{ $application->applicant_details['nid'] ?? $application->user->nid ?? 'N/A' }}</span>
                                 </div>
 
                                 @if($application->applicant_type === 'dealer')
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Firm / Business Name</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Firm / Business Name</span>
                                          <span class="font-semibold text-slate-900">{{ $application->applicant_details['firm_name'] ?? 'N/A' }}</span>
                                     </div>
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Trade License</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Trade License</span>
                                          <span class="font-semibold text-slate-900">{{ $application->applicant_details['trade_license'] ?? 'N/A' }}</span>
                                     </div>
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">License Class</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">License Class</span>
                                          <span class="font-semibold text-slate-900 capitalize">{{ $application->applicant_details['license_class'] ?? 'Class A' }}</span>
                                     </div>
                                 @else
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Date of Birth</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Date of Birth</span>
                                          <span class="font-semibold text-slate-900">{{ $application->applicant_details['dob'] ?? 'N/A' }}</span>
                                     </div>
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Father's Name</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Father's Name</span>
                                          <span class="font-semibold text-slate-900">{{ $application->applicant_details['father_name'] ?? 'N/A' }}</span>
                                     </div>
                                     <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Mobile & Email</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Mobile & Email</span>
                                          <span class="font-normal text-slate-900">{{ $application->user->phone ?? 'N/A' }} &bull; {{ $application->user->email }}</span>
                                     </div>
                                 @endif
 
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Annual Income</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Annual Income</span>
                                      <span class="font-semibold text-slate-900">৳{{ number_format($application->applicant_details['annual_income'] ?? 0) }}</span>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Jurisdiction Office</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Jurisdiction Office</span>
                                      <span class="font-semibold text-slate-900">{{ $application->district->name ?? 'District' }} DC Office</span>
                                 </div>
                             </div>
@@ -274,27 +274,27 @@
 
                         <!-- Firearm Particulars -->
                         <div class="mb-5">
-                            <span class="text-[9px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5">🔫 Firearm & License Specifications</span>
+                            <span class="text-[10px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5">🔫 Firearm & License Specifications</span>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Weapon Type</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Weapon Type</span>
                                      <span class="font-semibold text-slate-900">{{ $application->firearm_details['weapon_type'] ?? 'N/A' }}</span>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Bore / Calibre</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Bore / Calibre</span>
                                      <span class="font-semibold text-slate-900">{{ $application->firearm_details['bore'] ?? 'N/A' }}</span>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Purpose</span>
+                                     <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Purpose</span>
                                      <span class="font-normal text-slate-900">{{ $application->firearm_details['purpose'] ?? 'N/A' }}</span>
                                 </div>
                                 <div class="sm:col-span-3 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200">
-                                     <span class="text-[8px] font-semibold uppercase text-emerald-600 tracking-widest block">Sourcing Licensed Arms Dealer</span>
+                                     <span class="text-[9px] font-semibold uppercase text-emerald-600 tracking-widest block">Sourcing Licensed Arms Dealer</span>
                                      <span class="font-semibold text-emerald-800">{{ $application->firearm_details['dealer_name'] ?? 'M/S Metropolitan Arms Store (Govt. Reg #AD-1029)' }}</span>
                                 </div>
                                 @if(isset($application->firearm_details['categories']))
                                     <div class="sm:col-span-3 p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                         <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-widest block">Authorized Categories</span>
+                                         <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Authorized Categories</span>
                                          <span class="font-semibold text-slate-900">{{ is_array($application->firearm_details['categories']) ? implode(', ', $application->firearm_details['categories']) : $application->firearm_details['categories'] }}</span>
                                     </div>
                                 @endif
@@ -305,19 +305,19 @@
                         <div class="grid grid-cols-4 gap-3">
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
                                  <span class="text-lg font-bold text-gov-green block">{{ $application->logs->count() }}</span>
-                                 <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider">Events</span>
+                                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Events</span>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
                                  <span class="text-lg font-bold text-amber-600 block">{{ $application->vettings->count() }}</span>
-                                 <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider">Vettings</span>
+                                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Vettings</span>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
                                  <span class="text-lg font-bold text-emerald-600 block">{{ $uploadedCount }}</span>
-                                 <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider">Docs</span>
+                                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Docs</span>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
                                  <span class="text-lg font-bold text-blue-600 block">{{ $application->created_at->format('d M') }}</span>
-                                 <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider">Filed</span>
+                                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider">Filed</span>
                             </div>
                         </div>
                     </div>
@@ -326,11 +326,11 @@
                 <!-- TAB: DOCUMENTS -->
                 <div class="detail-panel hidden" id="panel-documents">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">📎 Attached Documents</span>
+                        <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">📎 Attached Documents</span>
                         @if($hasUploadedDocs)
-                            <span class="text-[9px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">✓ Uploaded & Verified</span>
+                            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">✓ Uploaded & Verified</span>
                         @else
-                            <span class="text-[9px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">⚠️ Pending Upload</span>
+                            <span class="text-[10px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">⚠️ Pending Upload</span>
                         @endif
                     </div>
                     <div class="p-5">
@@ -342,9 +342,9 @@
                                     <div class="flex items-center space-x-2.5 min-w-0">
                                         <span class="text-xl flex-shrink-0">{{ $doc['icon'] }}</span>
                                         <div class="min-w-0">
-                                             <span class="font-semibold text-slate-800 block text-[11px] leading-tight truncate">{{ $doc['name'] }}</span>
+                                             <span class="font-semibold text-slate-800 block text-xs leading-tight truncate">{{ $doc['name'] }}</span>
                                             @if(!$doc['is_uploaded'])
-                                                 <span class="text-[9px] text-rose-600 font-normal">Not uploaded</span>
+                                                 <span class="text-[10px] text-rose-600 font-normal">Not uploaded</span>
                                             @endif
                                         </div>
                                     </div>
@@ -352,13 +352,13 @@
                                         @if($doc['is_uploaded'])
                                             <span class="w-2 h-2 rounded-full bg-emerald-500" title="Attached"></span>
                                             <button type="button" onclick="openDocumentViewer('{{ addslashes($doc['name']) }}', '{{ $doc['file_name'] }}', '{{ $doc['file_size'] }}', true, '{{ $doc['key'] }}')"
-                                                     class="px-2 py-1 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[10px] font-semibold transition-all shadow-sm">
+                                                     class="px-2 py-1 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[11px] font-semibold transition-all shadow-sm">
                                                 👁️ View
                                             </button>
                                         @else
                                             <span class="w-2 h-2 rounded-full bg-rose-400" title="Missing"></span>
                                             <button type="button" onclick="openDocumentViewer('{{ addslashes($doc['name']) }}', 'No file uploaded', '0 KB', false, '{{ $doc['key'] }}')"
-                                                     class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-semibold transition-all">
+                                                     class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-semibold transition-all">
                                                 👁️ Check Status
                                             </button>
                                         @endif
@@ -370,7 +370,7 @@
 
                         <!-- Document progress bar -->
                         <div class="mt-4 pt-4 border-t border-slate-100">
-                             <div class="flex items-center justify-between text-[10px] font-semibold text-slate-500 mb-1.5">
+                             <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
                                 <span>Document Completion</span>
                                 <span class="text-gov-green">{{ $uploadedCount }}/{{ count($standardDocList) }} uploaded</span>
                             </div>
@@ -385,8 +385,8 @@
                 <!-- TAB: TIMELINE -->
                 <div class="detail-panel hidden" id="panel-timeline">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">🕐 Workflow Processing Timeline</span>
-                        <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} events</span>
+                        <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">🕐 Workflow Processing Timeline</span>
+                        <span class="text-[10px] font-normal text-slate-400">{{ $application->logs->count() }} events</span>
                     </div>
                     <div class="p-5">
                         @forelse($application->logs as $log)
@@ -407,21 +407,21 @@
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between gap-2">
-                                     <span class="text-[9px] font-semibold uppercase tracking-wider
+                                     <span class="text-[10px] font-semibold uppercase tracking-wider
                                         @if($loop->first) text-gov-green
                                         @elseif(str_contains($log->action, 'reject')) text-rose-600
                                         @else text-amber-600 @endif">
                                         {{ ucfirst(str_replace('_', ' ', $log->action)) }}
                                     </span>
-                                     <span class="text-[9px] text-slate-400 font-normal flex-shrink-0">{{ $log->created_at->format('d M Y · h:i A') }}</span>
+                                     <span class="text-[10px] text-slate-400 font-normal flex-shrink-0">{{ $log->created_at->format('d M Y · h:i A') }}</span>
                                 </div>
                                  <p class="text-xs text-slate-700 font-normal leading-relaxed mt-1">{{ $log->remarks }}</p>
                                 @if($log->actor)
                                 <div class="flex items-center space-x-1.5 mt-1.5">
-                                     <span class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[8px] font-semibold text-slate-600 flex-shrink-0">
+                                     <span class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[9px] font-semibold text-slate-600 flex-shrink-0">
                                         {{ strtoupper(substr($log->actor->name, 0, 1)) }}
                                     </span>
-                                     <span class="text-[9px] text-slate-500 font-normal">by {{ $log->actor->name }}</span>
+                                     <span class="text-[10px] text-slate-500 font-normal">by {{ $log->actor->name }}</span>
                                 </div>
                                 @endif
                             </div>
@@ -439,7 +439,7 @@
                 @if($application->vettings->count())
                 <div class="detail-panel hidden" id="panel-vetting">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">🛡️ Agency Vetting Clearances</span>
+                        <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">🛡️ Agency Vetting Clearances</span>
                     </div>
                     <div class="p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -457,11 +457,11 @@
                                     <div>
                                          <span class="text-xs font-semibold text-slate-800 uppercase">{{ $v->agency }}</span>
                                         @if($v->vetted_at)
-                                             <span class="text-[9px] text-slate-400 font-normal block">{{ $v->vetted_at->format('d M Y') }}</span>
+                                             <span class="text-[10px] text-slate-400 font-normal block">{{ $v->vetted_at->format('d M Y') }}</span>
                                         @endif
                                     </div>
                                 </div>
-                                 <span class="text-[9px] font-semibold uppercase px-2.5 py-1 rounded-full
+                                 <span class="text-[10px] font-semibold uppercase px-2.5 py-1 rounded-full
                                     @if($v->status === 'cleared') bg-emerald-100 text-emerald-700
                                     @elseif($v->status === 'flagged') bg-rose-100 text-rose-700
                                     @else bg-amber-100 text-amber-700 @endif">
@@ -481,7 +481,7 @@
             <!-- Status Panel -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                     <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">📊 Current File Status</span>
+                     <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">📊 Current File Status</span>
                 </div>
                 <div class="p-5 text-center">
                     <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-block
@@ -492,11 +492,11 @@
                         @else bg-amber-500/10 text-amber-600 border border-amber-500/20 @endif">
                         {{ str_replace('_', ' ', $status) }}
                     </span>
-                     <p class="text-[10px] text-slate-500 mt-2 font-normal">Active Desk: {{ is_string($application->current_actor_role) ? ucwords(str_replace('_', ' ', $application->current_actor_role)) : (\App\Enums\Role::tryFrom($application->current_actor_role)?->label() ?? 'Applicant') }}</p>
+                     <p class="text-[11px] text-slate-500 mt-2 font-normal">Active Desk: {{ is_string($application->current_actor_role) ? ucwords(str_replace('_', ' ', $application->current_actor_role)) : (\App\Enums\Role::tryFrom($application->current_actor_role)?->label() ?? 'Applicant') }}</p>
 
                     @if($status === 'payment_pending')
                         <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
-                             <p class="text-[10px] text-slate-500 font-semibold uppercase">Platform Service Charge Pending</p>
+                             <p class="text-[11px] text-slate-500 font-semibold uppercase">Platform Service Charge Pending</p>
                              <a href="{{ route('payment.initiate', [$application->id, 'type' => 'service_fee']) }}" class="w-full block py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow-sm transition-colors">
                                 💳 Pay Platform Fee (PayStation)
                             </a>
@@ -506,7 +506,7 @@
                         </div>
                     @elseif($status === 'waiting_for_license_fee')
                         <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
-                             <p class="text-[10px] text-slate-500 font-semibold uppercase block">Approved &bull; Waiting for License Fee</p>
+                             <p class="text-[11px] text-slate-500 font-semibold uppercase block">Approved &bull; Waiting for License Fee</p>
                              <p class="text-base font-bold text-slate-800">৳{{ number_format($application->license_fee_amount ?? 0) }}</p>
                              <a href="{{ route('payment.initiate', [$application->id, 'type' => 'license_fee']) }}" class="w-full block py-2 bg-gov-green hover:bg-gov-light text-white rounded-lg text-xs font-bold shadow-sm transition-colors animate-pulse">
                                 💳 Pay License Fee (PayStation)
@@ -523,16 +523,16 @@
             @if($application->payment_details || $application->service_fee_paid || $application->license_fee_paid)
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                     <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-widest">💳 Payment Records</span>
+                     <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">💳 Payment Records</span>
                 </div>
-                <div class="p-5 space-y-3 text-[11px]">
+                <div class="p-5 space-y-3 text-xs">
                     <div class="p-2.5 rounded bg-slate-50 border border-slate-200/60 space-y-1">
                          <div class="flex justify-between items-center font-semibold">
                             <span class="text-slate-700">Platform Service Charge</span>
                             @if($application->service_fee_paid)
-                                 <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">Paid</span>
+                                 <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">Paid</span>
                             @else
-                                 <span class="text-[9px] px-2 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold uppercase">Pending</span>
+                                 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold uppercase">Pending</span>
                             @endif
                         </div>
                         <div class="flex justify-between text-slate-500">
@@ -551,11 +551,11 @@
                          <div class="flex justify-between items-center font-semibold">
                             <span class="text-slate-700">Statutory License Fee</span>
                             @if($application->license_fee_paid)
-                                 <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">Paid</span>
+                                 <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">Paid</span>
                             @elseif($application->license_fee_amount)
-                                 <span class="text-[9px] px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-semibold uppercase">Awaiting Payment</span>
+                                 <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-semibold uppercase">Awaiting Payment</span>
                             @else
-                                 <span class="text-[9px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-semibold uppercase">Not Due Yet</span>
+                                 <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-semibold uppercase">Not Due Yet</span>
                             @endif
                         </div>
                         @if($application->license_fee_amount)
@@ -587,7 +587,7 @@
                 <span class="text-xl">📄</span>
                 <div>
                      <h3 id="modalDocTitle" class="text-xs font-bold uppercase tracking-wider">Document Title</h3>
-                     <p id="modalDocMeta" class="text-[10px] text-white/70 font-normal">filename.pdf &bull; 1.5 MB</p>
+                     <p id="modalDocMeta" class="text-[11px] text-white/70 font-normal">filename.pdf &bull; 1.5 MB</p>
                 </div>
             </div>
              <button type="button" onclick="closeDocumentViewer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm flex items-center justify-center transition-colors">
@@ -599,7 +599,7 @@
         <div class="p-6 bg-slate-100 max-h-[70vh] overflow-y-auto">
             <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-inner space-y-4 font-sans text-xs">
                 <div class="space-y-3 py-2">
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] space-y-1">
+                    <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs space-y-1">
                         <div class="flex justify-between">
                             <span class="text-slate-500">Document Type:</span>
                              <span id="docTypeLabel" class="font-semibold text-slate-900">National Identity Document</span>
@@ -610,7 +610,7 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-500">Verification Hash:</span>
-                            <span class="font-mono text-[9px] text-slate-600">SHA256: 8f92a10b4c892e104f81a7b...</span>
+                            <span class="font-mono text-[10px] text-slate-600">SHA256: 8f92a10b4c892e104f81a7b...</span>
                         </div>
                     </div>
 
@@ -624,7 +624,7 @@
 
         <!-- Modal Footer -->
         <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-             <span class="text-[10px] text-slate-400 font-normal">NFLRMS Secure Attachment Vault</span>
+             <span class="text-[11px] text-slate-400 font-normal">NFLRMS Secure Attachment Vault</span>
             <div class="flex items-center space-x-2">
                  <button type="button" onclick="closeDocumentViewer()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-lg transition-colors">
                     Close
@@ -649,8 +649,8 @@
         document.querySelectorAll('.detail-tab').forEach(btn => {
             const isActive = btn.dataset.tab === tabName;
             btn.className = isActive
-                ? 'detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm'
-                : 'detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50';
+                ? 'detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm'
+                : 'detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50';
         });
     }
 
@@ -682,7 +682,7 @@
                         No statutory document file was uploaded by the applicant for <strong>${title}</strong>.
                     </p>
                     <div class="pt-2 flex justify-center space-x-2">
-                        <span class="px-3 py-1 bg-rose-200 text-rose-900 text-[10px] font-semibold rounded uppercase">Status: Not Uploaded</span>
+                        <span class="px-3 py-1 bg-rose-200 text-rose-900 text-[11px] font-semibold rounded uppercase">Status: Not Uploaded</span>
                     </div>
                 </div>
             `;
@@ -694,14 +694,14 @@
             if (isImage) {
                 realViewerHTML = `
                     <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 text-center mb-3">
-                        <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest block mb-2">📸 Uploaded Attachment Image Preview</span>
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-widest block mb-2">📸 Uploaded Attachment Image Preview</span>
                         <img src="${streamUrl}" alt="${title}" class="max-h-96 mx-auto rounded-lg shadow-md object-contain border border-slate-300">
                     </div>
                 `;
             } else {
                 realViewerHTML = `
                     <div class="mb-3 rounded-xl border border-slate-200 overflow-hidden shadow-inner bg-slate-950">
-                        <div class="bg-slate-900 px-3 py-1.5 flex justify-between items-center text-white text-[10px] border-b border-slate-800">
+                        <div class="bg-slate-900 px-3 py-1.5 flex justify-between items-center text-white text-[11px] border-b border-slate-800">
                             <span class="font-semibold text-emerald-400">📄 Attached File: ${filename}</span>
                             <a href="${streamUrl}" target="_blank" class="text-amber-300 hover:underline font-semibold">Open Fullscreen ↗</a>
                         </div>
