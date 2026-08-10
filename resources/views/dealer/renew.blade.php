@@ -22,7 +22,7 @@
             Renewal Fee: <span class="font-bold" id="fee-renewal">৳{{ number_format($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) }}</span>
             &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($renewalFees['dealer_platform_renewal'] ?? 2500) }}</span>
         </div>
-        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) + ($renewalFees['dealer_platform_renewal'] ?? 2500)) }}</span></span>
+        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) + ($renewalFees['dealer_platform_renewal'] ?? 2500)) }}</span></span>
     </div>
 
     @if($licenses->isEmpty())
@@ -49,7 +49,7 @@
         <!-- Select Licence -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">Select Dealing Licence to Renew</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Select Dealing Licence to Renew</span>
             </div>
             <div class="p-5 space-y-3 rounded-lg border border-transparent js-error-wrapper" data-wrapper-for="license_id">
                 @foreach($licenses as $lic)
@@ -64,7 +64,7 @@
                            class="border-slate-300 text-gov-green focus:ring-gov-green">
                     <div>
                         <div class="text-xs font-semibold text-slate-900">{{ $lic->license_number }}</div>
-                        <div class="text-[10px] text-slate-500 font-medium">
+                        <div class="text-[11px] text-slate-500 font-medium">
                             Expires: {{ $lic->expiry_date?->format('d M Y') ?? 'N/A' }} &bull;
                             Status: <span class="font-semibold text-{{ $lic->status === 'active' ? 'gov-green' : 'amber-600' }}">{{ ucfirst($lic->status) }}</span>
                         </div>
@@ -73,15 +73,15 @@
                 @endforeach
             </div>
             <div class="px-5 pb-4">
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="license_id"></span>
-                @error('license_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="license_id"></span>
+                @error('license_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
         </div>
 
         <!-- Stock Declaration -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">Stock Declaration (Year-end)</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Stock Declaration (Year-end)</span>
             </div>
             <div class="p-5 space-y-3">
                 <p class="text-xs text-slate-500 font-medium">
@@ -90,20 +90,20 @@
                 </p>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Firearms in Stock</label>
+                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Firearms in Stock</label>
                         <input type="number" name="declared_firearms" id="declared_firearms" min="0" required step="1" value="{{ old('declared_firearms') }}"
                                class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('declared_firearms') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                                placeholder="0">
-                        <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declared_firearms"></span>
-                        @error('declared_firearms')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                        <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declared_firearms"></span>
+                        @error('declared_firearms')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Ammunition Rounds</label>
+                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Ammunition Rounds</label>
                         <input type="number" name="declared_ammo" id="declared_ammo" min="0" required step="1" value="{{ old('declared_ammo') }}"
                                class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('declared_ammo') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                                placeholder="0">
-                        <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declared_ammo"></span>
-                        @error('declared_ammo')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                        <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="declared_ammo"></span>
+                        @error('declared_ammo')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>
@@ -119,8 +119,8 @@
                     I understand that discrepancies may result in an anomaly audit by MoHA.
                 </span>
             </label>
-            <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
-            @error('declaration')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+            <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
+            @error('declaration')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
         </div>
 
         <div class="flex gap-3 justify-end">
