@@ -24,7 +24,7 @@
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-left border-collapse">
             <thead>
-<tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
+<tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Name</th>
                     <th class="p-3">Role</th>
                     <th class="p-3">Unit / Office</th>
@@ -55,19 +55,19 @@
                 <tr class="hover:bg-slate-50/50 transition-colors">
                     <td class="p-3 pl-5">
                         <div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-full bg-slate-100 text-[10px] font-semibold text-slate-600 flex items-center justify-center border border-slate-200/50 flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600 flex items-center justify-center border border-slate-200/50 flex-shrink-0">
                                 {{ $initials }}
                             </div>
                             <div>
                                 <div class="font-semibold text-slate-900">{{ $u->name }}</div>
-                                <div class="text-[9px] text-slate-400">{{ $u->email }}</div>
+                                <div class="text-[10px] text-slate-400">{{ $u->email }}</div>
                             </div>
                         </div>
                     </td>
                     <td class="p-3 font-semibold text-slate-600">{{ $u->roleLabel() }}</td>
                     <td class="p-3 text-slate-500 font-medium">{{ $unit }}</td>
                     <td class="p-3">
-<span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase
                             {{ $isActive ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200' }}">
                             {{ $isActive ? 'Active' : 'Inactive' }}
                         </span>
@@ -75,12 +75,12 @@
                     <td class="p-3 pr-5 text-right">
                         <div class="flex items-center justify-end gap-3">
                             <a href="{{ route('admin.users.edit', $u->id) }}"
-class="text-[10px] font-semibold text-blue-500 hover:underline">Edit</a>
+class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</a>
 
                             <form action="{{ route('admin.users.toggle', $u->id) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
+class="text-[11px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
                                     {{ $isActive ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
@@ -90,7 +90,7 @@ class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline'
                                   onsubmit="return confirm('Delete {{ addslashes($u->name) }}? This cannot be undone.')">
                                 @csrf
                                 @method('DELETE')
-<button type="submit" class="text-[10px] font-semibold text-rose-500 hover:underline">Delete</button>
+<button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">Delete</button>
                             </form>
                             @endif
                         </div>
@@ -125,30 +125,30 @@ class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline'
             </div>
 
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
                 <input type="text" name="name" id="new_user_name" required minlength="2"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('name') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                        value="{{ old('name') }}">
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="name"></span>
-                @error('name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="name"></span>
+                @error('name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
                 <input type="email" name="email" id="new_user_email" required
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('email') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                        value="{{ old('email') }}">
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="email"></span>
-                @error('email')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="email"></span>
+                @error('email')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Password</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Password</label>
                 <input type="password" name="password" id="new_user_password" required minlength="8"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('password') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="password"></span>
-                @error('password')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="password"></span>
+                @error('password')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
                 <select name="role" id="new_user_role" required
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('role') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select Role —</option>
@@ -156,11 +156,11 @@ class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline'
                     <option value="{{ $roleValue }}" {{ old('role')==$roleValue ? 'selected' : '' }}>{{ $roleLabel }}</option>
                     @endforeach
                 </select>
-                <span class="text-[10px] text-rose-500 font-semibold mt-1 block js-error" data-for="role"></span>
-                @error('role')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="role"></span>
+                @error('role')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
                 <select name="district_id"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select District —</option>
@@ -168,7 +168,7 @@ class="text-[10px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline'
                     <option value="{{ $d->id }}" {{ old('district_id')==$d->id ? 'selected' : '' }}>{{ $d->name }}</option>
                     @endforeach
                 </select>
-                @error('district_id')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                @error('district_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
             </div>
             <button type="submit"
 class="w-full py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors">

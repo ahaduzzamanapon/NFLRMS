@@ -215,7 +215,7 @@
         </button>
         <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>🕐</span><span>Timeline</span>
+            <span>🕐</span><span>Activity Log</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
         </button>
         @if($application->vettings->count())
@@ -376,7 +376,7 @@
                 <!-- TAB: TIMELINE -->
                 <div class="detail-panel hidden" id="panel-timeline">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">🕐 Case Timeline</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">🕐 Case Activity Log</span>
                         <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} events</span>
                     </div>
                     <div class="p-5">
@@ -420,7 +420,7 @@
                         @empty
                         <div class="text-center py-8 space-y-2">
                             <span class="text-3xl block">🕐</span>
-                            <p class="text-xs text-slate-400 font-normal">No timeline entries yet.</p>
+                            <p class="text-xs text-slate-400 font-normal">No activity entries yet.</p>
                         </div>
                         @endforelse
                     </div>

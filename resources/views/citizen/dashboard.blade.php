@@ -72,7 +72,7 @@
                     <!-- Header -->
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                         <div class="flex items-center space-x-2">
-                            <span class="text-2xl">🇧🇩</span>
+                            <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-8 h-8 object-contain shrink-0">
                             <div>
                                 <h4 class="text-[10px] font-semibold uppercase text-slate-500 leading-none">
                                     Government of Bangladesh &bull; MoHA

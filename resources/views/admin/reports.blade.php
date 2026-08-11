@@ -26,9 +26,9 @@
         @endphp
         @foreach($kpis as $kpi)
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-<div class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest">{{ $kpi['label'] }}</div>
+<div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">{{ $kpi['label'] }}</div>
             <div class="text-3xl font-bold {{ $kpi['color'] }} mt-1">{{ $kpi['value'] }}</div>
-            <div class="text-[9px] text-slate-400 mt-0.5">{{ $kpi['sub'] }}</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">{{ $kpi['sub'] }}</div>
         </div>
         @endforeach
     </div>
@@ -42,17 +42,17 @@
                 <div>
 <div class="text-xs font-semibold text-slate-900">R-01 · Active Licenses by District</div>
                 </div>
-                <span class="text-[9px] text-slate-400 font-semibold">Total {{ number_format($stats['active_licenses']) }}</span>
+                <span class="text-[10px] text-slate-400 font-semibold">Total {{ number_format($stats['active_licenses']) }}</span>
             </div>
             <div class="p-5 space-y-2.5">
                 @forelse($byDistrict as $d)
                 @php $pct = $stats['active_licenses'] > 0 ? round(($d->applications_count / max($byDistrict->max('applications_count'), 1)) * 100) : 0; @endphp
                 <div class="flex items-center space-x-3">
-<span class="text-[10px] font-semibold text-slate-700 w-28 truncate">{{ $d->name }}</span>
+<span class="text-[11px] font-semibold text-slate-700 w-28 truncate">{{ $d->name }}</span>
                     <div class="flex-grow bg-slate-100 rounded-full h-2">
                         <div class="h-2 rounded-full bg-gov-green" style="width: {{ $pct }}%"></div>
                     </div>
-<span class="text-[10px] font-semibold text-slate-500 w-8 text-right">{{ $d->applications_count }}</span>
+<span class="text-[11px] font-semibold text-slate-500 w-8 text-right">{{ $d->applications_count }}</span>
                 </div>
                 @empty
                 <p class="text-xs text-slate-400 font-semibold text-center py-4">No license data available yet.</p>
@@ -64,7 +64,7 @@
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
 <div class="text-xs font-semibold text-slate-900">Report Catalog</div>
-                <span class="text-[9px] text-slate-400 font-semibold">10 reports</span>
+                <span class="text-[10px] text-slate-400 font-semibold">10 reports</span>
             </div>
             <div class="divide-y divide-slate-100">
                 @php
@@ -84,12 +84,12 @@
                 @foreach($reports as $r)
                 <div class="px-5 py-3 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
                     <div class="flex items-center space-x-3">
-<span class="text-[9px] font-semibold text-slate-400 font-mono w-8">{{ $r['id'] }}</span>
+<span class="text-[10px] font-semibold text-slate-400 font-mono w-8">{{ $r['id'] }}</span>
                         <span class="text-xs font-semibold text-slate-700">{{ $r['name'] }}</span>
                     </div>
                     <div class="flex items-center space-x-3 flex-shrink-0">
-<span class="text-[9px] text-slate-400 font-semibold">{{ $r['category'] }}</span>
-                        <button class="text-[9px] font-semibold text-gov-green hover:underline flex items-center space-x-0.5">
+<span class="text-[10px] text-slate-400 font-semibold">{{ $r['category'] }}</span>
+                        <button class="text-[10px] font-semibold text-gov-green hover:underline flex items-center space-x-0.5">
                             <span>📄</span><span>Run</span>
                         </button>
                     </div>

@@ -12,7 +12,7 @@
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-left border-collapse">
             <thead>
-<tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
+<tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Timestamp</th>
                     <th class="p-3">Actor</th>
                     <th class="p-3">Case</th>
@@ -28,14 +28,14 @@
                     <td class="p-3">
                         @if($log->actor)
 <span class="font-semibold text-slate-900">{{ $log->actor->name }}</span>
-                        <div class="text-[9px] text-slate-400">{{ $log->actor->role->label() }}</div>
+                        <div class="text-[10px] text-slate-400">{{ $log->actor->role->label() }}</div>
                         @else
                         <span class="text-slate-400 font-semibold italic">System</span>
                         @endif
                     </td>
                     <td class="p-3">
                         @if($log->application)
-<span class="font-semibold font-mono text-gov-green text-[10px]">{{ $log->application->application_number }}</span>
+<span class="font-semibold font-mono text-gov-green text-[11px]">{{ $log->application->application_number }}</span>
                         @else
                         <span class="text-slate-400">—</span>
                         @endif

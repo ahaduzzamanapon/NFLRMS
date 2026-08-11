@@ -120,7 +120,7 @@
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                        <span>Mobile number sign-in <span class="text-slate-400 font-normal">(no separate username)</span></span>
+                        <span>Mobile number <span class="text-slate-400 font-normal">or</span> email sign-in</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
@@ -160,7 +160,7 @@
 
             <div>
                 <h3 class="text-2xl font-bold font-serif text-slate-900 leading-none">Sign in</h3>
-                <p class="text-xs text-slate-500 mt-1.5 font-medium">Use your mobile number and password.</p>
+                <p class="text-xs text-slate-500 mt-1.5 font-medium">Use your mobile number <span class="text-slate-400">or</span> email address and password.</p>
             </div>
 
             <form action="{{ route('login') }}" method="POST" class="space-y-4" id="main-login-form">
@@ -181,17 +181,27 @@
                     </p>
 
                     <div>
-                        <label for="login-phone" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Mobile Number</label>
+                        <label for="login-identifier" class="block text-[11px] font-semibold text-slate-600 mb-1.5">
+                            Mobile <span class="text-slate-400 font-normal">/</span> Email
+                        </label>
                         <div class="relative">
-                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
-                            <input type="text" name="phone" id="login-phone"
+                            {{-- Dynamic icon: switches between phone & email based on input --}}
+                            <span id="icon-phone" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                            </span>
+                            <span id="icon-email" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 hidden">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                            </span>
+                            <input type="text" name="phone" id="login-identifier"
                                    class="w-full pl-9 pr-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('phone') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
-                                   placeholder="01711234567" value="{{ old('phone') }}">
+                                   placeholder="Enter mobile or email" value="{{ old('phone') }}" autocomplete="username">
                         </div>
-                        @error('phone')
-                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">{{ $message }}</span>
-                        @enderror
-                        <span id="js-error-login-phone" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid 11-digit mobile number.</span>
+                        @if ($errors->has('phone') || $errors->has('email'))
+                            <span class="text-[11px] text-rose-500 font-semibold mt-1 block">
+                                {{ $errors->first('phone') ?: $errors->first('email') }}
+                            </span>
+                        @endif
+                        <span id="js-error-login-identifier" class="text-[11px] text-rose-500 font-semibold mt-1 hidden">Enter a valid mobile number (01XXXXXXXXX) or email address.</span>
                     </div>
 
                     <div>
@@ -232,11 +242,11 @@
     </div>
 
     <!-- Quick Roles Floating Button -->
-    <button type="button" onclick="toggleDrawer(true)"
+    {{-- <button type="button" onclick="toggleDrawer(true)"
             class="fixed bottom-6 right-6 px-4 py-2.5 bg-gov-deep hover:bg-gov-green text-white text-xs font-bold rounded-full shadow-lg shadow-gov-deep/30 flex items-center gap-2 z-40 transition-transform active:scale-95 border border-gold/40">
         <svg class="w-4 h-4 text-gold-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
         <span>Quick Login</span>
-    </button>
+    </button> --}}
 
     <!-- Backdrop Blur for Drawer -->
     <div id="drawer-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-45 hidden transition-opacity opacity-0" onclick="toggleDrawer(false)"></div>
@@ -325,6 +335,8 @@
         // ---------- Client-side validation (login form) ----------
         const LOGIN_ERROR_BORDER = ['border-rose-500', 'focus:ring-rose-200'];
         const LOGIN_NORMAL_BORDER = ['border-slate-200', 'focus:ring-gov-green/25', 'focus:border-gov-green'];
+        const PHONE_PATTERN = /^01[0-9]{9}$/;
+        const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         function markLoginInvalid(fieldId) {
             const el = document.getElementById(fieldId);
@@ -346,13 +358,28 @@
             if (msg) msg.classList.add('hidden');
         }
 
+        /** Switch the left icon based on whether user is typing phone vs email */
+        function updateIdentifierIcon(value) {
+            const isEmail = value.includes('@') || EMAIL_PATTERN.test(value);
+            document.getElementById('icon-phone').classList.toggle('hidden', isEmail);
+            document.getElementById('icon-email').classList.toggle('hidden', !isEmail);
+        }
+
+        function isValidIdentifier(value) {
+            return PHONE_PATTERN.test(value.trim()) || EMAIL_PATTERN.test(value.trim());
+        }
+
         function validateLoginForm() {
             let isValid = true;
             const alertBox = document.getElementById('loginValidationAlert');
 
-            const phone = document.getElementById('login-phone');
-            const phonePattern = /^01[0-9]{9}$/;
-            if (!phonePattern.test(phone.value.trim())) { markLoginInvalid('login-phone'); isValid = false; } else { markLoginValid('login-phone'); }
+            const identifier = document.getElementById('login-identifier');
+            if (!isValidIdentifier(identifier.value)) {
+                markLoginInvalid('login-identifier');
+                isValid = false;
+            } else {
+                markLoginValid('login-identifier');
+            }
 
             const password = document.getElementById('login-password');
             if (!password.value) { markLoginInvalid('login-password'); isValid = false; } else { markLoginValid('login-password'); }
@@ -372,18 +399,22 @@
             }
         });
 
-        ['login-phone', 'login-password'].forEach(function (id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.addEventListener('input', function () {
-                if (id === 'login-phone') {
-                    const phonePattern = /^01[0-9]{9}$/;
-                    if (phonePattern.test(el.value.trim())) markLoginValid(id);
-                } else if (el.value) {
-                    markLoginValid(id);
-                }
+        // Live validation & icon switching for identifier field
+        const identifierEl = document.getElementById('login-identifier');
+        if (identifierEl) {
+            identifierEl.addEventListener('input', function () {
+                updateIdentifierIcon(this.value);
+                if (isValidIdentifier(this.value)) markLoginValid('login-identifier');
             });
-        });
+        }
+
+        // Live validation for password
+        const passwordEl = document.getElementById('login-password');
+        if (passwordEl) {
+            passwordEl.addEventListener('input', function () {
+                if (this.value) markLoginValid('login-password');
+            });
+        }
         // ---------- End client-side validation ----------
 
         function toggleDrawer(isOpen) {
