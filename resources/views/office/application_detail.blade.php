@@ -27,6 +27,17 @@
         default => [],
     };
 
+    // Filter actions based on ACL permissions (Application Approve / Application Reject)
+    $aclMatrix = json_decode(\App\Models\Setting::get('acl_matrix', '{}'), true) ?: [];
+    $canApprove = ($aclMatrix['Application Approve'][$role] ?? 'none') !== 'none';
+    $canReject = ($aclMatrix['Application Reject'][$role] ?? 'none') !== 'none';
+
+    $actions = array_filter($actions, function ($value) use ($canApprove, $canReject) {
+        if ($value === 'approve') return $canApprove;
+        if ($value === 'reject') return $canReject;
+        return true;
+    }, ARRAY_FILTER_USE_KEY);
+
     // Application tracker pipeline
     $pipeline = [
         'submitted' => ['label' => 'Submitted', 'icon' => '📝'],
@@ -61,24 +72,29 @@
     $userUploadedDocs = $application->documents;
     $hasUploadedDocs = !empty($userUploadedDocs) && is_array($userUploadedDocs) && count($userUploadedDocs) > 0;
 
-    $standardDocList = [
-        'nid' => ['name' => 'National ID Card Copy', 'icon' => '🆔', 'keys' => ['nid', 'nid_copy', 'nid_card'], 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
-        'birth_cert' => ['name' => 'Birth Certificate', 'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'], 'default_file' => 'birth_cert.pdf', 'size' => '950 KB'],
-        'edu_cert' => ['name' => 'Educational Certificate', 'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'], 'default_file' => 'educational_cert.pdf', 'size' => '1.1 MB'],
-        'tin' => ['name' => 'TIN / Tax Return', 'icon' => '🧾', 'keys' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return'], 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
-        'affidavit' => ['name' => 'Notarized Affidavit', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'], 'default_file' => 'notarized_affidavit.pdf', 'size' => '1.8 MB'],
-        'nationality_cert' => ['name' => 'Nationality Certificate', 'icon' => '🇧🇩', 'keys' => ['nationality_cert', 'nationality'], 'default_file' => 'nationality_certificate.pdf', 'size' => '720 KB'],
-        'photo' => ['name' => 'Passport-size Photo', 'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'], 'default_file' => 'passport_photo.jpg', 'size' => '650 KB'],
-        'firing_report' => ['name' => 'Firing Range Report', 'icon' => '🎯', 'keys' => ['firing_report', 'firing_cert'], 'default_file' => 'firing_range_report.pdf', 'size' => '1.3 MB'],
-        'medical' => ['name' => 'Medical Fitness', 'icon' => '🏥', 'keys' => ['medical', 'medical_cert', 'fitness_cert'], 'default_file' => 'medical_fitness_civil_surgeon.pdf', 'size' => '1.4 MB'],
-        'police_clearance' => ['name' => 'Police Clearance', 'icon' => '👮', 'keys' => ['police_clearance', 'police'], 'default_file' => 'police_clearance.pdf', 'size' => '1.5 MB'],
-        'bank' => ['name' => 'Bank Solvency', 'icon' => '🏦', 'keys' => ['bank', 'bank_solvency'], 'default_file' => 'bank_solvency.pdf', 'size' => '2.1 MB'],
-        'safe' => ['name' => 'Safe Storage Photo', 'icon' => '🔐', 'keys' => ['safe', 'safe_photo'], 'default_file' => 'gun_safe_photo.jpg', 'size' => '3.4 MB'],
+    // Citizen apply page document order (citizen/apply.blade.php Step 5)
+    $citizenDocList = [
+        'nid_copy'         => ['name' => 'National ID Copy',                    'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                           'default_file' => 'nid_copy.pdf',           'size' => '1.2 MB'],
+        'tin_certificate'  => ['name' => 'TIN Certificate',                     'icon' => '🧾', 'keys' => ['tin_certificate', 'tin'],                                'default_file' => 'tin_certificate.pdf',    'size' => '850 KB'],
+        'birth_cert'       => ['name' => 'Birth Certificate',                   'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'],                        'default_file' => 'birth_cert.pdf',         'size' => '950 KB'],
+        'edu_cert'         => ['name' => 'Educational Certificate',             'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'],                    'default_file' => 'educational_cert.pdf',   'size' => '1.1 MB'],
+        'tax_yr1'          => ['name' => 'Income Tax Return · Year 1',          'icon' => '📊', 'keys' => ['tax_yr1', 'tax_return_yr1'],                              'default_file' => 'tax_return_year1.pdf',   'size' => '1.0 MB'],
+        'tax_yr2'          => ['name' => 'Income Tax Return · Year 2',          'icon' => '📊', 'keys' => ['tax_yr2', 'tax_return_yr2'],                              'default_file' => 'tax_return_year2.pdf',   'size' => '1.0 MB'],
+        'tax_yr3'          => ['name' => 'Income Tax Return · Year 3',          'icon' => '📊', 'keys' => ['tax_yr3', 'tax_return_yr3'],                              'default_file' => 'tax_return_year3.pdf',   'size' => '1.0 MB'],
+        'affidavit'        => ['name' => 'Notarized Affidavit (BDT 300 stamp)', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'],                            'default_file' => 'notarized_affidavit.pdf','size' => '1.8 MB'],
+        'nationality_cert' => ['name' => 'Nationality Certificate',             'icon' => '🇧🇩','keys' => ['nationality_cert', 'nationality'],                       'default_file' => 'nationality_cert.pdf',   'size' => '720 KB'],
+        'photo'            => ['name' => 'Passport-size Photograph',            'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'],               'default_file' => 'passport_photo.jpg',     'size' => '650 KB'],
     ];
 
-    if ($application->applicant_type === 'dealer') {
-        $standardDocList['trade'] = ['name' => 'Trade License & Warehouse', 'icon' => '🏪', 'keys' => ['trade', 'trade_cert', 'trade_license'], 'default_file' => 'trade_license_warehouse.pdf', 'size' => '4.2 MB'];
-    }
+    // Dealer apply page document order (dealer/apply.blade.php Section 4)
+    $dealerDocList = [
+        'nid_copy'          => ['name' => 'NID Copy (Front & Back)',        'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                             'default_file' => 'nid_copy.pdf',         'size' => '1.2 MB'],
+        'trade_license_doc' => ['name' => 'Trade License (Current Year)',   'icon' => '🏪', 'keys' => ['trade_license_doc', 'trade_license', 'trade', 'trade_cert'],'default_file' => 'trade_license.pdf',   'size' => '2.5 MB'],
+        'premises_photo'    => ['name' => 'Premises Photograph',            'icon' => '🏢', 'keys' => ['premises_photo', 'premises'],                              'default_file' => 'premises_photo.jpg',   'size' => '3.1 MB'],
+        'bank_statement'    => ['name' => 'Bank Statement (Last 6 months)', 'icon' => '🏦', 'keys' => ['bank_statement', 'bank', 'bank_solvency'],                 'default_file' => 'bank_statement.pdf',   'size' => '1.8 MB'],
+    ];
+
+    $standardDocList = ($application->applicant_type === 'dealer') ? $dealerDocList : $citizenDocList;
 
     $matchedUploadedKeys = [];
     $uploadedCount = 0;
@@ -215,7 +231,12 @@
         </button>
         <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>🕐</span><span>Activity Log</span>
+            <span>📝</span><span>Note</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
+        </button>
+        <button type="button" data-tab="log" onclick="switchDetailTab('log')"
+                class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+            <span>📋</span><span>Log</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
         </button>
         @if($application->vettings->count())
@@ -317,39 +338,62 @@
                 <!-- TAB: DOCUMENTS -->
                 <div class="detail-panel hidden" id="panel-documents">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">📎 Attached Documents</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-base">📎</span>
+                            <span class="text-[10px] font-semibold uppercase text-slate-700 tracking-wider">
+                                {{ $application->applicant_type === 'dealer' ? 'Dealer Required & Submitted Documents' : 'Attached Documents' }}
+                            </span>
+                        </div>
                         @if($hasUploadedDocs)
                             <span class="text-[9px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">✓ Uploaded & Verified</span>
                         @else
                             <span class="text-[9px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">⚠️ Pending Upload</span>
                         @endif
                     </div>
-                    <div class="p-5">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div class="p-5 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             @foreach($docItems as $doc)
-                            <div class="p-3 rounded-xl border transition-all group
+                            <div class="p-3 rounded-xl border transition-all group flex flex-col justify-between
                                 {{ $doc['is_uploaded'] ? 'border-slate-200 bg-slate-50/70 hover:bg-white hover:shadow-sm' : 'border-rose-200/70 bg-rose-50/40 hover:bg-rose-50/70' }}">
-                                <div class="flex items-center justify-between">
+                                <div class="flex items-start justify-between gap-2 mb-2">
                                     <div class="flex items-center space-x-2.5 min-w-0">
-                                        <span class="text-xl flex-shrink-0">{{ $doc['icon'] }}</span>
+                                        <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-base flex-shrink-0">
+                                            {{ $doc['icon'] }}
+                                        </div>
                                         <div class="min-w-0">
-                                            <span class="font-semibold text-slate-800 block text-[11px] leading-tight truncate">{{ $doc['name'] }}</span>
-                                            @if(!$doc['is_uploaded'])
-                                                <span class="text-[9px] text-rose-600 font-semibold">Not uploaded</span>
-                                            @endif
+                                            <div class="flex items-center space-x-1.5 flex-wrap">
+                                                <span class="font-semibold text-slate-800 block text-[11px] leading-tight truncate">{{ $doc['name'] }}</span>
+                                                @if(!empty($doc['is_required']))
+                                                    <span class="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-rose-100 text-rose-700 border border-rose-200">Required</span>
+                                                @endif
+                                            </div>
+                                            <span class="text-[9px] text-slate-400 font-normal block truncate mt-0.5" title="{{ $doc['file_name'] }}">
+                                                {{ $doc['file_name'] }} &bull; {{ $doc['file_size'] }}
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="flex items-center space-x-1.5 flex-shrink-0">
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 mt-1 text-[10px]">
+                                    <div class="flex items-center space-x-1.5">
                                         @if($doc['is_uploaded'])
-                                            <span class="w-2 h-2 rounded-full bg-emerald-500" title="Attached"></span>
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Attached"></span>
+                                            <span class="text-[9px] font-semibold text-emerald-700">Uploaded</span>
+                                        @else
+                                            <span class="w-2 h-2 rounded-full bg-rose-400" title="Missing"></span>
+                                            <span class="text-[9px] font-semibold text-rose-600">Not Uploaded</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex items-center space-x-1.5">
+                                        @if($doc['is_uploaded'])
                                             <button type="button" onclick="openOfficeDocumentViewer('{{ addslashes($doc['name']) }}', '{{ $doc['file_name'] }}', '{{ $doc['file_size'] }}', true, '{{ $doc['key'] }}')"
-                                                    class="px-2 py-1 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[10px] font-semibold transition-all shadow-sm">
+                                                    class="px-2 py-1 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[9px] font-semibold transition-all shadow-sm">
                                                 👁️ View
                                             </button>
                                         @else
-                                            <span class="w-2 h-2 rounded-full bg-rose-400" title="Missing"></span>
                                             <button type="button" onclick="openOfficeDocumentViewer('{{ addslashes($doc['name']) }}', 'No file uploaded', '0 KB', false, '{{ $doc['key'] }}')"
-                                                    class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-semibold transition-all">
+                                                    class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[9px] font-semibold transition-all">
                                                 👁️ Inspect
                                             </button>
                                         @endif
@@ -360,7 +404,7 @@
                         </div>
 
                         <!-- Document progress bar -->
-                        <div class="mt-4 pt-4 border-t border-slate-100">
+                        <div class="pt-4 border-t border-slate-100">
                             <div class="flex items-center justify-between text-[10px] font-semibold text-slate-500 mb-1.5">
                                 <span>Document Completion</span>
                                 <span class="text-gov-green">{{ $uploadedCount }}/{{ count($standardDocList) }} uploaded</span>
@@ -373,11 +417,11 @@
                     </div>
                 </div>
 
-                <!-- TAB: TIMELINE -->
+                <!-- TAB: NOTE -->
                 <div class="detail-panel hidden" id="panel-timeline">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">🕐 Case Activity Log</span>
-                        <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} events</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">📝 Case Notes</span>
+                        <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} notes</span>
                     </div>
                     <div class="p-5">
                         @forelse($application->logs as $log)
@@ -421,6 +465,60 @@
                         <div class="text-center py-8 space-y-2">
                             <span class="text-3xl block">🕐</span>
                             <p class="text-xs text-slate-400 font-normal">No activity entries yet.</p>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- TAB: LOG (who received the application — name & role only, no comments) -->
+                <div class="detail-panel hidden" id="panel-log">
+                    <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">📋 Case Routing Log</span>
+                        <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} entries</span>
+                    </div>
+                    <div class="p-5">
+                        @forelse($application->logs as $log)
+                        <div class="relative flex space-x-4 pb-6 last:pb-0">
+                            @if(!$loop->last)
+                                <div class="absolute left-[7px] top-5 bottom-0 w-px bg-slate-200"></div>
+                            @endif
+                            <div class="relative flex-shrink-0">
+                                <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center
+                                    @if($loop->first) border-gov-green bg-gov-green
+                                    @else border-amber-400 bg-amber-100 @endif">
+                                    <div class="w-1.5 h-1.5 rounded-full
+                                        @if($loop->first) bg-white
+                                        @else bg-amber-500 @endif"></div>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-[9px] font-semibold uppercase tracking-wider
+                                        @if($loop->first) text-gov-green
+                                        @else text-amber-600 @endif">
+                                        {{ ucfirst(str_replace('_', ' ', $log->action)) }}
+                                    </span>
+                                    <span class="text-[9px] text-slate-400 font-normal flex-shrink-0">{{ $log->created_at->format('d M Y · h:i A') }}</span>
+                                </div>
+                                @if($log->actor)
+                                <div class="flex items-center space-x-2 mt-1.5">
+                                    <span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[9px] font-semibold text-slate-600 flex-shrink-0">
+                                        {{ strtoupper(substr($log->actor->name, 0, 1)) }}
+                                    </span>
+                                    <div>
+                                        <span class="text-xs font-semibold text-slate-800 block">{{ $log->actor->name }}</span>
+                                        <span class="text-[9px] text-slate-500 font-normal">
+                                            {{ $log->actor->role instanceof \App\Enums\Role ? $log->actor->role->label() : ucwords(str_replace('_', ' ', $log->actor->role)) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @empty
+                        <div class="text-center py-8 space-y-2">
+                            <span class="text-3xl block">📋</span>
+                            <p class="text-xs text-slate-400 font-normal">No routing entries yet.</p>
                         </div>
                         @endforelse
                     </div>

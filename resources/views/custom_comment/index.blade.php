@@ -46,12 +46,26 @@
                 @error('title')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
             </div>
             <div>
-<label for="comment" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Description</label>
+                <label for="comment" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Description</label>
                 <textarea name="comment" id="comment" rows="4" required
                           placeholder="Write the comment/remarks text that will be inserted into the Remarks field..."
                           class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none @error('comment') border-rose-400 @enderror">{{ old('comment', $customComment->comment ?? '') }}</textarea>
                 @error('comment')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
             </div>
+            @if(auth()->user()->role instanceof \App\Enums\Role && auth()->user()->role === \App\Enums\Role::SystemAdmin)
+            <div>
+                <label for="role_id" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Available To (Role)</label>
+                <select name="role_id" id="role_id"
+                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('role_id') border-rose-400 @enderror">
+                    <option value="">— Everyone (All Roles) —</option>
+                    @foreach($roles as $roleKey => $roleLabel)
+                    <option value="{{ $roleKey }}" {{ old('role_id', $customComment->role_id ?? '') === $roleKey ? 'selected' : '' }}>{{ $roleLabel }}</option>
+                    @endforeach
+                </select>
+                <p class="text-[10px] text-slate-400 font-medium mt-1">Select a role to make this comment available to that role's Quick Fill. Leave empty for all users.</p>
+                @error('role_id')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
+            </div>
+            @endif
             <div class="flex justify-end">
                 <button type="submit"
 class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' : 'bg-gov-green hover:bg-gov-light' }} text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
@@ -73,6 +87,15 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                     <div class="space-y-1 min-w-0 pr-3">
 <span class="font-semibold text-slate-900 text-sm block">{{ $comment->title }}</span>
                         <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $comment->comment }}</p>
+                        @if($comment->role_id)
+                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold uppercase">
+                            🎯 {{ $roles[$comment->role_id] ?? $comment->role_id }} only
+                        </span>
+                        @else
+                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-bold uppercase">
+                            🌐 All Roles
+                        </span>
+                        @endif
                         <span class="text-[10px] text-slate-400 font-semibold block mt-1">Created {{ $comment->created_at->format('d M Y · h:i A') }}</span>
                     </div>
                     <div class="flex items-center space-x-2 flex-shrink-0">

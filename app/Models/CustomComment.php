@@ -11,6 +11,7 @@ class CustomComment extends Model
         'title',
         'comment',
         'user_id',
+        'role_id',
     ];
 
     /**

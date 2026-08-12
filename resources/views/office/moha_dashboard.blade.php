@@ -72,7 +72,7 @@
                         </span>
                     </td>
                     <td class="p-3 pr-5 text-right">
-                        <a href="{{ route('moha.show', $a->id) }}"
+                        <a href="{{ route('moha.show', Crypt::encryptString($a->id)) }}"
                            class="text-xs font-semibold text-gov-green hover:underline">Open →</a>
                     </td>
                 </tr>

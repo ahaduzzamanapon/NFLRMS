@@ -39,24 +39,29 @@
     $userUploadedDocs = $application->documents;
     $hasUploadedDocs = !empty($userUploadedDocs) && is_array($userUploadedDocs) && count($userUploadedDocs) > 0;
 
-    $standardDocList = [
-        'nid' => ['name' => 'National ID Card Copy', 'icon' => '🆔', 'keys' => ['nid', 'nid_copy', 'nid_card'], 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
-        'tin' => ['name' => 'TIN / Tax Return', 'icon' => '🧾', 'keys' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return'], 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
-        'birth_cert' => ['name' => 'Birth Certificate', 'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'], 'default_file' => 'birth_cert.pdf', 'size' => '950 KB'],
-        'edu_cert' => ['name' => 'Educational Certificate', 'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'], 'default_file' => 'educational_cert.pdf', 'size' => '1.1 MB'],
-        'affidavit' => ['name' => 'Notarized Affidavit', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'], 'default_file' => 'notarized_affidavit.pdf', 'size' => '1.8 MB'],
-        'nationality_cert' => ['name' => 'Nationality Certificate', 'icon' => '🇧🇩', 'keys' => ['nationality_cert', 'nationality'], 'default_file' => 'nationality_certificate.pdf', 'size' => '720 KB'],
-        'photo' => ['name' => 'Passport-size Photo', 'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'], 'default_file' => 'passport_photo.jpg', 'size' => '650 KB'],
-        'firing_report' => ['name' => 'Firing Range Report', 'icon' => '🎯', 'keys' => ['firing_report', 'firing_cert'], 'default_file' => 'firing_range_report.pdf', 'size' => '1.3 MB'],
-        'medical' => ['name' => 'Medical Fitness', 'icon' => '🏥', 'keys' => ['medical', 'medical_cert', 'fitness_cert'], 'default_file' => 'medical_fitness_civil_surgeon.pdf', 'size' => '1.4 MB'],
-        'police_clearance' => ['name' => 'Police Clearance', 'icon' => '👮', 'keys' => ['police_clearance', 'police'], 'default_file' => 'police_clearance.pdf', 'size' => '1.5 MB'],
-        'bank' => ['name' => 'Bank Solvency', 'icon' => '🏦', 'keys' => ['bank', 'bank_solvency'], 'default_file' => 'bank_solvency.pdf', 'size' => '2.1 MB'],
-        'safe' => ['name' => 'Safe Storage Photo', 'icon' => '🔐', 'keys' => ['safe', 'safe_photo'], 'default_file' => 'gun_safe_photo.jpg', 'size' => '3.4 MB'],
+    // Citizen apply page document order (citizen/apply.blade.php Step 5)
+    $citizenDocList = [
+        'nid_copy'         => ['name' => 'National ID Copy',                    'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                          'default_file' => 'nid_copy.pdf',          'size' => '1.2 MB'],
+        'tin_certificate'  => ['name' => 'TIN Certificate',                     'icon' => '🧾', 'keys' => ['tin_certificate', 'tin'],                               'default_file' => 'tin_certificate.pdf',   'size' => '850 KB'],
+        'birth_cert'       => ['name' => 'Birth Certificate',                   'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'],                       'default_file' => 'birth_cert.pdf',        'size' => '950 KB'],
+        'edu_cert'         => ['name' => 'Educational Certificate',             'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'],                   'default_file' => 'educational_cert.pdf',  'size' => '1.1 MB'],
+        'tax_yr1'          => ['name' => 'Income Tax Return · Year 1',          'icon' => '📊', 'keys' => ['tax_yr1', 'tax_return_yr1'],                             'default_file' => 'tax_return_year1.pdf',  'size' => '1.0 MB'],
+        'tax_yr2'          => ['name' => 'Income Tax Return · Year 2',          'icon' => '📊', 'keys' => ['tax_yr2', 'tax_return_yr2'],                             'default_file' => 'tax_return_year2.pdf',  'size' => '1.0 MB'],
+        'tax_yr3'          => ['name' => 'Income Tax Return · Year 3',          'icon' => '📊', 'keys' => ['tax_yr3', 'tax_return_yr3'],                             'default_file' => 'tax_return_year3.pdf',  'size' => '1.0 MB'],
+        'affidavit'        => ['name' => 'Notarized Affidavit (BDT 300 stamp)', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'],                           'default_file' => 'notarized_affidavit.pdf','size' => '1.8 MB'],
+        'nationality_cert' => ['name' => 'Nationality Certificate',             'icon' => '🇧🇩','keys' => ['nationality_cert', 'nationality'],                      'default_file' => 'nationality_cert.pdf',  'size' => '720 KB'],
+        'photo'            => ['name' => 'Passport-size Photograph',            'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'],              'default_file' => 'passport_photo.jpg',    'size' => '650 KB'],
     ];
 
-    if ($application->applicant_type === 'dealer') {
-        $standardDocList['trade'] = ['name' => 'Trade License & Warehouse', 'icon' => '🏪', 'keys' => ['trade', 'trade_cert', 'trade_license'], 'default_file' => 'trade_license_warehouse.pdf', 'size' => '4.2 MB'];
-    }
+    // Dealer apply page document order (dealer/apply.blade.php Section 4)
+    $dealerDocList = [
+        'nid_copy'          => ['name' => 'NID Copy (Front & Back)',           'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                            'default_file' => 'nid_copy.pdf',          'size' => '1.2 MB'],
+        'trade_license_doc' => ['name' => 'Trade License (Current Year)',      'icon' => '🏪', 'keys' => ['trade_license_doc', 'trade_license', 'trade', 'trade_cert'],'default_file' => 'trade_license.pdf',    'size' => '2.5 MB'],
+        'premises_photo'    => ['name' => 'Premises Photograph',               'icon' => '🏢', 'keys' => ['premises_photo', 'premises'],                             'default_file' => 'premises_photo.jpg',    'size' => '3.1 MB'],
+        'bank_statement'    => ['name' => 'Bank Statement (Last 6 months)',    'icon' => '🏦', 'keys' => ['bank_statement', 'bank', 'bank_solvency'],                'default_file' => 'bank_statement.pdf',    'size' => '1.8 MB'],
+    ];
+
+    $standardDocList = ($application->applicant_type === 'dealer') ? $dealerDocList : $citizenDocList;
 
     $matchedUploadedKeys = [];
     $uploadedCount = 0;

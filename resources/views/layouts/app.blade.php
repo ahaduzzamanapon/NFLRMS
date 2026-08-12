@@ -338,14 +338,59 @@
                     @yield('title','Dashboard')
                 </div>
                 @auth
-                <a href="{{ route('profile.edit') }}"
-                    style="width:34px;height:34px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:12px;font-weight:700;text-decoration:none;"
-                    onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
-                    @php
-                        $ws = explode(' ',auth()->user()->name);
-                        echo count($ws)>=2?strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)):strtoupper(substr(auth()->user()->name,0,2));
-                    @endphp
-                </a>
+                @php
+                    $authUser = auth()->user();
+                    $userPhoto = $authUser->photo_url ?? $authUser->avatar_url ?? $authUser->avatar ?? null;
+                    $ws = explode(' ', trim($authUser->name));
+                    $initials = count($ws) >= 2 ? strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)) : strtoupper(substr($authUser->name,0,2));
+                @endphp
+                <div class="relative" id="user-menu-wrapper">
+                    <button type="button" id="user-menu-button" onclick="toggleUserMenu()"
+                        class="flex items-center gap-2.5 pl-1.5 pr-2.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                        aria-haspopup="true" aria-expanded="false">
+                        @if($userPhoto)
+                            <img src="{{ $userPhoto }}" alt="{{ $authUser->name }}"
+                                class="w-7 h-7 rounded-full object-cover flex-shrink-0 ring-1 ring-slate-200">
+                        @else
+                            <span style="width:28px;height:28px;background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;"
+                                class="rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0">
+                                {{ $initials }}
+                            </span>
+                        @endif
+                        <span class="hidden sm:inline text-[12px] font-semibold text-slate-700 max-w-[120px] truncate">{{ $authUser->name }}</span>
+                        <svg id="user-menu-chevron" class="w-3.5 h-3.5 text-slate-400 flex-shrink-0 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <div id="user-menu-dropdown"
+                        class="hidden absolute right-0 mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
+                        style="animation: none;">
+                        <div class="px-3.5 py-3 border-b border-slate-100">
+                            <p class="text-[12px] font-semibold text-slate-800 truncate">{{ $authUser->name }}</p>
+                            @if($authUser->email)
+                                <p class="text-[11px] text-slate-400 truncate mt-0.5">{{ $authUser->email }}</p>
+                            @endif
+                        </div>
+                        <a href="{{ route('profile.edit') }}"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span>My Profile</span>
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-rose-50 hover:text-rose-600 transition-colors border-t border-slate-100">
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
                 @endauth
             </div>
         </header>
@@ -377,6 +422,34 @@
     </div>
 
     <script>
+        function toggleUserMenu(forceState) {
+            const dropdown = document.getElementById('user-menu-dropdown');
+            const chevron = document.getElementById('user-menu-chevron');
+            const button = document.getElementById('user-menu-button');
+            if (!dropdown) return;
+            const shouldOpen = typeof forceState === 'boolean' ? forceState : dropdown.classList.contains('hidden');
+            if (shouldOpen) {
+                dropdown.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+                button.setAttribute('aria-expanded', 'true');
+            } else {
+                dropdown.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+                button.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            const wrapper = document.getElementById('user-menu-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                toggleUserMenu(false);
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') toggleUserMenu(false);
+        });
+
         function toggleSidebar(isOpen) {
             const sidebar = document.querySelector('.mobile-sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');

@@ -90,7 +90,7 @@
                         </span>
                     </td>
 <td class="p-3 pr-5 text-right">
-                        <a href="{{ route('jm_branch.show', $a->id) }}"
+                        <a href="{{ route('jm_branch.show', Crypt::encryptString($a->id)) }}"
                            class="text-xs font-semibold text-gov-green hover:underline">Open →</a>
                     </td>
                 </tr>

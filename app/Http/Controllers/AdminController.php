@@ -227,6 +227,7 @@ class AdminController extends Controller
             'Executive Dashboards', 'Reports', 'Fee & Fine Config', 'User Management',
             'ACL / RBAC', 'API Configuration', 'Audit Log', 'Emergency Kill-Switch',
             'Custom Comment',
+            'Application Approve', 'Application Reject',
         ];
 
         $defaultMatrix = [
