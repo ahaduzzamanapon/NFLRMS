@@ -24,9 +24,9 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="p-3 pl-5 text-[10px] font-semibold uppercase text-slate-500 tracking-wider w-44">Module</th>
+                            <th class="p-3 pl-5 text-[11px] font-semibold uppercase text-slate-500 tracking-wider w-44">Module</th>
                             @foreach($roles as $roleKey => $roleLabel)
-                            <th class="p-3 text-[9px] font-semibold uppercase text-slate-500 tracking-wider text-center whitespace-nowrap">{{ $roleLabel }}</th>
+                            <th class="p-3 text-[10px] font-semibold uppercase text-slate-500 tracking-wider text-center whitespace-nowrap">{{ $roleLabel }}</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -39,7 +39,7 @@
                             <td class="p-3 text-center">
                                 <input type="hidden" name="permissions[{{ $module }}][{{ $roleKey }}]" value="{{ $perm }}">
                                 <button type="button" onclick="cyclePerm(this)" data-perm="{{ $perm }}"
-                                        class="px-2 py-0.5 rounded text-[9px] font-semibold uppercase border cursor-pointer
+                                        class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase border cursor-pointer
                                     @if($perm==='none') border-slate-200 text-slate-400 bg-slate-50
                                     @elseif($perm==='read') border-blue-200 text-blue-600 bg-blue-50
                                     @elseif($perm==='write') border-amber-200 text-amber-600 bg-amber-50
@@ -54,7 +54,7 @@
                 </table>
             </div>
             <div class="px-5 py-3 border-t border-slate-100 bg-slate-50">
-                <p class="text-[9px] text-slate-500 font-normal">Click a cell to cycle permission: none &rarr; read &rarr; write &rarr; approve. Emergency Kill-Switch requires two-admin sign-off.</p>
+                <p class="text-[10px] text-slate-500 font-normal">Click a cell to cycle permission: none &rarr; read &rarr; write &rarr; approve. Emergency Kill-Switch requires two-admin sign-off.</p>
             </div>
         </div>
     </form>
@@ -62,7 +62,7 @@
     <!-- Create Custom Role Section -->
     <form method="POST" action="{{ route('admin.acl.role.store') }}" class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
         @csrf
-        <label class="text-[9px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Create Custom Role</label>
+        <label class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Create Custom Role</label>
         <div class="flex items-center space-x-3">
             <input type="text" name="role_name" required placeholder="e.g. District Auditor"
                    class="flex-grow px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
@@ -70,7 +70,7 @@
                 <span>+</span><span>Add role</span>
             </button>
             @foreach(['none','read','write','approve'] as $perm)
-            <span class="px-2.5 py-1 rounded border text-[9px] font-semibold uppercase
+            <span class="px-2.5 py-1 rounded border text-[10px] font-semibold uppercase
                 @if($perm==='none') border-slate-300 text-slate-500
                 @elseif($perm==='read') border-blue-300 text-blue-600
                 @elseif($perm==='write') border-amber-300 text-amber-600
@@ -98,8 +98,8 @@ function cyclePerm(btn) {
     const next = perms[(perms.indexOf(cur) + 1) % perms.length];
     btn.dataset.perm = next;
     btn.textContent = next.toUpperCase();
-    btn.className = `px-2 py-0.5 rounded text-[9px] font-semibold uppercase border cursor-pointer ${classes[next]}`;
-    
+    btn.className = `px-2 py-0.5 rounded text-[10px] font-semibold uppercase border cursor-pointer ${classes[next]}`;
+
     // Update input value
     const input = btn.previousElementSibling;
     if (input && input.type === 'hidden') {

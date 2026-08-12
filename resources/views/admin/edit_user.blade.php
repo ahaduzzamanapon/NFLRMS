@@ -24,12 +24,12 @@
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Full Name</label>
                     <input type="text" name="name" value="{{ old('name', $user->name) }}" required
                            class="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green transition-all">
                 </div>
                 <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Email Address</label>
                     <input type="email" name="email" value="{{ old('email', $user->email) }}" required
                            class="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green transition-all">
                 </div>
@@ -37,7 +37,7 @@
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">Role</label>
                     <select name="role" required
                             class="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                         @foreach($roles as $roleValue => $roleLabel)
@@ -49,7 +49,7 @@
                     </select>
                 </div>
                 <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">District (optional)</label>
                     <select name="district_id"
                             class="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                         <option value="">— None —</option>
@@ -61,7 +61,7 @@
             </div>
 
             <div>
-<label class="text-[9px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">
+<label class="text-[10px] font-semibold uppercase text-slate-900 tracking-widest block mb-1.5">
                     New Password <span class="text-slate-300 font-normal normal-case">(leave blank to keep current)</span>
                 </label>
                 <input type="password" name="password" minlength="8" placeholder="Min 8 characters"
@@ -84,7 +84,7 @@ class="px-6 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs 
     <!-- Danger Zone -->
     <div class="bg-white rounded-2xl border border-rose-200 shadow-sm p-5">
 <div class="text-xs font-bold text-rose-700 mb-1">Danger Zone</div>
-        <p class="text-[10px] text-slate-400 mb-3">This action is irreversible. All data for this user will be permanently deleted.</p>
+        <p class="text-[11px] text-slate-400 mb-3">This action is irreversible. All data for this user will be permanently deleted.</p>
         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
               onsubmit="return confirm('Delete {{ addslashes($user->name) }}? This cannot be undone.')">
             @csrf

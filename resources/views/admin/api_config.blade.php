@@ -92,7 +92,7 @@
             <div class="p-5 border-b border-slate-100 flex items-start justify-between">
                 <div>
                     <div class="text-sm font-semibold text-slate-900">{{ $panel['title'] }}</div>
-                    <div class="text-[10px] text-slate-500 font-normal mt-0.5">{{ $panel['desc'] }}</div>
+                    <div class="text-[11px] text-slate-500 font-normal mt-0.5">{{ $panel['desc'] }}</div>
                 </div>
                 <div class="flex items-center space-x-2">
                     <button type="button" class="px-3 py-1.5 border border-slate-200 text-xs font-semibold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">Test connection</button>
@@ -102,7 +102,7 @@
 
             @if(!empty($panel['providers']))
             <div class="p-5 border-b border-slate-100">
-                <label class="text-[9px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Provider</label>
+                <label class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Provider</label>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     @foreach($panel['providers'] as $j => $provider)
                     <button type="button" class="py-2 px-3 rounded-lg border text-xs font-semibold transition-colors
@@ -117,12 +117,12 @@
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 @foreach($panel['fields'] as $field)
                 <div class="{{ $field['name'] === 'sms_endpoint' || $field['name'] === 'pay_endpoint' || $field['name'] === 'nid_endpoint' ? 'sm:col-span-2' : '' }}">
-                    <label class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5">{{ $field['label'] }}</label>
+                    <label class="text-[10px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5">{{ $field['label'] }}</label>
                     <div class="relative">
                         <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" placeholder="{{ $field['placeholder'] }}" value="{{ $field['value'] }}"
                                class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         @if($field['type'] === 'password')
-                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-900 hover:text-slate-600 text-[10px]">👁</button>
+                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-900 hover:text-slate-600 text-[11px]">👁</button>
                         @endif
                     </div>
                 </div>

@@ -46,13 +46,13 @@
 <body class="min-h-screen flex flex-col justify-between antialiased text-slate-800">
 
     <!-- Top Government Notification Banner -->
-    <div class="bg-gov-deep text-white/90 text-[10px] font-semibold uppercase tracking-wider py-2.5 px-6 border-b border-white/10 shadow-sm">
+    <div class="bg-gov-deep text-white/90 text-[11px] font-semibold uppercase tracking-wider py-2.5 px-6 border-b border-white/10 shadow-sm">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
             <div class="flex items-center space-x-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span>Government of the People's Republic of Bangladesh &bull; Ministry of Home Affairs</span>
             </div>
-            <div class="flex items-center space-x-4 text-[9px] text-emerald-200">
+            <div class="flex items-center space-x-4 text-[10px] text-emerald-200">
                 <span>Public Firearms License Registry</span>
                 <span>&bull;</span>
                 <span>Cryptographically Signed (Arms Rules §7.4)</span>
@@ -72,7 +72,7 @@
                 <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Government Seal" class="w-10 h-10 object-contain drop-shadow-sm"/>
                 <div>
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-gov-deep">NFLRMS VERIFICATION VAULT</h1>
-                    <p class="text-[9px] text-slate-500 font-semibold uppercase mt-1 leading-none">National Firearms Licensing Registry</p>
+                    <p class="text-[10px] text-slate-500 font-semibold uppercase mt-1 leading-none">National Firearms Licensing Registry</p>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="max-w-3xl space-y-4 relative z-10">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-emerald-300 text-[10px] font-semibold uppercase tracking-wider">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-emerald-300 text-[11px] font-semibold uppercase tracking-wider">
                     <span>🛡️ Official Public Registry</span>
                     <span>&bull;</span>
                     <span>Real-time License Verification</span>
@@ -136,11 +136,11 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-sm uppercase tracking-wide">VERIFIED OFFICIAL LICENSE RECORD</h3>
-                                    <p class="text-[10px] text-emerald-100 font-medium">Valid Firearms License Registered in Government Database</p>
+                                    <p class="text-[11px] text-emerald-100 font-medium">Valid Firearms License Registered in Government Database</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase rounded-lg border border-white/30">
+                                <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg border border-white/30">
                                     STATUS: VALID &amp; ACTIVE
                                 </span>
                             </div>
@@ -153,29 +153,29 @@
                             <div class="md:col-span-8 space-y-4">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">License Number</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">License Number</span>
                                         <span class="font-mono font-bold text-slate-900 text-sm tracking-wide">{{ $license->license_number }}</span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">License Category / Type</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">License Category / Type</span>
                                         <span class="font-bold text-emerald-800 text-xs">{{ strtoupper($license->type ?? 'Personal Firearm') }}</span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">License Holder Name</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">License Holder Name</span>
                                         <span class="font-bold text-slate-900 text-xs">{{ $license->user->name ?? 'Md. Applicant' }}</span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">Issuing Authority</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">Issuing Authority</span>
                                         <span class="font-bold text-slate-800 text-xs">
                                             {{ $license->application->district->name ?? 'District Commissioner' }} DC Office
                                         </span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">Issue Date</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">Issue Date</span>
                                         <span class="font-bold text-slate-800 text-xs">{{ optional($license->issue_date)->format('F d, Y') ?? 'July 15, 2026' }}</span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
-                                        <span class="text-[9px] font-semibold text-slate-400 uppercase block">Expiry Date</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase block">Expiry Date</span>
                                         <span class="font-bold text-emerald-700 text-xs">{{ optional($license->expiry_date)->format('F d, Y') ?? 'December 31, 2027' }}</span>
                                     </div>
                                 </div>
@@ -183,11 +183,11 @@
                                 <!-- Weapon Specs -->
                                 @if(!empty($license->firearm_details))
                                     <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-2">
-                                        <h4 class="text-[10px] font-semibold uppercase text-emerald-900 tracking-wider">🔫 Authorized Weapon Specifications</h4>
-                                        <div class="grid grid-cols-3 gap-2 text-[11px]">
-                                            <div><span class="text-slate-400 text-[9px] block">Weapon Type:</span> <strong class="text-slate-800">{{ $license->firearm_details['weapon_type'] ?? 'N/A' }}</strong></div>
-                                            <div><span class="text-slate-400 text-[9px] block">Bore Spec:</span> <strong class="text-slate-800">{{ $license->firearm_details['bore'] ?? 'N/A' }}</strong></div>
-                                            <div><span class="text-slate-400 text-[9px] block">Purpose:</span> <strong class="text-slate-800">{{ $license->firearm_details['purpose'] ?? 'Personal Protection' }}</strong></div>
+                                        <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider">🔫 Authorized Weapon Specifications</h4>
+                                        <div class="grid grid-cols-3 gap-2 text-xs">
+                                            <div><span class="text-slate-400 text-[10px] block">Weapon Type:</span> <strong class="text-slate-800">{{ $license->firearm_details['weapon_type'] ?? 'N/A' }}</strong></div>
+                                            <div><span class="text-slate-400 text-[10px] block">Bore Spec:</span> <strong class="text-slate-800">{{ $license->firearm_details['bore'] ?? 'N/A' }}</strong></div>
+                                            <div><span class="text-slate-400 text-[10px] block">Purpose:</span> <strong class="text-slate-800">{{ $license->firearm_details['purpose'] ?? 'Personal Protection' }}</strong></div>
                                         </div>
                                     </div>
                                 @endif
@@ -198,26 +198,26 @@
                                 <div class="text-center space-y-2 border-b border-slate-100 pb-3">
                                     <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Govt Seal" class="w-14 h-14 object-contain mx-auto">
                                     <h4 class="text-xs font-bold text-gov-deep uppercase leading-snug">Government Registry Cryptographic Verification</h4>
-                                    <p class="text-[9px] text-slate-400">Ministry of Home Affairs &bull; Firearms Section</p>
+                                    <p class="text-[10px] text-slate-400">Ministry of Home Affairs &bull; Firearms Section</p>
                                 </div>
 
-                                <div class="space-y-2 text-[10px] text-slate-600">
+                                <div class="space-y-2 text-[11px] text-slate-600">
                                     <div class="flex justify-between border-b border-slate-100 pb-1">
                                         <span class="text-slate-400">Digital Seal:</span>
                                         <span class="font-bold text-emerald-700">PASSED</span>
                                     </div>
                                     <div class="flex justify-between border-b border-slate-100 pb-1">
                                         <span class="text-slate-400">Verification Ref:</span>
-                                        <span class="font-mono text-[9px]">REG-{{ time() }}</span>
+                                        <span class="font-mono text-[10px]">REG-{{ time() }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-slate-400">Timestamp:</span>
-                                        <span class="font-mono text-[9px]">{{ now()->format('Y-m-d H:i:s') }}</span>
+                                        <span class="font-mono text-[10px]">{{ now()->format('Y-m-d H:i:s') }}</span>
                                     </div>
                                 </div>
 
                                 <div class="pt-2 text-center">
-                                    <span class="inline-block px-3 py-1 rounded bg-emerald-100 text-emerald-800 text-[9px] font-bold uppercase tracking-wider border border-emerald-300">
+                                    <span class="inline-block px-3 py-1 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-300">
                                         ✓ Authentic &amp; Valid
                                     </span>
                                 </div>
@@ -234,10 +234,10 @@
                                 <span class="text-2xl">⚠️</span>
                                 <div>
                                     <h3 class="font-bold text-sm uppercase">LICENSE STATUS: SUSPENDED</h3>
-                                    <p class="text-[10px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
+                                    <p class="text-[11px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase rounded-lg">SUSPENDED</span>
+                            <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg">SUSPENDED</span>
                         </div>
                         <div class="p-6 space-y-4">
                             <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed font-normal">
@@ -254,15 +254,15 @@
                                 <span class="text-2xl">⚠️</span>
                                 <div>
                                     <h3 class="font-bold text-sm uppercase">REGISTRY RECORD NOT FOUND</h3>
-                                    <p class="text-[10px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
+                                    <p class="text-[11px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase rounded-lg">NOT FOUND</span>
+                            <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg">NOT FOUND</span>
                         </div>
                         <div class="p-6 space-y-4">
                             <div class="p-4 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900 leading-relaxed font-normal space-y-2">
                                 <p><strong>Notice:</strong> The entered reference number <code>{{ $licenseNumber }}</code> could not be found in the Ministry of Home Affairs Firearms Registry.</p>
-                                <ul class="list-disc pl-5 space-y-1 text-[11px] text-rose-800">
+                                <ul class="list-disc pl-5 space-y-1 text-xs text-rose-800">
                                     <li>Double check the reference code printed on the physical license document or QR label.</li>
                                     <li>Ensure correct formatting without spaces or typos.</li>
                                     <li>If you suspect a counterfeit certificate, report it immediately to the nearest District Commissioner (DC) Office.</li>
@@ -314,10 +314,10 @@
     <!-- Footer -->
     <footer class="bg-gov-deep text-white py-6 px-6 border-t border-white/10 flex-shrink-0 mt-8">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs gap-4">
-            <div class="text-[10px] text-slate-300 font-medium">
+            <div class="text-[11px] text-slate-300 font-medium">
                 &copy; 2026 Ministry of Home Affairs &bull; Government of Bangladesh &bull; All Rights Reserved
             </div>
-            <div class="text-[10px] text-emerald-300 font-semibold uppercase tracking-wider">
+            <div class="text-[11px] text-emerald-300 font-semibold uppercase tracking-wider">
                 NFLRMS Security Vault v2.4 &bull; nflrms.gov.bd
             </div>
         </div>

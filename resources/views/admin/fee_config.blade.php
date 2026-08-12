@@ -52,7 +52,7 @@
 
     <!-- Back to dashboard (top-left, outside header) -->
     <a href="{{ route('admin.dashboard') }}"
-       class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-extrabold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
+       class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[11px] font-extrabold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
         <span>←</span><span>Back to Dashboard</span>
     </a>
 
@@ -79,23 +79,23 @@
     <!-- ===== TAB NAVIGATION ===== -->
     <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <button type="button" data-tab="citizen" onclick="switchConfigTab('citizen')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
+                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
             <span>👤</span><span>Citizen Statutory Fees</span>
         </button>
         <button type="button" data-tab="dealer" onclick="switchConfigTab('dealer')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🏪</span><span>Dealer Statutory Fees</span>
         </button>
         <button type="button" data-tab="fines" onclick="switchConfigTab('fines')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>⚠️</span><span>Late Fines</span>
         </button>
         <button type="button" data-tab="sla" onclick="switchConfigTab('sla')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>⏳</span><span>SLA Timers</span>
         </button>
         <button type="button" data-tab="summary" onclick="switchConfigTab('summary')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>📊</span><span>Summary</span>
         </button>
     </div>
@@ -112,16 +112,16 @@
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div>
                             <div class="text-sm font-bold text-slate-900">Statutory License Fees</div>
-                            <div class="text-[10px] text-gov-green font-semibold">Government revenue — Table 8.1</div>
+                            <div class="text-[11px] text-gov-green font-semibold">Government revenue — Table 8.1</div>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
                     </div>
                     <div class="p-5 grid grid-cols-2 gap-4">
                         @foreach($feeFields as $key => $label)
                         <div>
-                            <label class="text-[9px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                            <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                             <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">৳</span>
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">৳</span>
                                 <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                        class="w-full pl-7 pr-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                             </div>
@@ -135,16 +135,16 @@
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div>
                             <div class="text-sm font-bold text-slate-900">Platform Service Charges</div>
-                            <div class="text-[10px] text-gov-green font-semibold">Table 8.2</div>
+                            <div class="text-[11px] text-gov-green font-semibold">Table 8.2</div>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
                     </div>
                     <div class="p-5 grid grid-cols-2 gap-4">
                         @foreach($platformFields as $key => $label)
                         <div>
-                            <label class="text-[9px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                            <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                             <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">৳</span>
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">৳</span>
                                 <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                        class="w-full pl-7 pr-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                             </div>
@@ -163,23 +163,23 @@
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div>
                             <div class="text-sm font-bold text-slate-900">Statutory License Fees</div>
-                            <div class="text-[10px] text-gov-green font-semibold">Arms Dealing License (Form K) — Table 8.4</div>
+                            <div class="text-[11px] text-gov-green font-semibold">Arms Dealing License (Form K) — Table 8.4</div>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
                     </div>
                     <div class="p-5 space-y-4">
                         @foreach($dealerClasses as $classKey => $classInfo)
                         <!-- Per-class fee input group -->
                         <div class="rounded-xl border border-slate-200 overflow-hidden">
                             <div class="px-4 py-2 bg-slate-50 border-b border-slate-100">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-slate-600">{{ $classInfo['label'] }}</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">{{ $classInfo['label'] }}</span>
                             </div>
                             <div class="p-4 grid grid-cols-2 gap-4">
                                 @foreach($classInfo['keys'] as $fieldKey => $fieldLabel)
                                 <div>
-                                    <label class="text-[9px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $fieldLabel }}</label>
+                                    <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $fieldLabel }}</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">৳</span>
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">৳</span>
                                         <input type="number" name="{{ $fieldKey }}" value="{{ $settings[$fieldKey] ?? '' }}"
                                                class="w-full pl-7 pr-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                                     </div>
@@ -196,16 +196,16 @@
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div>
                             <div class="text-sm font-bold text-slate-900">Platform Service Charges</div>
-                            <div class="text-[10px] text-gov-green font-semibold">Dealer Portal — Table 8.5</div>
+                            <div class="text-[11px] text-gov-green font-semibold">Dealer Portal — Table 8.5</div>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
                     </div>
                     <div class="p-5 grid grid-cols-2 gap-4">
                         @foreach($dealerPlatformFields as $key => $label)
                         <div>
-                            <label class="text-[9px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                            <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                             <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">৳</span>
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">৳</span>
                                 <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                        class="w-full pl-7 pr-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                             </div>
@@ -222,24 +222,24 @@
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                     <div>
                         <div class="text-sm font-bold text-slate-900">Late-Fine Tiers</div>
-                        <div class="text-[10px] text-gov-green font-semibold">Statutory late-fine framework — Table 8.3</div>
+                        <div class="text-[11px] text-gov-green font-semibold">Statutory late-fine framework — Table 8.3</div>
                     </div>
-                    <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-rose-100 text-rose-700">BDT</span>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-100 text-rose-700">BDT</span>
                 </div>
                 <div class="p-5">
                     <!-- Tier headers -->
                     <div class="grid grid-cols-3 gap-4 mb-3">
                         <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-center">
-                            <span class="text-[9px] font-black uppercase text-amber-700 tracking-wider block">Tier 1</span>
-                            <span class="text-[8px] text-amber-600 font-semibold">31–90 days late</span>
+                            <span class="text-[10px] font-black uppercase text-amber-700 tracking-wider block">Tier 1</span>
+                            <span class="text-[9px] text-amber-600 font-semibold">31–90 days late</span>
                         </div>
                         <div class="p-2.5 rounded-lg bg-orange-50 border border-orange-200 text-center">
-                            <span class="text-[9px] font-black uppercase text-orange-700 tracking-wider block">Tier 2</span>
-                            <span class="text-[8px] text-orange-600 font-semibold">91–180 days late</span>
+                            <span class="text-[10px] font-black uppercase text-orange-700 tracking-wider block">Tier 2</span>
+                            <span class="text-[9px] text-orange-600 font-semibold">91–180 days late</span>
                         </div>
                         <div class="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-center">
-                            <span class="text-[9px] font-black uppercase text-rose-700 tracking-wider block">Tier 3</span>
-                            <span class="text-[8px] text-rose-600 font-semibold">180+ days late</span>
+                            <span class="text-[10px] font-black uppercase text-rose-700 tracking-wider block">Tier 3</span>
+                            <span class="text-[9px] text-rose-600 font-semibold">180+ days late</span>
                         </div>
                     </div>
 
@@ -253,12 +253,12 @@
                         @endphp
                         @foreach($fineGroups as $tier => $fields)
                         <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
-                            <span class="text-[9px] font-black uppercase tracking-widest text-slate-500 block">{{ $tier }} Fines</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-500 block">{{ $tier }} Fines</span>
                             @foreach($fields as $key => $label)
                             <div>
-                                <label class="text-[9px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
+                                <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">৳</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">৳</span>
                                     <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                            class="w-full pl-7 pr-3 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
                                 </div>
@@ -277,9 +277,9 @@
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                     <div>
                         <div class="text-sm font-bold text-slate-900">SLA Timers</div>
-                        <div class="text-[10px] text-gov-green font-semibold">FR-VET-04 & MoHA workflow</div>
+                        <div class="text-[11px] text-gov-green font-semibold">FR-VET-04 & MoHA workflow</div>
                     </div>
-                    <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-blue-100 text-blue-700">Business Days</span>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-100 text-blue-700">Business Days</span>
                 </div>
                 <div class="p-5">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -288,14 +288,14 @@
                             <div class="flex items-center space-x-2">
                                 <span class="text-xl">{{ $field['icon'] }}</span>
                                 <div>
-                                    <span class="text-[9px] font-black uppercase tracking-widest text-slate-500 block">{{ $field['label'] }}</span>
-                                    <span class="text-[8px] text-slate-400 font-semibold">{{ $field['desc'] }}</span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-500 block">{{ $field['label'] }}</span>
+                                    <span class="text-[9px] text-slate-400 font-semibold">{{ $field['desc'] }}</span>
                                 </div>
                             </div>
                             <div class="relative">
                                 <input type="number" name="{{ $key }}" value="{{ $settings[$key] ?? '' }}"
                                        class="w-full pl-3 pr-10 py-2 text-xs font-semibold text-slate-900 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-gov-green/30 focus:border-gov-green bg-white transition-all">
-                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">days</span>
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">days</span>
                             </div>
                         </div>
                         @endforeach
@@ -310,9 +310,9 @@
                 <!-- Citizen Statutory Fees Summary -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">👤 Citizen Statutory License Fees</span>
+                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">👤 Citizen Statutory License Fees</span>
                     </div>
-                    <div class="p-5 space-y-2 text-[11px]">
+                    <div class="p-5 space-y-2 text-xs">
                         @foreach($feeFields as $key => $label)
                         <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span class="font-semibold text-slate-700">{{ $label }}</span>
@@ -329,9 +329,9 @@
                 <!-- Dealer Statutory Fees Summary (only classes with data) -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">🏪 Dealer Statutory License Fees</span>
+                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">🏪 Dealer Statutory License Fees</span>
                     </div>
-                    <div class="p-5 space-y-2 text-[11px]">
+                    <div class="p-5 space-y-2 text-xs">
                         @php
                             $hasDealerClassData = false;
                         @endphp
@@ -342,7 +342,7 @@
                                 $hasDealerClassData = true;
                             @endphp
                             <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                                <span class="font-bold text-slate-800 block text-[10px] uppercase tracking-wider mb-1.5">{{ $classInfo['label'] }}</span>
+                                <span class="font-bold text-slate-800 block text-[11px] uppercase tracking-wider mb-1.5">{{ $classInfo['label'] }}</span>
                                 @foreach($classInfo['keys'] as $fieldKey => $fieldLabel)
                                 <div class="flex items-center justify-between py-0.5">
                                     <span class="font-normal text-slate-600">{{ $fieldLabel }}</span>
@@ -364,9 +364,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Citizen Platform Charges</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Citizen Platform Charges</span>
                             </div>
-                            <div class="p-5 space-y-2 text-[11px]">
+                            <div class="p-5 space-y-2 text-xs">
                                 @foreach($platformFields as $key => $label)
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                                     <span class="font-semibold text-slate-700">{{ $label }}</span>
@@ -382,9 +382,9 @@
 
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Dealer Platform Charges</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Dealer Platform Charges</span>
                             </div>
-                            <div class="p-5 space-y-2 text-[11px]">
+                            <div class="p-5 space-y-2 text-xs">
                                 @foreach($dealerPlatformFields as $key => $label)
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                                     <span class="font-semibold text-slate-700">{{ $label }}</span>
@@ -400,9 +400,9 @@
 
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[10px] font-extrabold uppercase text-slate-500 tracking-widest">⚠️ Late-Fine Tiers</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">⚠️ Late-Fine Tiers</span>
                             </div>
-                            <div class="p-5 space-y-2 text-[11px]">
+                            <div class="p-5 space-y-2 text-xs">
                                 @foreach($fineFields as $key => $label)
                                 <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                                     <span class="font-semibold text-slate-700">{{ $label }}</span>
@@ -438,8 +438,8 @@
         document.querySelectorAll('.config-tab').forEach(btn => {
             const isActive = btn.dataset.tab === tabName;
             btn.className = isActive
-                ? 'config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm'
-                : 'config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[10px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50';
+                ? 'config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm'
+                : 'config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50';
         });
     }
 

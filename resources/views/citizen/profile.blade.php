@@ -2,58 +2,67 @@
 @section('title', 'My Profile')
 
 @section('content')
-<div class="max-w-3xl space-y-5">
+<div class="w-full space-y-5">
 
     <!-- Page Header -->
-    <div class="flex items-center justify-between">
-        <div>
-            <h2 class="text-lg font-bold text-slate-900 font-serif">My Profile</h2>
-            <p class="text-[11px] text-slate-400 font-normal mt-0.5">
-                Save your personal details once — they will auto-fill in every new application.
-            </p>
-        </div>
-        @if(auth()->user()->nid)
-            <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-emerald-500/30 bg-emerald-50 text-emerald-700">
-                <span>✓</span><span>Profile Complete</span>
-            </span>
-        @else
-            <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-amber-500/30 bg-amber-50 text-amber-700">
-                <span>⚠</span><span>Incomplete</span>
-            </span>
-        @endif
+    <div>
+        <h2 class="text-lg font-bold text-slate-900 font-serif">My Profile</h2>
+        <p class="text-[11px] text-slate-400 font-normal mt-0.5">
+            Save your personal details once — they will auto-fill in every new application.
+        </p>
     </div>
+
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
         @method('PUT')
 
         <!-- Tab Navigation -->
-        <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
-            <button type="button" data-tab="personal" onclick="switchTab('personal')"
-                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
-                <span>👤</span><span>Personal Info</span>
-            </button>
-            <button type="button" data-tab="address" onclick="switchTab('address')"
-                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                <span>📍</span><span>Address</span>
-            </button>
-            <button type="button" data-tab="education" onclick="switchTab('education')"
-                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                <span>🎓</span><span>Education & Income</span>
-            </button>
-            <button type="button" data-tab="security" onclick="switchTab('security')"
-                    class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                <span>🔒</span><span>Security</span>
-            </button>
+        <div class="flex flex-wrap items-center justify-between gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-tab="personal" onclick="switchTab('personal')"
+                        class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
+                    <span>👤</span><span>Personal Info</span>
+                </button>
+                <button type="button" data-tab="address" onclick="switchTab('address')"
+                        class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                    <span>📍</span><span>Address</span>
+                </button>
+                <button type="button" data-tab="education" onclick="switchTab('education')"
+                        class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                    <span>🎓</span><span>Education & Income</span>
+                </button>
+                <button type="button" data-tab="security" onclick="switchTab('security')"
+                        class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                    <span>🔒</span><span>Security</span>
+                </button>
+            </div>
+
+            @php $missingCount = count($user->profileMissingFields()); @endphp
+            @if($user->isProfileComplete())
+                <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-emerald-500/30 bg-emerald-50 text-emerald-700">
+                    <span>✓</span><span>Profile Complete</span>
+                </span>
+            @else
+                <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-amber-500/30 bg-amber-50 text-amber-700"
+                      title="{{ $missingCount }} field(s) missing for license application">
+                    <span>⚠</span><span>Incomplete</span>
+                    {{-- <span>⚠</span><span>Incomplete ({{ $missingCount }} field{{ $missingCount > 1 ? 's' : '' }} left)</span> --}}
+                </span>
+            @endif
         </div>
 
         <!-- TAB 1: PERSONAL INFO -->
         <div class="profile-panel bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-personal">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">Personal Information</span>
+                <button type="submit"
+                        class="px-5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                    Save Profile
+                </button>
             </div>
-            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="sm:col-span-2 flex items-center space-x-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="sm:col-span-2 lg:col-span-3 flex items-center space-x-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
                     <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-gov-green bg-slate-200 flex items-center justify-center text-slate-400 font-bold text-xl flex-shrink-0">
                         @if($user->profile_photo_path)
                             <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile Photo" class="w-full h-full object-cover">
@@ -152,8 +161,12 @@
 
         <!-- TAB 2: ADDRESS -->
         <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-address">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">Address Information</span>
+                <button type="submit"
+                        class="px-5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                    Save Profile
+                </button>
             </div>
             <div class="p-5 space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -192,10 +205,14 @@
 
         <!-- TAB 3: EDUCATION & INCOME -->
         <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-education">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">Education, Occupation & Income</span>
+                <button type="submit"
+                        class="px-5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                    Save Profile
+                </button>
             </div>
-            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label for="edu_qualification" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Educational Qualification</label>
                     <input type="text" name="edu_qualification" id="edu_qualification" value="{{ old('edu_qualification', $user->edu_qualification) }}"
@@ -208,7 +225,7 @@
                            placeholder="e.g. Business Owner, Officer"
                            class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 lg:col-span-3">
                     <label for="employer_address" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Employer / Office Address</label>
                     <input type="text" name="employer_address" id="employer_address" value="{{ old('employer_address', $user->employer_address) }}"
                            placeholder="Office or employer address"
@@ -231,10 +248,14 @@
 
         <!-- TAB 4: SECURITY -->
         <div class="profile-panel hidden bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="panel-security">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">Security & Password</span>
+                <button type="submit"
+                        class="px-5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                    Save Profile
+                </button>
             </div>
-            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label for="password" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">New Password</label>
                     <input type="password" name="password" id="password" minlength="6"
@@ -251,13 +272,6 @@
             </div>
         </div>
 
-        <!-- Save Button -->
-        <div class="flex justify-end">
-            <button type="submit"
-                    class="px-6 py-2.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
-                Save Profile
-            </button>
-        </div>
     </form>
 </div>
 @endsection

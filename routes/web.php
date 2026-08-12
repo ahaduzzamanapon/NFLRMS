@@ -13,12 +13,53 @@ use App\Models\District;
 use App\Models\License;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/clear-cache', function () {
+    $exitCode = Artisan::call('cache:clear');
+
+    return '<h1>Cache facade value cleared</h1>';
+});
+
+// Reoptimized class loader:
+Route::get('/optimize', function () {
+    $exitCode = Artisan::call('optimize');
+
+    return '<h1>Reoptimized class loader</h1>';
+});
+// Reoptimized class loader:
+Route::get('/optimize-clear', function () {
+    $exitCode = Artisan::call('optimize:clear');
+
+    return '<h1>Reoptimized class loader</h1>';
+});
+
+// Route cache:
+Route::get('/route-cache', function () {
+    $exitCode = Artisan::call('route:cache');
+
+    return '<h1>Routes cached</h1>';
+});
+
+// Clear Route cache:
+Route::get('/route-clear', function () {
+    $exitCode = Artisan::call('route:clear');
+
+    return '<h1>Route cache cleared</h1>';
+});
+
+// Clear View cache:
+Route::get('/view-clear', function () {
+    $exitCode = Artisan::call('view:clear');
+
+    return '<h1>View cache cleared</h1>';
+});
 
 // Public Welcome Page
 Route::get('/', function () {
     $stats = [
-        'total_licenses'  => License::count(),
+        'total_licenses' => License::count(),
         'total_districts' => District::count(),
     ];
 
@@ -85,6 +126,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dealer/dashboard', [DealerController::class, 'dashboard'])->name('dealer.dashboard');
         Route::get('/dealer/apply', [DealerController::class, 'applyForm'])->name('dealer.apply');
         Route::post('/dealer/apply', [DealerController::class, 'applyStore'])->name('dealer.apply.store');
+        Route::get('/dealer/applications/{application}', [ApplicationController::class, 'show'])->name('dealer.show');
         Route::get('/dealer/renew', [DealerController::class, 'renewForm'])->name('dealer.renew');
         Route::get('/dealer/stock-ledger', [DealerController::class, 'stockLedger'])->name('dealer.stock_ledger');
         Route::post('/dealer/stock-ledger', [DealerController::class, 'saveStock'])->name('dealer.stock_ledger.save');

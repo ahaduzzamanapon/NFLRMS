@@ -32,6 +32,12 @@
         </span>
     </div>
 
+    <!-- Profile Incomplete Alert -->
+    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
+        <span>⚠️</span>
+        <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+    </div>
+
     <form action="{{ route('dealer.apply.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" id="formKForm" novalidate>
         @csrf
         <input type="hidden" name="type" value="new_dealing_license">
@@ -105,42 +111,46 @@
 
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
+            <div class="px-5 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
+                <span class="text-[9px] font-semibold text-slate-400">Fields marked <span class="text-gov-green font-bold">From Profile</span> are locked — edit them in your profile.</span>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span></label>
-                    <input type="text" name="proprietor_name" id="proprietor_name" required value="{{ old('proprietor_name', auth()->user()->name) }}"
-                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('proprietor_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green">
-                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
-                    @error('proprietor_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <label for="proprietor_name" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <input type="text" id="proprietor_name" disabled required value="{{ strtoupper(auth()->user()->name ?? '') }}"
+                           placeholder="FULL NAME"
+                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('proprietor_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
+                    <input type="hidden" name="proprietor_name" value="{{ auth()->user()->name ?? '' }}">
+                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
+                    @error('proprietor_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span></label>
-                    <input type="text" name="nid" id="nid" required pattern="^\d{10}(\d{7})?$" inputmode="numeric"
-                           value="{{ old('nid', auth()->user()->nid) }}"
-                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
-                           placeholder="10 or 17-digit NID number">
-                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="nid"></span>
-                    @error('nid')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <label for="nid" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <input type="text" id="nid" disabled required value="{{ auth()->user()->nid ?? '' }}"
+                           placeholder="10 or 17-digit NID number"
+                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
+                    <input type="hidden" name="nid" value="{{ auth()->user()->nid ?? '' }}">
+                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="nid"></span>
+                    @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span></label>
-                    <input type="text" name="mobile" id="mobile" required pattern="^01[3-9]\d{8}$" inputmode="numeric"
-                           value="{{ old('mobile', auth()->user()->phone) }}"
-                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('mobile') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
-                           placeholder="01XXXXXXXXX">
-                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="mobile"></span>
-                    @error('mobile')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <label for="mobile" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <input type="text" id="mobile" disabled required value="{{ auth()->user()->phone ?? '' }}"
+                           placeholder="01XXXXXXXXX"
+                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('mobile') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
+                    <input type="hidden" name="mobile" value="{{ auth()->user()->phone ?? '' }}">
+                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="mobile"></span>
+                    @error('mobile')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span></label>
-                    <input type="number" name="annual_income" id="annual_income" required min="1" step="1" value="{{ old('annual_income') }}"
-                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
-                           placeholder="0">
-                    <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="annual_income"></span>
-                    @error('annual_income')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
+                    <label for="annual_income" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <input type="number" id="annual_income" disabled required min="1" step="1" value="{{ auth()->user()->annual_income ?? '' }}"
+                           placeholder="e.g. 500000"
+                           class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
+                    <input type="hidden" name="annual_income" value="{{ auth()->user()->annual_income ?? '' }}">
+                    <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="annual_income"></span>
+                    @error('annual_income')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
             </div>
         </div>
@@ -363,6 +373,26 @@
             return true;
         }
 
+        // Profile-locked fields (disabled inputs) — these come from the user's profile
+        const profileMatchedFieldIds = new Set([
+            'proprietor_name', 'nid', 'mobile', 'annual_income',
+        ]);
+
+        function validateProfileFields() {
+            let profileValid = true;
+            profileMatchedFieldIds.forEach(function (id) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const hiddenInput = form.querySelector(`input[type="hidden"][name="${el.id}"]`);
+                const value = (hiddenInput ? hiddenInput.value : el.value || '').trim();
+                if (!value) {
+                    showError(el.id, 'This field is missing from your profile.');
+                    profileValid = false;
+                }
+            });
+            return profileValid;
+        }
+
         function validateForm() {
             clearAllErrors();
             let valid = true;
@@ -373,10 +403,7 @@
             valid = validateField(document.getElementById('dealer_district_id'), 'Please select a district.') && valid;
             valid = validateField(document.getElementById('dealer_upazila_id'), 'Please select an upazila / thana.') && valid;
             valid = validateField(document.querySelector('select[name="license_class"]'), 'Please select a licence class.') && valid;
-            valid = validateField(document.getElementById('proprietor_name'), 'Proprietor name is required.') && valid;
-            valid = validateField(document.getElementById('nid'), 'Enter a valid 10 or 17-digit NID number.') && valid;
-            valid = validateField(document.getElementById('mobile'), 'Enter a valid Bangladeshi mobile number, e.g. 01712345678.') && valid;
-            valid = validateField(document.getElementById('annual_income'), 'Enter a valid annual income greater than 0.') && valid;
+            valid = validateProfileFields() && valid;
 
             valid = validateCategories() && valid;
 
@@ -399,6 +426,23 @@
             if (!hasVisibleError) alertBox?.classList.add('hidden');
         }
 
+        function showIncompleteError(isProfileField) {
+            const box = document.getElementById('profile-incomplete-error');
+            const text = document.getElementById('profile-incomplete-error-text');
+            if (!box) return;
+            box.classList.remove('hidden');
+            if (text) {
+                text.textContent = isProfileField
+                    ? 'Complete your profile first — the highlighted field(s) above are missing.'
+                    : 'Please fill in the highlighted required field(s) above before continuing.';
+            }
+        }
+
+        function hideIncompleteError() {
+            const box = document.getElementById('profile-incomplete-error');
+            if (box) box.classList.add('hidden');
+        }
+
         // Live validation on blur/change for a smoother experience
         // ['firm_name', 'trade_license', 'business_address', 'nid', 'mobile', 'annual_income', 'proprietor_name'].forEach(id => {
         //     const el = document.getElementById(id);
@@ -419,11 +463,17 @@
             if (!validateForm()) {
                 e.preventDefault();
                 alertBox?.classList.remove('hidden');
+
+                // Determine if the first error is a profile field
                 const firstError = form.querySelector('.js-error:not(:empty)');
+                const isProfileField = firstError && profileMatchedFieldIds.has(firstError.dataset.for);
+                showIncompleteError(isProfileField);
+
                 firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 alertBox?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
                 alertBox?.classList.add('hidden');
+                hideIncompleteError();
             }
         });
     })();

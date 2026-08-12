@@ -41,9 +41,9 @@
 
     $standardDocList = [
         'nid' => ['name' => 'National ID Card Copy', 'icon' => '🆔', 'keys' => ['nid', 'nid_copy', 'nid_card'], 'default_file' => 'nid_card_copy.pdf', 'size' => '1.2 MB'],
+        'tin' => ['name' => 'TIN / Tax Return', 'icon' => '🧾', 'keys' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return'], 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
         'birth_cert' => ['name' => 'Birth Certificate', 'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'], 'default_file' => 'birth_cert.pdf', 'size' => '950 KB'],
         'edu_cert' => ['name' => 'Educational Certificate', 'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'], 'default_file' => 'educational_cert.pdf', 'size' => '1.1 MB'],
-        'tin' => ['name' => 'TIN / Tax Return', 'icon' => '🧾', 'keys' => ['tin', 'tin_certificate', 'tax_yr1', 'tax_yr2', 'tax_yr3', 'tax_return'], 'default_file' => 'tin_return_ack.pdf', 'size' => '850 KB'],
         'affidavit' => ['name' => 'Notarized Affidavit', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'], 'default_file' => 'notarized_affidavit.pdf', 'size' => '1.8 MB'],
         'nationality_cert' => ['name' => 'Nationality Certificate', 'icon' => '🇧🇩', 'keys' => ['nationality_cert', 'nationality'], 'default_file' => 'nationality_certificate.pdf', 'size' => '720 KB'],
         'photo' => ['name' => 'Passport-size Photo', 'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'], 'default_file' => 'passport_photo.jpg', 'size' => '650 KB'],
@@ -192,18 +192,18 @@
             <span>📎</span><span>Documents</span>
             <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold {{ $uploadedCount === count($standardDocList) ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">{{ $uploadedCount }}/{{ count($standardDocList) }}</span>
         </button>
-        <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
+        {{-- <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🕐</span><span>Timeline</span>
             <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
-        </button>
-        @if($application->vettings->count())
+        </button> --}}
+        {{-- @if($application->vettings->count())
         <button type="button" data-tab="vetting" onclick="switchDetailTab('vetting')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🛡️</span><span>Vetting</span>
             <span class="px-1.5 py-0.5 rounded-full text-[9px] font-semibold bg-slate-100 text-slate-500">{{ $application->vettings->count() }}</span>
         </button>
-        @endif
+        @endif --}}
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
