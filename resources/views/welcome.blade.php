@@ -73,7 +73,7 @@
 
             <div class="flex items-center space-x-3.5">
                 <img src="{{ asset('assets/brand/govt-logo.png') }}"
-                    alt="Government of Bangladesh" width="40" height="40" class="w-10 h-10 object-contain" />
+                    alt="Government of Bangladesh" width="50" height="50" class="w-15 h-15 object-contain rounded-full" />
                 <div class="leading-tight">
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
                         Govt. of Bangladesh</h1>

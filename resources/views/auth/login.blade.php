@@ -95,7 +95,7 @@
             <div class="my-10 space-y-7 max-w-lg">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0">
-                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-15 h-15 object-contain"/>
+                        <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-15 h-15 object-contain rounded-full"/>
                     </div>
                     {{-- <div class="w-16 h-16 rounded-full seal-ring flex items-center justify-center bg-white/5 shrink-0">
                         <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-11 h-11 object-contain"/>
@@ -146,7 +146,7 @@
             <!-- Bottom Footer -->
             <div class="flex items-center justify-between text-[11px] text-slate-400 font-medium pt-6 border-t border-white/10">
                 <span class="flex items-center gap-2">
-                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90">
+                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90 rounded-full">
                     <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
                 </span>
                 <span class="text-slate-500">v1.0</span>
