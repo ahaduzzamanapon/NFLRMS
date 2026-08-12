@@ -84,7 +84,7 @@
         <!-- Search Header Card -->
         <div class="bg-gradient-to-r from-gov-deep via-gov-green to-teal-950 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
-                <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Seal Watermark" class="w-96 h-96 object-contain"/>
+                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Seal Watermark" class="w-96 h-96 object-contain rounded-full"/>
             </div>
 
             <div class="max-w-3xl space-y-4 relative z-10">
