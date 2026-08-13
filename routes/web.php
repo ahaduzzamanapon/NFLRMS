@@ -164,7 +164,7 @@ Route::middleware(['auth'])->group(function () {
     // MoHA Desk & Committee
     Route::middleware(['role:moha_desk,joint_secretary,senior_secretary,national_screening_committee'])->group(function () {
         Route::get('/office/moha', [WorkflowController::class, 'mohaDashboard'])->name('moha.dashboard');
-        Route::get('/office/moha/applications/{application}', [WorkflowController::class, 'applicationDetail'])->name('moha.show');
+        Route::get('/office/moha/applications/{encryptedId}', [WorkflowController::class, 'applicationDetail'])->name('moha.show');
         Route::post('/office/moha/applications/{application}', [WorkflowController::class, 'mohaAction'])->name('moha.action');
     });
 

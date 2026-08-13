@@ -12,6 +12,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Vetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class WorkflowController extends Controller
@@ -19,14 +20,30 @@ class WorkflowController extends Controller
     /**
      * Case detail view — shared across DC Front Desk, JM Branch, DC, MoHA.
      */
-    public function applicationDetail(Application $application)
+    public function applicationDetail(string $encryptedId)
     {
-        $application->load(['user.district', 'user.upazila', 'vettings', 'logs.actor', 'district', 'upazila']);
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
 
-        // Custom comments for the current user (used in the remarks quick-fill dropdown)
-        $customComments = CustomComment::where('user_id', auth()->id())
-            ->latest()
-            ->get();
+        $application = Application::with([
+            'user.district',
+            'user.upazila',
+            'vettings',
+            'logs.actor',
+            'district',
+            'upazila',
+        ])->findOrFail($id);
+
+        $userRole = auth()->user()->role;
+        $roleVal = $userRole instanceof Role ? $userRole->value : $userRole;
+
+        $customComments = CustomComment::where(function ($q) use ($roleVal) {
+            $q->where('user_id', auth()->id())
+            ->orWhere('role_id', $roleVal);
+        })->latest()->get();
 
         return view('office.application_detail', compact('application', 'customComments'));
     }

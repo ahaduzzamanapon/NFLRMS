@@ -69,7 +69,7 @@
             </a>
 
             <div class="flex items-center space-x-3">
-                <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Government Seal" class="w-10 h-10 object-contain drop-shadow-sm"/>
+                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government Seal" class="w-10 h-10 object-contain drop-shadow-sm rounded-full"/>
                 <div>
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-gov-deep">NFLRMS VERIFICATION VAULT</h1>
                     <p class="text-[10px] text-slate-500 font-semibold uppercase mt-1 leading-none">National Firearms Licensing Registry</p>
@@ -196,7 +196,7 @@
                             <!-- Right: Security Verification & Digital Seal -->
                             <div class="md:col-span-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
                                 <div class="text-center space-y-2 border-b border-slate-100 pb-3">
-                                    <img src="https://flms.lovable.app/__l5e/assets-v1/acbf4783-ce0b-43bc-b0fd-4ba7908c84b3/govt-logo.png" alt="Govt Seal" class="w-14 h-14 object-contain mx-auto">
+                                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Govt Seal" class="w-14 h-14 object-contain mx-auto rounded-full">
                                     <h4 class="text-xs font-bold text-gov-deep uppercase leading-snug">Government Registry Cryptographic Verification</h4>
                                     <p class="text-[10px] text-slate-400">Ministry of Home Affairs &bull; Firearms Section</p>
                                 </div>
