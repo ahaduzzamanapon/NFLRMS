@@ -7,6 +7,7 @@ use App\Models\License;
 use App\Models\Upazila;
 use App\Models\User;
 use App\Models\Vetting;
+use Illuminate\Support\Facades\Crypt;
 
 beforeEach(function () {
     $this->seed();
@@ -80,7 +81,10 @@ test('citizen can submit a new license application', function () {
 
     $app = Application::where('user_id', $citizen->id)->latest()->first();
 
-    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
+    $redirectUrl = $response->headers->get('Location');
+    $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
+    $encryptedParam = \Illuminate\Support\Str::before(\Illuminate\Support\Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $citizen->id,
@@ -109,7 +113,10 @@ test('dealer can submit Form K dealing license application', function () {
 
     $app = Application::where('user_id', $dealer->id)->latest()->first();
 
-    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
+    $redirectUrl = $response->headers->get('Location');
+    $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
+    $encryptedParam = \Illuminate\Support\Str::before(\Illuminate\Support\Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $dealer->id,
@@ -124,7 +131,7 @@ test('front desk can receive and forward application', function () {
     $app = Application::where('status', 'submitted')->first();
 
     $response = $this->actingAs($frontDesk)
-        ->post(route('front_desk.action', $app->id), [
+        ->post(route('front_desk.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'All documents verified and found authentic.',
         ]);
@@ -143,7 +150,7 @@ test('jm branch can dispatch security vetting', function () {
     $app = Application::where('status', 'received')->first();
 
     $response = $this->actingAs($jmBranch)
-        ->post(route('jm_branch.action', $app->id), [
+        ->post(route('jm_branch.action', Crypt::encryptString($app->id)), [
             'action' => 'trigger_vetting',
             'remarks' => 'Dispatch to Police, SB, NSI, and DGFI for security vetting.',
         ]);
@@ -195,7 +202,7 @@ test('agencies can submit vetting clearances and autocomplete workflow trigger',
         $vetting = Vetting::where('application_id', $app->id)->where('agency', $agency)->first();
 
         $response = $this->actingAs($user)
-            ->post(route('vetting.submit', $vetting->id), [
+            ->post(route('vetting.submit', Crypt::encryptString($vetting->id)), [
                 'status' => 'cleared',
                 'remarks' => 'Verified. No adverse record.',
             ]);
@@ -223,7 +230,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     // JM Branch forwards to DC
     $response = $this->actingAs($jmBranch)
-        ->post(route('jm_branch.action', $app->id), [
+        ->post(route('jm_branch.action', Crypt::encryptString($app->id)), [
             'action' => 'forward_dc',
             'remarks' => 'Highly recommended. Background checks are all green.',
         ]);
@@ -238,7 +245,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     // DC approves
     $response2 = $this->actingAs($dc)
-        ->post(route('dc.action', $app->id), [
+        ->post(route('dc.action', Crypt::encryptString($app->id)), [
             'action' => 'approve',
             'remarks' => 'Approved and license issued.',
         ]);
@@ -264,7 +271,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
-        'status' => 'approved',
+        'status' => 'license_issued',
         'license_fee_paid' => true,
     ]);
 
@@ -290,7 +297,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // DC forwards to MoHA
     $this->actingAs($dc)
-        ->post(route('dc.action', $app->id), [
+        ->post(route('dc.action', Crypt::encryptString($app->id)), [
             'action' => 'forward_moha',
             'remarks' => 'Forwarded for Ministry screening.',
         ])
@@ -304,7 +311,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // MoHA Desk -> Joint Secretary
     $this->actingAs($mohaDesk)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'MoHA Desk verified.',
         ])
@@ -318,7 +325,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // Joint Secretary -> NSC
     $this->actingAs($js)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'Joint Secretary reviewed.',
         ])
@@ -332,7 +339,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // NSC -> Senior Secretary
     $this->actingAs($nsc)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'National Screening Committee recommended.',
         ])
@@ -346,7 +353,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // Senior Secretary approves
     $this->actingAs($ss)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'approve',
             'remarks' => 'Final approval granted by Senior Secretary.',
         ])
@@ -371,7 +378,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
-        'status' => 'approved',
+        'status' => 'license_issued',
         'license_fee_paid' => true,
     ]);
 
@@ -388,3 +395,12 @@ test('public verify page can look up licenses', function () {
         ->assertOk()
         ->assertSee($license->license_number);
 });
+
+test('tampered or invalid encrypted admin IDs safely return 404', function () {
+    $admin = User::where('role', Role::SystemAdmin)->first();
+
+    $this->actingAs($admin)
+        ->get(route('admin.users.edit', 'invalid-tampered-encrypted-id-string'))
+        ->assertStatus(404);
+});
+

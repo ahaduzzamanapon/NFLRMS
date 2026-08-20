@@ -12,10 +12,10 @@
         default => url()->previous(),
     };
     $actionRoute = match(true) {
-        $role === 'dc_front_desk'       => route('front_desk.action', $application->id),
-        $role === 'dc_jm_branch'        => route('jm_branch.action', $application->id),
-        $role === 'district_commissioner' => route('dc.action', $application->id),
-        in_array($role, ['moha_desk','joint_secretary','senior_secretary','national_screening_committee']) => route('moha.action', $application->id),
+        $role === 'dc_front_desk'       => route('front_desk.action', Crypt::encryptString($application->id)),
+        $role === 'dc_jm_branch'        => route('jm_branch.action', Crypt::encryptString($application->id)),
+        $role === 'district_commissioner' => route('dc.action', Crypt::encryptString($application->id)),
+        in_array($role, ['moha_desk','joint_secretary','senior_secretary','national_screening_committee']) => route('moha.action', Crypt::encryptString($application->id)),
         default => '#',
     };
     $actions = match(true) {

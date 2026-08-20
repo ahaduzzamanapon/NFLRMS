@@ -6,7 +6,9 @@ use App\Models\Vetting;
 use App\Models\Application;
 use App\Models\ApplicationLog;
 use App\Enums\Role;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class VettingController extends Controller
 {
@@ -40,8 +42,15 @@ class VettingController extends Controller
     /**
      * Show a single vetting detail/report form.
      */
-    public function show(Vetting $vetting)
+    public function show(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $vetting = Vetting::findOrFail($id);
         $vetting->load(['application.user.district', 'application.logs']);
 
         // Custom comments for the current user (used in the remarks quick-fill dropdown)
@@ -55,8 +64,16 @@ class VettingController extends Controller
     /**
      * Submit a vetting report.
      */
-    public function submit(Request $request, Vetting $vetting)
+    public function submit(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $vetting = Vetting::findOrFail($id);
+
         $request->validate([
             'status' => ['required', 'string', 'in:cleared,flagged'],
             'remarks' => ['required', 'string'],

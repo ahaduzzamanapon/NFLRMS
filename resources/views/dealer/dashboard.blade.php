@@ -261,21 +261,21 @@
                             </td>
                             <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">
                                 @if($a->status === 'payment_pending')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-semibold shadow-sm transition-colors">
+                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-semibold shadow-sm transition-colors">
                                         Pay Platform Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
-                                    <a href="{{ route('payment.initiate', [$a->id, 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-semibold shadow-sm transition-colors animate-pulse">
+                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-semibold shadow-sm transition-colors animate-pulse">
                                         Pay License Fee
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ $a->id }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                    <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
                                         🔍 Verify
                                     </button>
                                 @endif
-                                <a href="{{ route('dealer.show', $a->id) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
+                                <a href="{{ route('dealer.show', Crypt::encryptString($a->id)) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
                                     View &rarr;
                                 </a>
                             </td>
@@ -291,7 +291,6 @@
             </table>
         </div>
     </div>
-
 </div>
 @endsection
 
@@ -320,7 +319,7 @@
             btnElement.innerText = '⏳ Verifying...';
         }
 
-        fetch('/payment/check-status/' + appId, {
+        fetch('/payment/check-status/' + encodeURIComponent(appId), {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json'
@@ -355,7 +354,7 @@
 
     // Smart Auto-Polling (Polls pending payments every 10 sec, up to 4 mins = 24 checks max)
     @php
-        $pendingAppIds = $applications->whereIn('status', ['payment_pending', 'waiting_for_license_fee'])->pluck('id')->toArray();
+        $pendingAppIds = array_map(fn($id) => Crypt::encryptString($id), $applications->whereIn('status', ['payment_pending', 'waiting_for_license_fee'])->pluck('id')->toArray());
     @endphp
     @if(!empty($pendingAppIds))
     (function autoPollPendingPayments() {

@@ -18,7 +18,7 @@
     @endif
 
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-        <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+        <form action="{{ route('admin.users.update', Crypt::encryptString($user->id)) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -85,7 +85,7 @@ class="px-6 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs 
     <div class="bg-white rounded-2xl border border-rose-200 shadow-sm p-5">
 <div class="text-xs font-bold text-rose-700 mb-1">Danger Zone</div>
         <p class="text-[11px] text-slate-400 mb-3">This action is irreversible. All data for this user will be permanently deleted.</p>
-        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+        <form action="{{ route('admin.users.destroy', Crypt::encryptString($user->id)) }}" method="POST"
               onsubmit="return confirm('Delete {{ addslashes($user->name) }}? This cannot be undone.')">
             @csrf
             @method('DELETE')

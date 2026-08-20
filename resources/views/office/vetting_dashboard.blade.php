@@ -74,7 +74,7 @@
                     </td>
                     <td class="p-3 text-slate-600 font-normal">{{ $v->application->district->name ?? 'N/A' }}</td>
                     <td class="p-3 pr-5 text-right">
-                        <a href="{{ route('vetting.show', $v->id) }}"
+                        <a href="{{ route('vetting.show', Crypt::encryptString($v->id)) }}"
                            class="text-xs font-semibold text-gov-green hover:underline">Submit report →</a>
                     </td>
                 </tr>

@@ -74,23 +74,23 @@
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <div class="flex items-center justify-end gap-3">
-                            <a href="{{ route('admin.users.edit', $u->id) }}"
-class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</a>
+                            <a href="{{ route('admin.users.edit', Crypt::encryptString($u->id)) }}"
+                               class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</a>
 
-                            <form action="{{ route('admin.users.toggle', $u->id) }}" method="POST" class="inline">
+                            <form action="{{ route('admin.users.toggle', Crypt::encryptString($u->id)) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-class="text-[11px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
+                                        class="text-[11px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
                                     {{ $isActive ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
 
                             @if($u->id !== auth()->id())
-                            <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" class="inline"
+                            <form action="{{ route('admin.users.destroy', Crypt::encryptString($u->id)) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Delete {{ addslashes($u->name) }}? This cannot be undone.')">
                                 @csrf
                                 @method('DELETE')
-<button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">Delete</button>
+                                <button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">Delete</button>
                             </form>
                             @endif
                         </div>

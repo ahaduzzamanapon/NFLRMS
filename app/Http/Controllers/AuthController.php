@@ -153,8 +153,20 @@ class AuthController extends Controller
     /**
      * Get upazilas of a district (API helper).
      */
-    public function getUpazilas(District $district)
+    public function getUpazilas(string $encryptedId)
     {
+        if (is_numeric($encryptedId)) {
+            $id = (int) $encryptedId;
+        } else {
+            try {
+                $id = \Illuminate\Support\Facades\Crypt::decryptString($encryptedId);
+            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                abort(404);
+            }
+        }
+
+        $district = District::findOrFail($id);
+
         return response()->json($district->upazilas()->orderBy('name')->get());
     }
 
