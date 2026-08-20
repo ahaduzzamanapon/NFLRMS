@@ -58,7 +58,7 @@
                 @endphp
                 <label class="flex items-center space-x-3 p-3.5 rounded-lg border border-slate-200 cursor-pointer hover:border-gov-green hover:bg-emerald-50/50 transition-colors">
                     <input type="radio" name="license_id" value="{{ $lic->id }}" required
-                           data-action="{{ route('citizen.renew', $lic->id) }}"
+                           data-action="{{ route('citizen.renew', Crypt::encryptString($lic->id)) }}"
                            data-class="{{ $licClass }}"
                            {{ (old('license_id', $loop->first ? $lic->id : null)) == $lic->id ? 'checked' : '' }}
                            class="border-slate-300 text-gov-green focus:ring-gov-green">

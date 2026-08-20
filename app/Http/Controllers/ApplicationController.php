@@ -9,7 +9,9 @@ use App\Models\District;
 use App\Models\License;
 use App\Models\Upazila;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
@@ -141,7 +143,7 @@ class ApplicationController extends Controller
             'remarks' => 'Application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
+        return redirect()->route('payment.initiate', ['encryptedId' => Crypt::encryptString($application->id), 'type' => 'service_fee']);
     }
 
     /**
@@ -190,8 +192,19 @@ class ApplicationController extends Controller
     /**
      * Display the specified application details.
      */
-    public function show(Application $application)
+    /**
+     * Display the specified application details.
+     */
+    public function show(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         // Check if user is authorized to view this application
         $user = auth()->user();
         if ($user->role === Role::CitizenApplicant || $user->role === Role::DealerApplicant) {
@@ -209,8 +222,16 @@ class ApplicationController extends Controller
     /**
      * Show renewal apply form.
      */
-    public function renewalForm(License $license)
+    public function renewalForm(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $license = License::findOrFail($id);
+
         $user = auth()->user();
         if ($license->user_id !== $user->id) {
             abort(403);
@@ -224,8 +245,16 @@ class ApplicationController extends Controller
     /**
      * Submit renewal application.
      */
-    public function storeRenewal(Request $request, License $license)
+    public function storeRenewal(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $license = License::findOrFail($id);
+
         $user = auth()->user();
         if ($license->user_id !== $user->id) {
             abort(403);
@@ -282,7 +311,7 @@ class ApplicationController extends Controller
             'remarks' => 'Renewal application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
+        return redirect()->route('payment.initiate', ['encryptedId' => Crypt::encryptString($application->id), 'type' => 'service_fee']);
     }
 
     /**
@@ -293,7 +322,7 @@ class ApplicationController extends Controller
         $user = auth()->user();
         $license = $user->licenses()->first();
         if ($license) {
-            return redirect()->route('citizen.renew', $license->id);
+            return redirect()->route('citizen.renew', Crypt::encryptString($license->id));
         }
         $route = auth()->user()->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
 

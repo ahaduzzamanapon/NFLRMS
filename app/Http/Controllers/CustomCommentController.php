@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\CustomComment;
 use App\Models\Setting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class CustomCommentController extends Controller
 {
@@ -99,9 +101,17 @@ class CustomCommentController extends Controller
     /**
      * Show the edit form for a custom comment.
      */
-    public function edit(CustomComment $customComment)
+    public function edit(string $encryptedId)
     {
         $this->authorizeModule();
+
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $customComment = CustomComment::findOrFail($id);
 
         // Only the owner can edit their own comment.
         abort_if($customComment->user_id !== auth()->id(), 403);
@@ -118,9 +128,17 @@ class CustomCommentController extends Controller
     /**
      * Update a custom comment.
      */
-    public function update(Request $request, CustomComment $customComment)
+    public function update(Request $request, string $encryptedId)
     {
         $this->authorizeModule();
+
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $customComment = CustomComment::findOrFail($id);
 
         // Only the owner can update their own comment.
         abort_if($customComment->user_id !== auth()->id(), 403);
@@ -144,9 +162,17 @@ class CustomCommentController extends Controller
     /**
      * Delete a custom comment.
      */
-    public function destroy(CustomComment $customComment)
+    public function destroy(string $encryptedId)
     {
         $this->authorizeModule();
+
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $customComment = CustomComment::findOrFail($id);
 
         // Only the owner can delete their own comment.
         abort_if($customComment->user_id !== auth()->id(), 403);

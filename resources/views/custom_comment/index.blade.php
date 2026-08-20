@@ -13,7 +13,7 @@
     </div>
 
     <!-- Create / Edit Form -->
-    <form action="{{ isset($customComment) ? route('custom_comment.update', $customComment) : route('custom_comment.store') }}" method="POST"
+    <form action="{{ isset($customComment) ? route('custom_comment.update', Crypt::encryptString($customComment->id)) : route('custom_comment.store') }}" method="POST"
           class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         @csrf
         @if(isset($customComment)) @method('PUT') @endif
@@ -99,11 +99,11 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                         <span class="text-[10px] text-slate-400 font-semibold block mt-1">Created {{ $comment->created_at->format('d M Y · h:i A') }}</span>
                     </div>
                     <div class="flex items-center space-x-2 flex-shrink-0">
-                        <a href="{{ route('custom_comment.edit', $comment) }}"
-class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
+                        <a href="{{ route('custom_comment.edit', Crypt::encryptString($comment->id)) }}"
+                           class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
                             ✏️ Edit
                         </a>
-                        <form action="{{ route('custom_comment.destroy', $comment) }}" method="POST"
+                        <form action="{{ route('custom_comment.destroy', Crypt::encryptString($comment->id)) }}" method="POST"
                               onsubmit="return confirm('Are you sure you want to delete this comment?');">
                             @csrf
                             @method('DELETE')

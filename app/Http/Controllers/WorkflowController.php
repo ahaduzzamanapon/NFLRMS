@@ -11,6 +11,7 @@ use App\Models\License;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Vetting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -81,8 +82,16 @@ class WorkflowController extends Controller
     /**
      * Front Desk receives & forwards application.
      */
-    public function frontDeskAction(Request $request, Application $application)
+    public function frontDeskAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:forward,reject'],
             'remarks' => ['required', 'string'],
@@ -146,8 +155,16 @@ class WorkflowController extends Controller
     /**
      * JM Branch triggers vetting or forwards to DC.
      */
-    public function jmBranchAction(Request $request, Application $application)
+    public function jmBranchAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:trigger_vetting,forward_dc,reject'],
             'remarks' => ['required', 'string'],
@@ -237,8 +254,16 @@ class WorkflowController extends Controller
     /**
      * DC Action (Approve / Forward to MoHA / Reject).
      */
-    public function dcAction(Request $request, Application $application)
+    public function dcAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:approve,forward_moha,reject'],
             'remarks' => ['required', 'string'],
@@ -320,8 +345,16 @@ class WorkflowController extends Controller
     /**
      * MoHA Actions based on Role.
      */
-    public function mohaAction(Request $request, Application $application)
+    public function mohaAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:forward,approve,reject'],
             'remarks' => ['required', 'string'],

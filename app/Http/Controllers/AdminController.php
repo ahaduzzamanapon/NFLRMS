@@ -8,7 +8,9 @@ use App\Models\District;
 use App\Models\License;
 use App\Models\Setting;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminController extends Controller
 {
@@ -61,8 +63,15 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
     }
 
-    public function editUser(User $user)
+    public function editUser(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $user = User::findOrFail($id);
         $districts = District::orderBy('name')->get();
 
         $defaultRoles = [
@@ -87,8 +96,16 @@ class AdminController extends Controller
         return view('admin.edit_user', compact('user', 'districts', 'roles'));
     }
 
-    public function updateUser(Request $request, User $user)
+    public function updateUser(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $user = User::findOrFail($id);
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,'.$user->id],
@@ -113,8 +130,16 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
     }
 
-    public function destroyUser(User $user)
+    public function destroyUser(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $user = User::findOrFail($id);
+
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.dashboard')->with('error', 'You cannot delete your own account.');
         }
@@ -124,8 +149,16 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
     }
 
-    public function toggleUser(User $user)
+    public function toggleUser(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $user = User::findOrFail($id);
+
         $user->update(['is_active' => ! $user->is_active]);
 
         return redirect()->route('admin.dashboard')->with('success', 'User status updated to '.($user->is_active ? 'Active' : 'Inactive').'.');

@@ -69,7 +69,7 @@
                      <td class="p-3 text-slate-500 font-medium">{{ $s->source ?? '—' }}</td>
                      <td class="p-3 text-slate-400 font-normal">{{ $s->updated_at->format('d M Y') }}</td>
                     <td class="p-3 pr-5 text-right">
-                        <form action="{{ route('dealer.stock_ledger.delete', $s->id) }}" method="POST"
+                        <form action="{{ route('dealer.stock_ledger.delete', Crypt::encryptString($s->id)) }}" method="POST"
                               onsubmit="return confirm('Remove this item?')">
                             @csrf @method('DELETE')
                             <button type="submit"

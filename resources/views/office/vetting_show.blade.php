@@ -66,7 +66,7 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('vetting.submit', $vetting->id) }}" method="POST" class="p-5 space-y-4">
+        <form action="{{ route('vetting.submit', Crypt::encryptString($vetting->id)) }}" method="POST" class="p-5 space-y-4">
             @csrf
             <div>
                 <label class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-2">Clearance Decision</label>

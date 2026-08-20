@@ -7,7 +7,9 @@ use App\Models\DealerStock;
 use App\Models\District;
 use App\Models\License;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class DealerController extends Controller
 {
@@ -97,8 +99,16 @@ class DealerController extends Controller
     /**
      * Delete a stock item.
      */
-    public function deleteStock(DealerStock $stock)
+    public function deleteStock(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $stock = DealerStock::findOrFail($id);
+
         abort_if($stock->user_id !== auth()->id(), 403);
         $stock->delete();
 
