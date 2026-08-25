@@ -24,22 +24,22 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Dealer Licences</h4>
-            <p class="text-3xl font-bold font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Dealer Licences</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
-            <p class="text-3xl font-bold font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
+        <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
-            <p class="text-3xl font-bold font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
+        <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between h-24">
-            <h4 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
-            <p class="text-3xl font-bold font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
+        <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
             </div>
         @else
             @foreach($licenses as $l)
-            <div class="max-w-xl p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md flex flex-col sm:flex-row justify-between gap-6">
+            <div class="max-w-xl p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md flex flex-col sm:flex-row justify-between gap-4 sm:gap-6">
                 <div class="flex-grow space-y-4">
                     <!-- Header -->
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -79,7 +79,7 @@
                     </div>
 
                     <!-- Fields -->
-                    <div class="grid grid-cols-2 gap-4 text-[11px]">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4 text-[11px]">
                         <div>
                             <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">Firm Name</span>
                             <span class="font-semibold text-slate-900">{{ auth()->user()->name }}</span>
@@ -90,7 +90,7 @@
                         </div>
                         <div>
                             <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">Licence No.</span>
-                            <span class="font-semibold text-slate-900 uppercase font-mono">{{ $l->license_number }}</span>
+                            <span class="font-semibold text-slate-900 uppercase font-mono break-all">{{ $l->license_number }}</span>
                         </div>
                         <div>
                             <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">District</span>
@@ -142,7 +142,7 @@
                 <a href="{{ route('dealer.stock_ledger') }}" class="text-[11px] font-semibold text-gov-green hover:underline">Manage Stock Ledger &rarr;</a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
                     <div class="text-2xl font-bold text-slate-900 mt-1">{{ $stocks->where('item_type', 'firearm')->sum('quantity') }} items</div>
@@ -158,8 +158,8 @@
             </div>
 
             <!-- Ledger Table -->
-            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                <table class="w-full text-left border-collapse">
+            <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
+                <table class="w-full text-left border-collapse min-w-[540px]">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                             <th class="p-3 pl-5">Item Name</th>
@@ -199,8 +199,8 @@
             </button>
         </div>
 
-        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-            <table class="w-full text-left border-collapse">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
+            <table class="w-full text-left border-collapse min-w-[580px]">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                         <th class="p-3 pl-5">Reference</th>

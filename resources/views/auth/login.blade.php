@@ -80,7 +80,7 @@
         </div>
 
         <!-- Sticky content layer: pins to the viewport while the outer panel stretches to match the form's height -->
-        <div class="relative z-10 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-8 pb-12 lg:p-16 lg:pb-20">
+        <div class="relative z-10 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-5 sm:p-8 lg:p-14 lg:pb-16">
 
             <!-- Top: back link + form reference -->
             <div class="flex items-center justify-between">
@@ -252,7 +252,7 @@
     <div id="drawer-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-45 hidden transition-opacity opacity-0" onclick="toggleDrawer(false)"></div>
 
     <!-- Quick Roles Sliding Drawer (Right Side) -->
-    <div id="quick-roles-drawer" class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform translate-x-full drawer-transition flex flex-col justify-between border-l border-slate-200">
+    <div id="quick-roles-drawer" class="fixed top-0 right-0 h-full w-[320px] sm:w-[350px] max-w-[90vw] bg-white shadow-2xl z-50 transform translate-x-full drawer-transition flex flex-col justify-between border-l border-slate-200">
         <!-- Header -->
         <div class="p-5 bg-gov-deep text-white flex items-center justify-between">
             <div>

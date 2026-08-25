@@ -21,14 +21,14 @@
     </div>
 
     <!-- Top KPI Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-slate-300 transition-all">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-3.5 sm:p-4 hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">System Users</div>
-                <span class="text-lg">👥</span>
+                <span class="text-base sm:text-lg">👥</span>
             </div>
             <div class="text-2xl font-extrabold text-slate-900">{{ number_format($stats['total_users']) }}</div>
-            <div class="text-[10px] text-slate-500 mt-1 flex items-center gap-2">
+            <div class="text-[10px] text-slate-500 mt-1 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span class="text-emerald-600 font-semibold">✓ {{ $stats['active_users'] }} active</span>
                 @if($stats['inactive_users'] > 0)
                 <span class="text-rose-500 font-semibold">• {{ $stats['inactive_users'] }} inactive</span>
@@ -36,28 +36,28 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-slate-300 transition-all">
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-3.5 sm:p-4 hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Applications</div>
-                <span class="text-lg">📄</span>
+                <span class="text-base sm:text-lg">📄</span>
             </div>
             <div class="text-2xl font-extrabold text-gov-green">{{ number_format($stats['total_applications']) }}</div>
             <div class="text-[10px] text-slate-500 mt-1">Submitted nationwide</div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-slate-300 transition-all">
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-3.5 sm:p-4 hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Active Licenses</div>
-                <span class="text-lg">📜</span>
+                <span class="text-base sm:text-lg">📜</span>
             </div>
             <div class="text-2xl font-extrabold text-emerald-600">{{ number_format($stats['active_licenses']) }}</div>
             <div class="text-[10px] text-slate-500 mt-1">Issued &amp; verified</div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-slate-300 transition-all">
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-3.5 sm:p-4 hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Pending Action</div>
-                <span class="text-lg">⏳</span>
+                <span class="text-base sm:text-lg">⏳</span>
             </div>
             <div class="text-2xl font-extrabold text-amber-600">{{ number_format($stats['pending_applications']) }}</div>
             <div class="text-[10px] text-slate-500 mt-1">In workflow queues</div>
@@ -65,7 +65,7 @@
     </div>
 
     <!-- Middle Section: Application Summary & User Role Distribution -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
 
         <!-- Application Status Summary -->
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
@@ -146,7 +146,7 @@
     </div>
 
     <!-- Bottom Section: Recent Activities Log & Administrative Shortcuts -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
 
         <!-- Recent Activities Table -->
         <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
@@ -157,7 +157,7 @@
                 <a href="{{ route('admin.audit_log') }}" class="text-[10px] font-semibold text-gov-green hover:underline">View Full Log →</a>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse min-w-[480px]">
                     <thead>
                         <tr class="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
                             <th class="p-3 pl-5">Time</th>

@@ -86,6 +86,8 @@
                 top: 0;
                 left: 0;
                 bottom: 0;
+                width: 256px !important;
+                max-width: 85vw !important;
                 z-index: 50;
                 transform: translateX(-100%);
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -101,6 +103,13 @@
                 z-index: 45;
             }
         }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
@@ -110,10 +119,11 @@
     <div id="sidebar-backdrop" class="sidebar-backdrop hidden" onclick="toggleSidebar(false)"></div>
 
     <!-- ===== SIDEBAR ===== -->
-    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto mobile-sidebar lg:translate-x-0">        <!-- Brand -->
-        <div style="padding:24px 20px 16px; border-bottom:1px solid rgba(255,255,255,0.06);" class="relative">
+    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto mobile-sidebar lg:translate-x-0">
+        <!-- Brand -->
+        <div style="padding:20px 16px 14px; border-bottom:1px solid rgba(255,255,255,0.06);" class="relative">
             <!-- Close Button (visible only on mobile) -->
-            <button type="button" onclick="toggleSidebar(false)" class="lg:hidden absolute top-5 right-4 text-white/50 hover:text-white p-1 rounded-lg border border-white/10 hover:bg-white/5 transition-colors">
+            <button type="button" onclick="toggleSidebar(false)" aria-label="Close navigation sidebar" class="lg:hidden absolute top-4 right-3 text-white/60 hover:text-white p-1.5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <div class="flex items-center gap-3 mb-3">
@@ -326,24 +336,24 @@
     <div class="flex-grow flex flex-col overflow-hidden">
 
         <!-- Header Bar -->
-        <header class="h-14 bg-transparent border-b border-slate-200/60 flex items-center justify-between px-7 flex-shrink-0">
-            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium">
+        <header class="h-14 bg-transparent border-b border-slate-200/60 flex items-center justify-between px-3 sm:px-5 lg:px-7 flex-shrink-0 gap-2">
+            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium min-w-0">
                 <!-- Hamburger Button (visible on mobile/tablet) -->
-                <button type="button" onclick="toggleSidebar(true)" class="lg:hidden mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors">
+                <button type="button" onclick="toggleSidebar(true)" aria-label="Toggle navigation menu" class="lg:hidden mr-1 sm:mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <span class="hidden sm:inline">🏢</span>
-                <span class="font-medium text-slate-700">Ministry of Home Affairs</span>
-                <span class="text-slate-300 hidden sm:inline">·</span>
-                <span class="hidden sm:inline">Government of the People's Republic of Bangladesh</span>
+                <span class="hidden sm:inline flex-shrink-0">🏢</span>
+                <span class="font-medium text-slate-700 truncate text-xs sm:text-xs">Ministry of Home Affairs</span>
+                <span class="text-slate-300 hidden md:inline">·</span>
+                <span class="hidden md:inline truncate text-slate-500">Government of the People's Republic of Bangladesh</span>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                <div class="hidden sm:flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
                 </div>
-                <div class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-600 uppercase tracking-wider">
+                <div class="hidden md:block px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-600 uppercase tracking-wider truncate max-w-[160px]">
                     @yield('title','Dashboard')
                 </div>
                 @auth
@@ -355,7 +365,7 @@
                 @endphp
                 <div class="relative" id="user-menu-wrapper">
                     <button type="button" id="user-menu-button" onclick="toggleUserMenu()"
-                        class="flex items-center gap-2.5 pl-1.5 pr-2.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                        class="flex items-center gap-1.5 sm:gap-2.5 pl-1 sm:pl-1.5 pr-2 sm:pr-2.5 py-1 sm:py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
                         aria-haspopup="true" aria-expanded="false">
                         @if($userPhoto)
                             <img src="{{ $userPhoto }}" alt="{{ $authUser->name }}"
@@ -373,7 +383,7 @@
                     </button>
 
                     <div id="user-menu-dropdown"
-                        class="hidden absolute right-0 mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
+                        class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-1.5rem)] bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
                         style="animation: none;">
                         <div class="px-3.5 py-3 border-b border-slate-100">
                             <p class="text-[12px] font-semibold text-slate-800 truncate">{{ $authUser->name }}</p>
@@ -405,7 +415,7 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-grow overflow-y-auto p-7">
+        <main class="flex-grow overflow-y-auto p-3.5 sm:p-5 md:p-6 lg:p-7 min-w-0 max-w-full">
 
             @if(session('success'))
             <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">

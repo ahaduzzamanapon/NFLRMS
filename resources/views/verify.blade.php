@@ -61,15 +61,15 @@
     </div>
 
     <!-- Main Navigation Header -->
-    <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex-shrink-0 shadow-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <header class="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-3.5 sm:py-4 flex-shrink-0 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <a href="/" class="text-xs font-bold text-slate-600 hover:text-gov-green transition-colors flex items-center space-x-1.5 group">
                 <span class="group-hover:-translate-x-1 transition-transform">&larr;</span>
                 <span>Return to Home Portal</span>
             </a>
 
             <div class="flex items-center space-x-3">
-                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government Seal" class="w-10 h-10 object-contain drop-shadow-sm rounded-full"/>
+                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government Seal" class="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-sm rounded-full flex-shrink-0"/>
                 <div>
                     <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-gov-deep">NFLRMS VERIFICATION VAULT</h1>
                     <p class="text-[10px] text-slate-500 font-semibold uppercase mt-1 leading-none">National Firearms Licensing Registry</p>
@@ -79,26 +79,26 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-10 space-y-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8">
 
         <!-- Search Header Card -->
-        <div class="bg-gradient-to-r from-gov-deep via-gov-green to-teal-950 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="bg-gradient-to-r from-gov-deep via-gov-green to-teal-950 rounded-2xl p-5 sm:p-8 text-white shadow-xl relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
                 <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Seal Watermark" class="w-96 h-96 object-contain rounded-full"/>
             </div>
 
             <div class="max-w-3xl space-y-4 relative z-10">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-emerald-300 text-[11px] font-semibold uppercase tracking-wider">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-emerald-300 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider">
                     <span>🛡️ Official Public Registry</span>
                     <span>&bull;</span>
                     <span>Real-time License Verification</span>
                 </div>
 
-                <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
                     Verify Firearms License &amp; Dealer Permit Authenticity
                 </h2>
 
-                <p class="text-emerald-100 text-xs md:text-sm leading-relaxed max-w-2xl font-normal">
+                <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed max-w-2xl font-normal">
                     Enter the official Firearms License Number or scan the QR Code on the physical license booklet to confirm real-time validity, issuing district authority, and security status.
                 </p>
 
@@ -112,9 +112,9 @@
                             <input type="text" name="license_number" id="license_number" required
                                    value="{{ $licenseNumber }}"
                                    placeholder="Enter License Reference Number (e.g. FL-0OJA0TX5-2026)"
-                                   class="w-full pl-10 pr-4 py-3.5 text-xs text-slate-900 bg-white rounded-xl font-mono font-semibold shadow-inner border border-white/30 focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:font-sans placeholder:font-normal uppercase">
+                                   class="w-full pl-10 pr-4 py-3 sm:py-3.5 text-xs text-slate-900 bg-white rounded-xl font-mono font-semibold shadow-inner border border-white/30 focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:font-sans placeholder:font-normal uppercase">
                         </div>
-                        <button type="submit" class="px-6 py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 shrink-0">
+                        <button type="submit" class="px-5 sm:px-6 py-3 sm:py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 shrink-0">
                             <span>🔍 Search Registry</span>
                         </button>
                     </div>
@@ -129,32 +129,32 @@
                     <!-- VALID LICENSE CARD -->
                     <div class="bg-white rounded-2xl border-2 border-emerald-500/40 shadow-xl overflow-hidden space-y-0">
                         <!-- Top Banner -->
-                        <div class="bg-emerald-700 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+                        <div class="bg-emerald-700 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full bg-white text-emerald-800 font-bold flex items-center justify-center text-xl shadow">
+                                <div class="w-10 h-10 rounded-full bg-white text-emerald-800 font-bold flex items-center justify-center text-xl shadow flex-shrink-0">
                                     ✓
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-sm uppercase tracking-wide">VERIFIED OFFICIAL LICENSE RECORD</h3>
-                                    <p class="text-[11px] text-emerald-100 font-medium">Valid Firearms License Registered in Government Database</p>
+                                    <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wide">VERIFIED OFFICIAL LICENSE RECORD</h3>
+                                    <p class="text-[10px] sm:text-[11px] text-emerald-100 font-medium">Valid Firearms License Registered in Government Database</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg border border-white/30">
+                                <span class="px-3 py-1 bg-white/20 text-white text-[10px] sm:text-[11px] font-bold uppercase rounded-lg border border-white/30">
                                     STATUS: VALID &amp; ACTIVE
                                 </span>
                             </div>
                         </div>
 
                         <!-- Card Details Grid -->
-                        <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50/50">
+                        <div class="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50/50">
 
                             <!-- Left: Certificate Details -->
                             <div class="md:col-span-8 space-y-4">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
                                         <span class="text-[10px] font-semibold text-slate-400 uppercase block">License Number</span>
-                                        <span class="font-mono font-bold text-slate-900 text-sm tracking-wide">{{ $license->license_number }}</span>
+                                        <span class="font-mono font-bold text-slate-900 text-sm tracking-wide break-all">{{ $license->license_number }}</span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
                                         <span class="text-[10px] font-semibold text-slate-400 uppercase block">License Category / Type</span>
@@ -167,7 +167,7 @@
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
                                         <span class="text-[10px] font-semibold text-slate-400 uppercase block">Issuing Authority</span>
                                         <span class="font-bold text-slate-800 text-xs">
-                                            {{ $license->application->district->name ?? 'District Commissioner' }} DC Office
+                                             {{ $license->application->district->name ?? 'District Commissioner' }} DC Office
                                         </span>
                                     </div>
                                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
@@ -184,7 +184,7 @@
                                 @if(!empty($license->firearm_details))
                                     <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-2">
                                         <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider">🔫 Authorized Weapon Specifications</h4>
-                                        <div class="grid grid-cols-3 gap-2 text-xs">
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                                             <div><span class="text-slate-400 text-[10px] block">Weapon Type:</span> <strong class="text-slate-800">{{ $license->firearm_details['weapon_type'] ?? 'N/A' }}</strong></div>
                                             <div><span class="text-slate-400 text-[10px] block">Bore Spec:</span> <strong class="text-slate-800">{{ $license->firearm_details['bore'] ?? 'N/A' }}</strong></div>
                                             <div><span class="text-slate-400 text-[10px] block">Purpose:</span> <strong class="text-slate-800">{{ $license->firearm_details['purpose'] ?? 'Personal Protection' }}</strong></div>
@@ -194,9 +194,9 @@
                             </div>
 
                             <!-- Right: Security Verification & Digital Seal -->
-                            <div class="md:col-span-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                            <div class="md:col-span-4 bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
                                 <div class="text-center space-y-2 border-b border-slate-100 pb-3">
-                                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Govt Seal" class="w-14 h-14 object-contain mx-auto rounded-full">
+                                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Govt Seal" class="w-12 h-12 sm:w-14 sm:h-14 object-contain mx-auto rounded-full">
                                     <h4 class="text-xs font-bold text-gov-deep uppercase leading-snug">Government Registry Cryptographic Verification</h4>
                                     <p class="text-[10px] text-slate-400">Ministry of Home Affairs &bull; Firearms Section</p>
                                 </div>
@@ -229,17 +229,17 @@
                 @elseif($status === 'suspended' && $license)
                     <!-- SUSPENDED LICENSE CARD -->
                     <div class="bg-white rounded-2xl border-2 border-amber-500/40 shadow-xl overflow-hidden">
-                        <div class="bg-amber-600 text-white px-6 py-4 flex items-center justify-between">
+                        <div class="bg-amber-600 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
                                 <span class="text-2xl">⚠️</span>
                                 <div>
-                                    <h3 class="font-bold text-sm uppercase">LICENSE STATUS: SUSPENDED</h3>
-                                    <p class="text-[11px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
+                                    <h3 class="font-bold text-xs sm:text-sm uppercase">LICENSE STATUS: SUSPENDED</h3>
+                                    <p class="text-[10px] sm:text-[11px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg">SUSPENDED</span>
+                            <span class="px-3 py-1 bg-white/20 text-white text-[10px] sm:text-[11px] font-bold uppercase rounded-lg">SUSPENDED</span>
                         </div>
-                        <div class="p-6 space-y-4">
+                        <div class="p-4 sm:p-6 space-y-4">
                             <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed font-normal">
                                 Reference Number <strong>{{ $licenseNumber }}</strong> is currently <strong>SUSPENDED</strong>. License holder must report to the local District Commissioner's Office (JM Branch) for clearance.
                             </div>
@@ -249,17 +249,17 @@
                 @else
                     <!-- NOT FOUND CARD -->
                     <div class="bg-white rounded-2xl border-2 border-rose-400/40 shadow-xl overflow-hidden">
-                        <div class="bg-rose-700 text-white px-6 py-4 flex items-center justify-between">
+                        <div class="bg-rose-700 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
                                 <span class="text-2xl">⚠️</span>
                                 <div>
-                                    <h3 class="font-bold text-sm uppercase">REGISTRY RECORD NOT FOUND</h3>
-                                    <p class="text-[11px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
+                                    <h3 class="font-bold text-xs sm:text-sm uppercase">REGISTRY RECORD NOT FOUND</h3>
+                                    <p class="text-[10px] sm:text-[11px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 bg-white/20 text-white text-[11px] font-bold uppercase rounded-lg">NOT FOUND</span>
+                            <span class="px-3 py-1 bg-white/20 text-white text-[10px] sm:text-[11px] font-bold uppercase rounded-lg">NOT FOUND</span>
                         </div>
-                        <div class="p-6 space-y-4">
+                        <div class="p-4 sm:p-6 space-y-4">
                             <div class="p-4 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900 leading-relaxed font-normal space-y-2">
                                 <p><strong>Notice:</strong> The entered reference number <code>{{ $licenseNumber }}</code> could not be found in the Ministry of Home Affairs Firearms Registry.</p>
                                 <ul class="list-disc pl-5 space-y-1 text-xs text-rose-800">
@@ -275,7 +275,7 @@
         @endif
 
         <!-- Informative Public Guidance Grid (3 Cards) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-4">
 
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 text-gov-green flex items-center justify-center text-xl font-bold">

@@ -184,8 +184,8 @@
         </div>
 
         <!-- Compact Tracker (Horizontal Stepper) -->
-        <div class="px-5 pb-3">
-            <div class="flex items-center">
+        <div class="px-4 sm:px-5 pb-3 overflow-x-auto no-scrollbar">
+            <div class="flex items-center min-w-[500px]">
                 @foreach($pipeline as $key => $step)
                     @php
                         $stepIdx = $loop->index;

@@ -4,18 +4,18 @@
 @section('content')
 <div class="max-w-6xl space-y-5">
 
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-<h2 class="text-2xl font-bold font-serif text-slate-900">Reports & Analytics</h2>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">Reports & Analytics</h2>
             <p class="text-xs text-slate-500 mt-1">10 statutory + operational reports · exportable to PDF / Excel / CSV (BRS §9.2)</p>
         </div>
-        <button class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm">
+        <button class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm self-start sm:self-auto">
             <span>⬇</span><span>Export all</span>
         </button>
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         @php
         $kpis = [
             ['label' => 'Total Licenses', 'value' => number_format($stats['total_licenses']), 'sub' => 'Active in system', 'color' => 'text-gov-green'],
@@ -25,16 +25,16 @@
         ];
         @endphp
         @foreach($kpis as $kpi)
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-<div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">{{ $kpi['label'] }}</div>
-            <div class="text-3xl font-bold {{ $kpi['color'] }} mt-1">{{ $kpi['value'] }}</div>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
+            <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">{{ $kpi['label'] }}</div>
+            <div class="text-2xl sm:text-3xl font-bold {{ $kpi['color'] }} mt-1">{{ $kpi['value'] }}</div>
             <div class="text-[10px] text-slate-400 mt-0.5">{{ $kpi['sub'] }}</div>
         </div>
         @endforeach
     </div>
 
     <!-- Charts row -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
 
         <!-- By District -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">

@@ -82,7 +82,7 @@
         </div>
 
         <!-- Sticky content layer: pins to the viewport while the outer panel stretches to match the form's height -->
-        <div class="relative z-10 lg:top-0 lg:h-screen flex flex-col justify-between p-8 pb-12 lg:p-16 lg:pb-20">
+        <div class="relative z-10 lg:top-0 lg:h-screen flex flex-col justify-between p-5 sm:p-8 lg:p-14 lg:pb-16">
 
             <!-- Top: back link + form reference -->
             <div class="flex items-center justify-between">
@@ -157,8 +157,8 @@
     </div>
 
     <!-- Right Pane: Sign Up Form -->
-    <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-5 sm:p-6 lg:px-8 lg:py-8">
-        <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-6 sm:p-9 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
+    <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-4 sm:p-6 lg:px-8 lg:py-8">
+        <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
 
             <div class="flex items-start justify-between gap-4">
                 <div>

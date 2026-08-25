@@ -51,8 +51,7 @@
                         $weapon = $lic->firearm_details['weapon_type'] ?? 'Handgun';
                         $isExpired = now()->isAfter($lic->expiry_date);
                         $daysDiff = (int) abs(now()->diffInDays($lic->expiry_date));
-                    @endphp
-                    <label id="label-lic-{{ $lic->id }}" class="flex items-center justify-between p-4 rounded-xl border {{ $lic->id === $license->id ? 'border-2 border-gov-green bg-emerald-50/5' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-all">
+                    @endphp                    <label id="label-lic-{{ $lic->id }}" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border {{ $lic->id === $license->id ? 'border-2 border-gov-green bg-emerald-50/5' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-all">
                         <div class="flex items-start space-x-3">
                             <input type="radio" name="selected_licence" value="{{ $lic->license_number }}"
                                    data-id="{{ $lic->id }}"
@@ -62,7 +61,7 @@
                                    class="rounded text-gov-green focus:ring-0 mt-1"
                                    onchange="onLicenseSelected(this)">
                             <div>
-                                <span class="text-xs font-bold uppercase font-mono text-slate-900">{{ $lic->license_number }}</span>
+                                <span class="text-xs font-bold uppercase font-mono text-slate-900 break-all">{{ $lic->license_number }}</span>
                                 <p class="text-[11px] text-slate-500 mt-1 font-normal">
                                     {{ $weapon }} &bull;
                                     @if(!$isExpired)
@@ -74,7 +73,7 @@
                             </div>
                         </div>
                         @if($isExpired)
-                            <span class="text-[10px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">⚠️ Late fine applicable</span>
+                            <span class="text-[10px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded self-start sm:self-auto">⚠️ Late fine applicable</span>
                         @endif
                     </label>
                 @endforeach
@@ -135,7 +134,7 @@
                     $mandatoryDocs = ['firing_report', 'police_clearance'];
                 @endphp
                 @foreach($complianceDocs as $key => $label)
-                    <div class="flex items-center justify-between py-2.5 px-2 rounded-lg border {{ $errors->has($key) ? 'border-red-400 bg-red-50/40' : 'border-transparent' }} transition-colors" id="row-{{ $key }}">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-2.5 px-2 rounded-lg border {{ $errors->has($key) ? 'border-red-400 bg-red-50/40' : 'border-transparent' }} transition-colors" id="row-{{ $key }}">
                         <div class="flex items-center space-x-2">
                             <span>📄</span>
                             <span class="font-semibold text-slate-800">{{ $label }}</span>
@@ -143,10 +142,10 @@
                                 <span class="text-[10px] font-bold uppercase text-red-500">*</span>
                             @endif
                         </div>
-                        <div class="flex items-center space-x-3 text-[11px]">
+                        <div class="flex items-center space-x-3 text-[11px] self-end sm:self-auto">
                             <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
                             <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" onchange="handleFileSelected('{{ $key }}')">
-                            <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors">Upload</button>
+                            <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors">Upload</button>
                         </div>
                     </div>
                     @error($key)
@@ -188,7 +187,7 @@
 
             <div>
                 <label class="block text-[11px] font-semibold uppercase text-slate-900 mb-2">Select Payment Channel</label>
-                <div class="grid grid-cols-3 gap-3" id="payment-channel-group">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3" id="payment-channel-group">
                     <button type="button" id="pay-bkash" onclick="selectPayment('bkash')" class="py-2.5 rounded-lg border-2 border-gov-green bg-emerald-50/10 text-xs font-bold text-gov-green transition-all">bKash</button>
                     <button type="button" id="pay-nagad" onclick="selectPayment('nagad')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-500 hover:bg-slate-50 transition-all">Nagad</button>
                     <button type="button" id="pay-card" onclick="selectPayment('card')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-500 hover:bg-slate-50 transition-all">Card / Bank</button>
@@ -219,7 +218,7 @@
         </div>
 
         <!-- Wizard Navigation Bar -->
-        <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200">
             <button type="button" id="btn-prev" onclick="prevStep()" disabled
                     class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 text-slate-500 text-xs font-semibold rounded-lg focus:outline-none transition-colors">
                 &larr; Previous

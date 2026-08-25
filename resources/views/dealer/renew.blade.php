@@ -17,7 +17,7 @@
     @endphp
 
     <!-- Fee (dynamic based on selected License Class) -->
-    <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
+    <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="text-xs font-medium text-amber-800">
             Renewal Fee: <span class="font-bold" id="fee-renewal">৳{{ number_format($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) }}</span>
             &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($renewalFees['dealer_platform_renewal'] ?? 2500) }}</span>
@@ -63,7 +63,7 @@
                            {{ (old('license_id', $loop->first ? $lic->id : null)) == $lic->id ? 'checked' : '' }}
                            class="border-slate-300 text-gov-green focus:ring-gov-green">
                     <div>
-                        <div class="text-xs font-semibold text-slate-900">{{ $lic->license_number }}</div>
+                        <div class="text-xs font-semibold text-slate-900 break-all">{{ $lic->license_number }}</div>
                         <div class="text-[11px] text-slate-500 font-medium">
                             Expires: {{ $lic->expiry_date?->format('d M Y') ?? 'N/A' }} &bull;
                             Status: <span class="font-semibold text-{{ $lic->status === 'active' ? 'gov-green' : 'amber-600' }}">{{ ucfirst($lic->status) }}</span>
@@ -88,7 +88,7 @@
                     Declare your closing stock for the year. This will be cross-checked against your submitted Stock Ledger.
                     <a href="{{ route('dealer.stock_ledger') }}" class="text-gov-green font-semibold hover:underline">View Stock Ledger →</a>
                 </p>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Firearms in Stock</label>
                         <input type="number" name="declared_firearms" id="declared_firearms" min="0" required step="1" value="{{ old('declared_firearms') }}"
@@ -123,7 +123,7 @@
             @error('declaration')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
         </div>
 
-        <div class="flex gap-3 justify-end">
+        <div class="flex flex-wrap gap-3 justify-end">
             <a href="{{ route('citizen.dashboard') }}"
                class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                 Cancel

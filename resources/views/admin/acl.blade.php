@@ -8,12 +8,12 @@
     <form method="POST" action="{{ route('admin.acl.save') }}" class="space-y-5">
         @csrf
 
-        <div class="flex items-start justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">Access Control List (ACL) & Role-Based Permissions</h2>
                 <p class="text-xs text-slate-500 mt-1 font-medium">Super Admin &bull; fine-grained per-module permissions (BRS §5.13 &bull; FR-ADM-03)</p>
             </div>
-            <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
+            <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm self-start sm:self-auto">
                 <span>💾</span><span>Save Matrix</span>
             </button>
         </div>
@@ -21,7 +21,7 @@
         <!-- Permissions Matrix Table -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
+                <table class="w-full text-left border-collapse text-xs min-w-[700px]">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200">
                             <th class="p-3 pl-5 text-[11px] font-semibold uppercase text-slate-500 tracking-wider w-44">Module</th>
@@ -63,21 +63,23 @@
     <form method="POST" action="{{ route('admin.acl.role.store') }}" class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
         @csrf
         <label class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Create Custom Role</label>
-        <div class="flex items-center space-x-3">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
             <input type="text" name="role_name" required placeholder="e.g. District Auditor"
                    class="flex-grow px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-            <button type="submit" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-lg flex items-center space-x-1 shadow-sm">
+            <button type="submit" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-lg flex items-center justify-center space-x-1 shadow-sm whitespace-nowrap">
                 <span>+</span><span>Add role</span>
             </button>
-            @foreach(['none','read','write','approve'] as $perm)
-            <span class="px-2.5 py-1 rounded border text-[10px] font-semibold uppercase
-                @if($perm==='none') border-slate-300 text-slate-500
-                @elseif($perm==='read') border-blue-300 text-blue-600
-                @elseif($perm==='write') border-amber-300 text-amber-600
-                @else border-emerald-300 text-emerald-600 @endif">
-                {{ $perm }}
-            </span>
-            @endforeach
+            <div class="flex flex-wrap items-center gap-1.5 pt-1 sm:pt-0">
+                @foreach(['none','read','write','approve'] as $perm)
+                <span class="px-2 py-0.5 rounded border text-[10px] font-semibold uppercase
+                    @if($perm==='none') border-slate-300 text-slate-500
+                    @elseif($perm==='read') border-blue-300 text-blue-600
+                    @elseif($perm==='write') border-amber-300 text-amber-600
+                    @else border-emerald-300 text-emerald-600 @endif">
+                    {{ $perm }}
+                </span>
+                @endforeach
+            </div>
         </div>
     </form>
 

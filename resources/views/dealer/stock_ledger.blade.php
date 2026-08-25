@@ -5,7 +5,7 @@
 <div class="max-w-6xl space-y-5">
 
     <!-- Header -->
-    <div class="flex items-start justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
             <h2 class="text-2xl font-bold font-serif text-slate-900">
                 {{ auth()->user()->name }} — Stock Ledger
@@ -15,13 +15,13 @@
             </p>
         </div>
         <button onclick="document.getElementById('add-stock-modal').classList.remove('hidden')"
-                class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center space-x-1.5">
+                class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center space-x-1.5 self-start sm:self-auto">
             <span>💾</span><span>Add Item</span>
         </button>
     </div>
 
     <!-- Stat Cards -->
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
             <div class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Total Firearms in Stock</div>
             <div class="text-3xl font-bold text-slate-900 mt-1">{{ number_format($totalFirearms) }}</div>
@@ -37,12 +37,12 @@
     </div>
 
     <!-- Stock Table -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between min-w-[540px]">
             <span class="text-[11px] font-bold uppercase text-slate-500 tracking-widest">Stock Items</span>
             <span class="text-[11px] text-slate-400 font-semibold">{{ $stocks->count() }} items</span>
         </div>
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[540px]">
             <thead>
                 <tr class="border-b border-slate-100 text-[11px] font-bold uppercase text-slate-400 tracking-wider bg-slate-50">
                     <th class="p-3 pl-5">Item</th>

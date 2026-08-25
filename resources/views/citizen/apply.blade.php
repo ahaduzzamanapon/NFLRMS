@@ -469,7 +469,7 @@
                 @endphp
                 @foreach($docs as $key => $label)
                     <div class="py-2.5 px-2 -mx-2 rounded-lg border {{ $errors->has($key) ? '!border-rose-400 !border-b bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="{{ $key }}">
-                        <div class="flex items-center justify-between">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div class="flex items-center space-x-2">
                                 <span>📄</span>
                                 <span class="font-semibold text-slate-800">{!! $label !!}</span>
@@ -477,11 +477,11 @@
                                     <span class="text-rose-500 font-bold" title="Required">*</span>
                                 @endif
                             </div>
-                            <div class="flex items-center space-x-3 text-[11px]">
+                            <div class="flex items-center space-x-3 text-[11px] self-end sm:self-auto">
                                 <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
                                 <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" {{ in_array($key, $requiredDocs) ? 'required' : '' }}
                                        data-required-message="This document is required." onchange="handleFileSelected('{{ $key }}')">
-                                <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors {{ $errors->has($key) ? 'ring-2 ring-rose-400' : '' }}">Upload</button>
+                                <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors {{ $errors->has($key) ? 'ring-2 ring-rose-400' : '' }}">Upload</button>
                             </div>
                         </div>
                         <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block text-right js-error" data-for="{{ $key }}"></span>
@@ -544,7 +544,7 @@
         </div>
 
         <!-- Wizard Navigation Bar -->
-        <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200">
             <button type="button" id="btn-prev" onclick="prevStep()" disabled
                     class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 text-slate-500 text-xs font-semibold rounded-lg focus:outline-none transition-colors">
                 &larr; Previous

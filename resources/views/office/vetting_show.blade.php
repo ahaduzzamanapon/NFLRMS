@@ -30,7 +30,7 @@
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
             <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">Applicant</span>
         </div>
-        <div class="p-5 grid grid-cols-2 gap-4 text-xs">
+        <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
             <div>
                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider block">Name</span>
                 <span class="font-semibold text-slate-900">{{ $vetting->application->user->name }}</span>
@@ -66,11 +66,11 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('vetting.submit', Crypt::encryptString($vetting->id)) }}" method="POST" class="p-5 space-y-4">
+        <form action="{{ route('vetting.submit', Crypt::encryptString($vetting->id)) }}" method="POST" class="p-4 sm:p-5 space-y-4">
             @csrf
             <div>
                 <label class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-2">Clearance Decision</label>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-emerald-300">
                         <input type="radio" name="status" value="cleared" class="text-gov-green">
                         <span class="text-xs font-semibold text-emerald-700">✓ Cleared</span>
