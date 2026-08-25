@@ -150,15 +150,24 @@
             @if($role === \App\Enums\Role::SystemAdmin)
                 <div class="nav-section">System Administration</div>
                 @php $adminLinks = [
-                    ['route'=>'admin.dashboard', 'icon'=>'👤','label'=>'User Management'],
-                    ['route'=>'admin.fee_config', 'icon'=>'💵','label'=>'Fee & Fine Config'],
-                    ['route'=>'admin.acl',         'icon'=>'🔑','label'=>'ACL / Permissions'],
-                    ['route'=>'admin.api_config',  'icon'=>'🔌','label'=>'API Configuration'],
-                    ['route'=>'admin.audit_log',   'icon'=>'📝','label'=>'Audit Log'],
-                    ['route'=>'admin.reports',     'icon'=>'📊','label'=>'Reports & Analytics'],
+                    ['route'=>'admin.dashboard', 'icon'=>'🏠','label'=>'Home', 'active_check'=>'exact'],
+                    ['route'=>'admin.users',     'icon'=>'👤','label'=>'User Management', 'active_check'=>'prefix'],
+                    ['route'=>'admin.fee_config', 'icon'=>'💵','label'=>'Fee & Fine Config', 'active_check'=>'exact'],
+                    ['route'=>'admin.acl',         'icon'=>'🔑','label'=>'ACL / Permissions', 'active_check'=>'exact'],
+                    ['route'=>'admin.api_config',  'icon'=>'🔌','label'=>'API Configuration', 'active_check'=>'exact'],
+                    ['route'=>'admin.audit_log',   'icon'=>'📝','label'=>'Audit Log', 'active_check'=>'exact'],
+                    ['route'=>'admin.reports',     'icon'=>'📊','label'=>'Reports & Analytics', 'active_check'=>'exact'],
                 ]; @endphp
                 @foreach($adminLinks as $lnk)
-                <a href="{{ route($lnk['route']) }}" class="nav-link {{ Route::currentRouteName()===$lnk['route']?'active':'' }}">
+                @php
+                    $isActive = false;
+                    if (($lnk['active_check'] ?? 'exact') === 'prefix') {
+                        $isActive = str_starts_with(Route::currentRouteName() ?? '', $lnk['route']);
+                    } else {
+                        $isActive = Route::currentRouteName() === $lnk['route'];
+                    }
+                @endphp
+                <a href="{{ route($lnk['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
                     <span class="nav-icon">{{ $lnk['icon'] }}</span><span>{{ $lnk['label'] }}</span>
                 </a>
                 @endforeach

@@ -5,7 +5,7 @@
 <div class="max-w-xl space-y-5">
 
     <div class="flex items-center gap-3">
-<a href="{{ route('admin.dashboard') }}" class="text-xs font-semibold text-slate-400 hover:text-gov-green transition-colors">← Back</a>
+<a href="{{ route('admin.users') }}" class="text-xs font-semibold text-slate-400 hover:text-gov-green transition-colors">← Back</a>
         <h2 class="text-2xl font-bold font-serif text-slate-900">Edit User</h2>
     </div>
 
@@ -69,7 +69,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-2">
-                <a href="{{ route('admin.dashboard') }}"
+                <a href="{{ route('admin.users') }}"
                    class="px-4 py-2.5 border border-slate-200 text-slate-600 text-xs font-bold rounded-xl hover:bg-slate-50 transition-colors">
                     Cancel
                 </a>

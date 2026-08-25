@@ -187,7 +187,8 @@ Route::middleware(['auth'])->group(function () {
 
     // System Administrator
     Route::middleware(['role:system_admin'])->group(function () {
-        Route::get('/admin', [AdminController::class, 'userManagement'])->name('admin.dashboard');
+        Route::get('/admin', [AdminController::class, 'adminHome'])->name('admin.dashboard');
+        Route::get('/admin/users', [AdminController::class, 'userManagement'])->name('admin.users');
         Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
         Route::post('/admin/users/{encryptedId}/toggle', [AdminController::class, 'toggleUser'])->name('admin.users.toggle');
         Route::get('/admin/users/{encryptedId}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');

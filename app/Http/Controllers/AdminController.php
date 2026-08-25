@@ -14,6 +14,42 @@ use Illuminate\Support\Facades\Crypt;
 
 class AdminController extends Controller
 {
+    public function adminHome()
+    {
+        $allUsers = User::all();
+        $totalUsers = $allUsers->count();
+        $activeUsers = $allUsers->where('is_active', true)->count();
+        $inactiveUsers = $totalUsers - $activeUsers;
+
+        $roleCounts = [
+            'applicants' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['citizen_applicant', 'dealer_applicant']))->count(),
+            'dc_office' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['dc_front_desk', 'dc_jm_branch', 'district_commissioner']))->count(),
+            'vetting' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['police_officer', 'special_branch', 'nsi_officer', 'dgfi_officer']))->count(),
+            'moha' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['moha_desk', 'joint_secretary', 'senior_secretary', 'national_screening_committee']))->count(),
+            'admin' => $allUsers->filter(fn($u) => ($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role) === 'system_admin')->count(),
+        ];
+
+        $stats = [
+            'total_users' => $totalUsers,
+            'active_users' => $activeUsers,
+            'inactive_users' => $inactiveUsers,
+            'role_counts' => $roleCounts,
+            'total_applications' => Application::count(),
+            'pending_applications' => Application::whereNotIn('status', ['approved', 'rejected', 'license_issued'])->count(),
+            'approved_applications' => Application::whereIn('status', ['approved', 'license_issued'])->count(),
+            'rejected_applications' => Application::where('status', 'rejected')->count(),
+            'active_licenses' => License::where('status', 'active')->count(),
+            'total_districts' => District::count(),
+        ];
+
+        $recentActivities = ApplicationLog::with(['application', 'actor'])
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('admin.home', compact('stats', 'recentActivities'));
+    }
+
     public function userManagement()
     {
         $users = User::with(['district', 'upazila'])->orderBy('name')->get();
@@ -60,7 +96,7 @@ class AdminController extends Controller
             'is_active' => true,
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
+        return redirect()->route('admin.users')->with('success', 'User created successfully.');
     }
 
     public function editUser(string $encryptedId)
@@ -127,7 +163,7 @@ class AdminController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
     }
 
     public function destroyUser(string $encryptedId)
@@ -141,12 +177,12 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->id === auth()->id()) {
-            return redirect()->route('admin.dashboard')->with('error', 'You cannot delete your own account.');
+            return redirect()->route('admin.users')->with('error', 'You cannot delete your own account.');
         }
 
         $user->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
     }
 
     public function toggleUser(string $encryptedId)
@@ -161,7 +197,7 @@ class AdminController extends Controller
 
         $user->update(['is_active' => ! $user->is_active]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'User status updated to '.($user->is_active ? 'Active' : 'Inactive').'.');
+        return redirect()->route('admin.users')->with('success', 'User status updated to '.($user->is_active ? 'Active' : 'Inactive').'.');
     }
 
     public function saveAcl(Request $request)
