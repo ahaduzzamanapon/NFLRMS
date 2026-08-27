@@ -11,7 +11,7 @@
             <p class="text-xs text-slate-500 mt-1 font-medium">Minister / Secretary &bull; Real-time national oversight (BRS §9.1)</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <a href="{{ route('verify') }}" class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+            <a href="{{ route('dashboard.verify') }}" class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
                 Check any licence →
             </a>
             <button class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">

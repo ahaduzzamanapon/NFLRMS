@@ -2,7 +2,7 @@
 @section('title', 'Vetting Report — ' . $vetting->application->application_number)
 
 @section('content')
-<div class="max-w-3xl space-y-5">
+<div class="w-full space-y-5">
 
     <div>
         <a href="{{ route('vetting.dashboard') }}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-semibold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all mb-3">
@@ -30,7 +30,7 @@
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
             <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">Applicant</span>
         </div>
-        <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
+        <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs">
             <div>
                 <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider block">Name</span>
                 <span class="font-semibold text-slate-900">{{ $vetting->application->user->name }}</span>

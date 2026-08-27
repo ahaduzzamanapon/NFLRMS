@@ -70,6 +70,10 @@ Route::get('/', function () {
 
 // Public Verification Page
 Route::get('/verify', function (Request $request) {
+    if (auth()->check()) {
+        return redirect()->route('dashboard.verify', $request->all());
+    }
+
     $licenseNumber = trim($request->query('license_number', ''));
     $license = null;
     $status = null;
@@ -99,6 +103,24 @@ Route::match(['get', 'post'], '/payment/callback', [PaymentController::class, 'c
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
 
+    // Dashboard Certificate Verification
+    Route::get('/dashboard/verify', function (Request $request) {
+        $licenseNumber = trim($request->query('license_number', ''));
+        $license = null;
+        $status = null;
+
+        if (! empty($licenseNumber)) {
+            $license = License::with(['user', 'application.district'])->where('license_number', $licenseNumber)->first();
+            if ($license) {
+                $status = $license->status === 'active' ? 'valid' : $license->status;
+            } else {
+                $status = 'not_found';
+            }
+        }
+
+        return view('dashboard.verify', compact('license', 'status', 'licenseNumber'));
+    })->name('dashboard.verify');
+
     // PayStation Checkout Actions
     Route::get('/payment/initiate/{encryptedId}', [PaymentController::class, 'initiate'])->name('payment.initiate');
     Route::get('/payment/check-status/{encryptedId}', [PaymentController::class, 'checkApplicationPaymentStatus'])->name('payment.check_status');
@@ -113,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
     // Citizen / Dealer Applicant
     Route::middleware(['role:citizen_applicant,dealer_applicant'])->group(function () {
         Route::get('/citizen/dashboard', [ApplicationController::class, 'index'])->name('citizen.dashboard');
+        Route::get('/applicant/tracking', [ApplicationController::class, 'tracking'])->name('applicant.tracking');
         Route::get('/citizen/apply', [ApplicationController::class, 'create'])->name('citizen.apply');
         Route::post('/citizen/apply', [ApplicationController::class, 'store']);
         Route::get('/citizen/applications/{encryptedId}', [ApplicationController::class, 'show'])->name('citizen.show');

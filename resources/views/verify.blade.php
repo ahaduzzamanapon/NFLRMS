@@ -37,10 +37,19 @@
         body {
             font-family: 'Poppins', 'Nikosh', sans-serif;
             background-color: #f4f7f5;
+            font-size: 14px;
+            line-height: 1.5;
         }
         .text-serif {
             font-family: 'Lora', serif;
         }
+
+        /* Global Typography Standards */
+        input, select, textarea, button { font-size: 0.875rem; }
+        label { font-size: 0.75rem; }
+        .text-\[9px\] { font-size: 11px !important; }
+        .text-\[10px\] { font-size: 11.5px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased text-slate-800">

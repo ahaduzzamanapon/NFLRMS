@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\District;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -159,8 +161,8 @@ class AuthController extends Controller
             $id = (int) $encryptedId;
         } else {
             try {
-                $id = \Illuminate\Support\Facades\Crypt::decryptString($encryptedId);
-            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                $id = Crypt::decryptString($encryptedId);
+            } catch (DecryptException $e) {
                 abort(404);
             }
         }

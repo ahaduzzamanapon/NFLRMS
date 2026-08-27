@@ -42,4 +42,3 @@ class District extends Model
         return $this->hasMany(Application::class);
     }
 }
-

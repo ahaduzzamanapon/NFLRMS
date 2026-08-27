@@ -2,7 +2,7 @@
 @section('title', 'New Dealing Licence — Form K')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="w-full space-y-6">
 
     <!-- Header -->
     <div>

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vetting;
+use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
-use App\Enums\Role;
+use App\Models\CustomComment;
+use App\Models\Vetting;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -20,7 +21,7 @@ class VettingController extends Controller
         $user = auth()->user();
         $agency = $this->getAgencyByRole($user->role);
 
-        if (!$agency) {
+        if (! $agency) {
             abort(403, 'Unauthorized vetting access.');
         }
 
@@ -54,7 +55,7 @@ class VettingController extends Controller
         $vetting->load(['application.user.district', 'application.logs']);
 
         // Custom comments for the current user (used in the remarks quick-fill dropdown)
-        $customComments = \App\Models\CustomComment::where('user_id', auth()->id())
+        $customComments = CustomComment::where('user_id', auth()->id())
             ->latest()
             ->get();
 
@@ -87,7 +88,7 @@ class VettingController extends Controller
             'remarks' => $request->remarks,
             'vetted_by' => $user->id,
             'vetted_at' => now(),
-            'report_file' => 'reports/' . $vetting->id . '_clearance.pdf', // Mock uploaded report file
+            'report_file' => 'reports/'.$vetting->id.'_clearance.pdf', // Mock uploaded report file
         ]);
 
         // Check if all vettings for this application are complete
@@ -98,11 +99,11 @@ class VettingController extends Controller
         // Log the action
         ApplicationLog::create([
             'application_id' => $application->id,
-            'action' => 'vetted_by_' . $vetting->agency,
+            'action' => 'vetted_by_'.$vetting->agency,
             'from_status' => $application->status,
             'to_status' => $application->status,
             'actor_id' => $user->id,
-            'remarks' => strtoupper($vetting->agency) . ' vetting completed: ' . ucfirst($request->status) . '. Remarks: ' . $request->remarks,
+            'remarks' => strtoupper($vetting->agency).' vetting completed: '.ucfirst($request->status).'. Remarks: '.$request->remarks,
         ]);
 
         if ($totalVettings === $completedVettings) {
@@ -134,6 +135,7 @@ class VettingController extends Controller
     protected function getAgencyByRole($role): ?string
     {
         $roleValue = $role instanceof Role ? $role->value : $role;
+
         return match ($roleValue) {
             Role::PoliceOfficer->value => 'police',
             Role::SpecialBranch->value => 'sb',

@@ -4,7 +4,7 @@
 
 @section('content')
 @php $isDealer = auth()->user()->hasRole(\App\Enums\Role::DealerApplicant) || auth()->user()->hasRole('dealer_applicant'); @endphp
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="w-full space-y-6">
 
     <!-- Title and Subtitle -->
     <div>

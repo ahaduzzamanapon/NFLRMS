@@ -7,3 +7,31 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Global Typography Base Standards */
+html, body {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+input, select, textarea, button {
+    font-size: 0.875rem; /* 14px */
+}
+
+label {
+    font-size: 0.75rem; /* 12px min for labels */
+}
+
+th {
+    font-size: 0.75rem; /* 12px for table headers */
+}
+
+td {
+    font-size: 0.875rem; /* 14px for table cells */
+}
+
+/* Scale arbitrary micro-text classes across Tailwind elements */
+.text-\[9px\] { font-size: 11px !important; }
+.text-\[10px\] { font-size: 11.5px !important; }
+.text-\[11px\] { font-size: 12px !important; }
+
