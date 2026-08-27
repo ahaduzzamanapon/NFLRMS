@@ -48,7 +48,7 @@
     ];
 @endphp
 
-<div class="max-w-7xl space-y-4">
+<div class="max-w-full space-y-4">
 
     <!-- Back to dashboard (top-left, outside header) -->
     <a href="{{ route('admin.dashboard') }}"

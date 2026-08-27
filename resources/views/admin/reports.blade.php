@@ -2,7 +2,7 @@
 @section('title', 'Reports & Analytics')
 
 @section('content')
-<div class="max-w-6xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

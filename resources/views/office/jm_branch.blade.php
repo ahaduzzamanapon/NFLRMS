@@ -2,7 +2,7 @@
 @section('title', 'JM Branch — Case Review')
 
 @section('content')
-<div class="max-w-6xl space-y-5">
+<div class="max-w-full space-y-5">
 
 <div>
         <h2 class="text-2xl font-bold font-serif text-slate-900">JM Branch — Case Review</h2>

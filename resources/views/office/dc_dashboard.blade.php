@@ -2,7 +2,7 @@
 @section('title', 'DC Approval Queue')
 
 @section('content')
-<div class="max-w-6xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <div class="flex items-start justify-between">
         <div>

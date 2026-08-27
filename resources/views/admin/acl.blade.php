@@ -2,7 +2,7 @@
 @section('title', 'ACL / Role Permissions')
 
 @section('content')
-<div class="max-w-6xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <!-- Header Section (wrapped in ACL save form to include save button) -->
     <form method="POST" action="{{ route('admin.acl.save') }}" class="space-y-5">

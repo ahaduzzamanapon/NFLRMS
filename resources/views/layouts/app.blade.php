@@ -151,7 +151,7 @@
                     <div style="color:#e8b84b;font-size:13px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
                 </div>
             </div>
-            <p style="font-size:11.5px;color:rgba(255,255,255,0.45);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.45);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
         </div>
 
         <!-- User Pill -->

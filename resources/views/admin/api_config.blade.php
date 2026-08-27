@@ -2,7 +2,7 @@
 @section('title', 'API Configuration')
 
 @section('content')
-<form method="POST" action="{{ route('admin.api_config.save') }}" class="max-w-3xl space-y-5">
+<form method="POST" action="{{ route('admin.api_config.save') }}" class="max-w-full space-y-5">
     @csrf
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
