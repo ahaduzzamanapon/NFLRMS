@@ -12,28 +12,28 @@
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-3 gap-4">
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-<div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Registered Dealers</div>
-            <div class="text-3xl font-bold text-slate-900 mt-1">{{ $totalDealers }}</div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
+            <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Registered Dealers</div>
+            <div class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">{{ $totalDealers }}</div>
         </div>
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-<div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Total Arms in Dealer Stock</div>
-            <div class="text-3xl font-bold text-gov-green mt-1">{{ number_format($totalArmsInStock) }}</div>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
+            <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Total Arms in Dealer Stock</div>
+            <div class="text-2xl sm:text-3xl font-bold text-gov-green mt-1">{{ number_format($totalArmsInStock) }}</div>
             <div class="text-[10px] text-slate-400 mt-0.5">Across {{ $totalDealers }} dealer(s)</div>
         </div>
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-<div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
-            <div class="text-3xl font-bold text-rose-600 mt-1">{{ $dealers->sum('anomalyAlerts') }}</div>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
+            <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">Anomaly Alerts</div>
+            <div class="text-2xl sm:text-3xl font-bold text-rose-600 mt-1">{{ $dealers->sum('anomalyAlerts') }}</div>
         </div>
     </div>
 
     <!-- Dealers Table -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-<span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">Dealer Registry</span>
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 min-w-[560px]">
+            <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest">Dealer Registry</span>
         </div>
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[560px]">
             <thead>
 <tr class="border-b border-slate-100 text-[11px] font-semibold uppercase text-slate-400 tracking-wider bg-slate-50">
                     <th class="p-3 pl-5">Dealer Name</th>

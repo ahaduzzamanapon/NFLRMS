@@ -49,12 +49,19 @@
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.5; }
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
         .sec-chip { font-variant-numeric: tabular-nums; }
         .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Global Typography Standards */
+        input, select, textarea, button { font-size: 0.875rem; }
+        label { font-size: 0.75rem; }
+        .text-\[9px\] { font-size: 11px !important; }
+        .text-\[10px\] { font-size: 11.5px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
     </style>
 </head>
 <body class="min-h-full font-sans antialiased text-slate-800 flex flex-col lg:flex-row">
@@ -80,7 +87,7 @@
         </div>
 
         <!-- Sticky content layer: pins to the viewport while the outer panel stretches to match the form's height -->
-        <div class="relative z-10 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-8 pb-12 lg:p-16 lg:pb-20">
+        <div class="relative z-10 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-5 sm:p-8 lg:p-14 lg:pb-16">
 
             <!-- Top: back link + form reference -->
             <div class="flex items-center justify-between">
@@ -227,14 +234,14 @@
             </form>
 
             <div class="text-center space-y-2">
-                <p class="text-[11px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+                {{-- <p class="text-[11px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
                     Demo credentials: 01711234567 / demo1234 (citizen), 01711000111 / demo1234 (dealer)
-                </p>
+                </p> --}}
                 <p class="text-xs text-slate-500">
                     No account? <a href="{{ route('register') }}" class="text-gov-green hover:underline font-semibold">Sign up</a>
                 </p>
                 <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
-                    <span>Developed By</span>
+                    <span>Designed & Developed By</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
                 </div>
             </div>
@@ -252,7 +259,7 @@
     <div id="drawer-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-45 hidden transition-opacity opacity-0" onclick="toggleDrawer(false)"></div>
 
     <!-- Quick Roles Sliding Drawer (Right Side) -->
-    <div id="quick-roles-drawer" class="fixed top-0 right-0 h-full w-[350px] bg-white shadow-2xl z-50 transform translate-x-full drawer-transition flex flex-col justify-between border-l border-slate-200">
+    <div id="quick-roles-drawer" class="fixed top-0 right-0 h-full w-[320px] sm:w-[350px] max-w-[90vw] bg-white shadow-2xl z-50 transform translate-x-full drawer-transition flex flex-col justify-between border-l border-slate-200">
         <!-- Header -->
         <div class="p-5 bg-gov-deep text-white flex items-center justify-between">
             <div>

@@ -43,7 +43,7 @@ class WorkflowController extends Controller
 
         $customComments = CustomComment::where(function ($q) use ($roleVal) {
             $q->where('user_id', auth()->id())
-            ->orWhere('role_id', $roleVal);
+                ->orWhere('role_id', $roleVal);
         })->latest()->get();
 
         return view('office.application_detail', compact('application', 'customComments'));

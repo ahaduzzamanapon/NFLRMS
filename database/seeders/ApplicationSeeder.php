@@ -12,35 +12,34 @@ use App\Models\Upazila;
 use App\Models\User;
 use App\Models\Vetting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class ApplicationSeeder extends Seeder
 {
     public function run(): void
     {
-        $dhaka      = District::where('name', 'Dhaka')->first();
+        $dhaka = District::where('name', 'Dhaka')->first();
         $chattogram = District::where('name', 'Chattogram')->first();
-        $sylhet     = District::where('name', 'Sylhet')->first();
-        $rajshahi   = District::where('name', 'Rajshahi')->first();
-        $khulna     = District::where('name', 'Khulna')->first();
+        $sylhet = District::where('name', 'Sylhet')->first();
+        $rajshahi = District::where('name', 'Rajshahi')->first();
+        $khulna = District::where('name', 'Khulna')->first();
 
-        $dhakaUpazila   = $dhaka ? Upazila::where('district_id', $dhaka->id)->first() : null;
-        $ctgUpazila     = $chattogram ? Upazila::where('district_id', $chattogram->id)->first() : null;
+        $dhakaUpazila = $dhaka ? Upazila::where('district_id', $dhaka->id)->first() : null;
+        $ctgUpazila = $chattogram ? Upazila::where('district_id', $chattogram->id)->first() : null;
 
         // Office users
-        $frontDesk  = User::where('role', Role::DcFrontDesk->value)->first();
-        $jmBranch   = User::where('role', Role::DcJmBranch->value)->first();
-        $dc         = User::where('role', Role::DistrictCommissioner->value)->first();
-        $police     = User::where('role', Role::PoliceOfficer->value)->first();
-        $sb         = User::where('role', Role::SpecialBranch->value)->first();
-        $nsi        = User::where('role', Role::NsiOfficer->value)->first();
-        $dgfi       = User::where('role', Role::DgfiOfficer->value)->first();
-        $mohaDesk   = User::where('role', Role::MohaDesk->value)->first();
-        $jointSec   = User::where('role', Role::JointSecretary->value)->first();
-        $nsc        = User::where('role', Role::NationalScreeningCommittee->value)->first();
-        $seniorSec  = User::where('role', Role::SeniorSecretary->value)->first();
-        $citizen    = User::where('role', Role::CitizenApplicant->value)->first();
-        $dealer     = User::where('role', Role::DealerApplicant->value)->first();
+        $frontDesk = User::where('role', Role::DcFrontDesk->value)->first();
+        $jmBranch = User::where('role', Role::DcJmBranch->value)->first();
+        $dc = User::where('role', Role::DistrictCommissioner->value)->first();
+        $police = User::where('role', Role::PoliceOfficer->value)->first();
+        $sb = User::where('role', Role::SpecialBranch->value)->first();
+        $nsi = User::where('role', Role::NsiOfficer->value)->first();
+        $dgfi = User::where('role', Role::DgfiOfficer->value)->first();
+        $mohaDesk = User::where('role', Role::MohaDesk->value)->first();
+        $jointSec = User::where('role', Role::JointSecretary->value)->first();
+        $nsc = User::where('role', Role::NationalScreeningCommittee->value)->first();
+        $seniorSec = User::where('role', Role::SeniorSecretary->value)->first();
+        $citizen = User::where('role', Role::CitizenApplicant->value)->first();
+        $dealer = User::where('role', Role::DealerApplicant->value)->first();
 
         // ─────────────────────────────────────────────────────────────
         // Citizen applicants with real names (extra users for variety)
@@ -61,25 +60,25 @@ class ApplicationSeeder extends Seeder
             $citizenUsers[] = User::firstOrCreate(
                 ['email' => $c['email']],
                 [
-                    'name'        => $c['name'],
-                    'password'    => bcrypt('password'),
-                    'role'        => Role::CitizenApplicant,
-                    'nid'         => $c['nid'],
+                    'name' => $c['name'],
+                    'password' => bcrypt('password'),
+                    'role' => Role::CitizenApplicant,
+                    'nid' => $c['nid'],
                     'district_id' => $dhaka?->id,
-                    'upazila_id'  => $dhakaUpazila?->id,
+                    'upazila_id' => $dhakaUpazila?->id,
                 ]
             );
         }
 
         $weapons = [
-            ['type' => 'Shotgun',  'bore' => '12 Gauge', 'brand' => 'Remington',       'serial' => 'RM-' . rand(1000,9999),  'category' => 'Long Gun'],
-            ['type' => 'Rifle',    'bore' => '.308',     'brand' => 'Winchester',       'serial' => 'WN-' . rand(1000,9999),  'category' => 'Long Gun'],
-            ['type' => 'Pistol',   'bore' => '9mm',      'brand' => 'Glock',            'serial' => 'GL-' . rand(1000,9999),  'category' => 'Handgun'],
-            ['type' => 'Revolver', 'bore' => '.32',      'brand' => 'Smith & Wesson',   'serial' => 'SW-' . rand(1000,9999),  'category' => 'Handgun'],
-            ['type' => 'Shotgun',  'bore' => '20 Gauge', 'brand' => 'Mossberg',         'serial' => 'MS-' . rand(1000,9999),  'category' => 'Long Gun'],
-            ['type' => 'Pistol',   'bore' => '.45 ACP',  'brand' => 'Colt',             'serial' => 'CT-' . rand(1000,9999),  'category' => 'Handgun'],
-            ['type' => 'Rifle',    'bore' => '.22',      'brand' => 'Ruger',            'serial' => 'RG-' . rand(1000,9999),  'category' => 'Long Gun'],
-            ['type' => 'Revolver', 'bore' => '.38',      'brand' => 'Taurus',           'serial' => 'TR-' . rand(1000,9999),  'category' => 'Handgun'],
+            ['type' => 'Shotgun',  'bore' => '12 Gauge', 'brand' => 'Remington',       'serial' => 'RM-'.rand(1000, 9999),  'category' => 'Long Gun'],
+            ['type' => 'Rifle',    'bore' => '.308',     'brand' => 'Winchester',       'serial' => 'WN-'.rand(1000, 9999),  'category' => 'Long Gun'],
+            ['type' => 'Pistol',   'bore' => '9mm',      'brand' => 'Glock',            'serial' => 'GL-'.rand(1000, 9999),  'category' => 'Handgun'],
+            ['type' => 'Revolver', 'bore' => '.32',      'brand' => 'Smith & Wesson',   'serial' => 'SW-'.rand(1000, 9999),  'category' => 'Handgun'],
+            ['type' => 'Shotgun',  'bore' => '20 Gauge', 'brand' => 'Mossberg',         'serial' => 'MS-'.rand(1000, 9999),  'category' => 'Long Gun'],
+            ['type' => 'Pistol',   'bore' => '.45 ACP',  'brand' => 'Colt',             'serial' => 'CT-'.rand(1000, 9999),  'category' => 'Handgun'],
+            ['type' => 'Rifle',    'bore' => '.22',      'brand' => 'Ruger',            'serial' => 'RG-'.rand(1000, 9999),  'category' => 'Long Gun'],
+            ['type' => 'Revolver', 'bore' => '.38',      'brand' => 'Taurus',           'serial' => 'TR-'.rand(1000, 9999),  'category' => 'Handgun'],
         ];
 
         // ─────────────────────────────────────────────────────────────
@@ -88,16 +87,16 @@ class ApplicationSeeder extends Seeder
         foreach (array_slice($citizenUsers, 0, 2) as $i => $cu) {
             $w = $weapons[$i];
             $app = Application::create([
-                'application_number' => 'NFLRMS-2026-' . str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
-                'user_id'            => $cu->id,
-                'type'               => 'new_license',
-                'applicant_type'     => 'individual',
-                'status'             => 'submitted',
+                'application_number' => 'NFLRMS-2026-'.str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
+                'user_id' => $cu->id,
+                'type' => 'new_license',
+                'applicant_type' => 'individual',
+                'status' => 'submitted',
                 'current_actor_role' => Role::DcFrontDesk->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Businessman', 'annual_income' => 1500000],
-                'firearm_details'    => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Businessman', 'annual_income' => 1500000],
+                'firearm_details' => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
             ]);
             ApplicationLog::create([
                 'application_id' => $app->id, 'action' => 'submitted',
@@ -112,17 +111,17 @@ class ApplicationSeeder extends Seeder
         foreach (array_slice($citizenUsers, 2, 2) as $i => $cu) {
             $w = $weapons[$i + 2];
             $app = Application::create([
-                'application_number' => 'NFLRMS-2026-' . str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
-                'user_id'            => $cu->id,
-                'type'               => 'new_license',
-                'applicant_type'     => 'individual',
-                'status'             => 'received',
+                'application_number' => 'NFLRMS-2026-'.str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
+                'user_id' => $cu->id,
+                'type' => 'new_license',
+                'applicant_type' => 'individual',
+                'status' => 'received',
                 'current_actor_role' => Role::DcJmBranch->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Farmer', 'annual_income' => 800000],
-                'firearm_details'    => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
-                'created_at'         => now()->subDays(rand(2, 8)),
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Farmer', 'annual_income' => 800000],
+                'firearm_details' => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
+                'created_at' => now()->subDays(rand(2, 8)),
             ]);
             ApplicationLog::create([
                 'application_id' => $app->id, 'action' => 'submitted',
@@ -142,17 +141,17 @@ class ApplicationSeeder extends Seeder
         foreach (array_slice($citizenUsers, 4, 2) as $i => $cu) {
             $w = $weapons[$i + 4];
             $app = Application::create([
-                'application_number' => 'NFLRMS-2026-' . str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
-                'user_id'            => $cu->id,
-                'type'               => 'new_license',
-                'applicant_type'     => 'individual',
-                'status'             => 'pending_vetting',
+                'application_number' => 'NFLRMS-2026-'.str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
+                'user_id' => $cu->id,
+                'type' => 'new_license',
+                'applicant_type' => 'individual',
+                'status' => 'pending_vetting',
                 'current_actor_role' => Role::DcJmBranch->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Retired Officer', 'annual_income' => 600000],
-                'firearm_details'    => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
-                'created_at'         => now()->subDays(rand(5, 12)),
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Retired Officer', 'annual_income' => 600000],
+                'firearm_details' => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
+                'created_at' => now()->subDays(rand(5, 12)),
             ]);
 
             // Create vetting entries
@@ -166,11 +165,11 @@ class ApplicationSeeder extends Seeder
             foreach ($agencies as $ag) {
                 Vetting::create([
                     'application_id' => $app->id,
-                    'agency'         => $ag['agency'],
-                    'status'         => $ag['status'],
-                    'vetted_by'     => $ag['user']?->id,
-                    'remarks'        => $ag['status'] === 'cleared' ? 'No adverse record found.' : ($ag['status'] === 'flagged' ? 'Previous criminal record — minor traffic offence.' : null),
-                    'vetted_at'   => $ag['status'] !== 'pending' ? now()->subDays(rand(1, 3)) : null,
+                    'agency' => $ag['agency'],
+                    'status' => $ag['status'],
+                    'vetted_by' => $ag['user']?->id,
+                    'remarks' => $ag['status'] === 'cleared' ? 'No adverse record found.' : ($ag['status'] === 'flagged' ? 'Previous criminal record — minor traffic offence.' : null),
+                    'vetted_at' => $ag['status'] !== 'pending' ? now()->subDays(rand(1, 3)) : null,
                 ]);
             }
 
@@ -185,26 +184,26 @@ class ApplicationSeeder extends Seeder
         $roksana = User::firstOrCreate(
             ['email' => 'roksana.akter2@citizen.bd'],
             [
-                'name'        => 'Roksana Akter',
-                'password'    => bcrypt('password'),
-                'role'        => Role::CitizenApplicant,
-                'nid'         => '1995111222333',
+                'name' => 'Roksana Akter',
+                'password' => bcrypt('password'),
+                'role' => Role::CitizenApplicant,
+                'nid' => '1995111222333',
                 'district_id' => $dhaka?->id,
-                'upazila_id'  => $dhakaUpazila?->id,
+                'upazila_id' => $dhakaUpazila?->id,
             ]
         );
         $vettedClearApp = Application::create([
             'application_number' => 'NFLRMS-2026-JM-CLR',
-            'user_id'            => $roksana->id,
-            'type'               => 'new_license',
-            'applicant_type'     => 'individual',
-            'status'             => 'vetted_cleared',
+            'user_id' => $roksana->id,
+            'type' => 'new_license',
+            'applicant_type' => 'individual',
+            'status' => 'vetted_cleared',
             'current_actor_role' => Role::DcJmBranch->value,
-            'district_id'        => $dhaka?->id,
-            'upazila_id'         => $dhakaUpazila?->id,
-            'applicant_details'  => ['name' => 'Roksana Akter', 'nid' => '1995111222333', 'occupation' => 'Teacher', 'annual_income' => 500000],
-            'firearm_details'    => ['weapon_type' => 'Shotgun', 'bore' => '12 Gauge', 'brand' => 'Mossberg', 'serial_number' => 'MB-9911'],
-            'created_at'         => now()->subDays(10),
+            'district_id' => $dhaka?->id,
+            'upazila_id' => $dhakaUpazila?->id,
+            'applicant_details' => ['name' => 'Roksana Akter', 'nid' => '1995111222333', 'occupation' => 'Teacher', 'annual_income' => 500000],
+            'firearm_details' => ['weapon_type' => 'Shotgun', 'bore' => '12 Gauge', 'brand' => 'Mossberg', 'serial_number' => 'MB-9911'],
+            'created_at' => now()->subDays(10),
         ]);
         foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
             Vetting::create([
@@ -223,26 +222,26 @@ class ApplicationSeeder extends Seeder
         $kashem = User::firstOrCreate(
             ['email' => 'kashem.mia2@citizen.bd'],
             [
-                'name'        => 'Abul Kashem Mia',
-                'password'    => bcrypt('password'),
-                'role'        => Role::CitizenApplicant,
-                'nid'         => '1965111222333',
+                'name' => 'Abul Kashem Mia',
+                'password' => bcrypt('password'),
+                'role' => Role::CitizenApplicant,
+                'nid' => '1965111222333',
                 'district_id' => $dhaka?->id,
-                'upazila_id'  => $dhakaUpazila?->id,
+                'upazila_id' => $dhakaUpazila?->id,
             ]
         );
         $vettedFlagApp = Application::create([
             'application_number' => 'NFLRMS-2026-JM-FLG',
-            'user_id'            => $kashem->id,
-            'type'               => 'new_license',
-            'applicant_type'     => 'individual',
-            'status'             => 'vetted_flagged',
+            'user_id' => $kashem->id,
+            'type' => 'new_license',
+            'applicant_type' => 'individual',
+            'status' => 'vetted_flagged',
             'current_actor_role' => Role::DcJmBranch->value,
-            'district_id'        => $dhaka?->id,
-            'upazila_id'         => $dhakaUpazila?->id,
-            'applicant_details'  => ['name' => 'Abul Kashem Mia', 'nid' => '1965111222333', 'occupation' => 'Retired', 'annual_income' => 900000],
-            'firearm_details'    => ['weapon_type' => 'Rifle', 'bore' => '.22', 'brand' => 'Ruger', 'serial_number' => 'RG-5522'],
-            'created_at'         => now()->subDays(12),
+            'district_id' => $dhaka?->id,
+            'upazila_id' => $dhakaUpazila?->id,
+            'applicant_details' => ['name' => 'Abul Kashem Mia', 'nid' => '1965111222333', 'occupation' => 'Retired', 'annual_income' => 900000],
+            'firearm_details' => ['weapon_type' => 'Rifle', 'bore' => '.22', 'brand' => 'Ruger', 'serial_number' => 'RG-5522'],
+            'created_at' => now()->subDays(12),
         ]);
         foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
             Vetting::create([
@@ -265,27 +264,27 @@ class ApplicationSeeder extends Seeder
         foreach (array_slice($citizenUsers, 6, 1) as $cu) {
             $w = $weapons[6];
             $app = Application::create([
-                'application_number' => 'NFLRMS-2026-' . str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
-                'user_id'            => $cu->id,
-                'type'               => 'new_license',
-                'applicant_type'     => 'individual',
-                'status'             => 'recommended',
+                'application_number' => 'NFLRMS-2026-'.str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
+                'user_id' => $cu->id,
+                'type' => 'new_license',
+                'applicant_type' => 'individual',
+                'status' => 'recommended',
                 'current_actor_role' => Role::DistrictCommissioner->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Industrialist', 'annual_income' => 5000000],
-                'firearm_details'    => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
-                'created_at'         => now()->subDays(14),
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Industrialist', 'annual_income' => 5000000],
+                'firearm_details' => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
+                'created_at' => now()->subDays(14),
             ]);
 
             foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
                 Vetting::create([
                     'application_id' => $app->id,
-                    'agency'         => $agencyKey,
-                    'status'         => 'cleared',
-                    'vetted_by'     => $officer?->id,
-                    'remarks'        => 'Background check complete. No adverse record.',
-                    'vetted_at'   => now()->subDays(rand(2, 7)),
+                    'agency' => $agencyKey,
+                    'status' => 'cleared',
+                    'vetted_by' => $officer?->id,
+                    'remarks' => 'Background check complete. No adverse record.',
+                    'vetted_at' => now()->subDays(rand(2, 7)),
                 ]);
             }
         }
@@ -296,27 +295,27 @@ class ApplicationSeeder extends Seeder
         foreach (array_slice($citizenUsers, 7, 1) as $cu) {
             $w = $weapons[7]; // Revolver
             $app = Application::create([
-                'application_number' => 'NFLRMS-2026-' . str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
-                'user_id'            => $cu->id,
-                'type'               => 'new_license',
-                'applicant_type'     => 'individual',
-                'status'             => 'referred_moha',
+                'application_number' => 'NFLRMS-2026-'.str_pad(Application::count() + 1, 6, '0', STR_PAD_LEFT),
+                'user_id' => $cu->id,
+                'type' => 'new_license',
+                'applicant_type' => 'individual',
+                'status' => 'referred_moha',
                 'current_actor_role' => Role::MohaDesk->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Politician', 'annual_income' => 3000000],
-                'firearm_details'    => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
-                'created_at'         => now()->subDays(20),
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $cu->name, 'nid' => $cu->nid, 'occupation' => 'Politician', 'annual_income' => 3000000],
+                'firearm_details' => ['weapon_type' => $w['type'], 'bore' => $w['bore'], 'brand' => $w['brand'], 'serial_number' => $w['serial']],
+                'created_at' => now()->subDays(20),
             ]);
 
             foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
                 Vetting::create([
                     'application_id' => $app->id,
-                    'agency'         => $agencyKey,
-                    'status'         => 'cleared',
-                    'vetted_by'     => $officer?->id,
-                    'remarks'        => 'Cleared.',
-                    'vetted_at'   => now()->subDays(rand(5, 15)),
+                    'agency' => $agencyKey,
+                    'status' => 'cleared',
+                    'vetted_by' => $officer?->id,
+                    'remarks' => 'Cleared.',
+                    'vetted_at' => now()->subDays(rand(5, 15)),
                 ]);
             }
 
@@ -331,26 +330,26 @@ class ApplicationSeeder extends Seeder
         $fahim = User::firstOrCreate(
             ['email' => 'fahim.chowdhury2@citizen.bd'],
             [
-                'name'        => 'Fahim Ahmed Chowdhury',
-                'password'    => bcrypt('password'),
-                'role'        => Role::CitizenApplicant,
-                'nid'         => '1985111222333',
+                'name' => 'Fahim Ahmed Chowdhury',
+                'password' => bcrypt('password'),
+                'role' => Role::CitizenApplicant,
+                'nid' => '1985111222333',
                 'district_id' => $chattogram?->id,
-                'upazila_id'  => $ctgUpazila?->id,
+                'upazila_id' => $ctgUpazila?->id,
             ]
         );
         $jsApp = Application::create([
             'application_number' => 'NFLRMS-2026-000156',
-            'user_id'            => $fahim->id,
-            'type'               => 'new_license',
-            'applicant_type'     => 'individual',
-            'status'             => 'moha_processing',
+            'user_id' => $fahim->id,
+            'type' => 'new_license',
+            'applicant_type' => 'individual',
+            'status' => 'moha_processing',
             'current_actor_role' => Role::JointSecretary->value,
-            'district_id'        => $chattogram?->id,
-            'upazila_id'         => $ctgUpazila?->id,
-            'applicant_details'  => ['name' => 'Fahim Ahmed Chowdhury', 'nid' => '1985111222333', 'occupation' => 'Lawyer', 'annual_income' => 2500000],
-            'firearm_details'    => ['weapon_type' => 'Pistol', 'bore' => '9mm', 'brand' => 'Glock', 'serial_number' => 'GL-2024'],
-            'created_at'         => now()->subDays(25),
+            'district_id' => $chattogram?->id,
+            'upazila_id' => $ctgUpazila?->id,
+            'applicant_details' => ['name' => 'Fahim Ahmed Chowdhury', 'nid' => '1985111222333', 'occupation' => 'Lawyer', 'annual_income' => 2500000],
+            'firearm_details' => ['weapon_type' => 'Pistol', 'bore' => '9mm', 'brand' => 'Glock', 'serial_number' => 'GL-2024'],
+            'created_at' => now()->subDays(25),
         ]);
         foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
             Vetting::create([
@@ -369,26 +368,26 @@ class ApplicationSeeder extends Seeder
         $salma = User::firstOrCreate(
             ['email' => 'salma.begum2@citizen.bd'],
             [
-                'name'        => 'Salma Begum',
-                'password'    => bcrypt('password'),
-                'role'        => Role::CitizenApplicant,
-                'nid'         => '1990111222333',
+                'name' => 'Salma Begum',
+                'password' => bcrypt('password'),
+                'role' => Role::CitizenApplicant,
+                'nid' => '1990111222333',
                 'district_id' => $dhaka?->id,
-                'upazila_id'  => $dhakaUpazila?->id,
+                'upazila_id' => $dhakaUpazila?->id,
             ]
         );
         $nscApp = Application::create([
             'application_number' => 'NFLRMS-2026-000214',
-            'user_id'            => $salma->id,
-            'type'               => 'new_license',
-            'applicant_type'     => 'individual',
-            'status'             => 'pending_screening',
+            'user_id' => $salma->id,
+            'type' => 'new_license',
+            'applicant_type' => 'individual',
+            'status' => 'pending_screening',
             'current_actor_role' => Role::NationalScreeningCommittee->value,
-            'district_id'        => $dhaka?->id,
-            'upazila_id'         => $dhakaUpazila?->id,
-            'applicant_details'  => ['name' => 'Salma Begum', 'nid' => '1990111222333', 'occupation' => 'Businesswoman', 'annual_income' => 4500000],
-            'firearm_details'    => ['weapon_type' => 'Pistol', 'bore' => '.32', 'brand' => 'Taurus', 'serial_number' => 'TR-4567'],
-            'created_at'         => now()->subDays(30),
+            'district_id' => $dhaka?->id,
+            'upazila_id' => $dhakaUpazila?->id,
+            'applicant_details' => ['name' => 'Salma Begum', 'nid' => '1990111222333', 'occupation' => 'Businesswoman', 'annual_income' => 4500000],
+            'firearm_details' => ['weapon_type' => 'Pistol', 'bore' => '.32', 'brand' => 'Taurus', 'serial_number' => 'TR-4567'],
+            'created_at' => now()->subDays(30),
         ]);
         foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
             Vetting::create([
@@ -407,26 +406,26 @@ class ApplicationSeeder extends Seeder
         $kamal = User::firstOrCreate(
             ['email' => 'kamal.hossain2@citizen.bd'],
             [
-                'name'        => 'Kamal Hossain',
-                'password'    => bcrypt('password'),
-                'role'        => Role::CitizenApplicant,
-                'nid'         => '1970111222333',
+                'name' => 'Kamal Hossain',
+                'password' => bcrypt('password'),
+                'role' => Role::CitizenApplicant,
+                'nid' => '1970111222333',
                 'district_id' => $dhaka?->id,
-                'upazila_id'  => $dhakaUpazila?->id,
+                'upazila_id' => $dhakaUpazila?->id,
             ]
         );
         $secApp = Application::create([
             'application_number' => 'NFLRMS-2026-000305',
-            'user_id'            => $kamal->id,
-            'type'               => 'new_license',
-            'applicant_type'     => 'individual',
-            'status'             => 'screened',
+            'user_id' => $kamal->id,
+            'type' => 'new_license',
+            'applicant_type' => 'individual',
+            'status' => 'screened',
             'current_actor_role' => Role::SeniorSecretary->value,
-            'district_id'        => $dhaka?->id,
-            'upazila_id'         => $dhakaUpazila?->id,
-            'applicant_details'  => ['name' => 'Kamal Hossain', 'nid' => '1970111222333', 'occupation' => 'Doctor', 'annual_income' => 3500000],
-            'firearm_details'    => ['weapon_type' => 'Revolver', 'bore' => '.38', 'brand' => 'Colt', 'serial_number' => 'CT-9876'],
-            'created_at'         => now()->subDays(35),
+            'district_id' => $dhaka?->id,
+            'upazila_id' => $dhakaUpazila?->id,
+            'applicant_details' => ['name' => 'Kamal Hossain', 'nid' => '1970111222333', 'occupation' => 'Doctor', 'annual_income' => 3500000],
+            'firearm_details' => ['weapon_type' => 'Revolver', 'bore' => '.38', 'brand' => 'Colt', 'serial_number' => 'CT-9876'],
+            'created_at' => now()->subDays(35),
         ]);
         foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
             Vetting::create([
@@ -453,22 +452,26 @@ class ApplicationSeeder extends Seeder
         ];
 
         foreach ($licenseData as $ld) {
-            if (! $ld['user']) continue;
-            if (License::where('license_number', $ld['num'])->exists()) continue;
+            if (! $ld['user']) {
+                continue;
+            }
+            if (License::where('license_number', $ld['num'])->exists()) {
+                continue;
+            }
             License::create([
-                'license_number'  => $ld['num'],
-                'user_id'         => $ld['user']->id,
-                'type'            => 'citizen_arms',
-                'issue_date'      => now()->subDays($ld['days_ago']),
-                'expiry_date'     => now()->addYears($ld['years']),
-                'status'          => $ld['status'],
+                'license_number' => $ld['num'],
+                'user_id' => $ld['user']->id,
+                'type' => 'citizen_arms',
+                'issue_date' => now()->subDays($ld['days_ago']),
+                'expiry_date' => now()->addYears($ld['years']),
+                'status' => $ld['status'],
                 'firearm_details' => [
                     'weapon_type' => $ld['type'],
-                    'bore'        => $ld['bore'],
-                    'brand'       => $ld['brand'],
-                    'serial_number' => strtoupper(substr($ld['brand'], 0, 2)) . '-' . rand(1000, 9999),
+                    'bore' => $ld['bore'],
+                    'brand' => $ld['brand'],
+                    'serial_number' => strtoupper(substr($ld['brand'], 0, 2)).'-'.rand(1000, 9999),
                 ],
-                'qrcode' => 'https://nflrms.gov.bd/verify/' . $ld['num'],
+                'qrcode' => 'https://nflrms.gov.bd/verify/'.$ld['num'],
             ]);
         }
 
@@ -478,35 +481,35 @@ class ApplicationSeeder extends Seeder
         if ($dealer) {
             $dealerApp = Application::create([
                 'application_number' => 'NFLRMS-2026-DEAL-001',
-                'user_id'            => $dealer->id,
-                'type'               => 'new_dealing_license',
-                'applicant_type'     => 'dealer',
-                'status'             => 'pending_vetting',
+                'user_id' => $dealer->id,
+                'type' => 'new_dealing_license',
+                'applicant_type' => 'dealer',
+                'status' => 'pending_vetting',
                 'current_actor_role' => Role::DcJmBranch->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => [
-                    'name'             => $dealer->name,
-                    'nid'              => '1980555666777',
-                    'firm_name'        => 'Karim Arms & Ammunition',
-                    'trade_license'    => 'TL-DHK-2024-00821',
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => [
+                    'name' => $dealer->name,
+                    'nid' => '1980555666777',
+                    'firm_name' => 'Karim Arms & Ammunition',
+                    'trade_license' => 'TL-DHK-2024-00821',
                     'business_address' => '12 Motijheel C/A, Dhaka-1000',
-                    'license_class'    => 'A',
-                    'occupation'       => 'Arms Dealer',
-                    'annual_income'    => 8000000,
+                    'license_class' => 'A',
+                    'occupation' => 'Arms Dealer',
+                    'annual_income' => 8000000,
                 ],
-                'firearm_details'    => ['weapon_type' => 'Dealing License', 'categories' => ['Pistol', 'Revolver', 'Shotgun', 'Ammunition']],
-                'created_at'         => now()->subDays(30),
+                'firearm_details' => ['weapon_type' => 'Dealing License', 'categories' => ['Pistol', 'Revolver', 'Shotgun', 'Ammunition']],
+                'created_at' => now()->subDays(30),
             ]);
 
             foreach (['police' => $police, 'sb' => $sb, 'nsi' => $nsi, 'dgfi' => $dgfi] as $agencyKey => $officer) {
                 Vetting::create([
                     'application_id' => $dealerApp->id,
-                    'agency'         => $agencyKey,
-                    'status'         => in_array($agencyKey, ['police', 'sb']) ? 'cleared' : 'pending',
-                    'vetted_by'     => in_array($agencyKey, ['police', 'sb']) ? $officer?->id : null,
-                    'remarks'        => in_array($agencyKey, ['police', 'sb']) ? 'No adverse record. Dealer premises verified.' : null,
-                    'vetted_at'   => in_array($agencyKey, ['police', 'sb']) ? now()->subDays(5) : null,
+                    'agency' => $agencyKey,
+                    'status' => in_array($agencyKey, ['police', 'sb']) ? 'cleared' : 'pending',
+                    'vetted_by' => in_array($agencyKey, ['police', 'sb']) ? $officer?->id : null,
+                    'remarks' => in_array($agencyKey, ['police', 'sb']) ? 'No adverse record. Dealer premises verified.' : null,
+                    'vetted_at' => in_array($agencyKey, ['police', 'sb']) ? now()->subDays(5) : null,
                 ]);
             }
 
@@ -515,33 +518,33 @@ class ApplicationSeeder extends Seeder
                 ['item' => '12-bore Shotgun (Remington 870)',   'category' => 'Firearm',    'quantity' => 12, 'source' => 'Import — Turkey'],
                 ['item' => '9mm Pistol (Glock 17)',             'category' => 'Firearm',    'quantity' => 8,  'source' => 'Import — Austria'],
                 ['item' => '.32 Revolver (Smith & Wesson 10)',  'category' => 'Firearm',    'quantity' => 5,  'source' => 'Import — USA'],
-                ['item' => '12 Gauge Cartridge (pack of 25)',   'category' => 'Ammunition', 'quantity' => 200,'source' => 'Local — Progoti Arms'],
-                ['item' => '9mm Parabellum (box of 50)',        'category' => 'Ammunition', 'quantity' => 150,'source' => 'Import — Germany'],
+                ['item' => '12 Gauge Cartridge (pack of 25)',   'category' => 'Ammunition', 'quantity' => 200, 'source' => 'Local — Progoti Arms'],
+                ['item' => '9mm Parabellum (box of 50)',        'category' => 'Ammunition', 'quantity' => 150, 'source' => 'Import — Germany'],
                 ['item' => 'Gun Cleaning Kit',                  'category' => 'Accessory',  'quantity' => 30, 'source' => 'Local'],
                 ['item' => 'Pistol Holster (leather)',          'category' => 'Accessory',  'quantity' => 20, 'source' => 'Local'],
             ];
 
             foreach ($stockItems as $si) {
                 DealerStock::create([
-                    'user_id'  => $dealer->id,
-                    'item'     => $si['item'],
+                    'user_id' => $dealer->id,
+                    'item' => $si['item'],
                     'category' => $si['category'],
                     'quantity' => $si['quantity'],
-                    'source'   => $si['source'],
+                    'source' => $si['source'],
                 ]);
             }
 
             // Dealer license (issued)
-            if (!License::where('license_number', 'DEAL-DHK-2024-001')->exists()) {
+            if (! License::where('license_number', 'DEAL-DHK-2024-001')->exists()) {
                 License::create([
-                    'license_number'  => 'DEAL-DHK-2024-001',
-                    'user_id'         => $dealer->id,
-                    'type'            => 'dealer_dealing',
-                    'issue_date'      => now()->subYear(),
-                    'expiry_date'     => now()->addYears(2),
-                    'status'          => 'active',
+                    'license_number' => 'DEAL-DHK-2024-001',
+                    'user_id' => $dealer->id,
+                    'type' => 'dealer_dealing',
+                    'issue_date' => now()->subYear(),
+                    'expiry_date' => now()->addYears(2),
+                    'status' => 'active',
                     'firearm_details' => ['weapon_type' => 'Dealing License', 'class' => 'A', 'firm' => 'Karim Arms & Ammunition'],
-                    'qrcode'          => 'https://nflrms.gov.bd/verify/DEAL-DHK-2024-001',
+                    'qrcode' => 'https://nflrms.gov.bd/verify/DEAL-DHK-2024-001',
                 ]);
             }
         }
@@ -552,16 +555,16 @@ class ApplicationSeeder extends Seeder
         if ($citizen) {
             $renewApp = Application::create([
                 'application_number' => 'NFLRMS-2026-REN-001',
-                'user_id'            => $citizen->id,
-                'type'               => 'renewal',
-                'applicant_type'     => 'individual',
-                'status'             => 'submitted',
+                'user_id' => $citizen->id,
+                'type' => 'renewal',
+                'applicant_type' => 'individual',
+                'status' => 'submitted',
                 'current_actor_role' => Role::DcFrontDesk->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => ['name' => $citizen->name, 'nid' => $citizen->nid ?? '19912345', 'occupation' => 'Retired', 'annual_income' => 400000],
-                'firearm_details'    => ['weapon_type' => 'Shotgun', 'bore' => '12 Gauge', 'brand' => 'Remington', 'serial_number' => 'RM-0012'],
-                'created_at'         => now()->subDays(3),
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => ['name' => $citizen->name, 'nid' => $citizen->nid ?? '19912345', 'occupation' => 'Retired', 'annual_income' => 400000],
+                'firearm_details' => ['weapon_type' => 'Shotgun', 'bore' => '12 Gauge', 'brand' => 'Remington', 'serial_number' => 'RM-0012'],
+                'created_at' => now()->subDays(3),
             ]);
 
             ApplicationLog::create([
@@ -574,23 +577,23 @@ class ApplicationSeeder extends Seeder
         if ($dealer) {
             $dealerRenewApp = Application::create([
                 'application_number' => 'NFLRMS-2026-DEAL-REN-001',
-                'user_id'            => $dealer->id,
-                'type'               => 'renewal',
-                'applicant_type'     => 'dealer',
-                'status'             => 'submitted',
+                'user_id' => $dealer->id,
+                'type' => 'renewal',
+                'applicant_type' => 'dealer',
+                'status' => 'submitted',
                 'current_actor_role' => Role::DcFrontDesk->value,
-                'district_id'        => $dhaka?->id,
-                'upazila_id'         => $dhakaUpazila?->id,
-                'applicant_details'  => [
-                    'license_number'   => 'DEAL-DHK-2024-001',
-                    'name'             => $dealer->name,
-                    'nid'              => '1980555666777',
-                    'firm_name'        => 'Karim Arms & Ammunition',
-                    'declared_firearms'=> 15,
-                    'declared_ammo'    => 500,
+                'district_id' => $dhaka?->id,
+                'upazila_id' => $dhakaUpazila?->id,
+                'applicant_details' => [
+                    'license_number' => 'DEAL-DHK-2024-001',
+                    'name' => $dealer->name,
+                    'nid' => '1980555666777',
+                    'firm_name' => 'Karim Arms & Ammunition',
+                    'declared_firearms' => 15,
+                    'declared_ammo' => 500,
                 ],
-                'firearm_details'    => ['weapon_type' => 'Dealing License', 'class' => 'A', 'firm' => 'Karim Arms & Ammunition'],
-                'created_at'         => now()->subDays(2),
+                'firearm_details' => ['weapon_type' => 'Dealing License', 'class' => 'A', 'firm' => 'Karim Arms & Ammunition'],
+                'created_at' => now()->subDays(2),
             ]);
 
             ApplicationLog::create([

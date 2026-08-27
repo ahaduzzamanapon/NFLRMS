@@ -4,7 +4,7 @@ use App\Enums\Role;
 use App\Models\User;
 
 test('admin login redirects to admin home dashboard', function () {
-    $admin = User::where('role', Role::SystemAdmin)->first() 
+    $admin = User::where('role', Role::SystemAdmin)->first()
         ?? User::factory()->create(['role' => Role::SystemAdmin]);
 
     $response = $this->post('/login', [

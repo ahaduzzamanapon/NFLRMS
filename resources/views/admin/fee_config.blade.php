@@ -57,7 +57,7 @@
     </a>
 
     <!-- Page Title -->
-    <div class="flex items-start justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-2xl font-bold font-serif text-slate-900">Fee & Fine Configuration</h2>
             <p class="text-xs text-slate-500 mt-1 font-medium">
@@ -65,7 +65,7 @@
             </p>
         </div>
         <button form="fee-form" type="submit"
-                class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-2 shadow-sm">
+                class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-2 shadow-sm self-start sm:self-auto">
             💾 Save Configuration
         </button>
     </div>
@@ -79,23 +79,23 @@
     <!-- ===== TAB NAVIGATION ===== -->
     <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <button type="button" data-tab="citizen" onclick="switchConfigTab('citizen')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
+                class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
             <span>👤</span><span>Citizen Statutory Fees</span>
         </button>
         <button type="button" data-tab="dealer" onclick="switchConfigTab('dealer')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>🏪</span><span>Dealer Statutory Fees</span>
         </button>
         <button type="button" data-tab="fines" onclick="switchConfigTab('fines')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>⚠️</span><span>Late Fines</span>
         </button>
         <button type="button" data-tab="sla" onclick="switchConfigTab('sla')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>⏳</span><span>SLA Timers</span>
         </button>
         <button type="button" data-tab="summary" onclick="switchConfigTab('summary')"
-                class="config-tab flex items-center space-x-1.5 px-4 py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
+                class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
             <span>📊</span><span>Summary</span>
         </button>
     </div>
@@ -116,7 +116,7 @@
                         </div>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
                     </div>
-                    <div class="p-5 grid grid-cols-2 gap-4">
+                    <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         @foreach($feeFields as $key => $label)
                         <div>
                             <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
@@ -139,7 +139,7 @@
                         </div>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
                     </div>
-                    <div class="p-5 grid grid-cols-2 gap-4">
+                    <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         @foreach($platformFields as $key => $label)
                         <div>
                             <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
@@ -167,14 +167,14 @@
                         </div>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">BDT</span>
                     </div>
-                    <div class="p-5 space-y-4">
+                    <div class="p-4 sm:p-5 space-y-4">
                         @foreach($dealerClasses as $classKey => $classInfo)
                         <!-- Per-class fee input group -->
                         <div class="rounded-xl border border-slate-200 overflow-hidden">
                             <div class="px-4 py-2 bg-slate-50 border-b border-slate-100">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">{{ $classInfo['label'] }}</span>
                             </div>
-                            <div class="p-4 grid grid-cols-2 gap-4">
+                            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 @foreach($classInfo['keys'] as $fieldKey => $fieldLabel)
                                 <div>
                                     <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $fieldLabel }}</label>
@@ -200,7 +200,7 @@
                         </div>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700">BDT</span>
                     </div>
-                    <div class="p-5 grid grid-cols-2 gap-4">
+                    <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         @foreach($dealerPlatformFields as $key => $label)
                         <div>
                             <label class="text-[10px] font-bold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $label }}</label>
@@ -226,9 +226,9 @@
                     </div>
                     <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-100 text-rose-700">BDT</span>
                 </div>
-                <div class="p-5">
+                <div class="p-4 sm:p-5">
                     <!-- Tier headers -->
-                    <div class="grid grid-cols-3 gap-4 mb-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 mb-3">
                         <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-center">
                             <span class="text-[10px] font-black uppercase text-amber-700 tracking-wider block">Tier 1</span>
                             <span class="text-[9px] text-amber-600 font-semibold">31–90 days late</span>

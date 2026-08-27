@@ -8,6 +8,7 @@ use App\Models\Upazila;
 use App\Models\User;
 use App\Models\Vetting;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 beforeEach(function () {
     $this->seed();
@@ -83,7 +84,7 @@ test('citizen can submit a new license application', function () {
 
     $redirectUrl = $response->headers->get('Location');
     $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
-    $encryptedParam = \Illuminate\Support\Str::before(\Illuminate\Support\Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $encryptedParam = Str::before(Str::after($redirectUrl, '/payment/initiate/'), '?');
     $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
@@ -115,7 +116,7 @@ test('dealer can submit Form K dealing license application', function () {
 
     $redirectUrl = $response->headers->get('Location');
     $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
-    $encryptedParam = \Illuminate\Support\Str::before(\Illuminate\Support\Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $encryptedParam = Str::before(Str::after($redirectUrl, '/payment/initiate/'), '?');
     $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
@@ -403,4 +404,3 @@ test('tampered or invalid encrypted admin IDs safely return 404', function () {
         ->get(route('admin.users.edit', 'invalid-tampered-encrypted-id-string'))
         ->assertStatus(404);
 });
-

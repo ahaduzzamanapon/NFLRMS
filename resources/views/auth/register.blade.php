@@ -49,7 +49,7 @@
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.5; }
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         /* Fine hairline seal-ring used behind the emblem */
@@ -57,6 +57,13 @@
         /* Section letter chip */
         .sec-chip { font-variant-numeric: tabular-nums; }
         select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748b'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; }
+
+        /* Global Typography Standards */
+        input, select, textarea, button { font-size: 0.875rem; }
+        label { font-size: 0.75rem; }
+        .text-\[9px\] { font-size: 11px !important; }
+        .text-\[10px\] { font-size: 11.5px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
     </style>
 </head>
 <body class="min-h-full font-sans antialiased text-slate-800 flex flex-col lg:flex-row">
@@ -82,7 +89,7 @@
         </div>
 
         <!-- Sticky content layer: pins to the viewport while the outer panel stretches to match the form's height -->
-        <div class="relative z-10 lg:top-0 lg:h-screen flex flex-col justify-between p-8 pb-12 lg:p-16 lg:pb-20">
+        <div class="relative z-10 lg:top-0 lg:h-screen flex flex-col justify-between p-5 sm:p-8 lg:p-14 lg:pb-16">
 
             <!-- Top: back link + form reference -->
             <div class="flex items-center justify-between">
@@ -157,8 +164,8 @@
     </div>
 
     <!-- Right Pane: Sign Up Form -->
-    <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-5 sm:p-6 lg:px-8 lg:py-8">
-        <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-6 sm:p-9 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
+    <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-4 sm:p-6 lg:px-8 lg:py-8">
+        <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
 
             <div class="flex items-start justify-between gap-4">
                 <div>

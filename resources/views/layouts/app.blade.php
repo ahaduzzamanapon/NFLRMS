@@ -43,21 +43,39 @@
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.5; }
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
-.nav-link {
+
+        /* Global Typography Base Standards */
+        input, select, textarea, button {
+            font-size: 0.875rem; /* 14px */
+        }
+        label {
+            font-size: 0.75rem; /* 12px min for labels */
+        }
+        th {
+            font-size: 0.75rem; /* 12px for table headers */
+        }
+        td {
+            font-size: 0.875rem; /* 14px for table cells */
+        }
+        .text-\[9px\] { font-size: 11px !important; }
+        .text-\[10px\] { font-size: 11.5px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
+
+        .nav-link {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 9px 12px;
+            padding: 9.5px 12px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.65) !important;
+            color: rgba(255, 255, 255, 0.70) !important;
             transition: all 0.15s;
             text-decoration: none;
             white-space: nowrap;
@@ -69,16 +87,16 @@
             font-weight: 700;
         }
         .nav-section {
-            font-size: 10px;
+            font-size: 11.5px;
             font-weight: 600;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.40);
             padding: 0 12px;
             margin-top: 20px;
             margin-bottom: 4px;
         }
-        .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+        .nav-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
 
         @media (max-width: 1023px) {
             .mobile-sidebar {
@@ -86,6 +104,8 @@
                 top: 0;
                 left: 0;
                 bottom: 0;
+                width: 256px !important;
+                max-width: 85vw !important;
                 z-index: 50;
                 transform: translateX(-100%);
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -101,6 +121,13 @@
                 z-index: 45;
             }
         }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
@@ -110,30 +137,31 @@
     <div id="sidebar-backdrop" class="sidebar-backdrop hidden" onclick="toggleSidebar(false)"></div>
 
     <!-- ===== SIDEBAR ===== -->
-    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto mobile-sidebar lg:translate-x-0">        <!-- Brand -->
-        <div style="padding:24px 20px 16px; border-bottom:1px solid rgba(255,255,255,0.06);" class="relative">
+    <aside style="width:256px; background:#0b2519; border-right:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0 flex flex-col overflow-y-auto mobile-sidebar lg:translate-x-0">
+        <!-- Brand -->
+        <div style="padding:20px 16px 14px; border-bottom:1px solid rgba(255,255,255,0.06);" class="relative">
             <!-- Close Button (visible only on mobile) -->
-            <button type="button" onclick="toggleSidebar(false)" class="lg:hidden absolute top-5 right-4 text-white/50 hover:text-white p-1 rounded-lg border border-white/10 hover:bg-white/5 transition-colors">
+            <button type="button" onclick="toggleSidebar(false)" aria-label="Close navigation sidebar" class="lg:hidden absolute top-4 right-3 text-white/60 hover:text-white p-1.5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <div class="flex items-center gap-3 mb-3">
                 <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-8 h-8 object-contain shrink-0">
                 <div>
-                    <div style="color:#fff;font-weight:800;font-size:14px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
-                    <div style="color:#e8b84b;font-size:12px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
+                    <div style="color:#fff;font-weight:800;font-size:15px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
+                    <div style="color:#e8b84b;font-size:13px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
                 </div>
             </div>
-            <p style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
+            <p style="font-size:11.5px;color:rgba(255,255,255,0.45);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
         </div>
 
         <!-- User Pill -->
         @auth
         <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:10px;color:rgba(255, 255, 255, 0.35);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
+        <div style="font-size:11px;color:rgba(255, 255, 255, 0.40);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
             <a href="{{ route('profile.edit') }}" style="display:flex;align-items:center;justify-content:between;gap:8px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:background 0.15s;width:100%;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
-                    <span style="color:#10b981;font-size:12px;flex-shrink:0;">➔</span>
-                    <span style="color:#fff;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
+                    <span style="color:#10b981;font-size:13px;flex-shrink:0;">➔</span>
+                    <span style="color:#fff;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
                 </div>
                 <svg style="width:12px;height:12px;color:rgba(255, 255, 255, 0.5);flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
             </a>
@@ -184,7 +212,10 @@
                 <a href="{{ route('citizen.renew_general') }}" class="nav-link {{ Route::currentRouteName()==='citizen.renew_general'?'active':'' }}">
                     <span class="nav-icon">🔄</span><span>Renew License</span>
                 </a>
-                <a href="{{ route('verify') }}" class="nav-link {{ Route::currentRouteName()==='verify'?'active':'' }}">
+                <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
+                    <span class="nav-icon">📍</span><span>Application Tracking</span>
+                </a>
+                <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
                     <span class="nav-icon">🔍</span><span>Verify Certificate</span>
                 </a>
                 <div class="nav-section">Account</div>
@@ -204,8 +235,14 @@
                 <a href="{{ route('dealer.renew') }}" class="nav-link {{ Route::currentRouteName()==='dealer.renew'?'active':'' }}">
                     <span class="nav-icon">🔄</span><span>Renew Dealing Licence</span>
                 </a>
+                <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
+                    <span class="nav-icon">📍</span><span>Application Tracking</span>
+                </a>
                 <a href="{{ route('dealer.stock_ledger') }}" class="nav-link {{ Route::currentRouteName()==='dealer.stock_ledger'?'active':'' }}">
                     <span class="nav-icon">📦</span><span>Stock Ledger</span>
+                </a>
+                <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
+                    <span class="nav-icon">🔍</span><span>Verify Certificate</span>
                 </a>
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
@@ -305,19 +342,22 @@
 
         <!-- Bottom -->
         <div style="padding:12px 16px 20px;border-top:1px solid rgba(255,255,255,0.06);">
-
-
-
-            <div class="flex items-center justify-between">
-                @auth
-                <form action="{{ route('logout') }}" method="POST">
+            <div class="flex items-center justify-center">
+                {{-- @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:inline-flex;align-items:center;">
                     @csrf
-                    <button type="submit" style="font-size:12px;color:rgba(255, 255, 255, 0.5);font-weight:500;background:none;border:none;cursor:pointer;transition:color 0.15s;" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='rgba(255, 255, 255, 0.5)'">
-                        → Sign out
+                    <button type="submit" title="Sign out" style="font-size:10px;color:rgba(255, 255, 255, 0.5);font-weight:500;background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0;transition:opacity 0.15s;opacity:0.85;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+                        <span>Developed By</span>
+                        <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:20px;width:auto;object-fit:contain;border-radius:3px;">
                     </button>
                 </form>
-                @endauth
-                <span style="font-size:9px;color:rgba(255, 255, 255, 0.25);font-weight:500;">v1.0 · PROD</span>
+                @else --}}
+                <div style="font-size:11.5px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
+                    <span>Developed By</span>
+                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:20px;width:auto;object-fit:contain;border-radius:3px;">
+                    {{-- <span>MysoftheavenBD Ltd.</span> --}}
+                </div>
+                {{-- <span style="font-size:9px;color:rgba(255, 255, 255, 0.25);font-weight:500;">v1.0 · PROD</span> --}}
             </div>
         </div>
     </aside>
@@ -326,24 +366,24 @@
     <div class="flex-grow flex flex-col overflow-hidden">
 
         <!-- Header Bar -->
-        <header class="h-14 bg-transparent border-b border-slate-200/60 flex items-center justify-between px-7 flex-shrink-0">
-            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium">
+        <header class="h-14 bg-transparent border-b border-slate-200/60 flex items-center justify-between px-3 sm:px-5 lg:px-7 flex-shrink-0 gap-2">
+            <div class="flex items-center gap-2 text-sm text-slate-500 font-medium min-w-0">
                 <!-- Hamburger Button (visible on mobile/tablet) -->
-                <button type="button" onclick="toggleSidebar(true)" class="lg:hidden mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors">
+                <button type="button" onclick="toggleSidebar(true)" aria-label="Toggle navigation menu" class="lg:hidden mr-1 sm:mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <span class="hidden sm:inline">🏢</span>
-                <span class="font-medium text-slate-700">Ministry of Home Affairs</span>
-                <span class="text-slate-300 hidden sm:inline">·</span>
-                <span class="hidden sm:inline">Government of the People's Republic of Bangladesh</span>
+                <span class="hidden sm:inline flex-shrink-0">🏢</span>
+                <span class="font-medium text-slate-700 truncate text-[11px] sm:text-sm">Ministry of Home Affairs</span>
+                <span class="text-slate-300 hidden md:inline">·</span>
+                <span class="hidden md:inline truncate text-slate-500 text-[11px] sm:text-sm">Government of the People's Republic of Bangladesh</span>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                <div class="hidden sm:flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
                 </div>
-                <div class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-600 uppercase tracking-wider">
+                <div class="hidden md:block px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 uppercase tracking-wider truncate max-w-[170px]">
                     @yield('title','Dashboard')
                 </div>
                 @auth
@@ -355,34 +395,34 @@
                 @endphp
                 <div class="relative" id="user-menu-wrapper">
                     <button type="button" id="user-menu-button" onclick="toggleUserMenu()"
-                        class="flex items-center gap-2.5 pl-1.5 pr-2.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                        class="flex items-center gap-1.5 sm:gap-2.5 pl-1 sm:pl-1.5 pr-2 sm:pr-2.5 py-1 sm:py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
                         aria-haspopup="true" aria-expanded="false">
                         @if($userPhoto)
                             <img src="{{ $userPhoto }}" alt="{{ $authUser->name }}"
                                 class="w-7 h-7 rounded-full object-cover flex-shrink-0 ring-1 ring-slate-200">
                         @else
                             <span style="width:28px;height:28px;background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;"
-                                class="rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0">
+                                class="rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                                 {{ $initials }}
                             </span>
                         @endif
-                        <span class="hidden sm:inline text-[12px] font-semibold text-slate-700 max-w-[120px] truncate">{{ $authUser->name }}</span>
+                        <span class="hidden sm:inline text-xs sm:text-sm font-semibold text-slate-700 max-w-[130px] truncate">{{ $authUser->name }}</span>
                         <svg id="user-menu-chevron" class="w-3.5 h-3.5 text-slate-400 flex-shrink-0 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
 
                     <div id="user-menu-dropdown"
-                        class="hidden absolute right-0 mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
+                        class="hidden absolute right-0 mt-2 w-56 max-w-[calc(100vw-1.5rem)] bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
                         style="animation: none;">
                         <div class="px-3.5 py-3 border-b border-slate-100">
-                            <p class="text-[12px] font-semibold text-slate-800 truncate">{{ $authUser->name }}</p>
+                            <p class="text-sm font-semibold text-slate-800 truncate">{{ $authUser->name }}</p>
                             @if($authUser->email)
-                                <p class="text-[11px] text-slate-400 truncate mt-0.5">{{ $authUser->email }}</p>
+                                <p class="text-xs text-slate-400 truncate mt-0.5">{{ $authUser->email }}</p>
                             @endif
                         </div>
                         <a href="{{ route('profile.edit') }}"
-                            class="flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
@@ -391,7 +431,7 @@
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit"
-                                class="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-rose-50 hover:text-rose-600 transition-colors border-t border-slate-100">
+                                class="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-slate-600 hover:bg-rose-50 hover:text-rose-600 transition-colors border-t border-slate-100">
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                                 </svg>
@@ -405,22 +445,22 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-grow overflow-y-auto p-7">
+        <main class="flex-grow overflow-y-auto p-3.5 sm:p-5 md:p-6 lg:p-7 min-w-0 max-w-full">
 
             @if(session('success'))
-            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold">
                 <span class="text-emerald-500 flex-shrink-0">✓</span>
                 <span>{{ session('success') }}</span>
             </div>
             @endif
             @if(session('warning'))
-            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
+            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold">
                 <span class="flex-shrink-0">⚠️</span>
                 <span>{{ session('warning') }}</span>
             </div>
             @endif
             @if(session('error'))
-            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+            <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold">
                 <span class="flex-shrink-0">✕</span>
                 <span>{{ session('error') }}</span>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
 use App\Models\District;
@@ -22,11 +23,11 @@ class AdminController extends Controller
         $inactiveUsers = $totalUsers - $activeUsers;
 
         $roleCounts = [
-            'applicants' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['citizen_applicant', 'dealer_applicant']))->count(),
-            'dc_office' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['dc_front_desk', 'dc_jm_branch', 'district_commissioner']))->count(),
-            'vetting' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['police_officer', 'special_branch', 'nsi_officer', 'dgfi_officer']))->count(),
-            'moha' => $allUsers->filter(fn($u) => in_array($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role, ['moha_desk', 'joint_secretary', 'senior_secretary', 'national_screening_committee']))->count(),
-            'admin' => $allUsers->filter(fn($u) => ($u->role instanceof \App\Enums\Role ? $u->role->value : $u->role) === 'system_admin')->count(),
+            'applicants' => $allUsers->filter(fn ($u) => in_array($u->role instanceof Role ? $u->role->value : $u->role, ['citizen_applicant', 'dealer_applicant']))->count(),
+            'dc_office' => $allUsers->filter(fn ($u) => in_array($u->role instanceof Role ? $u->role->value : $u->role, ['dc_front_desk', 'dc_jm_branch', 'district_commissioner']))->count(),
+            'vetting' => $allUsers->filter(fn ($u) => in_array($u->role instanceof Role ? $u->role->value : $u->role, ['police_officer', 'special_branch', 'nsi_officer', 'dgfi_officer']))->count(),
+            'moha' => $allUsers->filter(fn ($u) => in_array($u->role instanceof Role ? $u->role->value : $u->role, ['moha_desk', 'joint_secretary', 'senior_secretary', 'national_screening_committee']))->count(),
+            'admin' => $allUsers->filter(fn ($u) => ($u->role instanceof Role ? $u->role->value : $u->role) === 'system_admin')->count(),
         ];
 
         $stats = [

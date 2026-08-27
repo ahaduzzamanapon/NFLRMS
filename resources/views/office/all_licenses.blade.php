@@ -4,18 +4,18 @@
 @section('content')
 <div class="max-w-6xl space-y-5">
 
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">All Licence Records</h2>
             <p class="text-xs text-slate-500 mt-1 font-medium">{{ $licenses->total() }} total licenses in the system</p>
         </div>
-        <button class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors">
+        <button class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors self-start sm:self-auto">
             <span>⬇</span><span>Export PDF</span>
         </button>
     </div>
 
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[650px]">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Licence No.</th>

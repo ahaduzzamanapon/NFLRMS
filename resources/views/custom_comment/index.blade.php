@@ -83,9 +83,9 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
         </div>
         <div class="p-5">
             @forelse($comments as $comment)
-                <div class="flex items-start justify-between p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 {{ !$loop->first ? 'mt-3' : '' }}">
-                    <div class="space-y-1 min-w-0 pr-3">
-<span class="font-semibold text-slate-900 text-sm block">{{ $comment->title }}</span>
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 {{ !$loop->first ? 'mt-3' : '' }}">
+                    <div class="space-y-1 min-w-0 pr-0 sm:pr-3">
+                        <span class="font-semibold text-slate-900 text-sm block">{{ $comment->title }}</span>
                         <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $comment->comment }}</p>
                         @if($comment->role_id)
                         <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold uppercase">
@@ -98,7 +98,7 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                         @endif
                         <span class="text-[10px] text-slate-400 font-semibold block mt-1">Created {{ $comment->created_at->format('d M Y · h:i A') }}</span>
                     </div>
-                    <div class="flex items-center space-x-2 flex-shrink-0">
+                    <div class="flex items-center space-x-2 flex-shrink-0 self-start sm:self-auto">
                         <a href="{{ route('custom_comment.edit', Crypt::encryptString($comment->id)) }}"
                            class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
                             ✏️ Edit
@@ -107,7 +107,7 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                               onsubmit="return confirm('Are you sure you want to delete this comment?');">
                             @csrf
                             @method('DELETE')
-<button type="submit" class="px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold border border-rose-200 transition-colors">
+                            <button type="submit" class="px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold border border-rose-200 transition-colors">
                                 🗑 Delete
                             </button>
                         </form>

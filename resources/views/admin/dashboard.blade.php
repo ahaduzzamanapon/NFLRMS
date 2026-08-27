@@ -5,13 +5,13 @@
 <div class="max-w-5xl space-y-5">
 
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-<h2 class="text-2xl font-bold font-serif text-slate-900">User Management</h2>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">User Management</h2>
             <p class="text-xs text-slate-500 mt-1">Create, deactivate & reassign accounts — no deployment required (FR-ADM-01)</p>
         </div>
         <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')"
-                class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors">
+                class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors self-start sm:self-auto">
             <span>+</span><span>Add User</span>
         </button>
     </div>
@@ -21,8 +21,8 @@
     @endif
 
     <!-- Users Table -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[560px]">
             <thead>
 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Name</th>

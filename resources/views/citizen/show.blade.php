@@ -152,8 +152,8 @@
         </div>
 
         <!-- Compact Tracker (Horizontal Stepper) -->
-        <div class="px-5 pb-3">
-            <div class="flex items-center">
+        <div class="px-4 sm:px-5 pb-3 overflow-x-auto no-scrollbar">
+            <div class="flex items-center min-w-[500px]">
                 @foreach($pipeline as $key => $step)
                     @php
                         $stepIdx = $loop->index;
@@ -584,10 +584,10 @@
 </div>
 
 <!-- Interactive Document Preview Modal -->
-<div id="documentViewerModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+<div id="documentViewerModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-slate-200">
         <!-- Modal Header -->
-        <div class="px-5 py-4 bg-gov-green text-white flex items-center justify-between">
+        <div class="px-4 sm:px-5 py-3.5 sm:py-4 bg-gov-green text-white flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
                 <span class="text-xl">📄</span>
                 <div>
@@ -601,8 +601,8 @@
         </div>
 
         <!-- Modal Document Viewer Content Area -->
-        <div class="p-6 bg-slate-100 max-h-[70vh] overflow-y-auto">
-            <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-inner space-y-4 font-sans text-xs">
+        <div class="p-4 sm:p-6 bg-slate-100 max-h-[70vh] overflow-y-auto">
+            <div class="bg-white p-4 sm:p-6 rounded-xl border border-slate-300 shadow-inner space-y-4 font-sans text-xs">
                 <div class="space-y-3 py-2">
                     <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs space-y-1">
                         <div class="flex justify-between">
@@ -628,7 +628,7 @@
         </div>
 
         <!-- Modal Footer -->
-        <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <div class="px-4 sm:px-5 py-3 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
              <span class="text-[11px] text-slate-400 font-normal">NFLRMS Secure Attachment Vault</span>
             <div class="flex items-center space-x-2">
                  <button type="button" onclick="closeDocumentViewer()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-lg transition-colors">

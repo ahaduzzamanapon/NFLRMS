@@ -2,7 +2,7 @@
 @section('title', 'New Dealing Licence — Form K')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="w-full space-y-6">
 
     <!-- Header -->
     <div>
@@ -17,7 +17,7 @@
     @endphp
 
     <!-- Fee Summary (dynamic based on selected License Class) -->
-    <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
+    <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="text-xs font-medium text-amber-800">
             Statutory Fee: <span class="font-bold" id="fee-statutory">৳{{ number_format($dealerFees['dealer_fee_class_a_new'] ?? 150000) }}</span>
             &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($dealerFees['dealer_platform_new'] ?? 2500) }}</span>
@@ -47,7 +47,7 @@
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
                 <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">1. Business Information</span>
             </div>
-            <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="firm_name" id="firm_name" required minlength="3" value="{{ old('firm_name') }}"
@@ -65,7 +65,7 @@
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="trade_license"></span>
                     @error('trade_license')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="sm:col-span-2">
                     <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="business_address" id="business_address" required minlength="10" value="{{ old('business_address') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('business_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
@@ -94,7 +94,7 @@
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="upazila_id"></span>
                     @error('upazila_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="sm:col-span-2">
                     <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="license_class" id="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('license_class') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
@@ -111,11 +111,11 @@
 
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-5 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+            <div class="px-5 py-3 bg-slate-50 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
                 <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
                 <span class="text-[9px] font-semibold text-slate-400">Fields marked <span class="text-gov-green font-bold">From Profile</span> are locked — edit them in your profile.</span>
             </div>
-            <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="proprietor_name" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
                     <input type="text" id="proprietor_name" disabled required value="{{ strtoupper(auth()->user()->name ?? '') }}"
@@ -161,7 +161,7 @@
                 <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
             </div>
             <div class="p-5">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 p-2 rounded-lg border {{ $errors->has('categories') ? 'border-rose-400 bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="categories">
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-2 rounded-lg border {{ $errors->has('categories') ? 'border-rose-400 bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="categories">
                     @foreach(['Pistol','Revolver','Shotgun','Rifle','Air Gun','Ammunition'] as $cat)
                     <label class="flex items-center space-x-2.5 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-gov-green hover:bg-emerald-50/50 transition-colors">
                         <input type="checkbox" name="categories[]" value="{{ $cat }}"
@@ -189,14 +189,14 @@
                     ['name'=>'bank_statement','label'=>'Bank Statement (Last 6 months)'],
                 ] as $doc)
                 <div>
-                    <div class="flex items-center justify-between p-3 rounded-lg border {{ $errors->has($doc['name']) ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} js-error-wrapper" data-wrapper-for="{{ $doc['name'] }}">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg border {{ $errors->has($doc['name']) ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} js-error-wrapper" data-wrapper-for="{{ $doc['name'] }}">
                         <div>
                             <div class="text-xs font-semibold text-slate-900">{{ $doc['label'] }}</div>
                             <div class="text-[11px] text-slate-400 font-medium">PDF or JPG/PNG · Max 5MB</div>
                         </div>
                         <input type="file" name="{{ $doc['name'] }}" id="{{ $doc['name'] }}" required
                                accept=".pdf,.jpg,.jpeg,.png" data-max-size="5242880"
-                               class="text-[11px] text-slate-600 js-file-input">
+                               class="text-[11px] text-slate-600 js-file-input self-start sm:self-auto">
                     </div>
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="{{ $doc['name'] }}"></span>
                     @error($doc['name'])<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
@@ -221,7 +221,7 @@
         </div>
 
         <!-- Submit -->
-        <div class="flex gap-3 justify-end">
+        <div class="flex flex-wrap gap-3 justify-end">
             <a href="{{ route('dealer.dashboard') }}"
                class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                 Cancel

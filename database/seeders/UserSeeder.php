@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\District;
+use App\Models\License;
 use App\Models\Upazila;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -48,7 +49,7 @@ class UserSeeder extends Seeder
         foreach (Role::cases() as $role) {
             $user = User::create([
                 'name' => $role->label(),
-                'email' => str_replace('_', '', $role->value) . '@nflrms.gov.bd',
+                'email' => str_replace('_', '', $role->value).'@nflrms.gov.bd',
                 'phone' => $phones[$role->value] ?? null,
                 'password' => Hash::make('password'),
                 'role' => $role,
@@ -63,7 +64,7 @@ class UserSeeder extends Seeder
 
         // Seed sample licenses for public lookup
         if ($citizen) {
-            \App\Models\License::create([
+            License::create([
                 'license_number' => 'BD-HND-DHK-004521',
                 'user_id' => $citizen->id,
                 'type' => 'citizen_arms',
@@ -78,7 +79,7 @@ class UserSeeder extends Seeder
                 ],
             ]);
 
-            \App\Models\License::create([
+            License::create([
                 'license_number' => 'BD-LNG-DHK-001192',
                 'user_id' => $citizen->id,
                 'type' => 'citizen_arms',

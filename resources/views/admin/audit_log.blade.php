@@ -9,8 +9,8 @@
         <p class="text-xs text-slate-500 mt-1">Every status change, approval & override — attributed & timestamped (FR-ADM-03)</p>
     </div>
 
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[500px]">
             <thead>
 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Timestamp</th>

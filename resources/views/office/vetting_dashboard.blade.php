@@ -20,23 +20,23 @@
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-slate-300 flex items-center justify-center text-slate-500">🛡</div>
+            <div class="w-9 h-9 rounded-full border-2 border-slate-300 flex items-center justify-center text-slate-500 shrink-0">🛡</div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Pending Clearance</div>
                 <div class="text-2xl font-bold text-slate-900 mt-0.5">{{ $vettings->where('status','pending')->count() }}</div>
             </div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-emerald-400 flex items-center justify-center text-emerald-600">✓</div>
+            <div class="w-9 h-9 rounded-full border-2 border-emerald-400 flex items-center justify-center text-emerald-600 shrink-0">✓</div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Cleared This Month</div>
                 <div class="text-2xl font-bold text-emerald-600 mt-0.5">{{ $vettings->where('status','cleared')->count() }}</div>
             </div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-rose-400 flex items-center justify-center text-rose-600">✗</div>
+            <div class="w-9 h-9 rounded-full border-2 border-rose-400 flex items-center justify-center text-rose-600 shrink-0">✗</div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Not Cleared</div>
                 <div class="text-2xl font-bold text-rose-600 mt-0.5">{{ $vettings->where('status','flagged')->count() }}</div>
@@ -47,11 +47,11 @@
     <!-- Pending Cases -->
     @php $pending = $vettings->where('status','pending'); @endphp
     @if($pending->count())
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 min-w-[500px]">
             <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">Pending Cases</span>
         </div>
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[500px]">
             <thead>
                 <tr class="border-b border-slate-100 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Reference</th>
@@ -87,11 +87,11 @@
     <!-- Completed Cases -->
     @php $done = $vettings->whereIn('status',['cleared','flagged']); @endphp
     @if($done->count())
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 min-w-[500px]">
             <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">Completed</span>
         </div>
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[500px]">
             <thead>
                 <tr class="border-b border-slate-100 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Reference</th>

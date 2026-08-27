@@ -63,8 +63,8 @@ return new class extends Migration
 
                 DB::table('upazilas')->insert([
                     'district_id' => $dstId,
-                    'name' => $dName . ' Sadar',
-                    'bn_name' => $dName . ' Sadar',
+                    'name' => $dName.' Sadar',
+                    'bn_name' => $dName.' Sadar',
                 ]);
             }
         } else {

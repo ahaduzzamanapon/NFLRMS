@@ -18,23 +18,23 @@
         $pendingAction  = $applications->whereIn('status',['received','vetted_cleared','vetted_flagged'])->count();
         $breached       = $applications->filter(fn($a)=>(int)$a->created_at->diffInDays(now())>=10)->count();
     @endphp
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         @foreach([
             ['label'=>'In Queue',            'value'=>$inQueue,        'color'=>'text-slate-900'],
             ['label'=>'Awaiting Agency',     'value'=>$awaitingAgency, 'color'=>'text-gov-green'],
             ['label'=>'Pending Your Action', 'value'=>$pendingAction,  'color'=>'text-amber-600'],
             ['label'=>'SLA Breach (10d+)',   'value'=>$breached,       'color'=>'text-rose-600'],
-] as $stat)
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+        ] as $stat)
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
             <div class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest">{{ $stat['label'] }}</div>
-            <div class="text-3xl font-bold {{ $stat['color'] }} mt-1">{{ $stat['value'] }}</div>
+            <div class="text-2xl sm:text-3xl font-bold {{ $stat['color'] }} mt-1">{{ $stat['value'] }}</div>
         </div>
         @endforeach
     </div>
 
     <!-- Filter Tabs -->
-    <div class="flex items-center space-x-2" id="jm-filter-tabs">
-@foreach(['All','Long Gun','Handgun','Dealing'] as $i => $f)
+    <div class="flex flex-wrap items-center gap-2" id="jm-filter-tabs">
+        @foreach(['All','Long Gun','Handgun','Dealing'] as $i => $f)
         <button onclick="filterJm('{{ $f }}')" id="jmtab-{{ $i }}"
                 class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors
                        {{ $i === 0 ? 'bg-gov-green text-white' : 'bg-white border border-slate-200 text-slate-600 hover:border-gov-green hover:text-gov-green' }}">
@@ -44,8 +44,8 @@
     </div>
 
     <!-- Cases Table -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-<table class="w-full text-left border-collapse" id="jm-apps-table">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[560px]" id="jm-apps-table">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-400 tracking-wider">
                     <th class="p-3 pl-5">Reference</th>

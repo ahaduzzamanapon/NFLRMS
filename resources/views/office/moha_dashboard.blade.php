@@ -18,9 +18,9 @@
     </div>
 
     <!-- Approval Chain Banner -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm px-4 sm:px-5 py-4 overflow-hidden">
         <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider mb-3">Three-tier MoHA approval chain</div>
-        <div class="flex items-center space-x-2 text-xs">
+        <div class="flex overflow-x-auto no-scrollbar items-center space-x-2 text-xs pb-1">
             @php
                 $chain = [
                     ['label' => 'Political-4 / Sasan-4', 'role' => \App\Enums\Role::MohaDesk],
@@ -30,20 +30,20 @@
                 ];
             @endphp
             @foreach($chain as $i => $step)
-                <span class="px-3 py-1.5 rounded-lg text-xs font-semibold
+                <span class="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0
                     {{ $user->role === $step['role'] ? 'bg-gov-gold text-slate-950 font-bold' : 'bg-slate-100 text-slate-600' }}">
                     {{ $step['label'] }}
                 </span>
                 @if($i < count($chain) - 1)
-                <span class="text-slate-400 font-normal">→</span>
+                <span class="text-slate-400 font-normal shrink-0">→</span>
                 @endif
             @endforeach
         </div>
     </div>
 
     <!-- Applications Table -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[560px]">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Reference</th>

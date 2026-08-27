@@ -49,6 +49,8 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #fafbfc;
+            font-size: 14px;
+            line-height: 1.5;
         }
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
@@ -62,6 +64,13 @@
         .text-serif {
             font-family: 'Poppins', sans-serif;
         }
+
+        /* Global Typography Standards */
+        input, select, textarea, button { font-size: 0.875rem; }
+        label { font-size: 0.75rem; }
+        .text-\[9px\] { font-size: 11px !important; }
+        .text-\[10px\] { font-size: 11.5px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
     </style>
 </head>
 
@@ -85,7 +94,7 @@
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-10 text-xs font-semibold text-slate-300">
                 <a href="#services" class="hover:text-white transition-colors">Services</a>
-                <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+                {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
                 <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
             </div>
 
@@ -133,11 +142,11 @@
                 @else
                     <a href="{{ route('login') }}"
                         class="px-4 py-2 text-xs font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
-                        Login
+                        Applicant / Office Login
                     </a>
                     <a href="{{ route('register') }}"
                         class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow-md transition-all">
-                        Sign up
+                        New Registration
                     </a>
                 @endauth
             </div>
@@ -300,7 +309,7 @@
     @endphp
 
     <!-- Services Workflows -->
-    <section id="services" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
+    {{-- <section id="services" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
         <div class="flex items-center justify-between mb-12">
             <div>
                 <span
@@ -367,10 +376,10 @@
                 <div class="text-xs font-bold text-slate-700">৳75,000 + ৳2,500</div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Pricing Section -->
-    <section id="pricing" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
+    {{-- <section id="pricing" class="max-w-7xl mx-auto py-20 px-6 border-t border-slate-200">
         <span
             class="text-[11px] font-bold uppercase text-gov-green tracking-widest block text-center mb-2">Transparent
             Pricing</span>
@@ -429,7 +438,7 @@
                 </tbody>
             </table>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Footer -->
     <footer class="bg-gov-deep text-slate-350 py-12 px-6 border-t border-white/5 text-white">
@@ -442,7 +451,7 @@
             <div class="text-center md:text-right text-[11px]">
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
                 <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
-                    <span>Powered by</span>
+                    <span>Designed & Developed by</span>
                     <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd."
                         class="h-7 w-auto object-contain">
                 </div>

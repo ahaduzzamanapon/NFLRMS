@@ -30,6 +30,22 @@ class ApplicationController extends Controller
     }
 
     /**
+     * Display a listing of applicant's applications for tracking.
+     */
+    public function tracking()
+    {
+        $user = auth()->user();
+        PaymentController::syncUserPendingPayments($user);
+
+        $applications = $user->applications()
+            ->with(['district', 'upazila', 'logs.actor'])
+            ->latest()
+            ->get();
+
+        return view('citizen.tracking', compact('applications'));
+    }
+
+    /**
      * Show the form for creating a new application.
      */
     public function create()
@@ -261,23 +277,23 @@ class ApplicationController extends Controller
         }
 
         $request->validate([
-            'selected_licence'    => 'required|string',
-            'firing_report_ack'   => 'required|accepted',
-            'medical_ack'         => 'required|accepted',
-            'police_ack'          => 'required|accepted',
-            'ammo_ledger'         => 'required|string|max:255',
-            'firing_report'       => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'medical_cert'        => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'police_clearance'    => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'payment_channel'     => 'required|in:bkash,nagad,card',
-            'declaration_ack'     => 'required|accepted',
+            'selected_licence' => 'required|string',
+            'firing_report_ack' => 'required|accepted',
+            'medical_ack' => 'required|accepted',
+            'police_ack' => 'required|accepted',
+            'ammo_ledger' => 'required|string|max:255',
+            'firing_report' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'medical_cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'police_clearance' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'payment_channel' => 'required|in:bkash,nagad,card',
+            'declaration_ack' => 'required|accepted',
         ], [
             'firing_report_ack.accepted' => 'Please confirm the firing-range annual report checklist item.',
-            'medical_ack.accepted'       => 'Please confirm the medical fitness declaration.',
-            'police_ack.accepted'        => 'Please confirm the police clearance checklist item.',
-            'firing_report.required'     => 'Firing-range annual report is mandatory.',
-            'police_clearance.required'  => 'Local police station clearance letter is mandatory.',
-            'declaration_ack.accepted'   => 'Please confirm the declaration before submitting.',
+            'medical_ack.accepted' => 'Please confirm the medical fitness declaration.',
+            'police_ack.accepted' => 'Please confirm the police clearance checklist item.',
+            'firing_report.required' => 'Firing-range annual report is mandatory.',
+            'police_clearance.required' => 'Local police station clearance letter is mandatory.',
+            'declaration_ack.accepted' => 'Please confirm the declaration before submitting.',
         ]);
 
         $appNumber = 'RL-'.strtoupper(Str::random(8)).'-'.date('Y');
