@@ -2,7 +2,7 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="max-w-6xl space-y-6">
+<div class="max-w-full space-y-6">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

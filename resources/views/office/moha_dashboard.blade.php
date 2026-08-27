@@ -2,7 +2,7 @@
 @section('title', 'MoHA Desk')
 
 @section('content')
-<div class="max-w-5xl space-y-5">
+<div class="max-w-8xl space-y-5">
 
     <div>
         <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">

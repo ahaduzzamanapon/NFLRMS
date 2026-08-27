@@ -2,7 +2,7 @@
 @section('title', 'Custom Comment')
 
 @section('content')
-<div class="max-w-3xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <!-- Page Header -->
     <div>

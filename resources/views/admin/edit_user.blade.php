@@ -2,7 +2,7 @@
 @section('title', 'Edit User')
 
 @section('content')
-<div class="max-w-xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <div class="flex items-center gap-3">
 <a href="{{ route('admin.users') }}" class="text-xs font-semibold text-slate-400 hover:text-gov-green transition-colors">← Back</a>

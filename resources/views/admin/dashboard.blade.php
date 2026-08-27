@@ -2,7 +2,7 @@
 @section('title', 'User Management')
 
 @section('content')
-<div class="max-w-5xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
