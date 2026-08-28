@@ -25,7 +25,7 @@
     <!-- Search Form Card -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-4">
         <div class="flex items-center gap-2">
-            <span class="text-lg">🔍</span>
+            <span class="text-lg"><i class="fa-solid fa-magnifying-glass text-gov-green"></i></span>
             <div>
                 <h3 class="text-sm font-bold text-slate-900">Verify License or Permit Authenticity</h3>
                 <p class="text-xs text-slate-500 font-normal">Enter the reference number printed on the physical license document or QR code label to confirm real-time validity.</p>
@@ -36,7 +36,7 @@
             <div class="flex flex-col sm:flex-row gap-3">
                 <div class="relative flex-grow">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
-                        🔍
+                        <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                     <input type="text" name="license_number" id="license_number" required
                            value="{{ $licenseNumber }}"
@@ -44,7 +44,7 @@
                            class="w-full pl-10 pr-4 py-2.5 text-xs text-slate-900 bg-white rounded-lg font-mono font-semibold border border-slate-300 focus:ring-1 focus:ring-gov-green focus:border-gov-green outline-none uppercase placeholder:font-sans placeholder:font-normal">
                 </div>
                 <button type="submit" class="px-5 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center justify-center space-x-2 shrink-0">
-                    <span>🔍 Verify Certificate</span>
+                    <span><i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Certificate</span>
                 </button>
             </div>
         </form>
@@ -60,7 +60,7 @@
                     <div class="bg-emerald-700 text-white px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="flex items-center space-x-3">
                             <div class="w-9 h-9 rounded-full bg-white text-emerald-800 font-bold flex items-center justify-center text-lg shadow flex-shrink-0">
-                                ✓
+                                <i class="fa-solid fa-check"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wide">VERIFIED OFFICIAL LICENSE RECORD</h3>
@@ -109,7 +109,7 @@
                             <!-- Weapon Specs -->
                             @if(!empty($license->firearm_details))
                                 <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-2">
-                                    <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider">🔫 Authorized Weapon Specifications</h4>
+                                    <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider"><i class="fa-solid fa-shield-halved text-emerald-800 mr-1"></i> Authorized Weapon Specifications</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                                         <div><span class="text-slate-400 text-[10px] block">Weapon Type:</span> <strong class="text-slate-800">{{ $license->firearm_details['weapon_type'] ?? 'N/A' }}</strong></div>
                                         <div><span class="text-slate-400 text-[10px] block">Bore Spec:</span> <strong class="text-slate-800">{{ $license->firearm_details['bore'] ?? 'N/A' }}</strong></div>
@@ -144,7 +144,7 @@
 
                             <div class="pt-2 text-center">
                                 <span class="inline-block px-3 py-1 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-300">
-                                    ✓ Authentic &amp; Valid
+                                    <i class="fa-solid fa-check mr-1"></i> Authentic &amp; Valid
                                 </span>
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                 <div class="bg-white rounded-xl border border-amber-500/50 shadow-md overflow-hidden">
                     <div class="bg-amber-600 text-white px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="flex items-center space-x-3">
-                            <span class="text-2xl">⚠️</span>
+                            <span class="text-2xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
                             <div>
                                 <h3 class="font-bold text-xs sm:text-sm uppercase">LICENSE STATUS: SUSPENDED</h3>
                                 <p class="text-[11px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
@@ -177,7 +177,7 @@
                 <div class="bg-white rounded-xl border border-rose-400/50 shadow-md overflow-hidden">
                     <div class="bg-rose-700 text-white px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="flex items-center space-x-3">
-                            <span class="text-2xl">⚠️</span>
+                            <span class="text-2xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
                             <div>
                                 <h3 class="font-bold text-xs sm:text-sm uppercase">REGISTRY RECORD NOT FOUND</h3>
                                 <p class="text-[11px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
@@ -204,7 +204,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-2">
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
             <div class="w-9 h-9 rounded-lg bg-gov-green/10 text-gov-green flex items-center justify-center text-lg font-bold">
-                📱
+                <i class="fa-solid fa-qrcode"></i>
             </div>
             <h3 class="font-bold text-xs text-slate-900">QR Code Instant Scanning</h3>
             <p class="text-xs text-slate-500 leading-relaxed font-normal">
@@ -214,7 +214,7 @@
 
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
             <div class="w-9 h-9 rounded-lg bg-gov-green/10 text-gov-green flex items-center justify-center text-lg font-bold">
-                🛡️
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
             <h3 class="font-bold text-xs text-slate-900">Cryptographic Integrity</h3>
             <p class="text-xs text-slate-500 leading-relaxed font-normal">
@@ -224,7 +224,7 @@
 
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
             <div class="w-9 h-9 rounded-lg bg-gov-green/10 text-gov-green flex items-center justify-center text-lg font-bold">
-                🏛️
+                <i class="fa-solid fa-building-columns"></i>
             </div>
             <h3 class="font-bold text-xs text-slate-900">Reporting Forgeries</h3>
             <p class="text-xs text-slate-500 leading-relaxed font-normal">

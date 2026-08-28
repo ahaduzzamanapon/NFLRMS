@@ -30,9 +30,9 @@
         'fine_t3_longgun' => 'Tier 3 · Long Gun',
     ];
     $slaFields = [
-        'sla_vetting'   => ['label' => 'Vetting (each agency)', 'icon' => '🛡️', 'desc' => 'Police / SB / NSI / DGFI'],
-        'sla_moha'      => ['label' => 'MoHA (per tier)', 'icon' => '🏢', 'desc' => 'Desk → Joint Secretary → Minister'],
-        'sla_committee' => ['label' => 'Committee Review', 'icon' => '👥', 'desc' => 'National Screening Committee'],
+        'sla_vetting'   => ['label' => 'Vetting (each agency)', 'icon' => '<i class="fa-solid fa-shield-halved text-gov-green"></i>', 'desc' => 'Police / SB / NSI / DGFI'],
+        'sla_moha'      => ['label' => 'MoHA (per tier)', 'icon' => '<i class="fa-solid fa-building text-gov-green"></i>', 'desc' => 'Desk → Joint Secretary → Minister'],
+        'sla_committee' => ['label' => 'Committee Review', 'icon' => '<i class="fa-solid fa-users text-gov-green"></i>', 'desc' => 'National Screening Committee'],
     ];
 
     // Dealer fee fields grouped by license class
@@ -53,7 +53,7 @@
     <!-- Back to dashboard (top-left, outside header) -->
     <a href="{{ route('admin.dashboard') }}"
        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[11px] font-extrabold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
-        <span>←</span><span>Back to Dashboard</span>
+        <span><i class="fa-solid fa-arrow-left"></i></span><span>Back to Dashboard</span>
     </a>
 
     <!-- Page Title -->
@@ -66,13 +66,13 @@
         </div>
         <button form="fee-form" type="submit"
                 class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-2 shadow-sm self-start sm:self-auto">
-            💾 Save Configuration
+            <i class="fa-solid fa-floppy-disk mr-1"></i> Save Configuration
         </button>
     </div>
 
     {{-- @if(session('success'))
     <div class="px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-700 flex items-center gap-2">
-        <span>✓</span><span>{{ session('success') }}</span>
+        <span><i class="fa-solid fa-check mr-1"></i></span><span>{{ session('success') }}</span>
     </div>
     @endif --}}
 
@@ -80,23 +80,23 @@
     <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <button type="button" data-tab="citizen" onclick="switchConfigTab('citizen')"
                 class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
-            <span>👤</span><span>Citizen Statutory Fees</span>
+            <span><i class="fa-solid fa-user"></i></span><span>Citizen Statutory Fees</span>
         </button>
         <button type="button" data-tab="dealer" onclick="switchConfigTab('dealer')"
                 class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>🏪</span><span>Dealer Statutory Fees</span>
+            <span><i class="fa-solid fa-store"></i></span><span>Dealer Statutory Fees</span>
         </button>
         <button type="button" data-tab="fines" onclick="switchConfigTab('fines')"
                 class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>⚠️</span><span>Late Fines</span>
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span><span>Late Fines</span>
         </button>
         <button type="button" data-tab="sla" onclick="switchConfigTab('sla')"
                 class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>⏳</span><span>SLA Timers</span>
+            <span><i class="fa-solid fa-hourglass-half"></i></span><span>SLA Timers</span>
         </button>
         <button type="button" data-tab="summary" onclick="switchConfigTab('summary')"
                 class="config-tab flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-[11px] font-extrabold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>📊</span><span>Summary</span>
+            <span><i class="fa-solid fa-chart-pie"></i></span><span>Summary</span>
         </button>
     </div>
 
@@ -310,7 +310,7 @@
                 <!-- Citizen Statutory Fees Summary -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">👤 Citizen Statutory License Fees</span>
+                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-user text-gov-green mr-1"></i> Citizen Statutory License Fees</span>
                     </div>
                     <div class="p-5 space-y-2 text-xs">
                         @foreach($feeFields as $key => $label)
@@ -329,7 +329,7 @@
                 <!-- Dealer Statutory Fees Summary (only classes with data) -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">🏪 Dealer Statutory License Fees</span>
+                        <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-store text-gov-green mr-1"></i> Dealer Statutory License Fees</span>
                     </div>
                     <div class="p-5 space-y-2 text-xs">
                         @php
@@ -364,7 +364,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Citizen Platform Charges</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-credit-card text-gov-green mr-1"></i> Citizen Platform Charges</span>
                             </div>
                             <div class="p-5 space-y-2 text-xs">
                                 @foreach($platformFields as $key => $label)
@@ -382,7 +382,7 @@
 
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">💳 Dealer Platform Charges</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-credit-card text-gov-green mr-1"></i> Dealer Platform Charges</span>
                             </div>
                             <div class="p-5 space-y-2 text-xs">
                                 @foreach($dealerPlatformFields as $key => $label)
@@ -400,7 +400,7 @@
 
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest">⚠️ Late-Fine Tiers</span>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1"></i> Late-Fine Tiers</span>
                             </div>
                             <div class="p-5 space-y-2 text-xs">
                                 @foreach($fineFields as $key => $label)

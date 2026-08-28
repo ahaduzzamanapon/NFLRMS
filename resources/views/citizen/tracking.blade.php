@@ -17,7 +17,7 @@
         <div class="flex-shrink-0">
             <a href="{{ auth()->user()->hasRole(\App\Enums\Role::DealerApplicant) ? route('dealer.apply') : route('citizen.apply') }}"
                class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
-                <span>+</span>
+                <span><i class="fa-solid fa-plus"></i></span>
                 <span>New Application</span>
             </a>
         </div>
@@ -47,7 +47,7 @@
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-0">
         <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center space-x-2">
-                <span class="text-lg">📍</span>
+                <i class="fa-solid fa-location-dot text-gov-green"></i>
                 <h3 class="text-sm font-bold text-slate-900">Your Tracked Applications</h3>
             </div>
             <span class="text-xs text-slate-400 font-medium">{{ $applications->count() }} record(s)</span>
@@ -56,7 +56,7 @@
         @if($applications->isEmpty())
             <div class="p-12 text-center space-y-3">
                 <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xl mx-auto">
-                    📄
+                    <i class="fa-solid fa-file-lines text-2xl text-slate-300"></i>
                 </div>
                 <h4 class="text-sm font-bold text-slate-700">No Applications Found</h4>
                 <p class="text-xs text-slate-400 max-w-sm mx-auto">
@@ -137,8 +137,8 @@
                                 <td class="py-3.5 px-4 text-right">
                                     <a href="{{ auth()->user()->hasRole(\App\Enums\Role::DealerApplicant) ? route('dealer.show', $encryptedId) : route('citizen.show', $encryptedId) }}"
                                        class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[11px] font-semibold transition-colors shadow-sm">
-                                        <span>📍 Track Progress</span>
-                                        <span>→</span>
+                                        <span><i class="fa-solid fa-location-dot mr-1"></i> Track Progress</span>
+                                        <span><i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></span>
                                     </a>
                                 </td>
                             </tr>
@@ -191,7 +191,7 @@
                         <div class="pt-1">
                             <a href="{{ auth()->user()->hasRole(\App\Enums\Role::DealerApplicant) ? route('dealer.show', $encryptedId) : route('citizen.show', $encryptedId) }}"
                                class="w-full inline-flex items-center justify-center space-x-1 px-3 py-2 rounded-lg bg-gov-green text-white text-xs font-semibold shadow-sm">
-                                <span>📍 Track Application Progress →</span>
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> Track Application Progress <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></span>
                             </a>
                         </div>
                     </div>

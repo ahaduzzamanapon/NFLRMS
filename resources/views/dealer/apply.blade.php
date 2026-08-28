@@ -28,13 +28,13 @@
     <!-- Validation Summary Alert -->
     <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
         <span class="block text-sm font-bold font-serif">
-            ⚠️ Please fill in the highlighted required field(s) above before continuing.
+            <i class="fa-solid fa-triangle-exclamation"></i> Please fill in the highlighted required field(s) above before continuing.
         </span>
     </div>
 
     <!-- Profile Incomplete Alert -->
     <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
-        <span>⚠️</span>
+        <span><i class="fa-solid fa-triangle-exclamation"></i></span>
         <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
     </div>
 
@@ -228,7 +228,7 @@
             </a>
             <button type="submit"
                     class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
-                Submit Form K Application →
+                Submit Form K Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
         </div>
     </form>

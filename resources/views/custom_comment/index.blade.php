@@ -19,16 +19,16 @@
         @if(isset($customComment)) @method('PUT') @endif
         <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
 <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">
-                {{ isset($customComment) ? '✏️ Edit Custom Comment' : 'Create New Custom Comment' }}
+                {{ isset($customComment) ? 'Edit Custom Comment' : 'Create New Custom Comment' }}
             </span>
             @if(isset($customComment))
-                <a href="{{ route('custom_comment.index') }}" class="text-[11px] font-semibold text-slate-400 hover:text-gov-green transition-colors">← Cancel Edit</a>
+                <a href="{{ route('custom_comment.index') }}" class="text-[11px] font-semibold text-slate-400 hover:text-gov-green transition-colors"><i class="fa-solid fa-xmark mr-1"></i> Cancel Edit</a>
             @endif
         </div>
 
         @if ($errors->any())
 <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
-                <span class="block text-sm font-bold font-serif">⚠️ Please resolve the following errors:</span>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-triangle-exclamation"></i> Please resolve the following errors:</span>
                 <ul class="list-disc pl-4 space-y-0.5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -69,7 +69,7 @@
             <div class="flex justify-end">
                 <button type="submit"
 class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' : 'bg-gov-green hover:bg-gov-light' }} text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
-                    {{ isset($customComment) ? '💾 Update Comment' : '💾 Save Comment' }}
+                    <i class="fa-solid fa-floppy-disk mr-1"></i> {{ isset($customComment) ? 'Update Comment' : 'Save Comment' }}
                 </button>
             </div>
         </div>
@@ -89,11 +89,11 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                         <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $comment->comment }}</p>
                         @if($comment->role_id)
                         <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold uppercase">
-                            🎯 {{ $roles[$comment->role_id] ?? $comment->role_id }} only
+                            <i class="fa-solid fa-bullseye mr-1"></i> {{ $roles[$comment->role_id] ?? $comment->role_id }} only
                         </span>
                         @else
                         <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-bold uppercase">
-                            🌐 All Roles
+                            <i class="fa-solid fa-globe mr-1"></i> All Roles
                         </span>
                         @endif
                         <span class="text-[10px] text-slate-400 font-semibold block mt-1">Created {{ $comment->created_at->format('d M Y · h:i A') }}</span>
@@ -101,21 +101,21 @@ class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' 
                     <div class="flex items-center space-x-2 flex-shrink-0 self-start sm:self-auto">
                         <a href="{{ route('custom_comment.edit', Crypt::encryptString($comment->id)) }}"
                            class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
-                            ✏️ Edit
+                            <i class="fa-solid fa-pen-to-square mr-1"></i> Edit
                         </a>
                         <form action="{{ route('custom_comment.destroy', Crypt::encryptString($comment->id)) }}" method="POST"
                               onsubmit="return confirm('Are you sure you want to delete this comment?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold border border-rose-200 transition-colors">
-                                🗑 Delete
+                                <i class="fa-solid fa-trash-can mr-1"></i> Delete
                             </button>
                         </form>
                     </div>
                 </div>
             @empty
                 <div class="text-center py-8 space-y-2">
-                    <span class="text-3xl block">💬</span>
+                    <i class="fa-solid fa-comments text-3xl text-slate-300 block"></i>
 <p class="text-xs text-slate-400 font-normal">No custom comments yet.</p>
                     <p class="text-[11px] text-slate-400 font-medium">Create your first reusable comment above.</p>
                 </div>

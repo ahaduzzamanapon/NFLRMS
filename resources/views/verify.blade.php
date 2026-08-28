@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -98,7 +101,7 @@
 
             <div class="max-w-3xl space-y-4 relative z-10">
                 <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-emerald-300 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider">
-                    <span>🛡️ Official Public Registry</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Official Public Registry</span>
                     <span>&bull;</span>
                     <span>Real-time License Verification</span>
                 </div>
@@ -116,7 +119,7 @@
                     <div class="flex flex-col sm:flex-row gap-3">
                         <div class="relative flex-grow">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                🔍
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </div>
                             <input type="text" name="license_number" id="license_number" required
                                    value="{{ $licenseNumber }}"
@@ -124,7 +127,7 @@
                                    class="w-full pl-10 pr-4 py-3 sm:py-3.5 text-xs text-slate-900 bg-white rounded-xl font-mono font-semibold shadow-inner border border-white/30 focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:font-sans placeholder:font-normal uppercase">
                         </div>
                         <button type="submit" class="px-5 sm:px-6 py-3 sm:py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 shrink-0">
-                            <span>🔍 Search Registry</span>
+                            <i class="fa-solid fa-magnifying-glass"></i> Search Registry
                         </button>
                     </div>
                 </form>
@@ -141,7 +144,7 @@
                         <div class="bg-emerald-700 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-white text-emerald-800 font-bold flex items-center justify-center text-xl shadow flex-shrink-0">
-                                    ✓
+                                    <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wide">VERIFIED OFFICIAL LICENSE RECORD</h3>
@@ -192,7 +195,7 @@
                                 <!-- Weapon Specs -->
                                 @if(!empty($license->firearm_details))
                                     <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-2">
-                                        <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider">🔫 Authorized Weapon Specifications</h4>
+                                        <h4 class="text-[11px] font-semibold uppercase text-emerald-900 tracking-wider"><i class="fa-solid fa-gun"></i> Authorized Weapon Specifications</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                                             <div><span class="text-slate-400 text-[10px] block">Weapon Type:</span> <strong class="text-slate-800">{{ $license->firearm_details['weapon_type'] ?? 'N/A' }}</strong></div>
                                             <div><span class="text-slate-400 text-[10px] block">Bore Spec:</span> <strong class="text-slate-800">{{ $license->firearm_details['bore'] ?? 'N/A' }}</strong></div>
@@ -227,7 +230,7 @@
 
                                 <div class="pt-2 text-center">
                                     <span class="inline-block px-3 py-1 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-300">
-                                        ✓ Authentic &amp; Valid
+                                        <i class="fa-solid fa-check"></i> Authentic &amp; Valid
                                     </span>
                                 </div>
                             </div>
@@ -240,7 +243,7 @@
                     <div class="bg-white rounded-2xl border-2 border-amber-500/40 shadow-xl overflow-hidden">
                         <div class="bg-amber-600 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
-                                <span class="text-2xl">⚠️</span>
+                                <span class="text-2xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
                                 <div>
                                     <h3 class="font-bold text-xs sm:text-sm uppercase">LICENSE STATUS: SUSPENDED</h3>
                                     <p class="text-[10px] sm:text-[11px] text-amber-100">License Temporarily Suspended Pending Administrative Review</p>
@@ -260,7 +263,7 @@
                     <div class="bg-white rounded-2xl border-2 border-rose-400/40 shadow-xl overflow-hidden">
                         <div class="bg-rose-700 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center space-x-3">
-                                <span class="text-2xl">⚠️</span>
+                                <span class="text-2xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
                                 <div>
                                     <h3 class="font-bold text-xs sm:text-sm uppercase">REGISTRY RECORD NOT FOUND</h3>
                                     <p class="text-[10px] sm:text-[11px] text-rose-100">No active firearms license matching reference "{{ $licenseNumber }}"</p>
@@ -288,7 +291,7 @@
 
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 text-gov-green flex items-center justify-center text-xl font-bold">
-                    📱
+                    <i class="fa-solid fa-mobile-screen-button"></i>
                 </div>
                 <h3 class="font-bold text-sm text-slate-900">QR Code Instant Scanning</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-normal">
@@ -298,7 +301,7 @@
 
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 text-gov-green flex items-center justify-center text-xl font-bold">
-                    🛡️
+                    <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <h3 class="font-bold text-sm text-slate-900">Privacy-Preserving Registry</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-normal">
@@ -308,7 +311,7 @@
 
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <div class="w-10 h-10 rounded-xl bg-gov-green/10 text-gov-green flex items-center justify-center text-xl font-bold">
-                    🏛️
+                    <i class="fa-solid fa-building-columns"></i>
                 </div>
                 <h3 class="font-bold text-sm text-slate-900">Report Forgeries &amp; Claims</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-normal">

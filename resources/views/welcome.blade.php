@@ -13,6 +13,9 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -84,15 +87,15 @@
                 <img src="{{ asset('assets/brand/govt-logo.png') }}"
                     alt="Government of Bangladesh" width="50" height="50" class="w-15 h-15 object-contain rounded-full" />
                 <div class="leading-tight">
-                    <h1 class="text-xs font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
+                    <h1 class="text-[14px] font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
                         Govt. of Bangladesh</h1>
-                    <p class="text-[10px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
+                    <p class="text-[12px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
                     </p>
                 </div>
             </div>
 
             <!-- Nav Links -->
-            <div class="hidden md:flex items-center space-x-10 text-xs font-semibold text-slate-300">
+            <div class="hidden md:flex items-center space-x-10 text-[14px] font-semibold text-slate-300">
                 <a href="#services" class="hover:text-white transition-colors">Services</a>
                 {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
                 <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
@@ -128,24 +131,24 @@
                         };
                     @endphp
                     <a href="{{ route($dashRoute) }}"
-                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow-md transition-all flex items-center space-x-1.5">
+                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] rounded-lg shadow-md transition-all flex items-center space-x-1.5">
                         <span>Dashboard ({{ auth()->user()->name }})</span>
                         <span>&rarr;</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
-                            class="px-3 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
+                            class="px-3 py-2 text-[14px] font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
                             Logout
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}"
-                        class="px-4 py-2 text-xs font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
+                        class="px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
                         Applicant / Office Login
                     </a>
                     <a href="{{ route('register') }}"
-                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow-md transition-all">
+                        class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] rounded-lg shadow-md transition-all">
                         New Registration
                     </a>
                 @endauth
@@ -163,7 +166,7 @@
                 <!-- Badge -->
                 <span
                     class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[10px] font-bold uppercase tracking-wider">
-                    <span>💎</span> <span>NFLRMS . PRODUCTION SYSTEM</span>
+                    <i class="fa-solid fa-gem text-gov-accent"></i> <span>NFLRMS . PRODUCTION SYSTEM</span>
                 </span>
 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-serif leading-[1.1]">
@@ -179,54 +182,24 @@
                 <div class="flex flex-wrap gap-4 pt-2">
                     @auth
                         <a href="{{ route($dashRoute) }}"
-                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
                             <span>Go to Your Dashboard</span>
-                            <span>&rarr;</span>
+                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
                         <a href="{{ route('verify') }}"
-                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-semibold text-xs transition-colors">
+                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-semibold text-[14px] transition-colors">
                             Verify a Certificate
                         </a>
                     @else
                         <a href="{{ route('register') }}"
-                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
+                            class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
                             <span>Create Citizen / Dealer Account</span>
-                            <span>&rarr;</span>
+                            <i class="fa-solid fa-arrow-right"></i>
                         </a>
-                        {{-- <a href="{{ route('login') }}"
-                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
-                            Executive Dashboard
-                        </a>
-                        <a href="{{ route('verify') }}"
-                            class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-bold text-xs transition-colors">
-                            Verify a Certificate
-                        </a> --}}
                     @endauth
                 </div>
 
                 <!-- Stats Banner -->
-                {{-- <div class="grid grid-cols-4 gap-4 pt-10 border-t border-white/10">
-                    <div>
-                        <h4 class="text-2xl font-bold text-serif text-gov-accent">
-                            {{ number_format($stats['total_licenses']) }}</h4>
-                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Active licenses
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-serif text-gov-accent">{{ $stats['total_districts'] }}</h4>
-                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Districts served
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-serif text-gov-accent">4</h4>
-                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">Vetting agencies
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-serif text-gov-accent">3</h4>
-                        <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mt-1.5">MoHA tiers</p>
-                    </div>
-                </div> --}}
             </div>
 
             <!-- Hero Right Side Graphics Mockup -->
@@ -240,7 +213,7 @@
                 <div
                     class="absolute -bottom-6 -left-6 w-64 bg-white text-slate-800 rounded-xl p-4 shadow-2xl ring-1 ring-black/5 -rotate-2">
                     <div class="flex items-center gap-2 text-xs text-emerald-600 font-bold">
-                        <span>✓</span> Certificate Issued
+                        <i class="fa-solid fa-circle-check text-emerald-500"></i> Certificate Issued
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
                     <div class="text-[11px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
@@ -264,7 +237,7 @@
 
     <!-- Why NFLRMS Features -->
     <section class="max-w-7xl mx-auto py-20 px-6">
-        <span class="text-[11px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
+        <span class="text-[14px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
             NFLRMS</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
             A statutory workflow, digitized without losing a single approval.
@@ -274,9 +247,9 @@
             <!-- Feature 1 -->
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
-                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">🛡️</span>
-                <h3 class="text-sm font-semibold text-serif text-slate-900">Statutory Chain Preserved</h3>
-                <p class="text-xs text-slate-500 leading-relaxed font-medium">
+                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-shield-halved"></i></span>
+                <h3 class="text-[14px] font-semibold text-serif text-slate-900">Statutory Chain Preserved</h3>
+                <p class="text-[12px] text-slate-500 leading-relaxed font-medium">
                     DC Office &rarr; Police / SB (individuals) or Police/SB/NSI/DGFI (dealers) &rarr; MoHA Political-4
                     &rarr; Joint Secretary &rarr; Minister. Every signature, every register.
                 </p>
@@ -284,7 +257,7 @@
             <!-- Feature 2 -->
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
-                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">⏳</span>
+                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-hourglass-half"></i></span>
                 <h3 class="text-sm font-semibold text-serif text-slate-900">Automatic Renewal Lifecycle</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
                     60/30/15-day reminders, grace period, 3-tier late-fine engine, auto-suspension, mandatory re-vetting
@@ -294,7 +267,7 @@
             <!-- Feature 3 -->
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
-                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block">🏛️</span>
+                <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-building-columns"></i></span>
                 <h3 class="text-sm font-semibold text-serif text-slate-900">Ministry-grade Oversight</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
                     Real-time revenue, quota, and heatmap dashboards for the Secretary and Minister — with an emergency
@@ -445,10 +418,10 @@
         <div
             class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs gap-6 text-slate-300">
             <div>
-                <h4 class="font-bold text-white font-serif text-sm">Ministry of Home Affairs</h4>
-                <p class="text-[11px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
+                <h4 class="font-bold text-white font-serif text-[14px]">Ministry of Home Affairs</h4>
+                <p class="text-[12px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
             </div>
-            <div class="text-center md:text-right text-[11px]">
+            <div class="text-center md:text-right text-[12px]">
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
                 <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
                     <span>Designed & Developed by</span>

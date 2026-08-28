@@ -14,7 +14,7 @@
                 <p class="text-xs text-slate-500 mt-1 font-medium">Super Admin &bull; fine-grained per-module permissions (BRS §5.13 &bull; FR-ADM-03)</p>
             </div>
             <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm self-start sm:self-auto">
-                <span>💾</span><span>Save Matrix</span>
+                <span><i class="fa-solid fa-floppy-disk"></i></span><span>Save Matrix</span>
             </button>
         </div>
 
@@ -67,7 +67,7 @@
             <input type="text" name="role_name" required placeholder="e.g. District Auditor"
                    class="flex-grow px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
             <button type="submit" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-lg flex items-center justify-center space-x-1 shadow-sm whitespace-nowrap">
-                <span>+</span><span>Add role</span>
+                <span><i class="fa-solid fa-plus"></i></span><span>Add role</span>
             </button>
             <div class="flex flex-wrap items-center gap-1.5 pt-1 sm:pt-0">
                 @foreach(['none','read','write','approve'] as $perm)

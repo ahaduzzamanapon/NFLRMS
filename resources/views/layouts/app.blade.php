@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -96,7 +99,7 @@
             margin-top: 20px;
             margin-bottom: 4px;
         }
-        .nav-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+        .nav-icon { font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
 
         @media (max-width: 1023px) {
             .mobile-sidebar {
@@ -160,7 +163,7 @@
         <div style="font-size:11px;color:rgba(255, 255, 255, 0.40);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
             <a href="{{ route('profile.edit') }}" style="display:flex;align-items:center;justify-content:between;gap:8px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:background 0.15s;width:100%;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
-                    <span style="color:#10b981;font-size:13px;flex-shrink:0;">➔</span>
+                    <span style="color:#10b981;font-size:13px;flex-shrink:0;"><i class="fa-solid fa-arrow-right text-emerald-400 text-xs"></i></span>
                     <span style="color:#fff;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
                 </div>
                 <svg style="width:12px;height:12px;color:rgba(255, 255, 255, 0.5);flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
@@ -178,13 +181,13 @@
             @if($role === \App\Enums\Role::SystemAdmin)
                 <div class="nav-section">System Administration</div>
                 @php $adminLinks = [
-                    ['route'=>'admin.dashboard', 'icon'=>'🏠','label'=>'Home', 'active_check'=>'exact'],
-                    ['route'=>'admin.users',     'icon'=>'👤','label'=>'User Management', 'active_check'=>'prefix'],
-                    ['route'=>'admin.fee_config', 'icon'=>'💵','label'=>'Fee & Fine Config', 'active_check'=>'exact'],
-                    ['route'=>'admin.acl',         'icon'=>'🔑','label'=>'ACL / Permissions', 'active_check'=>'exact'],
-                    ['route'=>'admin.api_config',  'icon'=>'🔌','label'=>'API Configuration', 'active_check'=>'exact'],
-                    ['route'=>'admin.audit_log',   'icon'=>'📝','label'=>'Audit Log', 'active_check'=>'exact'],
-                    ['route'=>'admin.reports',     'icon'=>'📊','label'=>'Reports & Analytics', 'active_check'=>'exact'],
+                    ['route'=>'admin.dashboard', 'icon'=>'fa-solid fa-house','label'=>'Home', 'active_check'=>'exact'],
+                    ['route'=>'admin.users',     'icon'=>'fa-solid fa-user','label'=>'User Management', 'active_check'=>'prefix'],
+                    ['route'=>'admin.fee_config', 'icon'=>'fa-solid fa-money-bill-wave','label'=>'Fee & Fine Config', 'active_check'=>'exact'],
+                    ['route'=>'admin.acl',         'icon'=>'fa-solid fa-key','label'=>'ACL / Permissions', 'active_check'=>'exact'],
+                    ['route'=>'admin.api_config',  'icon'=>'fa-solid fa-plug','label'=>'API Configuration', 'active_check'=>'exact'],
+                    ['route'=>'admin.audit_log',   'icon'=>'fa-solid fa-file-lines','label'=>'Audit Log', 'active_check'=>'exact'],
+                    ['route'=>'admin.reports',     'icon'=>'fa-solid fa-chart-pie','label'=>'Reports & Analytics', 'active_check'=>'exact'],
                 ]; @endphp
                 @foreach($adminLinks as $lnk)
                 @php
@@ -196,7 +199,7 @@
                     }
                 @endphp
                 <a href="{{ route($lnk['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
-                    <span class="nav-icon">{{ $lnk['icon'] }}</span><span>{{ $lnk['label'] }}</span>
+                    <span class="nav-icon"><i class="{{ $lnk['icon'] }}"></i></span><span>{{ $lnk['label'] }}</span>
                 </a>
                 @endforeach
 
@@ -204,77 +207,77 @@
             @elseif($roleVal === 'citizen_applicant')
                 <div class="nav-section">My Licences</div>
                 <a href="{{ route('citizen.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='citizen.dashboard'?'active':'' }}">
-                    <span class="nav-icon">📄</span><span>My Applications</span>
+                    <span class="nav-icon"><i class="fa-solid fa-file-lines"></i></span><span>My Applications</span>
                 </a>
                 <a href="{{ route('citizen.apply') }}" class="nav-link {{ Route::currentRouteName()==='citizen.apply'?'active':'' }}">
-                    <span class="nav-icon">➕</span><span>New License</span>
+                    <span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>New License</span>
                 </a>
                 <a href="{{ route('citizen.renew_general') }}" class="nav-link {{ Route::currentRouteName()==='citizen.renew_general'?'active':'' }}">
-                    <span class="nav-icon">🔄</span><span>Renew License</span>
+                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew License</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
-                    <span class="nav-icon">📍</span><span>Application Tracking</span>
+                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>Application Tracking</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon">🔍</span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
                 </a>
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon">👤</span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
                 </a>
 
             {{-- DEALER --}}
             @elseif($roleVal === 'dealer_applicant')
                 <div class="nav-section">Dealer Portal</div>
                 <a href="{{ route('dealer.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='dealer.dashboard'?'active':'' }}">
-                    <span class="nav-icon">🏪</span><span>Dealer Home</span>
+                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>Dealer Home</span>
                 </a>
                 <a href="{{ route('dealer.apply') }}" class="nav-link {{ Route::currentRouteName()==='dealer.apply'?'active':'' }}">
-                    <span class="nav-icon">📋</span><span>New Dealing Licence (Form K)</span>
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>Apply for New Licence</span>
                 </a>
                 <a href="{{ route('dealer.renew') }}" class="nav-link {{ Route::currentRouteName()==='dealer.renew'?'active':'' }}">
-                    <span class="nav-icon">🔄</span><span>Renew Dealing Licence</span>
+                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew Dealing Licence</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
-                    <span class="nav-icon">📍</span><span>Application Tracking</span>
+                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>Application Tracking</span>
                 </a>
                 <a href="{{ route('dealer.stock_ledger') }}" class="nav-link {{ Route::currentRouteName()==='dealer.stock_ledger'?'active':'' }}">
-                    <span class="nav-icon">📦</span><span>Stock Ledger</span>
+                    <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>Stock Ledger</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon">🔍</span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
                 </a>
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon">👤</span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
                 </a>
 
             {{-- DC FRONT DESK --}}
             @elseif($role===\App\Enums\Role::DcFrontDesk)
                 <div class="nav-section">DC Office</div>
                 <a href="{{ route('front_desk.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','front_desk')?'active':'' }}">
-                    <span class="nav-icon">📥</span><span>Front Desk Intake</span>
+                    <span class="nav-icon"><i class="fa-solid fa-inbox"></i></span><span>Front Desk Intake</span>
                 </a>
 
             {{-- DC JM BRANCH --}}
             @elseif($role===\App\Enums\Role::DcJmBranch)
                 <div class="nav-section">DC Office</div>
                 <a href="{{ route('jm_branch.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','jm_branch')?'active':'' }}">
-                    <span class="nav-icon">📋</span><span>JM Branch Queue</span>
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>JM Branch Queue</span>
                 </a>
 
             {{-- DISTRICT COMMISSIONER --}}
             @elseif($role===\App\Enums\Role::DistrictCommissioner)
                 <div class="nav-section">DC Office</div>
                 <a href="{{ route('dc.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','dc.')?'active':'' }}">
-                    <span class="nav-icon">🏛️</span><span>DC Approval Queue</span>
+                    <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>DC Approval Queue</span>
                 </a>
 
             {{-- VETTING --}}
             @elseif(in_array($roleVal,['police_officer','special_branch','nsi_officer','dgfi_officer']))
                 <div class="nav-section">Security Vetting</div>
                 <a href="{{ route('vetting.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','vetting')?'active':'' }}">
-                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span>
                     <span>
                         @if($role === \App\Enums\Role::PoliceOfficer) Police Vetting Queue
                         @elseif($role === \App\Enums\Role::SpecialBranch) SB Vetting Queue
@@ -287,34 +290,46 @@
             {{-- MoHA --}}
             @elseif(in_array($roleVal,['moha_desk','joint_secretary','senior_secretary','national_screening_committee']))
                 <div class="nav-section">MoHA</div>
-                <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','moha')?'active':'' }}">
-                    <span class="nav-icon">🏢</span>
-                    <span>
-                        @if($role === \App\Enums\Role::MohaDesk) Political-4 / Sasan-4 Desk
-                        @elseif($role === \App\Enums\Role::JointSecretary) Joint / Additional Secretary
-                        @elseif($role === \App\Enums\Role::NationalScreeningCommittee) Nat. Screening Committee
-                        @else Senior Secretary / Minister
-                        @endif
-                    </span>
-                </a>
+                @if($role === \App\Enums\Role::SeniorSecretary)
+                    <a href="{{ route('senior_secretary.dashboard') }}" class="nav-link {{ Route::currentRouteName() === 'senior_secretary.dashboard' ? 'active' : '' }}">
+                        <span class="nav-icon"><i class="fa-solid fa-house"></i></span><span>Home</span>
+                    </a>
+                    <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'moha') ? 'active' : '' }}">
+                        <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>Approval Queue</span>
+                    </a>
+                    <a href="{{ route('admin.reports') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'admin.reports') ? 'active' : '' }}">
+                        <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>Reports &amp; Analytics</span>
+                    </a>
+                @else
+                    <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'moha') ? 'active' : '' }}">
+                        <span class="nav-icon"><i class="fa-solid fa-building"></i></span>
+                        <span>
+                            @if($role === \App\Enums\Role::MohaDesk) Political-4 / Sasan-4 Desk
+                            @elseif($role === \App\Enums\Role::JointSecretary) Joint / Additional Secretary
+                            @elseif($role === \App\Enums\Role::NationalScreeningCommittee) Nat. Screening Committee
+                            @else Senior Secretary / Minister
+                            @endif
+                        </span>
+                    </a>
+                @endif
 
             {{-- EXECUTIVE --}}
             @elseif($role===\App\Enums\Role::Executive)
                 <div class="nav-section">Executive</div>
                 <a href="{{ route('executive.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='executive.dashboard'?'active':'' }}">
-                    <span class="nav-icon">📊</span><span>Executive Dashboard</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>Executive Dashboard</span>
                 </a>
                 <a href="{{ route('executive.licenses') }}" class="nav-link {{ Route::currentRouteName()==='executive.licenses'?'active':'' }}">
-                    <span class="nav-icon">📑</span><span>All Licences</span>
+                    <span class="nav-icon"><i class="fa-solid fa-scroll"></i></span><span>All Licences</span>
                 </a>
                 <a href="{{ route('executive.dealers') }}" class="nav-link {{ Route::currentRouteName()==='executive.dealers'?'active':'' }}">
-                    <span class="nav-icon">🏪</span><span>Dealers &amp; Stock</span>
+                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>Dealers &amp; Stock</span>
                 </a>
                 <a href="{{ route('executive.dealing_central') }}" class="nav-link {{ Route::currentRouteName()==='executive.dealing_central'?'active':'' }}">
-                    <span class="nav-icon">🗂️</span><span>Dealing License Central</span>
+                    <span class="nav-icon"><i class="fa-solid fa-folder-tree"></i></span><span>Dealing License Central</span>
                 </a>
                 <a href="{{ route('admin.reports') }}" class="nav-link {{ Route::currentRouteName()==='admin.reports'?'active':'' }}">
-                    <span class="nav-icon">📈</span><span>Reports &amp; Analytics</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Reports &amp; Analytics</span>
                 </a>
             @endif
 
@@ -326,7 +341,7 @@
             @if($customCommentPerm !== 'none')
                 <div class="nav-section">Tools</div>
                 <a href="{{ route('custom_comment.index') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','custom_comment')?'active':'' }}">
-                    <span class="nav-icon">💬</span><span>Custom Comment</span>
+                    <span class="nav-icon"><i class="fa-solid fa-comments"></i></span><span>Custom Comment</span>
                 </a>
             @endif
 
@@ -334,7 +349,7 @@
             @if(!in_array($roleVal,['citizen_applicant','dealer_applicant','system_admin']))
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon">👤</span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
                 </a>
             @endif
         </nav>
@@ -342,22 +357,11 @@
 
         <!-- Bottom -->
         <div style="padding:12px 16px 20px;border-top:1px solid rgba(255,255,255,0.06);">
-            <div class="flex items-center justify-center">
-                {{-- @auth
-                <form action="{{ route('logout') }}" method="POST" style="display:inline-flex;align-items:center;">
-                    @csrf
-                    <button type="submit" title="Sign out" style="font-size:10px;color:rgba(255, 255, 255, 0.5);font-weight:500;background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0;transition:opacity 0.15s;opacity:0.85;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
-                        <span>Developed By</span>
-                        <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:20px;width:auto;object-fit:contain;border-radius:3px;">
-                    </button>
-                </form>
-                @else --}}
-                <div style="font-size:11.5px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
-                    <span>Developed By</span>
-                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:20px;width:auto;object-fit:contain;border-radius:3px;">
-                    {{-- <span>MysoftheavenBD Ltd.</span> --}}
+            <div class="flex items-center justify-between">
+                <div style="font-size:10px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
+                    <span>Designed & Developed By</span>
+                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:18px;width:auto;object-fit:contain;border-radius:3px;">
                 </div>
-                {{-- <span style="font-size:9px;color:rgba(255, 255, 255, 0.25);font-weight:500;">v1.0 · PROD</span> --}}
             </div>
         </div>
     </aside>
@@ -372,7 +376,7 @@
                 <button type="button" onclick="toggleSidebar(true)" aria-label="Toggle navigation menu" class="lg:hidden mr-1 sm:mr-2 p-1.5 text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg bg-white flex items-center justify-center transition-colors flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <span class="hidden sm:inline flex-shrink-0">🏢</span>
+                <i class="fa-solid fa-building hidden sm:inline flex-shrink-0 text-slate-400"></i>
                 <span class="font-medium text-slate-700 truncate text-[11px] sm:text-sm">Ministry of Home Affairs</span>
                 <span class="text-slate-300 hidden md:inline">·</span>
                 <span class="hidden md:inline truncate text-slate-500 text-[11px] sm:text-sm">Government of the People's Republic of Bangladesh</span>
@@ -449,19 +453,19 @@
 
             @if(session('success'))
             <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold">
-                <span class="text-emerald-500 flex-shrink-0">✓</span>
+                <span class="text-emerald-500 flex-shrink-0"><i class="fa-solid fa-circle-check"></i></span>
                 <span>{{ session('success') }}</span>
             </div>
             @endif
             @if(session('warning'))
             <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold">
-                <span class="flex-shrink-0">⚠️</span>
+                <span class="flex-shrink-0"><i class="fa-solid fa-triangle-exclamation"></i></span>
                 <span>{{ session('warning') }}</span>
             </div>
             @endif
             @if(session('error'))
             <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold">
-                <span class="flex-shrink-0">✕</span>
+                <span class="flex-shrink-0"><i class="fa-solid fa-circle-xmark"></i></span>
                 <span>{{ session('error') }}</span>
             </div>
             @endif

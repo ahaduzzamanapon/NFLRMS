@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Admin Dashboard')
+@section('title', 'Senior Secretary Home Dashboard')
 
 @section('content')
 <div class="max-w-full space-y-6">
@@ -7,20 +7,20 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">Admin Home Dashboard</h2>
-            <p class="text-xs text-slate-500 mt-1 font-medium">System operations, user statistics &amp; application oversight</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">Senior Secretary Dashboard</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Ministry of Home Affairs &bull; High-level licensing overview &amp; regional analytics</p>
         </div>
-        <div class="flex items-center gap-2">
-            <a href="{{ route('admin.users') }}" class="px-3.5 py-2 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-xl transition-colors shadow-sm flex items-center gap-1.5">
-                <span><i class="fa-solid fa-users"></i></span><span>Manage Users</span>
+        <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+            <a href="{{ route('moha.dashboard') }}" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-1.5">
+                <span><i class="fa-solid fa-building-columns"></i></span><span>Approval Queue</span>
             </a>
-            <a href="{{ route('admin.audit_log') }}" class="px-3.5 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5">
-                <span><i class="fa-solid fa-file-lines text-slate-500"></i></span><span>Audit Trail</span>
-            </a>
+            {{-- <a href="{{ route('custom_comment.index') }}" class="px-3.5 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5">
+                <span><i class="fa-solid fa-comments text-slate-500"></i></span><span>Directives &amp; Notes</span>
+            </a> --}}
         </div>
     </div>
 
-    <!-- Top KPI Cards -->
+    <!-- ===== 1. DASHBOARD STATISTICS CARDS (6 Count Cards) ===== -->
     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
 
         <!-- Card 1: Total Licenses -->
@@ -121,7 +121,7 @@
 
     </div>
 
-    <!-- ===== CHARTS SECTION (District-wise & Thana-wise) ===== -->
+    <!-- ===== 2. CHARTS SECTION (District-wise & Thana-wise) ===== -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
         <!-- District-wise License Statistics -->
@@ -190,189 +190,195 @@
 
     </div>
 
-    <!-- Middle Section: Application Summary & User Role Distribution -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+    <!-- ===== 3. MIDDLE OVERVIEW & SUMMARY METRICS ===== -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-        <!-- Application Status Summary -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
-            <div>
-                <div class="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-                    <h3 class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                        <span><i class="fa-solid fa-chart-pie text-gov-green"></i></span><span>Application Summary</span>
-                    </h3>
-                    <span class="text-[10px] font-semibold text-slate-400">Status counts</span>
-                </div>
-                <div class="p-5 space-y-3.5">
-                    @php
-                    $appStatusList = [
-                        ['label' => 'Pending Workflow', 'count' => $stats['pending_applications'], 'color' => 'bg-amber-500', 'textColor' => 'text-amber-700'],
-                        ['label' => 'Approved / License Issued', 'count' => $stats['approved_applications'], 'color' => 'bg-emerald-500', 'textColor' => 'text-emerald-700'],
-                        ['label' => 'Rejected Applications', 'count' => $stats['rejected_applications'], 'color' => 'bg-rose-500', 'textColor' => 'text-rose-700'],
-                    ];
-                    $maxAppCount = max(1, $stats['total_applications']);
-                    @endphp
-                    @foreach($appStatusList as $item)
-                    <div>
-                        <div class="flex items-center justify-between text-xs mb-1">
-                            <span class="font-medium text-slate-700">{{ $item['label'] }}</span>
-                            <span class="font-bold {{ $item['textColor'] }}">{{ number_format($item['count']) }}</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                            <div class="h-2 rounded-full {{ $item['color'] }}" style="width: {{ round(($item['count'] / $maxAppCount) * 100) }}%"></div>
-                        </div>
+        <!-- License Status Summary & Processing Progress -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-xs font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-gov-green"></i>
+                    <span>Processing &amp; Status Metrics</span>
+                </h3>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">National Summary</span>
+            </div>
+
+            <div class="space-y-3.5">
+                <!-- Vetting Completion -->
+                <div>
+                    <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-medium text-slate-700">Security Vetting Clearance Rate</span>
+                        <span class="font-bold text-emerald-700">{{ $licenseStatusSummary['vetting_completed'] }}%</span>
                     </div>
-                    @endforeach
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div class="h-2 rounded-full bg-emerald-500" style="width: {{ $licenseStatusSummary['vetting_completed'] }}%"></div>
+                    </div>
+                </div>
+
+                <!-- MoHA Review -->
+                <div>
+                    <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-medium text-slate-700">MoHA Approval Processing Progress</span>
+                        <span class="font-bold text-gov-green">{{ $licenseStatusSummary['moha_reviewed'] }}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div class="h-2 rounded-full bg-gov-green" style="width: {{ $licenseStatusSummary['moha_reviewed'] }}%"></div>
+                    </div>
+                </div>
+
+                <!-- Approved vs Total -->
+                <div>
+                    <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-medium text-slate-700">Active License Ratio</span>
+                        <span class="font-bold text-blue-600">{{ $licenseStatusSummary['approved_rate'] }}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div class="h-2 rounded-full bg-blue-500" style="width: {{ $licenseStatusSummary['approved_rate'] }}%"></div>
+                    </div>
+                </div>
+
+                <!-- Restricted Weapons -->
+                <div>
+                    <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-medium text-slate-700">Restricted Category Share (.9mm / Magnums)</span>
+                        <span class="font-bold text-purple-600">{{ $licenseStatusSummary['restricted_weapon_share'] }}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div class="h-2 rounded-full bg-purple-500" style="width: {{ $licenseStatusSummary['restricted_weapon_share'] }}%"></div>
+                    </div>
                 </div>
             </div>
-            <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Districts Covered: <strong class="text-slate-800">{{ $stats['total_districts'] }}</strong></span>
-                <a href="{{ route('admin.reports') }}" class="font-semibold text-gov-green hover:underline">View Analytics <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                <span>Standard Review SLAs: <strong>14 Days</strong></span>
+                <span class="text-emerald-600 font-semibold flex items-center gap-1"><i class="fa-solid fa-check text-[10px]"></i> System Optimal</span>
             </div>
         </div>
 
-        <!-- User Roles Overview -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
-            <div>
-                <div class="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-                    <h3 class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                        <span><i class="fa-solid fa-shield-halved text-gov-green"></i></span><span>User Category Summary</span>
-                    </h3>
-                    <span class="text-[10px] font-semibold text-slate-400">Total {{ $stats['total_users'] }}</span>
-                </div>
-                <div class="p-5 space-y-3.5">
-                    @php
-                    $userCategories = [
-                        ['label' => 'Applicants (Citizen & Dealer)', 'count' => $stats['role_counts']['applicants'] ?? 0, 'color' => 'bg-blue-500'],
-                        ['label' => 'DC Office & Field Personnel', 'count' => $stats['role_counts']['dc_office'] ?? 0, 'color' => 'bg-gov-green'],
-                        ['label' => 'Security Vetting Officers', 'count' => $stats['role_counts']['vetting'] ?? 0, 'color' => 'bg-purple-500'],
-                        ['label' => 'Ministry Officials (MoHA)', 'count' => $stats['role_counts']['moha'] ?? 0, 'color' => 'bg-amber-500'],
-                        ['label' => 'System Administrators', 'count' => $stats['role_counts']['admin'] ?? 0, 'color' => 'bg-slate-700'],
-                    ];
-                    $maxUserCat = max(1, $stats['total_users']);
-                    @endphp
-                    @foreach($userCategories as $cat)
-                    <div>
-                        <div class="flex items-center justify-between text-xs mb-1">
-                            <span class="font-medium text-slate-700">{{ $cat['label'] }}</span>
-                            <span class="font-bold text-slate-900">{{ number_format($cat['count']) }}</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                            <div class="h-2 rounded-full {{ $cat['color'] }}" style="width: {{ round(($cat['count'] / $maxUserCat) * 100) }}%"></div>
-                        </div>
+        <!-- Recent Activities Feed -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div class="px-5 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xs font-bold">
+                        <i class="fa-solid fa-list-check"></i>
                     </div>
-                    @endforeach
+                    <div>
+                        <h3 class="text-xs font-bold text-slate-900">Recent Senior Secretary Level Activities</h3>
+                        <p class="text-[10px] text-slate-400">Chronological activity stream of high-level ministerial decisions</p>
+                    </div>
                 </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Log</span>
             </div>
-            <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Account Control Center</span>
-                <a href="{{ route('admin.users') }}" class="font-semibold text-gov-green hover:underline">Manage Accounts <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+
+            <div class="p-5 divide-y divide-slate-100 space-y-3">
+                @foreach($recentActivities as $act)
+                <div class="pt-3 first:pt-0 flex items-start gap-3.5">
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-sm border {{ $act['color'] }}">
+                        <i class="{{ $act['icon'] }}"></i>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="text-xs font-bold text-slate-900 truncate">{{ $act['action'] }}</h4>
+                            <span class="text-[10px] text-slate-400 font-medium whitespace-nowrap">{{ $act['time'] }}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">{{ $act['description'] }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[11px]">
+                <span class="text-slate-500">All administrative operations logged &amp; timestamped for audit integrity</span>
+                <span class="text-gov-green font-bold">Audit Level 1</span>
             </div>
         </div>
 
     </div>
 
-    <!-- Bottom Section: Recent Activities Log & Administrative Shortcuts -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-
-        <!-- Recent Activities Table -->
-        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-            <div class="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-                <h3 class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                    <span><i class="fa-solid fa-clock-rotate-left text-gov-green"></i></span><span>Recent System Activities</span>
-                </h3>
-                <a href="{{ route('admin.audit_log') }}" class="text-[10px] font-semibold text-gov-green hover:underline">View Full Log <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-[480px]">
-                    <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-                            <th class="p-3 pl-5">Time</th>
-                            <th class="p-3">Actor</th>
-                            <th class="p-3">Action</th>
-                            <th class="p-3 pr-5">Application</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-xs divide-y divide-slate-100">
-                        @forelse($recentActivities as $log)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 text-[11px] text-slate-400 whitespace-nowrap">
-                                {{ $log->created_at ? $log->created_at->diffForHumans() : 'N/A' }}
-                            </td>
-                            <td class="p-3 font-semibold text-slate-800">
-                                {{ $log->actor->name ?? 'System' }}
-                            </td>
-                            <td class="p-3 text-slate-600 font-medium">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                                    {{ ucfirst(str_replace('_', ' ', $log->action)) }}
-                                </span>
-                            </td>
-                            <td class="p-3 pr-5 font-mono text-[10px] font-bold text-gov-green">
-                                {{ $log->application->application_number ?? 'N/A' }}
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="p-8 text-center text-slate-400 font-normal">
-                                No activity recorded yet.
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Quick Administration Modules -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 flex flex-col justify-between space-y-4">
-            <div>
-                <h3 class="text-xs font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span><i class="fa-solid fa-bolt text-amber-500"></i></span><span>Quick Administration</span>
-                </h3>
-                <div class="space-y-2">
-                    <a href="{{ route('admin.users') }}" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 transition-all text-xs font-semibold text-slate-700 group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-sm"><i class="fa-solid fa-users text-slate-500"></i></span>
-                            <span>User Management</span>
-                        </div>
-                        <span class="text-slate-400 group-hover:translate-x-0.5 transition-transform text-xs"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
-                    </a>
-                    <a href="{{ route('admin.fee_config') }}" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 transition-all text-xs font-semibold text-slate-700 group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-sm"><i class="fa-solid fa-money-bill-wave text-slate-500"></i></span>
-                            <span>Fee &amp; Fine Config</span>
-                        </div>
-                        <span class="text-slate-400 group-hover:translate-x-0.5 transition-transform text-xs"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
-                    </a>
-                    <a href="{{ route('admin.acl') }}" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 transition-all text-xs font-semibold text-slate-700 group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-sm"><i class="fa-solid fa-key text-slate-500"></i></span>
-                            <span>ACL / Permissions</span>
-                        </div>
-                        <span class="text-slate-400 group-hover:translate-x-0.5 transition-transform text-xs"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
-                    </a>
-                    <a href="{{ route('admin.api_config') }}" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 transition-all text-xs font-semibold text-slate-700 group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-sm"><i class="fa-solid fa-plug text-slate-500"></i></span>
-                            <span>API Configuration</span>
-                        </div>
-                        <span class="text-slate-400 group-hover:translate-x-0.5 transition-transform text-xs"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
-                    </a>
-                    <a href="{{ route('admin.reports') }}" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 transition-all text-xs font-semibold text-slate-700 group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="text-sm"><i class="fa-solid fa-chart-line text-slate-500"></i></span>
-                            <span>Reports &amp; Analytics</span>
-                        </div>
-                        <span class="text-slate-400 group-hover:translate-x-0.5 transition-transform text-xs"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
-                    </a>
+    <!-- ===== 4. RECENT APPLICATIONS TABLE ===== -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 bg-slate-50/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gov-green/10 text-gov-green flex items-center justify-center text-sm font-bold">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div>
+                    <h3 class="text-xs sm:text-sm font-bold text-slate-900">Recent Applications &amp; Licenses Overview</h3>
+                    <p class="text-[11px] text-slate-400">High-priority applications undergoing MoHA review or recent issuance</p>
                 </div>
             </div>
-
-            <div class="p-3 bg-gov-green/5 border border-gov-green/10 rounded-xl">
-                <div class="text-[11px] font-bold text-gov-green">System Health: Operational</div>
-                <div class="text-[10px] text-slate-500 mt-0.5">All services, database &amp; payment gateways active.</div>
-            </div>
+            <a href="{{ route('moha.dashboard') }}" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors self-start sm:self-auto flex items-center gap-1.5">
+                <span>View Full Approval Queue</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
         </div>
 
+        <div class="table-responsive">
+            <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                    <tr class="bg-slate-50/70 border-b border-slate-200/80 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                        <th class="py-3 px-5">Application / License No</th>
+                        <th class="py-3 px-4">Applicant &amp; Category</th>
+                        <th class="py-3 px-4">Firearm Type</th>
+                        <th class="py-3 px-4">District / Thana</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4">Date</th>
+                        <th class="py-3 px-5 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    @foreach($recentApplications as $app)
+                    <tr class="hover:bg-slate-50/60 transition-colors">
+                        <td class="py-3.5 px-5">
+                            <div class="font-bold text-slate-900">{{ $app['app_no'] }}</div>
+                            <div class="text-[10px] text-slate-400 font-mono">{{ $app['license_no'] }}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-semibold text-slate-800">{{ $app['applicant_name'] }}</div>
+                            <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase {{ $app['category'] === 'Dealer' ? 'bg-purple-50 text-purple-700 border border-purple-200' : 'bg-blue-50 text-blue-700 border border-blue-200' }}">
+                                {{ $app['category'] }}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 font-medium text-slate-700">
+                            {{ $app['type'] }}
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-medium text-slate-800">{{ $app['district'] }}</div>
+                            <div class="text-[10px] text-slate-400">{{ $app['thana'] }}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            @if($app['status'] === 'approved')
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Approved
+                                </span>
+                            @elseif($app['status'] === 'suspended')
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Suspended
+                                </span>
+                            @elseif($app['status'] === 'pending_screening')
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200 inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Nat. Screening
+                                </span>
+                            @else
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> MoHA Review
+                                </span>
+                            @endif
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-500 font-mono text-[11px]">
+                            {{ $app['date'] }}
+                        </td>
+                        <td class="py-3.5 px-5 text-right">
+                            <a href="{{ route('moha.dashboard') }}" class="px-3 py-1 bg-gov-green/10 hover:bg-gov-green hover:text-white text-gov-green font-bold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1">
+                                <span>Inspect</span>
+                                <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
@@ -436,7 +442,7 @@
             }
         });
 
-        // 2. Thana-wise License Statistics (Doughnut Chart)
+        // 2. Thana-wise License Statistics (Doughnut / Horizontal Bar Chart)
         const thanaCtx = document.getElementById('thanaChart').getContext('2d');
         const thanaData = @json($thanaStats);
 

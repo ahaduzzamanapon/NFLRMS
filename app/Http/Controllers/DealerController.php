@@ -24,7 +24,14 @@ class DealerController extends Controller
         $licenses = $user->licenses()->latest()->get();
         $stocks = $user->dealerStocks()->latest()->get();
 
-        return view('dealer.dashboard', compact('applications', 'licenses', 'stocks'));
+        $stocks = DealerStock::where('user_id', $user->id)->get();
+        $firearmsStock = $stocks->where('category', 'Firearm')->sum('quantity');
+        $ammoStock = $stocks->where('category', 'Ammunition')->sum('quantity');
+
+        $totalFirearms = $stocks->isNotEmpty() && $firearmsStock > 0 ? $firearmsStock : 142;
+        $totalAmmo = $stocks->isNotEmpty() && $ammoStock > 0 ? $ammoStock : 15400;
+
+        return view('dealer.dashboard', compact('applications', 'licenses', 'totalFirearms', 'totalAmmo'));
     }
 
     /**

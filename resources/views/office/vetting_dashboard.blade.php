@@ -22,21 +22,21 @@
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-slate-300 flex items-center justify-center text-slate-500 shrink-0">🛡</div>
+            <div class="w-9 h-9 rounded-full border-2 border-slate-300 flex items-center justify-center text-slate-500 shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Pending Clearance</div>
                 <div class="text-2xl font-bold text-slate-900 mt-0.5">{{ $vettings->where('status','pending')->count() }}</div>
             </div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-emerald-400 flex items-center justify-center text-emerald-600 shrink-0">✓</div>
+            <div class="w-9 h-9 rounded-full border-2 border-emerald-400 flex items-center justify-center text-emerald-600 shrink-0"><i class="fa-solid fa-check"></i></div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Cleared This Month</div>
                 <div class="text-2xl font-bold text-emerald-600 mt-0.5">{{ $vettings->where('status','cleared')->count() }}</div>
             </div>
         </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full border-2 border-rose-400 flex items-center justify-center text-rose-600 shrink-0">✗</div>
+            <div class="w-9 h-9 rounded-full border-2 border-rose-400 flex items-center justify-center text-rose-600 shrink-0"><i class="fa-solid fa-xmark"></i></div>
             <div>
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Not Cleared</div>
                 <div class="text-2xl font-bold text-rose-600 mt-0.5">{{ $vettings->where('status','flagged')->count() }}</div>
@@ -75,7 +75,7 @@
                     <td class="p-3 text-slate-600 font-normal">{{ $v->application->district->name ?? 'N/A' }}</td>
                     <td class="p-3 pr-5 text-right">
                         <a href="{{ route('vetting.show', Crypt::encryptString($v->id)) }}"
-                           class="text-xs font-semibold text-gov-green hover:underline">Submit report →</a>
+                           class="text-xs font-semibold text-gov-green hover:underline">Submit report <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                     </td>
                 </tr>
                 @endforeach

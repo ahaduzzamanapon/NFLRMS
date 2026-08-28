@@ -56,7 +56,7 @@
 
     @if ($errors->any())
         <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
-            <span class="block text-sm font-bold font-serif">⚠️ Please resolve the following errors:</span>
+            <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Please resolve the following errors:</span>
             <ul class="list-disc pl-4 space-y-0.5">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -67,7 +67,7 @@
 
     <!-- Profile Incomplete Error -->
     <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
-        <span>⚠️</span>
+        <span><i class="fa-solid fa-triangle-exclamation"></i></span>
         <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
     </div>
 
@@ -189,7 +189,7 @@
         <!-- STEP 2: APPLICANT -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-2">
             <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal space-y-1">
-                <span class="block text-sm font-bold font-serif">ℹ️ Pulled from your Profile</span>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
                 <p class="font-semibold">
                     Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
                 </p>
@@ -298,7 +298,7 @@
         <!-- STEP 3: ADDRESS & INCOME -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-3">
             <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal space-y-1">
-                <span class="block text-sm font-bold font-serif">ℹ️ Pulled from your Profile</span>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
                 <p class="font-semibold">
                     Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
                 </p>
@@ -471,14 +471,14 @@
                     <div class="py-2.5 px-2 -mx-2 rounded-lg border {{ $errors->has($key) ? '!border-rose-400 !border-b bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="{{ $key }}">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div class="flex items-center space-x-2">
-                                <span>📄</span>
+                                <span><i class="fa-solid fa-file-lines text-slate-400"></i></span>
                                 <span class="font-semibold text-slate-800">{!! $label !!}</span>
                                 @if(in_array($key, $requiredDocs))
                                     <span class="text-rose-500 font-bold" title="Required">*</span>
                                 @endif
                             </div>
                             <div class="flex items-center space-x-3 text-[11px] self-end sm:self-auto">
-                                <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
+                                <span id="status-{{ $key }}" class="text-amber-600 font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Not uploaded</span>
                                 <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" {{ in_array($key, $requiredDocs) ? 'required' : '' }}
                                        data-required-message="This document is required." onchange="handleFileSelected('{{ $key }}')">
                                 <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors {{ $errors->has($key) ? 'ring-2 ring-rose-400' : '' }}">Upload</button>
@@ -660,7 +660,7 @@
 
             if (stepNum < currentStep) {
                 numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px] step-number';
-                numSpan.innerText = '✓';
+                numSpan.innerHTML = '<i class="fa-solid fa-check"></i>';
                 sisterLabel.className = 'text-slate-400 step-label';
             } else if (stepNum === currentStep) {
                 numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number';
@@ -966,7 +966,7 @@
         if (fileInput.files && fileInput.files.length > 0) {
             const fileName = fileInput.files[0].name;
             statusSpan.className = 'text-emerald-600 font-semibold';
-            statusSpan.innerText = `✓ Uploaded (${fileName})`;
+            statusSpan.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Uploaded (${fileName})`;
             btn.innerText = 'Replace';
             btn.classList.remove('ring-2', 'ring-rose-400');
             fileInput.classList.remove('border-rose-400');
@@ -977,7 +977,7 @@
             }
         } else {
             statusSpan.className = 'text-amber-600 font-semibold';
-            statusSpan.innerText = '⚠️ Not uploaded';
+            statusSpan.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Not uploaded';
             btn.innerText = 'Upload';
         }
     }

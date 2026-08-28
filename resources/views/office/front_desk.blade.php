@@ -96,7 +96,7 @@
                     <td class="p-3 pr-5 text-right">
                         <a href="{{ route('front_desk.show', Crypt::encryptString($a->id)) }}"
                            class="text-xs font-semibold text-gov-green hover:underline">
-                            Open →
+                            Open <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
                         </a>
                     </td>
                 </tr>

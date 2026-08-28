@@ -184,6 +184,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/office/vetting/reports/{encryptedId}', [VettingController::class, 'submit'])->name('vetting.submit');
     });
 
+    // Senior Secretary Home Dashboard
+    Route::middleware(['role:senior_secretary'])->group(function () {
+        Route::get('/office/senior-secretary', [WorkflowController::class, 'seniorSecretaryDashboard'])->name('senior_secretary.dashboard');
+    });
+
     // MoHA Desk & Committee
     Route::middleware(['role:moha_desk,joint_secretary,senior_secretary,national_screening_committee'])->group(function () {
         Route::get('/office/moha', [WorkflowController::class, 'mohaDashboard'])->name('moha.dashboard');
@@ -225,6 +230,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/acl', [AdminController::class, 'acl'])->name('admin.acl');
         Route::get('/admin/api-config', [AdminController::class, 'apiConfig'])->name('admin.api_config');
         Route::get('/admin/audit-log', [AdminController::class, 'auditLog'])->name('admin.audit_log');
+    });
+
+    // Reports & Analytics (System Admin, Executive, Senior Secretary)
+    Route::middleware(['role:system_admin,executive,senior_secretary'])->group(function () {
         Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+        Route::get('/admin/reports/run/{id}', [AdminController::class, 'runReport'])->name('admin.reports.run');
+        Route::get('/admin/reports/export/{id}/{format}', [AdminController::class, 'exportReport'])->name('admin.reports.export');
+        Route::get('/admin/reports/export-all/{format}', [AdminController::class, 'exportAllReports'])->name('admin.reports.export_all');
     });
 });

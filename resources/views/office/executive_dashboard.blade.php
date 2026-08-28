@@ -12,13 +12,13 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('dashboard.verify') }}" class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
-                Check any licence →
+                Check any licence <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </a>
             <button class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
-                ⬇ Export PDF
+                <i class="fa-solid fa-download mr-1"></i> Export PDF
             </button>
             <button class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white transition-colors shadow-sm">
-                ⚡ Emergency Kill-Switch
+                <i class="fa-solid fa-bolt mr-1"></i> Emergency Kill-Switch
             </button>
         </div>
     </div>
@@ -27,17 +27,17 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         @php
         $kpis = [
-            ['label' => 'Active Licenses',         'value' => number_format($stats['approved_licenses']),   'sub' => '+dynamic from DB', 'icon' => '👥', 'color' => 'text-gov-green'],
-            ['label' => 'Total Arms in Dealer Stock','value' => number_format($stats['total_dealer_stock']), 'sub' => 'Across registered dealers', 'icon' => '📦', 'color' => 'text-gov-green'],
-            ['label' => 'Revenue Collected (FY26)', 'value' => '৳' . number_format($stats['total_revenue']), 'sub' => 'Licence & application fees', 'icon' => '🏦', 'color' => 'text-gov-green'],
-            ['label' => 'On-Time Renewal Rate',     'value' => number_format($stats['renewal_rate'], 1) . '%', 'sub' => 'Annual renewal metrics', 'icon' => '📈', 'color' => 'text-gov-green'],
+            ['label' => 'Active Licenses',         'value' => number_format($stats['approved_licenses']),   'sub' => '+dynamic from DB', 'icon' => '<i class="fa-solid fa-users text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => 'Total Arms in Dealer Stock','value' => number_format($stats['total_dealer_stock']), 'sub' => 'Across registered dealers', 'icon' => '<i class="fa-solid fa-boxes-stacked text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => 'Revenue Collected (FY26)', 'value' => '৳' . number_format($stats['total_revenue']), 'sub' => 'Licence & application fees', 'icon' => '<i class="fa-solid fa-building-columns text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => 'On-Time Renewal Rate',     'value' => number_format($stats['renewal_rate'], 1) . '%', 'sub' => 'Annual renewal metrics', 'icon' => '<i class="fa-solid fa-chart-line text-gov-green"></i>', 'color' => 'text-gov-green'],
         ];
         @endphp
         @foreach($kpis as $kpi)
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">{{ $kpi['label'] }}</div>
-                <span class="text-base">{{ $kpi['icon'] }}</span>
+                <span class="text-base">{!! $kpi['icon'] !!}</span>
             </div>
             <div class="text-xl sm:text-2xl font-bold {{ $kpi['color'] }}">{{ $kpi['value'] }}</div>
             <div class="text-[9px] text-slate-400 mt-0.5 font-normal">{{ $kpi['sub'] }}</div>
@@ -50,7 +50,7 @@
         <div class="md:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
             <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between min-w-[460px]">
                 <span class="text-xs font-semibold text-slate-900">Recent Applications</span>
-                <a href="{{ route('executive.licenses') }}" class="text-[10px] font-semibold text-gov-green hover:underline">All Licences →</a>
+                <a href="{{ route('executive.licenses') }}" class="text-[10px] font-semibold text-gov-green hover:underline">All Licences <i class="fa-solid fa-arrow-right text-[9px] ml-0.5"></i></a>
             </div>
             <table class="w-full text-xs border-collapse min-w-[460px]">
                 <thead>

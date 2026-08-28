@@ -45,7 +45,7 @@
     <!-- Warning Banner (Conditional) -->
     @if($applications->where('status', 'suspended')->isNotEmpty())
         <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start space-x-2.5">
-            <span class="text-base mt-0.5">⚠️</span>
+            <span class="text-base mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i></span>
             <div>
                 <span class="font-bold">You have {{ $applications->where('status', 'suspended')->count() }} application(s) needing action.</span>
                 <p class="text-slate-600 mt-0.5">Complete payment or begin re-vetting to reactivate a suspended license.</p>
@@ -62,7 +62,7 @@
         @if($licenses->isEmpty())
             <div class="max-w-xl p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md">
                 <p class="text-xs text-slate-400 font-medium text-center py-4">
-                    No active license yet. <a href="{{ route('citizen.apply') }}" class="text-gov-green font-bold hover:underline">Apply for a new license →</a>
+                    No active license yet. <a href="{{ route('citizen.apply') }}" class="text-gov-green font-bold hover:underline">Apply for a new license <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                 </p>
             </div>
         @else
@@ -120,9 +120,9 @@
 
                     <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between">
                         <a href="{{ route('citizen.renew', Crypt::encryptString($l->id)) }}"
-                           class="text-[10px] font-semibold text-gov-green hover:underline">🔄 Renew License</a>
+                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-arrows-rotate mr-1"></i> Renew License</a>
                         <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
-                           class="text-[10px] font-semibold text-gov-green hover:underline">⬇ Download / Verify</a>
+                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-download mr-1"></i> Download / Verify</a>
                     </div>
                 </div>
 
@@ -146,7 +146,7 @@
         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
             <h3 class="text-sm font-bold text-slate-900 font-serif">My Applications</h3>
             <button onclick="window.location.reload()" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
-                <span>🔄</span>
+                <span><i class="fa-solid fa-arrows-rotate"></i></span>
                 <span>Refresh</span>
             </button>
         </div>
@@ -218,18 +218,18 @@
                                         Pay Platform Fee
                                     </a>
                                     <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
-                                        🔍 Verify
+                                        <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
                                     </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
                                     <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-bold shadow-sm transition-colors animate-pulse">
                                         Pay License Fee
                                     </a>
                                     <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
-                                        🔍 Verify
+                                        <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
                                     </button>
                                 @endif
                                 <a href="{{ route('citizen.show', Crypt::encryptString($a->id)) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
-                                    View &rarr;
+                                    View <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
                                 </a>
                             </td>
                         </tr>
@@ -270,7 +270,7 @@
     function checkPaymentStatus(appId, btnElement) {
         if (btnElement) {
             btnElement.disabled = true;
-            btnElement.innerText = '⏳ Verifying...';
+            btnElement.innerHTML = '<i class="fa-solid fa-hourglass-half mr-1"></i> Verifying...';
         }
 
         fetch('/payment/check-status/' + encodeURIComponent(appId), {
@@ -288,12 +288,12 @@
                 alert('Payment Notice: ' + data.message);
                 if (btnElement) {
                     btnElement.disabled = false;
-                    btnElement.innerText = '🔍 Verify';
+                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
             } else {
                 if (btnElement) {
                     btnElement.disabled = false;
-                    btnElement.innerText = '🔍 Verify';
+                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
                 alert(data.message || 'Status check complete.');
             }
@@ -301,7 +301,7 @@
         .catch(err => {
             if (btnElement) {
                 btnElement.disabled = false;
-                btnElement.innerText = '🔍 Verify';
+                btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
             }
         });
     }

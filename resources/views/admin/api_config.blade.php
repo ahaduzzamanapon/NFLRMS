@@ -11,7 +11,7 @@
             <p class="text-xs text-slate-500 mt-1 font-medium">Third-party integrations &bull; secrets stored encrypted &bull; rotate keys quarterly (BRS §5.14 &bull; NFR-SEC-04)</p>
         </div>
         <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm self-start sm:self-auto">
-            <span>💾</span><span>Save All Settings</span>
+            <span><i class="fa-solid fa-floppy-disk"></i></span><span>Save All Settings</span>
         </button>
     </div>
 
@@ -122,7 +122,7 @@
                         <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" placeholder="{{ $field['placeholder'] }}" value="{{ $field['value'] }}"
                                class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         @if($field['type'] === 'password')
-                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-900 hover:text-slate-600 text-[11px]">👁</button>
+                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"><i class="fa-solid fa-eye"></i></button>
                         @endif
                     </div>
                 </div>
@@ -149,10 +149,10 @@ function togglePasswordVisibility(btn) {
     if (input) {
         if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '🙈';
+            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
         } else {
             input.type = 'password';
-            btn.textContent = '👁';
+            btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
         }
     }
 }

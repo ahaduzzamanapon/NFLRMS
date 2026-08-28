@@ -16,7 +16,7 @@
         </div>
         <button onclick="document.getElementById('add-stock-modal').classList.remove('hidden')"
                 class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center space-x-1.5 self-start sm:self-auto">
-            <span>💾</span><span>Add Item</span>
+            <span><i class="fa-solid fa-floppy-disk"></i></span><span>Add Item</span>
         </button>
     </div>
 
@@ -168,7 +168,7 @@
 
             <button onclick="document.getElementById('add-stock-modal').classList.add('hidden')"
                 class="text-slate-400 hover:text-slate-700 font-bold text-lg">
-                ✕
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
