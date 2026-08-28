@@ -5,7 +5,7 @@
 <div class="max-w-full space-y-5">
 
     <div class="flex items-center gap-3">
-<a href="{{ route('admin.users') }}" class="text-xs font-semibold text-slate-400 hover:text-gov-green transition-colors">← Back</a>
+        <a href="{{ route('admin.users') }}" class="text-xs font-semibold text-slate-400 hover:text-gov-green transition-colors"><i class="fa-solid fa-arrow-left mr-1"></i> Back</a>
         <h2 class="text-2xl font-bold font-serif text-slate-900">Edit User</h2>
     </div>
 

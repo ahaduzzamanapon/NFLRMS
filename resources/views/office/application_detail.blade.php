@@ -40,12 +40,12 @@
 
     // Application tracker pipeline
     $pipeline = [
-        'submitted' => ['label' => 'Submitted', 'icon' => '📝'],
-        'received' => ['label' => 'Received', 'icon' => '📥'],
-        'pending_vetting' => ['label' => 'Vetting', 'icon' => '🛡️'],
-        'recommended' => ['label' => 'Recommended', 'icon' => '✅'],
-        'approved' => ['label' => 'Approved', 'icon' => '🏛️'],
-        'license_issued' => ['label' => 'Issued', 'icon' => '📜'],
+        'submitted' => ['label' => 'Submitted', 'icon' => '<i class="fa-solid fa-file-lines"></i>'],
+        'received' => ['label' => 'Received', 'icon' => '<i class="fa-solid fa-inbox"></i>'],
+        'pending_vetting' => ['label' => 'Vetting', 'icon' => '<i class="fa-solid fa-shield-halved"></i>'],
+        'recommended' => ['label' => 'Recommended', 'icon' => '<i class="fa-solid fa-circle-check"></i>'],
+        'approved' => ['label' => 'Approved', 'icon' => '<i class="fa-solid fa-building-columns"></i>'],
+        'license_issued' => ['label' => 'Issued', 'icon' => '<i class="fa-solid fa-certificate"></i>'],
     ];
 
     $status = $application->status;
@@ -74,24 +74,24 @@
 
     // Citizen apply page document order (citizen/apply.blade.php Step 5)
     $citizenDocList = [
-        'nid_copy'         => ['name' => 'National ID Copy',                    'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                           'default_file' => 'nid_copy.pdf',           'size' => '1.2 MB'],
-        'tin_certificate'  => ['name' => 'TIN Certificate',                     'icon' => '🧾', 'keys' => ['tin_certificate', 'tin'],                                'default_file' => 'tin_certificate.pdf',    'size' => '850 KB'],
-        'birth_cert'       => ['name' => 'Birth Certificate',                   'icon' => '👶', 'keys' => ['birth_cert', 'birth_certificate'],                        'default_file' => 'birth_cert.pdf',         'size' => '950 KB'],
-        'edu_cert'         => ['name' => 'Educational Certificate',             'icon' => '🎓', 'keys' => ['edu_cert', 'edu', 'educational_cert'],                    'default_file' => 'educational_cert.pdf',   'size' => '1.1 MB'],
-        'tax_yr1'          => ['name' => 'Income Tax Return · Year 1',          'icon' => '📊', 'keys' => ['tax_yr1', 'tax_return_yr1'],                              'default_file' => 'tax_return_year1.pdf',   'size' => '1.0 MB'],
-        'tax_yr2'          => ['name' => 'Income Tax Return · Year 2',          'icon' => '📊', 'keys' => ['tax_yr2', 'tax_return_yr2'],                              'default_file' => 'tax_return_year2.pdf',   'size' => '1.0 MB'],
-        'tax_yr3'          => ['name' => 'Income Tax Return · Year 3',          'icon' => '📊', 'keys' => ['tax_yr3', 'tax_return_yr3'],                              'default_file' => 'tax_return_year3.pdf',   'size' => '1.0 MB'],
-        'affidavit'        => ['name' => 'Notarized Affidavit (BDT 300 stamp)', 'icon' => '📜', 'keys' => ['affidavit', 'affidavit_copy'],                            'default_file' => 'notarized_affidavit.pdf','size' => '1.8 MB'],
-        'nationality_cert' => ['name' => 'Nationality Certificate',             'icon' => '🇧🇩','keys' => ['nationality_cert', 'nationality'],                       'default_file' => 'nationality_cert.pdf',   'size' => '720 KB'],
-        'photo'            => ['name' => 'Passport-size Photograph',            'icon' => '📸', 'keys' => ['photo', 'passport_photo', 'profile_photo'],               'default_file' => 'passport_photo.jpg',     'size' => '650 KB'],
+        'nid_copy'         => ['name' => 'National ID Copy',                    'icon' => '<i class="fa-solid fa-id-card"></i>', 'keys' => ['nid_copy', 'nid', 'nid_card'],                           'default_file' => 'nid_copy.pdf',           'size' => '1.2 MB'],
+        'tin_certificate'  => ['name' => 'TIN Certificate',                     'icon' => '<i class="fa-solid fa-receipt"></i>', 'keys' => ['tin_certificate', 'tin'],                                'default_file' => 'tin_certificate.pdf',    'size' => '850 KB'],
+        'birth_cert'       => ['name' => 'Birth Certificate',                   'icon' => '<i class="fa-solid fa-baby"></i>', 'keys' => ['birth_cert', 'birth_certificate'],                        'default_file' => 'birth_cert.pdf',         'size' => '950 KB'],
+        'edu_cert'         => ['name' => 'Educational Certificate',             'icon' => '<i class="fa-solid fa-graduation-cap"></i>', 'keys' => ['edu_cert', 'edu', 'educational_cert'],                    'default_file' => 'educational_cert.pdf',   'size' => '1.1 MB'],
+        'tax_yr1'          => ['name' => 'Income Tax Return · Year 1',          'icon' => '<i class="fa-solid fa-chart-line"></i>', 'keys' => ['tax_yr1', 'tax_return_yr1'],                              'default_file' => 'tax_return_year1.pdf',   'size' => '1.0 MB'],
+        'tax_yr2'          => ['name' => 'Income Tax Return · Year 2',          'icon' => '<i class="fa-solid fa-chart-line"></i>', 'keys' => ['tax_yr2', 'tax_return_yr2'],                              'default_file' => 'tax_return_year2.pdf',   'size' => '1.0 MB'],
+        'tax_yr3'          => ['name' => 'Income Tax Return · Year 3',          'icon' => '<i class="fa-solid fa-chart-line"></i>', 'keys' => ['tax_yr3', 'tax_return_yr3'],                              'default_file' => 'tax_return_year3.pdf',   'size' => '1.0 MB'],
+        'affidavit'        => ['name' => 'Notarized Affidavit (BDT 300 stamp)', 'icon' => '<i class="fa-solid fa-file-contract"></i>', 'keys' => ['affidavit', 'affidavit_copy'],                            'default_file' => 'notarized_affidavit.pdf','size' => '1.8 MB'],
+        'nationality_cert' => ['name' => 'Nationality Certificate',             'icon' => '<i class="fa-solid fa-flag"></i>', 'keys' => ['nationality_cert', 'nationality'],                       'default_file' => 'nationality_cert.pdf',   'size' => '720 KB'],
+        'photo'            => ['name' => 'Passport-size Photograph',            'icon' => '<i class="fa-solid fa-camera"></i>', 'keys' => ['photo', 'passport_photo', 'profile_photo'],               'default_file' => 'passport_photo.jpg',     'size' => '650 KB'],
     ];
 
     // Dealer apply page document order (dealer/apply.blade.php Section 4)
     $dealerDocList = [
-        'nid_copy'          => ['name' => 'NID Copy (Front & Back)',        'icon' => '🆔', 'keys' => ['nid_copy', 'nid', 'nid_card'],                             'default_file' => 'nid_copy.pdf',         'size' => '1.2 MB'],
-        'trade_license_doc' => ['name' => 'Trade License (Current Year)',   'icon' => '🏪', 'keys' => ['trade_license_doc', 'trade_license', 'trade', 'trade_cert'],'default_file' => 'trade_license.pdf',   'size' => '2.5 MB'],
-        'premises_photo'    => ['name' => 'Premises Photograph',            'icon' => '🏢', 'keys' => ['premises_photo', 'premises'],                              'default_file' => 'premises_photo.jpg',   'size' => '3.1 MB'],
-        'bank_statement'    => ['name' => 'Bank Statement (Last 6 months)', 'icon' => '🏦', 'keys' => ['bank_statement', 'bank', 'bank_solvency'],                 'default_file' => 'bank_statement.pdf',   'size' => '1.8 MB'],
+        'nid_copy'          => ['name' => 'NID Copy (Front & Back)',        'icon' => '<i class="fa-solid fa-id-card"></i>', 'keys' => ['nid_copy', 'nid', 'nid_card'],                             'default_file' => 'nid_copy.pdf',         'size' => '1.2 MB'],
+        'trade_license_doc' => ['name' => 'Trade License (Current Year)',   'icon' => '<i class="fa-solid fa-store"></i>', 'keys' => ['trade_license_doc', 'trade_license', 'trade', 'trade_cert'],'default_file' => 'trade_license.pdf',   'size' => '2.5 MB'],
+        'premises_photo'    => ['name' => 'Premises Photograph',            'icon' => '<i class="fa-solid fa-building"></i>', 'keys' => ['premises_photo', 'premises'],                              'default_file' => 'premises_photo.jpg',   'size' => '3.1 MB'],
+        'bank_statement'    => ['name' => 'Bank Statement (Last 6 months)', 'icon' => '<i class="fa-solid fa-building-columns"></i>', 'keys' => ['bank_statement', 'bank', 'bank_solvency'],                 'default_file' => 'bank_statement.pdf',   'size' => '1.8 MB'],
     ];
 
     $standardDocList = ($application->applicant_type === 'dealer') ? $dealerDocList : $citizenDocList;
@@ -140,7 +140,7 @@
 
                 $docItems[] = [
                     'name' => $displayName,
-                    'icon' => '📄',
+                    'icon' => '<i class="fa-solid fa-file font-normal text-slate-500"></i>',
                     'is_uploaded' => true,
                     'file_name' => $fileName,
                     'file_size' => $fileSize,
@@ -155,14 +155,14 @@
 
     <!-- Back to queue (top-left, outside header) -->
     <a href="{{ $backRoute }}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-semibold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all">
-        <span>←</span><span>Back to queue</span>
+        <span><i class="fa-solid fa-arrow-left"></i></span><span>Back to queue</span>
     </a>
 
     <!-- ===== COMPACT HEADER ===== -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="px-5 py-3 flex flex-wrap items-start justify-between gap-3">
             <div class="flex items-start space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gov-green/10 border border-gov-green/20 flex items-center justify-center text-xl flex-shrink-0">📋</div>
+                <div class="w-10 h-10 rounded-xl bg-gov-green/10 border border-gov-green/20 flex items-center justify-center text-lg text-gov-green flex-shrink-0"><i class="fa-solid fa-clipboard-list"></i></div>
                 <div>
                     <h2 class="text-base font-bold font-serif text-slate-900 leading-tight">Case {{ $application->application_number }}</h2>
                     <p class="text-[10px] text-slate-500 font-medium">
@@ -199,7 +199,7 @@
                                 @if($isDone) bg-emerald-500 border-emerald-500 text-white
                                 @elseif($isCurrent) @if($isRejectedStep) bg-rose-500 border-rose-500 text-white @else bg-gov-green border-gov-green text-white ring-4 ring-gov-green/20 @endif
                                 @else bg-white border-slate-200 text-slate-300 @endif">
-                                @if($isDone) ✓ @else {{ $step['icon'] }} @endif
+                                @if($isDone) <i class="fa-solid fa-check"></i> @else {!! $step['icon'] !!} @endif
                             </div>
                             <span class="mt-1 text-[8px] font-semibold uppercase tracking-wider
                                 @if($isDone) text-emerald-600
@@ -222,27 +222,27 @@
     <div class="flex flex-wrap items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <button type="button" data-tab="overview" onclick="switchDetailTab('overview')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
-            <span>👤</span><span>Overview</span>
+            <span><i class="fa-solid fa-user"></i></span><span>Overview</span>
         </button>
         <button type="button" data-tab="documents" onclick="switchDetailTab('documents')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>📎</span><span>Documents</span>
+            <span><i class="fa-solid fa-paperclip"></i></span><span>Documents</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold {{ $uploadedCount === count($standardDocList) ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">{{ $uploadedCount }}/{{ count($standardDocList) }}</span>
         </button>
         <button type="button" data-tab="timeline" onclick="switchDetailTab('timeline')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>📝</span><span>Note</span>
+            <span><i class="fa-solid fa-note-sticky"></i></span><span>Note</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
         </button>
         <button type="button" data-tab="log" onclick="switchDetailTab('log')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>📋</span><span>Log</span>
+            <span><i class="fa-solid fa-clipboard-list"></i></span><span>Log</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->logs->count() }}</span>
         </button>
         @if($application->vettings->count())
         <button type="button" data-tab="vetting" onclick="switchDetailTab('vetting')"
                 class="detail-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[10px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-            <span>🛡️</span><span>Vetting</span>
+            <span><i class="fa-solid fa-shield-halved"></i></span><span>Vetting</span>
             <span class="px-1.5 py-0.5 rounded-full text-[8px] font-semibold bg-slate-100 text-slate-500">{{ $application->vettings->count() }}</span>
         </button>
         @endif
@@ -255,10 +255,10 @@
                 <!-- TAB: OVERVIEW -->
                 <div class="detail-panel" id="panel-overview">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">👤 Applicant Summary</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-user text-gov-green mr-1"></i> Applicant Summary</span>
                         <button type="button" onclick="openApplicantModal()"
                                 class="px-3 py-1.5 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[10px] font-semibold transition-colors shadow-sm flex items-center space-x-1">
-                            <span>🔍</span><span>View Full Details</span>
+                            <span><i class="fa-solid fa-magnifying-glass"></i></span><span>View Full Details</span>
                         </button>
                     </div>
                     <div class="p-5">
@@ -274,8 +274,8 @@
                                     NID: {{ $application->applicant_details['nid'] ?? $application->user->nid ?? 'N/A' }}
                                 </div>
                                 <div class="flex items-center space-x-3 mt-1.5 text-[10px] text-slate-500 font-normal">
-                                    <span class="flex items-center space-x-1"><span>📱</span><span>{{ $application->user->phone ?? 'N/A' }}</span></span>
-                                    <span class="flex items-center space-x-1"><span>📍</span><span>{{ $application->user->district->name ?? $application->district->name ?? 'N/A' }}</span></span>
+                                    <span class="flex items-center space-x-1"><span><i class="fa-solid fa-mobile-screen-button"></i></span><span>{{ $application->user->phone ?? 'N/A' }}</span></span>
+                                    <span class="flex items-center space-x-1"><span><i class="fa-solid fa-location-dot"></i></span><span>{{ $application->user->district->name ?? $application->district->name ?? 'N/A' }}</span></span>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +303,7 @@
 
                         <!-- Routing info inside overview -->
                         <div class="mt-4 p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200">
-                            <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider block mb-1">🧭 Routing Rule</span>
+                            <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-wider block mb-1"><i class="fa-solid fa-compass text-slate-400 mr-1"></i> Routing Rule</span>
                             <p class="text-xs text-slate-600 font-normal">
                                 @if(in_array($application->firearm_details['weapon_type'] ?? '', ['Pistol','Revolver']))
                                     <span class="text-rose-600 font-semibold">Handgun case</span> → MoHA approval required.
@@ -339,15 +339,15 @@
                 <div class="detail-panel hidden" id="panel-documents">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div class="flex items-center space-x-2">
-                            <span class="text-base">📎</span>
+                            <span class="text-base text-slate-500"><i class="fa-solid fa-paperclip"></i></span>
                             <span class="text-[10px] font-semibold uppercase text-slate-700 tracking-wider">
                                 {{ $application->applicant_type === 'dealer' ? 'Dealer Required & Submitted Documents' : 'Attached Documents' }}
                             </span>
                         </div>
                         @if($hasUploadedDocs)
-                            <span class="text-[9px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">✓ Uploaded & Verified</span>
+                            <span class="text-[9px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full"><i class="fa-solid fa-check mr-0.5"></i> Uploaded & Verified</span>
                         @else
-                            <span class="text-[9px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">⚠️ Pending Upload</span>
+                            <span class="text-[9px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full"><i class="fa-solid fa-triangle-exclamation mr-0.5"></i> Pending Upload</span>
                         @endif
                     </div>
                     <div class="p-5 space-y-4">
@@ -357,8 +357,8 @@
                                 {{ $doc['is_uploaded'] ? 'border-slate-200 bg-slate-50/70 hover:bg-white hover:shadow-sm' : 'border-rose-200/70 bg-rose-50/40 hover:bg-rose-50/70' }}">
                                 <div class="flex items-start justify-between gap-2 mb-2">
                                     <div class="flex items-center space-x-2.5 min-w-0">
-                                        <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-base flex-shrink-0">
-                                            {{ $doc['icon'] }}
+                                        <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-sm text-slate-600 flex-shrink-0">
+                                            {!! $doc['icon'] !!}
                                         </div>
                                         <div class="min-w-0">
                                             <div class="flex items-center space-x-1.5 flex-wrap">
@@ -389,12 +389,12 @@
                                         @if($doc['is_uploaded'])
                                             <button type="button" onclick="openOfficeDocumentViewer('{{ addslashes($doc['name']) }}', '{{ $doc['file_name'] }}', '{{ $doc['file_size'] }}', true, '{{ $doc['key'] }}')"
                                                     class="px-2 py-1 rounded-lg bg-gov-green hover:bg-gov-light text-white text-[9px] font-semibold transition-all shadow-sm">
-                                                👁️ View
+                                                <i class="fa-solid fa-eye mr-0.5"></i> View
                                             </button>
                                         @else
                                             <button type="button" onclick="openOfficeDocumentViewer('{{ addslashes($doc['name']) }}', 'No file uploaded', '0 KB', false, '{{ $doc['key'] }}')"
                                                     class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[9px] font-semibold transition-all">
-                                                👁️ Inspect
+                                                <i class="fa-solid fa-eye mr-0.5"></i> Inspect
                                             </button>
                                         @endif
                                     </div>
@@ -420,7 +420,7 @@
                 <!-- TAB: NOTE -->
                 <div class="detail-panel hidden" id="panel-timeline">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">📝 Case Notes</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-note-sticky text-gov-green mr-1"></i> Case Notes</span>
                         <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} notes</span>
                     </div>
                     <div class="p-5">
@@ -463,7 +463,7 @@
                         </div>
                         @empty
                         <div class="text-center py-8 space-y-2">
-                            <span class="text-3xl block">🕐</span>
+                            <i class="fa-solid fa-clock text-3xl text-slate-300 block"></i>
                             <p class="text-xs text-slate-400 font-normal">No activity entries yet.</p>
                         </div>
                         @endforelse
@@ -473,7 +473,7 @@
                 <!-- TAB: LOG (who received the application — name & role only, no comments) -->
                 <div class="detail-panel hidden" id="panel-log">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">📋 Case Routing Log</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-clipboard-list text-gov-green mr-1"></i> Case Routing Log</span>
                         <span class="text-[9px] font-normal text-slate-400">{{ $application->logs->count() }} entries</span>
                     </div>
                     <div class="p-5">
@@ -517,7 +517,7 @@
                         </div>
                         @empty
                         <div class="text-center py-8 space-y-2">
-                            <span class="text-3xl block">📋</span>
+                            <i class="fa-solid fa-clipboard-list text-3xl text-slate-300 block"></i>
                             <p class="text-xs text-slate-400 font-normal">No routing entries yet.</p>
                         </div>
                         @endforelse
@@ -528,7 +528,7 @@
                 @if($application->vettings->count())
                 <div class="detail-panel hidden" id="panel-vetting">
                     <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">🛡️ Security Vetting Reports</span>
+                        <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-shield-halved text-gov-green mr-1"></i> Security Vetting Reports</span>
                     </div>
                     <div class="p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -539,10 +539,10 @@
                                 @else border-amber-200 bg-amber-50/50 @endif">
                                 <div class="flex items-center justify-between px-3.5 py-3">
                                     <div class="flex items-center space-x-2.5">
-                                        <span class="text-lg">
-                                            @if($v->status === 'cleared') ✅
-                                            @elseif($v->status === 'flagged') ⚠️
-                                            @else ⏳ @endif
+                                        <span class="text-base">
+                                            @if($v->status === 'cleared') <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                                            @elseif($v->status === 'flagged') <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
+                                            @else <i class="fa-solid fa-hourglass-half text-amber-600"></i> @endif
                                         </span>
                                         <div>
                                             <span class="text-xs font-semibold text-slate-800 uppercase">{{ $v->agency }}</span>
@@ -563,7 +563,7 @@
                                     @if($v->status === 'cleared') border-emerald-100
                                     @elseif($v->status === 'flagged') border-rose-100
                                     @else border-amber-100 @endif">
-                                    <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block mb-1">📝 Remarks</span>
+                                    <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block mb-1"><i class="fa-solid fa-pen-to-square mr-1"></i> Remarks</span>
                                     <p class="text-[11px] text-slate-700 font-normal leading-relaxed">{{ $v->remarks }}</p>
                                 </div>
                                 @endif
@@ -581,11 +581,11 @@
             @if(!empty($actions) && $actionRoute !== '#')
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden lg:sticky lg:top-4">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                    <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">⚡ Officer Actions</span>
+                    <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Officer Actions</span>
                 </div>
                 @if ($errors->any())
                     <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
-                        <span class="block text-sm font-bold font-serif">⚠️ Please resolve the following errors:</span>
+                        <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-triangle-exclamation"></i> Please resolve the following errors:</span>
                         <ul class="list-disc pl-4 space-y-0.5">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -599,7 +599,7 @@
 
                         @if($customComments->isNotEmpty())
                         <div>
-                            <label for="custom_comment_select" class="block text-[9px] font-semibold uppercase text-slate-700 tracking-wider mb-1.5">💬 Quick Fill</label>
+                            <label for="custom_comment_select" class="block text-[9px] font-semibold uppercase text-slate-700 tracking-wider mb-1.5"><i class="fa-solid fa-comments text-gov-green mr-1"></i> Quick Fill</label>
                             <select id="custom_comment_select" onchange="fillRemarksFromCustomComment(this)"
                                     class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                                 <option value="">— Select a saved comment —</option>
@@ -611,7 +611,7 @@
                         @endif
 
                         <div>
-                            <label for="remarks" class="block text-[9px] font-semibold uppercase text-slate-700 tracking-wider mb-1.5">📝 Remarks</label>
+                            <label for="remarks" class="block text-[9px] font-semibold uppercase text-slate-700 tracking-wider mb-1.5"><i class="fa-solid fa-pen-to-square mr-1"></i> Remarks</label>
                             <textarea name="remarks" id="remarks" rows="3" placeholder="Remarks (mandatory)"
                                       class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
                         </div>
@@ -638,14 +638,14 @@
         <!-- Modal Header -->
         <div class="px-6 py-4 bg-gov-green text-white flex items-center justify-between flex-shrink-0">
             <div class="flex items-center space-x-2.5">
-                <span class="text-xl">👤</span>
+                <span class="text-[17px]"><i class="fa-solid fa-user"></i></span>
                 <div>
                     <h3 class="text-sm font-bold uppercase tracking-wider">Applicant Full Details</h3>
                     <p class="text-[10px] text-white/80 font-normal">Case {{ $application->application_number }}</p>
                 </div>
             </div>
             <button type="button" onclick="closeApplicantModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm flex items-center justify-center transition-colors">
-                ✕
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
@@ -654,7 +654,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <!-- Identity -->
                 <div class="sm:col-span-2">
-                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5">🪪 Identity</span>
+                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-id-card text-gov-green mr-1"></i> Identity</span>
                 </div>
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block">Full Name</span>
@@ -691,7 +691,7 @@
 
                 <!-- Family -->
                 <div class="sm:col-span-2 mt-2">
-                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5">👨‍👩‍👧 Family</span>
+                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-users text-gov-green mr-1"></i> Family</span>
                 </div>
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block">Father's Name</span>
@@ -708,7 +708,7 @@
 
                 <!-- Address -->
                 <div class="sm:col-span-2 mt-2">
-                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5">📍 Address</span>
+                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-location-dot text-gov-green mr-1"></i> Address</span>
                 </div>
                 <div class="sm:col-span-2 p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block">Present Address</span>
@@ -729,7 +729,7 @@
 
                 <!-- Occupation & Income -->
                 <div class="sm:col-span-2 mt-2">
-                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5">💼 Occupation & Income</span>
+                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-briefcase text-gov-green mr-1"></i> Occupation & Income</span>
                 </div>
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block">Occupation</span>
@@ -753,7 +753,7 @@
 
                 <!-- Firearm Details -->
                 <div class="sm:col-span-2 mt-2">
-                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5">🔫 Firearm Details</span>
+                    <span class="text-[9px] font-semibold uppercase text-gov-green tracking-wider block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-gun text-gov-green mr-1"></i> Firearm Details</span>
                 </div>
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span class="text-[8px] font-semibold uppercase text-slate-400 tracking-wider block">Weapon Type</span>
@@ -790,14 +790,14 @@
         <!-- Modal Header -->
         <div class="px-5 py-4 bg-gov-green text-white flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
-                <span class="text-xl">📄</span>
+                <span class="text-lg"><i class="fa-solid fa-file font-normal"></i></span>
                 <div>
                     <h3 id="officeModalDocTitle" class="text-xs font-bold uppercase tracking-wider">Document Title</h3>
                     <p id="officeModalDocMeta" class="text-[10px] text-white/80 font-normal">filename.pdf &bull; 1.5 MB</p>
                 </div>
             </div>
             <button type="button" onclick="closeOfficeDocumentViewer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm flex items-center justify-center transition-colors">
-                ✕
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
@@ -836,7 +836,7 @@
                     Close
                 </button>
                 <button type="button" onclick="triggerOfficeDocDownload()" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg shadow-sm transition-colors flex items-center space-x-1">
-                    <span>⬇ Download PDF</span>
+                    <span><i class="fa-solid fa-download mr-1"></i> Download PDF</span>
                 </button>
             </div>
         </div>
@@ -915,8 +915,8 @@
         if (!isUploaded) {
             previewContainer.innerHTML = `
                 <div class="bg-rose-50 border-2 border-dashed border-rose-300 rounded-xl p-8 text-center text-rose-800 space-y-3 my-2">
-                    <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold shadow-sm">
-                        ⚠️
+                    <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
                     <h5 class="font-bold text-slate-900 text-base font-serif">File Not Found</h5>
                     <p class="text-xs text-rose-700 max-w-md mx-auto leading-relaxed font-normal">
@@ -935,7 +935,7 @@
             if (isImage) {
                 realViewerHTML = `
                     <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 text-center mb-3">
-                        <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-2">📸 Uploaded Attachment Image Preview</span>
+                        <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-2"><i class="fa-solid fa-camera mr-1"></i> Uploaded Attachment Image Preview</span>
                         <img src="${streamUrl}" alt="${title}" class="max-h-96 mx-auto rounded-lg shadow-md object-contain border border-slate-300">
                     </div>
                 `;
@@ -943,8 +943,8 @@
                 realViewerHTML = `
                     <div class="mb-3 rounded-xl border border-slate-200 overflow-hidden shadow-inner bg-slate-950">
                         <div class="bg-slate-900 px-3 py-1.5 flex justify-between items-center text-white text-[10px] border-b border-slate-800">
-                            <span class="font-semibold text-emerald-400">📄 Attached File: ${filename}</span>
-                            <a href="${streamUrl}" target="_blank" class="text-amber-300 hover:underline font-semibold">Open Fullscreen ↗</a>
+                            <span class="font-semibold text-emerald-400"><i class="fa-solid fa-file mr-1"></i> Attached File: ${filename}</span>
+                            <a href="${streamUrl}" target="_blank" class="text-amber-300 hover:underline font-semibold">Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square text-[9px] ml-0.5"></i></a>
                         </div>
                         <iframe src="${streamUrl}" class="w-full h-80 bg-white"></iframe>
                     </div>

@@ -27,12 +27,12 @@
 
     @if($licenses->isEmpty())
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-10 text-center space-y-3">
-        <div class="text-3xl">📋</div>
+        <i class="fa-solid fa-clipboard-list text-3xl text-slate-300 block"></i>
         <div class="text-sm font-semibold text-slate-700">No active dealing licences found</div>
         <p class="text-xs text-slate-500">You need an issued dealing licence before you can renew. Apply for a new licence first.</p>
         <a href="{{ route('dealer.apply') }}"
            class="inline-block mt-2 px-5 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow transition-colors">
-            Apply for New Dealing Licence →
+            Apply for New Dealing Licence <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
         </a>
     </div>
     @else
@@ -42,7 +42,7 @@
         <!-- Validation Summary Alert -->
         <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
             <span class="block text-sm font-bold font-serif">
-                ⚠️ Please fill in the highlighted required field(s) above before continuing.
+                <i class="fa-solid fa-triangle-exclamation"></i> Please fill in the highlighted required field(s) above before continuing.
             </span>
         </div>
 
@@ -86,7 +86,7 @@
             <div class="p-5 space-y-3">
                 <p class="text-xs text-slate-500 font-medium">
                     Declare your closing stock for the year. This will be cross-checked against your submitted Stock Ledger.
-                    <a href="{{ route('dealer.stock_ledger') }}" class="text-gov-green font-semibold hover:underline">View Stock Ledger →</a>
+                    <a href="{{ route('dealer.stock_ledger') }}" class="text-gov-green font-semibold hover:underline">View Stock Ledger <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -130,7 +130,7 @@
             </a>
             <button type="submit"
                     class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
-                Submit Renewal Application →
+                Submit Renewal Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
         </div>
     </form>

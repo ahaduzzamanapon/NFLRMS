@@ -89,9 +89,9 @@
                             {{ ucfirst(str_replace('_',' ',$a->status)) }}
                         </span>
                     </td>
-<td class="p-3 pr-5 text-right">
+                    <td class="p-3 pr-5 text-right">
                         <a href="{{ route('jm_branch.show', Crypt::encryptString($a->id)) }}"
-                           class="text-xs font-semibold text-gov-green hover:underline">Open →</a>
+                           class="text-xs font-semibold text-gov-green hover:underline">Open <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                     </td>
                 </tr>
 @empty

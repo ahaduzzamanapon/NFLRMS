@@ -2,7 +2,7 @@
 @section('title', 'User Management')
 
 @section('content')
-<div class="max-w-full space-y-5">
+<div class="w-full space-y-5">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -12,12 +12,12 @@
         </div>
         <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')"
                 class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors self-start sm:self-auto">
-            <span>+</span><span>Add User</span>
+            <span><i class="fa-solid fa-plus"></i></span><span>Add User</span>
         </button>
     </div>
 
     @if(session('success'))
-    <div class="px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-bold text-emerald-700">✓ {{ session('success') }}</div>
+    <div class="px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-bold text-emerald-700"><i class="fa-solid fa-check mr-1"></i> {{ session('success') }}</div>
     @endif
 
     <!-- Users Table -->
@@ -108,7 +108,7 @@
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
 <h3 class="text-sm font-bold text-slate-900">Add New User</h3>
             <button onclick="document.getElementById('add-user-modal').classList.add('hidden')"
-                    class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
+                    class="text-slate-400 hover:text-slate-700 font-bold text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form action="{{ route('admin.users.store') }}" method="POST" class="p-6 space-y-4 overflow-y-auto" id="addUserForm" novalidate>
             @csrf

@@ -14,7 +14,7 @@
 
     <!-- Common Profile Incomplete Error Banner -->
     <div id="profile-incomplete-error" class="{{ $errors->any() ? '' : 'hidden' }} p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
-        <span>⚠️</span>
+        <span><i class="fa-solid fa-triangle-exclamation"></i></span>
         <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
     </div>
 
@@ -28,31 +28,31 @@
             <div class="flex flex-wrap items-center gap-1.5">
                 <button type="button" data-tab="personal" onclick="switchTab('personal')"
                         class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none bg-gov-green text-white shadow-sm">
-                    <span>👤</span><span>Personal Info</span>
+                    <span><i class="fa-solid fa-user"></i></span><span>Personal Info</span>
                 </button>
                 <button type="button" data-tab="address" onclick="switchTab('address')"
                         class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                    <span>📍</span><span>Address</span>
+                    <span><i class="fa-solid fa-location-dot"></i></span><span>Address</span>
                 </button>
                 <button type="button" data-tab="education" onclick="switchTab('education')"
                         class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                    <span>🎓</span><span>Education & Income</span>
+                    <span><i class="fa-solid fa-graduation-cap"></i></span><span>Education & Income</span>
                 </button>
                 <button type="button" data-tab="security" onclick="switchTab('security')"
                         class="profile-tab flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-[11px] font-semibold uppercase transition-all focus:outline-none text-slate-500 hover:bg-slate-50">
-                    <span>🔒</span><span>Security</span>
+                    <span><i class="fa-solid fa-lock"></i></span><span>Security</span>
                 </button>
             </div>
 
             @php $missingCount = count($user->profileMissingFields()); @endphp
             @if($user->isProfileComplete())
                 <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-emerald-500/30 bg-emerald-50 text-emerald-700">
-                    <span>✓</span><span>Profile Complete</span>
+                    <span><i class="fa-solid fa-check"></i></span><span>Profile Complete</span>
                 </span>
             @else
                 <span class="flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase border border-amber-500/30 bg-amber-50 text-amber-700"
                       title="{{ $missingCount }} field(s) missing for license application">
-                    <span>⚠</span><span>Incomplete</span>
+                    <span><i class="fa-solid fa-triangle-exclamation"></i></span><span>Incomplete</span>
                 </span>
             @endif
         </div>

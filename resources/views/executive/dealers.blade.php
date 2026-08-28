@@ -57,11 +57,11 @@
                     <td class="p-3 font-semibold text-slate-900">{{ number_format($d->totalStock) }}</td>
                     <td class="p-3 pr-5">
                         @if($d->anomalyAlerts > 0)
-<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border border-rose-200 bg-rose-50 text-rose-700">
-                                ⚑ {{ $d->anomalyAlerts }} alert(s)
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border border-rose-200 bg-rose-50 text-rose-700">
+                                <i class="fa-solid fa-flag mr-1"></i> {{ $d->anomalyAlerts }} alert(s)
                             </span>
                         @else
-                            <span class="text-[10px] text-gov-green font-semibold">✓ Clear</span>
+                            <span class="text-[10px] text-gov-green font-semibold"><i class="fa-solid fa-check mr-1"></i> Clear</span>
                         @endif
                     </td>
                 </tr>

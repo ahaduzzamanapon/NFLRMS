@@ -23,7 +23,11 @@ test('admin home dashboard can be accessed by system admin', function () {
 
     $response->assertStatus(200);
     $response->assertSee('Admin Home Dashboard');
-    $response->assertSee('System Users');
+    $response->assertSee('Total Licenses');
+    $response->assertSee('Total Citizens');
+    $response->assertSee('Total Dealers');
+    $response->assertSee('District-wise License Statistics');
+    $response->assertSee('Thana-wise License Statistics');
 });
 
 test('user management can be accessed at separate route by system admin', function () {

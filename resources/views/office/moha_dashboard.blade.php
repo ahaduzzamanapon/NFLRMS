@@ -35,7 +35,7 @@
                     {{ $step['label'] }}
                 </span>
                 @if($i < count($chain) - 1)
-                <span class="text-slate-400 font-normal shrink-0">→</span>
+                <span class="text-slate-400 font-normal shrink-0"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
                 @endif
             @endforeach
         </div>
@@ -73,7 +73,7 @@
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <a href="{{ route('moha.show', Crypt::encryptString($a->id)) }}"
-                           class="text-xs font-semibold text-gov-green hover:underline">Open →</a>
+                           class="text-xs font-semibold text-gov-green hover:underline">Open <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                     </td>
                 </tr>
                 @empty

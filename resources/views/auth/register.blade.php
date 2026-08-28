@@ -209,7 +209,7 @@
                 <!-- Validation Summary Alert -->
                 <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-semibold space-y-1">
                     <span class="block text-sm font-bold font-serif">
-                        <span>⚠️</span> Please fill in the highlighted required field(s) below before continuing.
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Please fill in the highlighted required field(s) below before continuing.
                     </span>
                 </div>
 

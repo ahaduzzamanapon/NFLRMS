@@ -6,7 +6,7 @@
 
     <div>
         <a href="{{ route('vetting.dashboard') }}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-[10px] font-semibold text-slate-500 hover:text-gov-green hover:border-gov-green/40 transition-all mb-3">
-            <span>←</span><span>Back to vetting queue</span>
+            <span><i class="fa-solid fa-arrow-left"></i></span><span>Back to vetting queue</span>
         </a>
         <div class="flex items-start justify-between">
             <div>
@@ -58,7 +58,7 @@
         </div>
         @if ($errors->any())
             <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
-                <span class="block text-sm font-bold font-serif">⚠️ Please resolve the following errors:</span>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-triangle-exclamation"></i> Please resolve the following errors:</span>
                 <ul class="list-disc pl-4 space-y-0.5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -73,17 +73,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-emerald-300">
                         <input type="radio" name="status" value="cleared" class="text-gov-green">
-                        <span class="text-xs font-semibold text-emerald-700">✓ Cleared</span>
+                        <span class="text-xs font-semibold text-emerald-700"><i class="fa-solid fa-check mr-1"></i> Cleared</span>
                     </label>
                     <label class="flex items-center space-x-2 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-rose-300">
                         <input type="radio" name="status" value="flagged" class="text-rose-600">
-                        <span class="text-xs font-semibold text-rose-700">✗ Flagged</span>
+                        <span class="text-xs font-semibold text-rose-700"><i class="fa-solid fa-xmark mr-1"></i> Flagged</span>
                     </label>
                 </div>
             </div>
             @if($customComments->isNotEmpty())
             <div>
-                <label for="custom_comment_select" class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5">💬 Quick Fill from Custom Comments</label>
+                <label for="custom_comment_select" class="text-[9px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5"><i class="fa-solid fa-comments text-gov-green mr-1"></i> Quick Fill from Custom Comments</label>
                 <select id="custom_comment_select" onchange="fillRemarksFromCustomComment(this)"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                     <option value="">— Select a saved comment —</option>

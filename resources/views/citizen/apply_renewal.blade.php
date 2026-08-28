@@ -73,13 +73,13 @@
                             </div>
                         </div>
                         @if($isExpired)
-                            <span class="text-[10px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded self-start sm:self-auto">⚠️ Late fine applicable</span>
+                            <span class="text-[10px] font-bold uppercase text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded self-start sm:self-auto"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Late fine applicable</span>
                         @endif
                     </label>
                 @endforeach
             </div>
             @error('selected_licence')
-                <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                <p class="text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
             @enderror
         </div>
 
@@ -87,28 +87,28 @@
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-2">
             <div class="space-y-3">
                 <div class="hidden p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1" id="err-panel2-checks">
-                    <span class="text-[12px] font-bold font-serif">⚠️ Please confirm mandatory two checklist items above before continuing.</span>
+                    <span class="text-[12px] font-bold font-serif"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Please confirm mandatory two checklist items above before continuing.</span>
                 </div>
                 <label id="lbl_chk_firing_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('firing_report_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
                     <input type="checkbox" id="chk_firing_ack" name="firing_report_ack" required {{ old('firing_report_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_firing_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Firing-range annual report attached (mandatory)</span>
                 </label>
                 @error('firing_report_ack')
-                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                 @enderror
                 <label id="lbl_chk_medical_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('medical_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
                     <input type="checkbox" id="chk_medical_ack" name="medical_ack" required {{ old('medical_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_medical_ack')">
                     <span class="text-xs text-slate-650 font-semibold leading-normal">Medical fitness declaration (self + doctor)</span>
                 </label>
                 @error('medical_ack')
-                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                 @enderror
                 <label id="lbl_chk_police_ack" class="flex items-start space-x-2.5 p-3 rounded-lg border {{ $errors->has('police_ack') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} hover:bg-slate-50 cursor-pointer transition-colors">
                     <input type="checkbox" id="chk_police_ack" name="police_ack" required {{ old('police_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_police_ack')">
                     <span class="text-xs text-slate-600 font-semibold leading-normal">Local police station 'no adverse record' letter uploaded</span>
                 </label>
                 @error('police_ack')
-                    <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                 @enderror
             </div>
 
@@ -117,13 +117,13 @@
                 <input type="text" name="ammo_ledger" id="ammo_ledger" required value="{{ old('ammo_ledger', '18 / 24') }}"
                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('ammo_ledger') ? 'border-red-400 bg-red-50/40' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
                 @error('ammo_ledger')
-                    <p class="text-[11px] text-red-600 font-semibold mt-1">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                 @enderror
             </div>
 
             <div class="divide-y divide-slate-100 text-xs">
                 <div class="hidden p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1 mb-1" id="err-panel2-docs">
-                    <span class="text-[12px] font-bold font-serif">⚠️ Please upload the mandatory documents: Firing-range annual report and Local police station clearance letter.</span>
+                    <span class="text-[12px] font-bold font-serif"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Please upload the mandatory documents: Firing-range annual report and Local police station clearance letter.</span>
                 </div>
                 @php
                     $complianceDocs = [
@@ -136,20 +136,20 @@
                 @foreach($complianceDocs as $key => $label)
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-2.5 px-2 rounded-lg border {{ $errors->has($key) ? 'border-red-400 bg-red-50/40' : 'border-transparent' }} transition-colors" id="row-{{ $key }}">
                         <div class="flex items-center space-x-2">
-                            <span>📄</span>
+                            <span><i class="fa-solid fa-file-lines text-slate-400"></i></span>
                             <span class="font-semibold text-slate-800">{{ $label }}</span>
                             @if(in_array($key, $mandatoryDocs))
                                 <span class="text-[10px] font-bold uppercase text-red-500">*</span>
                             @endif
                         </div>
                         <div class="flex items-center space-x-3 text-[11px] self-end sm:self-auto">
-                            <span id="status-{{ $key }}" class="text-amber-600 font-semibold">⚠️ Not uploaded</span>
+                            <span id="status-{{ $key }}" class="text-amber-600 font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Not uploaded</span>
                             <input type="file" name="{{ $key }}" id="file-{{ $key }}" class="hidden" onchange="handleFileSelected('{{ $key }}')">
                             <button type="button" onclick="triggerUpload('{{ $key }}')" id="btn-{{ $key }}" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold border border-slate-200/50 transition-colors">Upload</button>
                         </div>
                     </div>
                     @error($key)
-                        <p class="text-[11px] text-red-600 font-semibold px-2 pb-1">⚠️ {{ $message }}</p>
+                        <p class="text-[11px] text-red-600 font-semibold px-2 pb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                     @enderror
                 @endforeach
             </div>
@@ -193,9 +193,9 @@
                     <button type="button" id="pay-card" onclick="selectPayment('card')" class="py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-500 hover:bg-slate-50 transition-all">Card / Bank</button>
                 </div>
                 <input type="hidden" name="payment_channel" id="payment_channel" value="{{ old('payment_channel', 'bkash') }}" required>
-                <p id="err-panel3-payment" class="hidden text-[11px] text-red-600 font-semibold pt-2">⚠️ Please select a payment channel to continue.</p>
+                <p id="err-panel3-payment" class="hidden text-[11px] text-red-600 font-semibold pt-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Please select a payment channel to continue.</p>
                 @error('payment_channel')
-                    <p class="text-[11px] text-red-600 font-semibold pt-2">⚠️ {{ $message }}</p>
+                    <p class="text-[11px] text-red-600 font-semibold pt-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
                 @enderror
             </div>
         </div>
@@ -211,9 +211,9 @@
                 <input type="checkbox" id="chk_confirm_declare" name="declaration_ack" required {{ old('declaration_ack') ? 'checked' : '' }} class="rounded text-gov-green focus:ring-0 mt-0.5" onchange="clearFieldError('lbl_chk_confirm_declare', 'err-panel4-confirm')">
                 <span class="text-xs text-slate-650 font-semibold leading-normal">I declare the information is true. I understand that a false declaration will render the renewal void.</span>
             </label>
-            <p id="err-panel4-confirm" class="hidden text-[11px] text-red-600 font-semibold pl-1">⚠️ Please confirm the declaration before submitting.</p>
+            <p id="err-panel4-confirm" class="hidden text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Please confirm the declaration before submitting.</p>
             @error('declaration_ack')
-                <p class="text-[11px] text-red-600 font-semibold pl-1">⚠️ {{ $message }}</p>
+                <p class="text-[11px] text-red-600 font-semibold pl-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ $message }}</p>
             @enderror
         </div>
 
@@ -270,7 +270,7 @@
 
             if (stepNum < currentStep) {
                 numSpan.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px] step-number';
-                numSpan.innerText = '✓';
+                numSpan.innerHTML = '<i class="fa-solid fa-check"></i>';
                 sisterLabel.className = 'text-slate-400 step-label';
             } else if (stepNum === currentStep) {
                 numSpan.className = 'w-5 h-5 rounded-full bg-gov-green text-white flex items-center justify-center font-bold text-[10px] step-number';
@@ -531,11 +531,11 @@
         if (fileInput.files && fileInput.files.length > 0) {
             const fileName = fileInput.files[0].name;
             statusSpan.className = 'text-emerald-600 font-semibold';
-            statusSpan.innerText = `✓ Uploaded (${fileName})`;
+            statusSpan.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Uploaded (${fileName})`;
             btn.innerText = 'Replace';
         } else {
             statusSpan.className = 'text-amber-600 font-semibold';
-            statusSpan.innerText = '⚠️ Not uploaded';
+            statusSpan.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Not uploaded';
             btn.innerText = 'Upload';
         }
 
