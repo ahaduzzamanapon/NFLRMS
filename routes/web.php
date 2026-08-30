@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomCommentController;
 use App\Http\Controllers\DealerController;
+use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VettingController;
@@ -238,5 +239,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/reports/run/{id}', [AdminController::class, 'runReport'])->name('admin.reports.run');
         Route::get('/admin/reports/export/{id}/{format}', [AdminController::class, 'exportReport'])->name('admin.reports.export');
         Route::get('/admin/reports/export-all/{format}', [AdminController::class, 'exportAllReports'])->name('admin.reports.export_all');
+    });
+
+    // Firearms & Ammunition Overview (System Admin, Senior Secretary)
+    Route::middleware(['role:system_admin,senior_secretary'])->group(function () {
+        Route::get('/office/overview/firearms', [OverviewController::class, 'firearmsList'])->name('overview.firearms');
+        Route::get('/office/overview/ammunition', [OverviewController::class, 'ammunitionList'])->name('overview.ammunition');
     });
 });

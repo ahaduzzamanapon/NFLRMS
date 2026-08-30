@@ -357,6 +357,8 @@ class WorkflowController extends Controller
             'total_suspended_licenses' => 600,
             'total_citizens' => 11250,
             'total_dealers' => 3600,
+            'total_firearms' => 120,
+            'total_ammunition' => 5000,
         ];
 
         // District-wise License Statistics

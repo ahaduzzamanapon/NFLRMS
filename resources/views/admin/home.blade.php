@@ -20,8 +20,8 @@
         </div>
     </div>
 
-    <!-- Top KPI Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
+    <!-- Top KPI Cards (2 Rows of 4 Cards) -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
 
         <!-- Card 1: Total Licenses -->
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-300 transition-all group">
@@ -118,6 +118,38 @@
                 Commercial Stockers
             </div>
         </div>
+
+        <!-- Card 7: Total Firearms (Clickable -> Firearms List) -->
+        <a href="{{ route('overview.firearms') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-cyan-400 hover:shadow-md transition-all group block">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Firearms</span>
+                <div class="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-gun"></i>
+                </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-cyan-700 tracking-tight">
+                {{ number_format($stats['total_firearms']) }}
+            </div>
+            <div class="text-[10px] font-semibold text-cyan-700 bg-cyan-50 border border-cyan-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Citizen &amp; Dealer Arms</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+            </div>
+        </a>
+
+        <!-- Card 8: Total Ammunition (Clickable -> Ammunition List) -->
+        <a href="{{ route('overview.ammunition') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-indigo-400 hover:shadow-md transition-all group block">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Ammunition</span>
+                <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-indigo-700 tracking-tight">
+                {{ number_format($stats['total_ammunition']) }}
+            </div>
+            <div class="text-[10px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Licensed Calibre Stock</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+            </div>
+        </a>
 
     </div>
 

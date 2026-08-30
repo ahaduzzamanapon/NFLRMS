@@ -202,9 +202,9 @@
                     ['route'=>'admin.users',     'icon'=>'fa-solid fa-user','label'=>'User Management', 'active_check'=>'prefix'],
                     ['route'=>'admin.fee_config', 'icon'=>'fa-solid fa-money-bill-wave','label'=>'Fee & Fine Config', 'active_check'=>'exact'],
                     ['route'=>'admin.acl',         'icon'=>'fa-solid fa-key','label'=>'ACL / Permissions', 'active_check'=>'exact'],
-                    ['route'=>'admin.api_config',  'icon'=>'fa-solid fa-plug','label'=>'API Configuration', 'active_check'=>'exact'],
                     ['route'=>'admin.audit_log',   'icon'=>'fa-solid fa-file-lines','label'=>'Audit Log', 'active_check'=>'exact'],
                     ['route'=>'admin.reports',     'icon'=>'fa-solid fa-chart-pie','label'=>'Reports & Analytics', 'active_check'=>'exact'],
+                    ['route'=>'admin.api_config',  'icon'=>'fa-solid fa-plug','label'=>'API Configuration', 'active_check'=>'exact'],
                 ]; @endphp
                 @foreach($adminLinks as $lnk)
                 @php
@@ -375,9 +375,9 @@
         <!-- Bottom -->
         <div style="padding:12px 16px 20px;border-top:1px solid rgba(255,255,255,0.06);">
             <div class="flex items-center justify-between">
-                <div style="font-size:10px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
+                <div style="font-size:11px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
                     <span>Designed & Developed By</span>
-                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:27px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
+                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:25px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>
         </div>

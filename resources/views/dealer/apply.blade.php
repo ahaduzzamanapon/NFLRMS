@@ -228,7 +228,7 @@
             </a>
             <button type="submit"
                     class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
-                Submit Form K Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+                Submit Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
         </div>
     </form>

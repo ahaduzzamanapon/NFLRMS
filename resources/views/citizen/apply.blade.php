@@ -553,7 +553,7 @@
                     class="px-5 py-2.5 bg-gov-green hover:bg-gov-light text-white text-xs font-semibold rounded-lg focus:outline-none transition-colors">
                 Continue &rarr;
             </button>
-            <button type="submit" id="btn-submit" class="hidden px-6 py-2.5 bg-gov-amber hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg transition-colors shadow-md">
+            <button type="submit" id="btn-submit" class="hidden px-6 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors shadow-md">
                 Submit Application
             </button>
         </div>

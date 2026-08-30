@@ -404,3 +404,44 @@ test('tampered or invalid encrypted admin IDs safely return 404', function () {
         ->get(route('admin.users.edit', 'invalid-tampered-encrypted-id-string'))
         ->assertStatus(404);
 });
+
+test('citizen dashboard loads successfully after DC approval and license issuance without 404', function () {
+    $dc = User::where('role', Role::DistrictCommissioner)->first();
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+
+    $app = Application::create([
+        'application_number' => 'NFLRMS-TEST-'.rand(1000, 9999),
+        'user_id' => $citizen->id,
+        'type' => 'new_license',
+        'applicant_type' => 'individual',
+        'status' => 'recommended',
+        'current_actor_role' => Role::DistrictCommissioner->value,
+        'applicant_details' => ['name' => $citizen->name, 'nid' => '1234567890'],
+        'firearm_details' => ['weapon_type' => 'Pistol', 'bore' => '9mm'],
+    ]);
+
+    // DC approves application
+    $this->actingAs($dc)->post(route('dc.action', Crypt::encryptString($app->id)), [
+        'action' => 'approve',
+        'remarks' => 'Approved by DC.',
+    ])->assertRedirect(route('dc.dashboard'));
+
+    // Citizen loads dashboard (status is waiting_for_license_fee)
+    $response = $this->actingAs($citizen)->get(route('citizen.dashboard'));
+    $response->assertStatus(200);
+    $response->assertSee('My Applications');
+    $response->assertSee('Pay License Fee');
+
+    // Simulate PayStation callback for license fee
+    $invoice = $app->application_number.'_LF';
+    $this->actingAs($citizen)->get(route('payment.callback', [
+        'status' => 'Successful',
+        'invoice_number' => $invoice,
+        'trx_id' => 'TEST_TRX_DC_APPROVED',
+    ]))->assertRedirect(route('citizen.dashboard'));
+
+    // Citizen loads dashboard after license issuance
+    $response2 = $this->actingAs($citizen)->get(route('citizen.dashboard'));
+    $response2->assertStatus(200);
+    $response2->assertSee('Active Licence');
+});
