@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,8 +29,8 @@
                         }
                     },
                     fontFamily: {
-                        sans:  ['"Poppins"', 'sans-serif'],
-                        serif: ['"Poppins"', 'sans-serif'],
+                        sans:  ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', 'sans-serif'],
                         bn:    ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
@@ -46,29 +46,45 @@
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.5; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
 
-        /* Global Typography Base Standards */
+        /* Global Typography Base Standards (Reference + 1-2px Larger) */
         input, select, textarea, button {
-            font-size: 0.875rem; /* 14px */
+            font-family: inherit;
+            font-size: 0.9375rem; /* ~15px (+1px over reference 14px) */
+            line-height: 1.45;
         }
-        label {
-            font-size: 0.75rem; /* 12px min for labels */
+        label, .form-label {
+            font-size: 0.84375rem; /* ~13.5px (+1.5px over reference 12px) */
+            font-weight: 500;
+            letter-spacing: 0.01em;
         }
         th {
-            font-size: 0.75rem; /* 12px for table headers */
+            font-size: 0.8125rem; /* ~13px (+1px over reference 12px) */
+            font-weight: 600;
+            letter-spacing: 0.035em;
         }
         td {
-            font-size: 0.875rem; /* 14px for table cells */
+            font-size: 0.90625rem; /* ~14.5px (+1px over reference 13.5px) */
+            line-height: 1.5;
         }
-        .text-\[9px\] { font-size: 11px !important; }
-        .text-\[10px\] { font-size: 11.5px !important; }
-        .text-\[11px\] { font-size: 12px !important; }
+        .text-\[9px\]  { font-size: 11.5px !important; }
+        .text-\[10px\] { font-size: 12px !important; }
+        .text-\[11px\] { font-size: 13px !important; }
+        .text-xs       { font-size: 13.5px !important; line-height: 1.4 !important; }
+        .text-sm       { font-size: 15px !important; line-height: 1.5 !important; }
+        .text-base     { font-size: 16px !important; line-height: 1.55 !important; }
+        .text-lg       { font-size: 19px !important; line-height: 1.4 !important; }
+        .text-xl       { font-size: 21px !important; line-height: 1.35 !important; }
+        .text-2xl      { font-size: 26px !important; line-height: 1.3 !important; }
+        .text-3xl      { font-size: 32px !important; line-height: 1.25 !important; }
 
         .nav-link {
             display: flex;
@@ -76,8 +92,9 @@
             gap: 10px;
             padding: 9.5px 12px;
             border-radius: 12px;
-            font-size: 13.5px;
+            font-size: 14.5px;
             font-weight: 500;
+            letter-spacing: 0.01em;
             color: rgba(255, 255, 255, 0.70) !important;
             transition: all 0.15s;
             text-decoration: none;
@@ -90,16 +107,16 @@
             font-weight: 700;
         }
         .nav-section {
-            font-size: 11.5px;
+            font-size: 12.5px;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.40);
             padding: 0 12px;
             margin-top: 20px;
             margin-bottom: 4px;
         }
-        .nav-icon { font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
+        .nav-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
 
         @media (max-width: 1023px) {
             .mobile-sidebar {
@@ -148,9 +165,9 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <div class="flex items-center gap-3 mb-3">
-                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-8 h-8 object-contain shrink-0">
+                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-12 h-12 object-contain shrink-0">
                 <div>
-                    <div style="color:#fff;font-weight:800;font-size:15px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
+                    <div style="color:#fff;font-weight:800;font-size: 20px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
                     <div style="color:#e8b84b;font-size:13px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
                 </div>
             </div>
@@ -212,7 +229,7 @@
                 <a href="{{ route('citizen.apply') }}" class="nav-link {{ Route::currentRouteName()==='citizen.apply'?'active':'' }}">
                     <span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>New License</span>
                 </a>
-                <a href="{{ route('citizen.renew_general') }}" class="nav-link {{ Route::currentRouteName()==='citizen.renew_general'?'active':'' }}">
+                <a href="{{ route('citizen.renew_general') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'citizen.renew') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew License</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
@@ -235,7 +252,7 @@
                 <a href="{{ route('dealer.apply') }}" class="nav-link {{ Route::currentRouteName()==='dealer.apply'?'active':'' }}">
                     <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>Apply for New Licence</span>
                 </a>
-                <a href="{{ route('dealer.renew') }}" class="nav-link {{ Route::currentRouteName()==='dealer.renew'?'active':'' }}">
+                <a href="{{ route('dealer.renew') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'dealer.renew') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew Dealing Licence</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
@@ -360,7 +377,7 @@
             <div class="flex items-center justify-between">
                 <div style="font-size:10px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
                     <span>Designed & Developed By</span>
-                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="MysoftheavenBD Ltd." style="height:18px;width:auto;object-fit:contain;border-radius:3px;">
+                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:27px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>
         </div>
@@ -383,13 +400,13 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-                <div class="hidden sm:flex items-center gap-2">
+                {{-- <div class="hidden sm:flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
                 </div>
                 <div class="hidden md:block px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 uppercase tracking-wider truncate max-w-[170px]">
                     @yield('title','Dashboard')
-                </div>
+                </div> --}}
                 @auth
                 @php
                     $authUser = auth()->user();

@@ -9,9 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -33,8 +31,8 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Poppins"', 'sans-serif'],
-                        serif: ['"Poppins"', 'sans-serif'],
+                        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', 'sans-serif'],
                         bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
@@ -50,12 +48,15 @@
             font-display: swap;
         }
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
             background-color: #fafbfc;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15.5px;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
         }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
 
         .hero-bg {
@@ -65,15 +66,24 @@
         }
 
         .text-serif {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
         }
 
-        /* Global Typography Standards */
-        input, select, textarea, button { font-size: 0.875rem; }
-        label { font-size: 0.75rem; }
-        .text-\[9px\] { font-size: 11px !important; }
-        .text-\[10px\] { font-size: 11.5px !important; }
-        .text-\[11px\] { font-size: 12px !important; }
+        /* Global Typography Base Standards (Reference + 1-2px Larger) */
+        input, select, textarea, button { font-family: inherit; font-size: 0.9375rem; line-height: 1.45; }
+        label, .form-label { font-size: 0.84375rem; font-weight: 500; letter-spacing: 0.01em; }
+        th { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.035em; }
+        td { font-size: 0.90625rem; line-height: 1.5; }
+        .text-\[9px\]  { font-size: 11.5px !important; }
+        .text-\[10px\] { font-size: 12px !important; }
+        .text-\[11px\] { font-size: 13px !important; }
+        .text-xs       { font-size: 13.5px !important; line-height: 1.4 !important; }
+        .text-sm       { font-size: 15px !important; line-height: 1.5 !important; }
+        .text-base     { font-size: 16px !important; line-height: 1.55 !important; }
+        .text-lg       { font-size: 19px !important; line-height: 1.4 !important; }
+        .text-xl       { font-size: 21px !important; line-height: 1.35 !important; }
+        .text-2xl      { font-size: 26px !important; line-height: 1.3 !important; }
+        .text-3xl      { font-size: 32px !important; line-height: 1.25 !important; }
     </style>
 </head>
 
@@ -425,8 +435,7 @@
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
                 <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
                     <span>Designed & Developed by</span>
-                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd."
-                        class="h-7 w-auto object-contain">
+                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:34px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,8 +33,8 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Poppins"', 'sans-serif'],
-                        serif: ['"Poppins"', 'sans-serif'],
+                        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', 'sans-serif'],
                         bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
@@ -49,8 +49,10 @@
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.5; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
         /* Fine hairline seal-ring used behind the emblem */
         .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
@@ -58,12 +60,21 @@
         .sec-chip { font-variant-numeric: tabular-nums; }
         select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748b'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; }
 
-        /* Global Typography Standards */
-        input, select, textarea, button { font-size: 0.875rem; }
-        label { font-size: 0.75rem; }
-        .text-\[9px\] { font-size: 11px !important; }
-        .text-\[10px\] { font-size: 11.5px !important; }
-        .text-\[11px\] { font-size: 12px !important; }
+        /* Global Typography Base Standards (Reference + 1-2px Larger) */
+        input, select, textarea, button { font-family: inherit; font-size: 0.9375rem; line-height: 1.45; }
+        label, .form-label { font-size: 0.84375rem; font-weight: 500; letter-spacing: 0.01em; }
+        th { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.035em; }
+        td { font-size: 0.90625rem; line-height: 1.5; }
+        .text-\[9px\]  { font-size: 11.5px !important; }
+        .text-\[10px\] { font-size: 12px !important; }
+        .text-\[11px\] { font-size: 13px !important; }
+        .text-xs       { font-size: 13.3px !important; line-height: 1.4 !important; }
+        .text-sm       { font-size: 15px !important; line-height: 1.5 !important; }
+        .text-base     { font-size: 16px !important; line-height: 1.55 !important; }
+        .text-lg       { font-size: 19px !important; line-height: 1.4 !important; }
+        .text-xl       { font-size: 21px !important; line-height: 1.35 !important; }
+        .text-2xl      { font-size: 26px !important; line-height: 1.3 !important; }
+        .text-3xl      { font-size: 32px !important; line-height: 1.25 !important; }
     </style>
 </head>
 <body class="min-h-full font-sans antialiased text-slate-800 flex flex-col lg:flex-row">
@@ -111,7 +122,7 @@
                     </div> --}}
                     <div class="text-xs leading-snug text-slate-300 font-semibold uppercase tracking-wider">
                         <p>Government of the People&rsquo;s Republic of Bangladesh</p>
-                        <p class="font-bn normal-case text-slate-400 mt-0.5">বাংলাদেশ গণপ্রজাতন্ত্রী সরকার</p>
+                        <p class="font-bn normal-case text-slate-400 mt-0.5">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
                     </div>
                 </div>
 
@@ -355,7 +366,7 @@
                 <button type="submit" onclick="document.getElementById('password_confirmation').value = document.getElementById('password').value"
                         class="w-full py-3.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md shadow-gov-green/20 transition-all flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3M4.5 19.5a7.5 7.5 0 0115 0m-15 0h15m-15 0v-1.5A2.25 2.25 0 016.75 15.75h4.5A2.25 2.25 0 0113.5 18v1.5M12 12a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" /></svg>
-                    <span>Create account &amp; send OTP</span>
+                    <span>Create account</span>
                 </button>
             </form>
 
@@ -364,8 +375,9 @@
                     Already registered? <a href="{{ route('login') }}" class="text-gov-green hover:underline font-semibold">Sign in</a>
                 </p>
                 <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
-                    <span>Developed By</span>
-                    <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded">
+                    <span>Designed & Developed By</span>
+                    {{-- <img src="{{ asset('assets/brand/mysoft-with-background.jpg') }}" alt="Mysoft Heaven (BD) Ltd." class="h-6 w-auto object-contain rounded"> --}}
+                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:32px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>
         </div>

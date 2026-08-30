@@ -4,11 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Statutory Report' }} - NFLRMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15.5px; line-height: 1.55; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        input, select, textarea, button { font-family: inherit; font-size: 0.9375rem; }
+        label { font-size: 0.84375rem; font-weight: 500; }
+        th { font-size: 0.8125rem; font-weight: 600; }
+        td { font-size: 0.90625rem; }
+        .text-\[9px\]  { font-size: 11.5px !important; }
+        .text-\[10px\] { font-size: 12px !important; }
+        .text-\[11px\] { font-size: 13px !important; }
+        .text-xs       { font-size: 13.5px !important; }
+        .text-sm       { font-size: 15px !important; }
+        .text-base     { font-size: 16px !important; }
+        .text-lg       { font-size: 19px !important; }
+        .text-xl       { font-size: 21px !important; }
+        .text-2xl      { font-size: 26px !important; }
+        .text-3xl      { font-size: 32px !important; }
+
         @media print {
-            body { background: white !important; color: black !important; }
+            body { background: white !important; color: black !important; font-family: 'Inter', sans-serif; }
             .no-print { display: none !important; }
             .page-break { page-break-after: always; }
         }
