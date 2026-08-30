@@ -165,15 +165,21 @@ class PaymentController extends Controller
     /**
      * Public Endpoint to check and reconcile payment status for an application.
      */
-    public function checkApplicationPaymentStatus(string $encryptedId)
+    public function checkApplicationPaymentStatus(Application|string $applicationOrEncryptedId)
     {
-        try {
-            $id = Crypt::decryptString($encryptedId);
-        } catch (DecryptException $e) {
-            abort(404);
-        }
+        if ($applicationOrEncryptedId instanceof Application) {
+            $application = $applicationOrEncryptedId;
+        } elseif (is_numeric($applicationOrEncryptedId)) {
+            $application = Application::findOrFail((int) $applicationOrEncryptedId);
+        } else {
+            try {
+                $id = Crypt::decryptString($applicationOrEncryptedId);
+            } catch (DecryptException $e) {
+                abort(404);
+            }
 
-        $application = Application::findOrFail($id);
+            $application = Application::findOrFail($id);
+        }
         // If already approved and license fee paid
         if (in_array($application->status, ['license_issued', 'approved']) && $application->license_fee_paid) {
             return response()->json([

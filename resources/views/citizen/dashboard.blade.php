@@ -152,7 +152,7 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
-            <table class="w-full text-left border-collapse min-w-[580px]">
+            <table class="w-full text-left border-collapse min-w-[680px]">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                         <th class="p-3 pl-5">Reference</th>
@@ -162,11 +162,11 @@
                         <th class="p-3 pr-5 text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody class="text-xs divide-y divide-slate-100">
+                <tbody class="text-[11px] divide-y divide-slate-100">
                     @forelse($applications as $a)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-semibold font-mono text-slate-900">{{ $a->application_number }}</td>
-                            <td class="p-3">
+                            <td class="p-3 pl-5 font-semibold font-mono text-slate-900 whitespace-nowrap">{{ $a->application_number }}</td>
+                            <td class="p-3 whitespace-nowrap">
                                 <span class="font-semibold text-slate-800">
                                     @if($a->type === 'renewal')
                                         Renewal &bull; {{ in_array($a->firearm_details['weapon_type'] ?? '', ['Pistol', 'Revolver']) ? 'Handgun' : 'Long Gun' }}
@@ -176,10 +176,10 @@
                                 </span>
                                 <span class="text-slate-400 font-normal">&bull; {{ $a->firearm_details['weapon_type'] ?? 'Revolver' }} ({{ $a->firearm_details['bore'] ?? '12 Bore' }})</span>
                             </td>
-                            <td class="p-3 font-normal text-slate-500">
+                            <td class="p-3 font-normal text-slate-500 whitespace-nowrap">
                                 {{ $a->created_at->format('d M Y') }}
                             </td>
-                            <td class="p-3">
+                            <td class="p-3 whitespace-nowrap">
                                 @php
                                     $badgeStyles = match($a->status) {
                                         'payment_pending' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
@@ -212,25 +212,27 @@
                                     {{ $statusLabel }}
                                 </span>
                             </td>
-                            <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">
-                                @if($a->status === 'payment_pending')
-                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-bold shadow-sm transition-colors">
-                                        Pay Platform Fee
+                            <td class="p-3 pr-5 text-right whitespace-nowrap">
+                                <div class="inline-flex items-center justify-end space-x-1.5">
+                                    @if($a->status === 'payment_pending')
+                                        <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-bold shadow-sm transition-colors">
+                                            Pay Platform Fee
+                                        </a>
+                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                            <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
+                                        </button>
+                                    @elseif($a->status === 'waiting_for_license_fee')
+                                        <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 text-white rounded text-[11px] font-bold shadow-sm transition-all animate-pay-license">
+                                            Pay License Fee
+                                        </a>
+                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                            <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
+                                        </button>
+                                    @endif
+                                    <a href="{{ route('citizen.show', Crypt::encryptString($a->id)) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
+                                        View <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
                                     </a>
-                                    <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
-                                        <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
-                                    </button>
-                                @elseif($a->status === 'waiting_for_license_fee')
-                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-bold shadow-sm transition-colors animate-pulse">
-                                        Pay License Fee
-                                    </a>
-                                    <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
-                                        <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
-                                    </button>
-                                @endif
-                                <a href="{{ route('citizen.show', Crypt::encryptString($a->id)) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
-                                    View <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
-                                </a>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -242,6 +244,22 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- Verification Alert Modal -->
+<div id="verify-alert-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-sm w-full p-5 text-center transform transition-all">
+        <div id="verify-alert-icon-container" class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3">
+            <i id="verify-alert-icon" class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 id="verify-alert-title" class="text-sm font-bold text-slate-900 font-serif">Payment Status</h3>
+        <p id="verify-alert-message" class="text-xs text-slate-600 mt-1.5 leading-relaxed"></p>
+        <div class="mt-5">
+            <button id="verify-alert-ok-btn" onclick="closeVerifyAlertModal()" class="w-full py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
+                OK
+            </button>
         </div>
     </div>
 </div>
@@ -267,6 +285,40 @@
         });
     });
 
+    let verifyModalReloadOnClose = false;
+
+    function showVerifyAlertModal(title, message, type = 'info', shouldReload = false) {
+        const modal = document.getElementById('verify-alert-modal');
+        const titleEl = document.getElementById('verify-alert-title');
+        const msgEl = document.getElementById('verify-alert-message');
+        const iconContainer = document.getElementById('verify-alert-icon-container');
+        const iconEl = document.getElementById('verify-alert-icon');
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+        verifyModalReloadOnClose = shouldReload;
+
+        if (type === 'success') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-check';
+        } else if (type === 'warning' || type === 'failed') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-triangle-exclamation';
+        } else {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-info';
+        }
+
+        modal.classList.remove('hidden');
+    }
+
+    function closeVerifyAlertModal() {
+        document.getElementById('verify-alert-modal').classList.add('hidden');
+        if (verifyModalReloadOnClose) {
+            window.location.reload();
+        }
+    }
+
     function checkPaymentStatus(appId, btnElement) {
         if (btnElement) {
             btnElement.disabled = true;
@@ -282,20 +334,19 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Success: ' + data.message);
-                window.location.reload();
+                showVerifyAlertModal('Payment Verified', data.message, 'success', true);
             } else if (data.status === 'failed') {
-                alert('Payment Notice: ' + data.message);
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
+                showVerifyAlertModal('Payment Notice', data.message, 'failed', false);
             } else {
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
-                alert(data.message || 'Status check complete.');
+                showVerifyAlertModal('Verification Status', data.message || 'Status check complete.', 'info', false);
             }
         })
         .catch(err => {
@@ -303,6 +354,7 @@
                 btnElement.disabled = false;
                 btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
             }
+            showVerifyAlertModal('Verification Notice', 'Unable to verify payment status at this moment. Please try again.', 'warning', false);
         });
     }
 
@@ -344,4 +396,20 @@
     })();
     @endif
 </script>
+
+<style>
+@keyframes payLicensePulse {
+    0%, 100% {
+        background-color: #047857; /* Deep Emerald Green Main Color */
+        box-shadow: 0 0 0 0 rgba(4, 120, 87, 0.4);
+    }
+    50% {
+        background-color: #d97706; /* Vibrant Amber Gold Blinking Color */
+        box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.25);
+    }
+}
+.animate-pay-license {
+    animation: payLicensePulse 1.8s infinite ease-in-out;
+}
+</style>
 @endsection
