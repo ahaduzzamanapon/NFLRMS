@@ -14,12 +14,12 @@
                 Real-time national firearms license &amp; permit verification registry &bull; BRS §7.4
             </p>
         </div>
-        <div class="flex items-center gap-2">
+        {{-- <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Registry Live</span>
             </span>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Search Form Card -->

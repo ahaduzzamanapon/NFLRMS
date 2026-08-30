@@ -7,10 +7,6 @@
     $status = $application->status;
     $isRejected = str_contains($status, 'rejected');
 
-@php
-    $status = $application->status;
-    $isRejected = str_contains($status, 'rejected');
-
     // Application tracker pipeline
     $pipeline = [
         'submitted' => ['label' => 'Submitted', 'icon' => 'fa-solid fa-file-lines'],
@@ -229,54 +225,54 @@
                         <div class="mb-5">
                             <span class="text-[10px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5">Applicant Particulars</span>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Full Name</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-[11px] text-slate-500 font-normal">({{ $application->user->name_bn }})</span> @endif</span>
+                                     <span class="font-semibold text-slate-900 break-words block">{{ $application->user->name }} @if($application->user->name_bn) <span class="text-[11px] text-slate-500 font-normal">({{ $application->user->name_bn }})</span> @endif</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Applicant Role</span>
-                                     <span class="font-semibold text-slate-900 capitalize">{{ str_replace('_', ' ', $application->applicant_type) }}</span>
+                                     <span class="font-semibold text-slate-900 capitalize break-words block">{{ str_replace('_', ' ', $application->applicant_type) }}</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">NID Number</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->applicant_details['nid'] ?? $application->user->nid ?? 'N/A' }}</span>
+                                     <span class="font-semibold text-slate-900 break-words [overflow-wrap:anywhere] block">{{ $application->applicant_details['nid'] ?? $application->user->nid ?? 'N/A' }}</span>
                                 </div>
 
                                 @if($application->applicant_type === 'dealer')
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Firm / Business Name</span>
-                                         <span class="font-semibold text-slate-900">{{ $application->applicant_details['firm_name'] ?? 'N/A' }}</span>
+                                         <span class="font-semibold text-slate-900 break-words block">{{ $application->applicant_details['firm_name'] ?? 'N/A' }}</span>
                                     </div>
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Trade License</span>
-                                         <span class="font-semibold text-slate-900">{{ $application->applicant_details['trade_license'] ?? 'N/A' }}</span>
+                                         <span class="font-semibold text-slate-900 break-words [overflow-wrap:anywhere] block">{{ $application->applicant_details['trade_license'] ?? 'N/A' }}</span>
                                     </div>
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">License Class</span>
-                                         <span class="font-semibold text-slate-900 capitalize">{{ $application->applicant_details['license_class'] ?? 'Class A' }}</span>
+                                         <span class="font-semibold text-slate-900 capitalize break-words block">{{ $application->applicant_details['license_class'] ?? 'Class A' }}</span>
                                     </div>
                                 @else
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Date of Birth</span>
-                                         <span class="font-semibold text-slate-900">{{ $application->applicant_details['dob'] ?? 'N/A' }}</span>
+                                         <span class="font-semibold text-slate-900 break-words block">{{ $application->applicant_details['dob'] ?? 'N/A' }}</span>
                                     </div>
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Father's Name</span>
-                                         <span class="font-semibold text-slate-900">{{ $application->applicant_details['father_name'] ?? 'N/A' }}</span>
+                                         <span class="font-semibold text-slate-900 break-words block">{{ $application->applicant_details['father_name'] ?? 'N/A' }}</span>
                                     </div>
-                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Mobile & Email</span>
-                                         <span class="font-normal text-slate-900">{{ $application->user->phone ?? 'N/A' }} &bull; {{ $application->user->email }}</span>
+                                         <span class="font-normal text-slate-900 break-words [overflow-wrap:anywhere] block">{{ $application->user->phone ?? 'N/A' }} &bull; {{ $application->user->email }}</span>
                                     </div>
                                 @endif
 
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Annual Income</span>
-                                     <span class="font-semibold text-slate-900">৳{{ number_format($application->applicant_details['annual_income'] ?? 0) }}</span>
+                                     <span class="font-semibold text-slate-900 break-words block">৳{{ number_format($application->applicant_details['annual_income'] ?? 0) }}</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Jurisdiction Office</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->district->name ?? 'District' }} DC Office</span>
+                                     <span class="font-semibold text-slate-900 break-words block">{{ $application->district->name ?? 'District' }} DC Office</span>
                                 </div>
                             </div>
                         </div>
@@ -285,26 +281,26 @@
                         <div class="mb-5">
                             <span class="text-[10px] font-semibold uppercase text-gov-green tracking-widest block mb-2 border-b border-slate-100 pb-1.5"><i class="fa-solid fa-shield-halved text-gov-green mr-1"></i> Firearm & License Specifications</span>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Weapon Type</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->firearm_details['weapon_type'] ?? 'N/A' }}</span>
+                                     <span class="font-semibold text-slate-900 break-words block">{{ $application->firearm_details['weapon_type'] ?? 'N/A' }}</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Bore / Calibre</span>
-                                     <span class="font-semibold text-slate-900">{{ $application->firearm_details['bore'] ?? 'N/A' }}</span>
+                                     <span class="font-semibold text-slate-900 break-words block">{{ $application->firearm_details['bore'] ?? 'N/A' }}</span>
                                 </div>
-                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Purpose</span>
-                                     <span class="font-normal text-slate-900">{{ $application->firearm_details['purpose'] ?? 'N/A' }}</span>
+                                     <span class="font-normal text-slate-900 break-words block">{{ $application->firearm_details['purpose'] ?? 'N/A' }}</span>
                                 </div>
-                                <div class="sm:col-span-3 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200">
+                                <div class="sm:col-span-3 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 min-w-0 break-words">
                                      <span class="text-[9px] font-semibold uppercase text-emerald-600 tracking-widest block">Sourcing Licensed Arms Dealer</span>
-                                     <span class="font-semibold text-emerald-800">{{ $application->firearm_details['dealer_name'] ?? 'M/S Metropolitan Arms Store (Govt. Reg #AD-1029)' }}</span>
+                                     <span class="font-semibold text-emerald-800 break-words [overflow-wrap:anywhere] block">{{ $application->firearm_details['dealer_name'] ?? 'M/S Metropolitan Arms Store (Govt. Reg #AD-1029)' }}</span>
                                 </div>
                                 @if(isset($application->firearm_details['categories']))
-                                    <div class="sm:col-span-3 p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                                    <div class="sm:col-span-3 p-2.5 rounded-lg bg-slate-50 border border-slate-100 min-w-0 break-words">
                                          <span class="text-[9px] font-semibold uppercase text-slate-400 tracking-widest block">Authorized Categories</span>
-                                         <span class="font-semibold text-slate-900">{{ is_array($application->firearm_details['categories']) ? implode(', ', $application->firearm_details['categories']) : $application->firearm_details['categories'] }}</span>
+                                         <span class="font-semibold text-slate-900 break-words block">{{ is_array($application->firearm_details['categories']) ? implode(', ', $application->firearm_details['categories']) : $application->firearm_details['categories'] }}</span>
                                     </div>
                                 @endif
                             </div>

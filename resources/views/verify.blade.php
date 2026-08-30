@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,7 +29,7 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Poppins"', '"Nikosh"', 'sans-serif'],
+                        sans: ['"Inter"', '"Nikosh"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                         serif: ['Lora', 'serif'],
                     }
                 }
@@ -38,21 +38,33 @@
     </script>
     <style>
         body {
-            font-family: 'Poppins', 'Nikosh', sans-serif;
+            font-family: 'Inter', 'Nikosh', ui-sans-serif, system-ui, sans-serif;
             background-color: #f4f7f5;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15.5px;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
         }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         .text-serif {
             font-family: 'Lora', serif;
         }
 
-        /* Global Typography Standards */
-        input, select, textarea, button { font-size: 0.875rem; }
-        label { font-size: 0.75rem; }
-        .text-\[9px\] { font-size: 11px !important; }
-        .text-\[10px\] { font-size: 11.5px !important; }
-        .text-\[11px\] { font-size: 12px !important; }
+        /* Global Typography Base Standards (Reference + 1-2px Larger) */
+        input, select, textarea, button { font-family: inherit; font-size: 0.9375rem; line-height: 1.45; }
+        label, .form-label { font-size: 0.84375rem; font-weight: 500; letter-spacing: 0.01em; }
+        th { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.035em; }
+        td { font-size: 0.90625rem; line-height: 1.5; }
+        .text-\[9px\]  { font-size: 11.5px !important; }
+        .text-\[10px\] { font-size: 12px !important; }
+        .text-\[11px\] { font-size: 13px !important; }
+        .text-xs       { font-size: 13.5px !important; line-height: 1.4 !important; }
+        .text-sm       { font-size: 15px !important; line-height: 1.5 !important; }
+        .text-base     { font-size: 16px !important; line-height: 1.55 !important; }
+        .text-lg       { font-size: 19px !important; line-height: 1.4 !important; }
+        .text-xl       { font-size: 21px !important; line-height: 1.35 !important; }
+        .text-2xl      { font-size: 26px !important; line-height: 1.3 !important; }
+        .text-3xl      { font-size: 32px !important; line-height: 1.25 !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased text-slate-800">
