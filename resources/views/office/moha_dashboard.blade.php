@@ -6,7 +6,7 @@
 
     <div>
         <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
-            @if($user->role === \App\Enums\Role::MohaDesk) MoHA — Political-4 / Sasan-4 Desk
+            @if($user->role === \App\Enums\Role::MohaDesk) MoHA — Political-4 Desk
             @elseif($user->role === \App\Enums\Role::JointSecretary) MoHA — Joint / Additional Secretary
             @elseif($user->role === \App\Enums\Role::NationalScreeningCommittee) National Screening Committee
             @else MoHA — Senior Secretary / Minister
@@ -23,7 +23,7 @@
         <div class="flex overflow-x-auto no-scrollbar items-center space-x-2 text-xs pb-1">
             @php
                 $chain = [
-                    ['label' => 'Political-4 / Sasan-4', 'role' => \App\Enums\Role::MohaDesk],
+                    ['label' => 'Political-4', 'role' => \App\Enums\Role::MohaDesk],
                     ['label' => 'Joint / Additional Secretary', 'role' => \App\Enums\Role::JointSecretary],
                     ['label' => 'National Screening Committee', 'role' => \App\Enums\Role::NationalScreeningCommittee],
                     ['label' => 'Senior Secretary / Minister', 'role' => \App\Enums\Role::SeniorSecretary],

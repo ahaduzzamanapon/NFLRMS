@@ -35,29 +35,36 @@ class CustomCommentSeeder extends Seeder
                 ['title' => 'Documents Incomplete', 'comment' => 'Required documents are incomplete. Applicant must submit missing documents before further processing.'],
                 ['title' => 'NID Matched', 'comment' => 'National ID verified successfully against the national database. No mismatch found.'],
                 ['title' => 'Photo Mismatch', 'comment' => 'Applicant photo does not match the NID record. Applicant must appear physically for verification.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::DcJmBranch->value => [
                 ['title' => 'Vetting Initiated', 'comment' => 'Security vetting requested from Police, SB, NSI and DGFI for background screening.'],
                 ['title' => 'Vetting Cleared', 'comment' => 'All security vetting reports received and cleared. Recommended for approval.'],
                 ['title' => 'Vetting Flagged', 'comment' => 'Security vetting report flagged concerns. Application requires further investigation.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::DistrictCommissioner->value => [
                 ['title' => 'Approved', 'comment' => 'Application approved by the District Commissioner. License fee payment is now pending from the applicant.'],
                 ['title' => 'Referred to MoHA', 'comment' => 'Handgun case referred to the Ministry of Home Affairs for national level screening.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::MohaDesk->value => [
                 ['title' => 'Forwarded to Joint Secretary', 'comment' => 'Application reviewed at Political-4 / Sasan-4 desk and forwarded to the Joint Secretary.'],
                 ['title' => 'Pending Ministry Review', 'comment' => 'Application is queued for review at the Ministry level. No action taken yet.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::JointSecretary->value => [
                 ['title' => 'Recommended for Screening', 'comment' => 'Preliminary review complete. Application recommended to the National Screening Committee.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::NationalScreeningCommittee->value => [
                 ['title' => 'Screened & Cleared', 'comment' => 'National Screening Committee reviewed the case and found no objections. Forwarded for final approval.'],
                 ['title' => 'Screened with Concerns', 'comment' => 'Committee raised concerns regarding the application. Requires senior secretary attention.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
             ],
             Role::SeniorSecretary->value => [
                 ['title' => 'Final Approval', 'comment' => 'Final approval granted by the Senior Secretary / Hon\'ble Minister. Awaiting license fee payment.'],
+                ['title' => 'Application Rejected', 'comment' => 'Application rejected due to incomplete or insufficient information.'],
                 ['title' => 'Rejected', 'comment' => 'Application rejected at the final stage. Applicant has been notified of the decision.'],
             ],
             Role::PoliceOfficer->value => [
@@ -92,11 +99,16 @@ class CustomCommentSeeder extends Seeder
             $templates = $commentTemplates[$role->value] ?? [];
 
             foreach ($templates as $template) {
-                CustomComment::create([
-                    'title' => $template['title'],
-                    'comment' => $template['comment'],
-                    'user_id' => $user->id,
-                ]);
+                CustomComment::firstOrCreate(
+                    [
+                        'title' => $template['title'],
+                        'user_id' => $user->id,
+                    ],
+                    [
+                        'comment' => $template['comment'],
+                        'role_id' => $role->value,
+                    ]
+                );
             }
         }
     }

@@ -54,10 +54,14 @@ class VettingController extends Controller
         $vetting = Vetting::findOrFail($id);
         $vetting->load(['application.user.district', 'application.logs']);
 
-        // Custom comments for the current user (used in the remarks quick-fill dropdown)
-        $customComments = CustomComment::where('user_id', auth()->id())
-            ->latest()
-            ->get();
+        // Custom comments for the current user or role (used in the remarks quick-fill dropdown)
+        $userRole = auth()->user()->role;
+        $roleVal = $userRole instanceof Role ? $userRole->value : $userRole;
+
+        $customComments = CustomComment::where(function ($q) use ($roleVal) {
+            $q->where('user_id', auth()->id())
+                ->orWhere('role_id', $roleVal);
+        })->latest()->get();
 
         return view('office.vetting_show', compact('vetting', 'customComments'));
     }

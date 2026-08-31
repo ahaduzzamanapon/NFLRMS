@@ -24,10 +24,16 @@ test('it validates authentication and dashboard accessibility for roles', functi
 
     // 2. Dealer
     $dealer = User::where('role', Role::DealerApplicant)->first();
-    $this->actingAs($dealer)
+    $dealerApp = Application::where('user_id', $dealer->id)->first();
+    $response = $this->actingAs($dealer)
         ->get(route('dealer.dashboard'))
         ->assertOk()
         ->assertSee('Dealer Portal');
+
+    if ($dealerApp) {
+        $response->assertSee($dealerApp->application_number)
+            ->assertSee($dealerApp->created_at->format('d M Y'));
+    }
 
     // 3. Front Desk
     $frontDesk = User::where('role', Role::DcFrontDesk)->first();
@@ -444,4 +450,38 @@ test('citizen dashboard loads successfully after DC approval and license issuanc
     $response2 = $this->actingAs($citizen)->get(route('citizen.dashboard'));
     $response2->assertStatus(200);
     $response2->assertSee('Active Licence');
+});
+
+test('reject custom comment is available in quick fill and can be selected to reject application', function () {
+    $frontDesk = User::where('role', Role::DcFrontDesk)->first();
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+
+    $app = Application::create([
+        'application_number' => 'NFLRMS-REJECT-TEST-'.rand(1000, 9999),
+        'user_id' => $citizen->id,
+        'type' => 'new_license',
+        'applicant_type' => 'individual',
+        'status' => 'submitted',
+        'current_actor_role' => Role::DcFrontDesk->value,
+        'applicant_details' => ['name' => $citizen->name, 'nid' => '1234567890'],
+        'firearm_details' => ['weapon_type' => 'Shotgun'],
+    ]);
+
+    // Ensure Quick Fill dropdown on case detail page includes the Reject comment
+    $response = $this->actingAs($frontDesk)
+        ->get(route('front_desk.show', Crypt::encryptString($app->id)));
+
+    $response->assertOk()
+        ->assertSee('Application Rejected')
+        ->assertSee('Application rejected due to incomplete or insufficient information.');
+
+    // Execute Reject action using the custom comment wording
+    $this->actingAs($frontDesk)
+        ->post(route('front_desk.action', Crypt::encryptString($app->id)), [
+            'action' => 'reject',
+            'remarks' => 'Application rejected due to incomplete or insufficient information.',
+        ])
+        ->assertRedirect(route('front_desk.dashboard'));
+
+    expect($app->fresh()->status)->toBe('rejected_front_desk');
 });

@@ -513,8 +513,8 @@
                         <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
                              <p class="text-[11px] text-slate-500 font-semibold uppercase block">Approved &bull; Waiting for License Fee</p>
                              <p class="text-base font-bold text-slate-800">৳{{ number_format($application->license_fee_amount ?? 0) }}</p>
-                             <a href="{{ route('payment.initiate', [Crypt::encryptString($application->id), 'type' => 'license_fee']) }}" class="w-full block py-2 bg-gov-green hover:bg-gov-light text-white rounded-lg text-xs font-bold shadow-sm transition-colors animate-pulse">
-                                <i class="fa-solid fa-credit-card mr-1"></i> Pay License Fee (PayStation)
+                             <a href="{{ route('payment.initiate', [Crypt::encryptString($application->id), 'type' => 'license_fee']) }}" class="w-full block py-2 text-white rounded-lg text-xs font-bold shadow-sm transition-all animate-pay-license text-center">
+                                <i class="fa-solid fa-credit-card mr-1"></i> Pay License Fee
                             </a>
                              <button onclick="checkPaymentStatus('{{ Crypt::encryptString($application->id) }}', this)" class="w-full block py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold border border-slate-300 transition-colors">
                                 <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status
@@ -641,6 +641,38 @@
         </div>
     </div>
 </div>
+
+<!-- Verification Alert Modal -->
+<div id="verify-alert-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-sm w-full p-5 text-center transform transition-all">
+        <div id="verify-alert-icon-container" class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3">
+            <i id="verify-alert-icon" class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 id="verify-alert-title" class="text-sm font-bold text-slate-900 font-serif">Payment Status</h3>
+        <p id="verify-alert-message" class="text-xs text-slate-600 mt-1.5 leading-relaxed"></p>
+        <div class="mt-5">
+            <button id="verify-alert-ok-btn" onclick="closeVerifyAlertModal()" class="w-full py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes payLicensePulse {
+    0%, 100% {
+        background-color: #047857; /* Deep Emerald Green Main Color */
+        box-shadow: 0 0 0 0 rgba(4, 120, 87, 0.4);
+    }
+    50% {
+        background-color: #d97706; /* Vibrant Amber Gold Blinking Color */
+        box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.25);
+    }
+}
+.animate-pay-license {
+    animation: payLicensePulse 1.8s infinite ease-in-out;
+}
+</style>
 @endsection
 
 @section('scripts')
@@ -740,10 +772,49 @@
         window.location.href = downloadUrl;
     }
 
+    let verifyModalReloadOnClose = false;
+
+    function showVerifyAlertModal(title, message, type = 'info', shouldReload = false) {
+        const modal = document.getElementById('verify-alert-modal');
+        const titleEl = document.getElementById('verify-alert-title');
+        const msgEl = document.getElementById('verify-alert-message');
+        const iconContainer = document.getElementById('verify-alert-icon-container');
+        const iconEl = document.getElementById('verify-alert-icon');
+
+        if (!modal) return;
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+        verifyModalReloadOnClose = shouldReload;
+
+        if (type === 'success') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-check';
+        } else if (type === 'warning' || type === 'failed') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-triangle-exclamation';
+        } else {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-info';
+        }
+
+        modal.classList.remove('hidden');
+    }
+
+    function closeVerifyAlertModal() {
+        const modal = document.getElementById('verify-alert-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+        if (verifyModalReloadOnClose) {
+            window.location.reload();
+        }
+    }
+
     function checkPaymentStatus(appId, btnElement) {
         if (btnElement) {
             btnElement.disabled = true;
-            btnElement.innerHTML = '<i class="fa-solid fa-hourglass-half mr-1"></i> Verifying with PayStation...';
+            btnElement.innerHTML = '<i class="fa-solid fa-hourglass-half mr-1"></i> Verifying...';
         }
 
         fetch('/payment/check-status/' + encodeURIComponent(appId), {
@@ -755,20 +826,19 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Success: ' + data.message);
-                window.location.reload();
+                showVerifyAlertModal('Payment Verified', data.message, 'success', true);
             } else if (data.status === 'failed') {
-                alert('Payment Notice: ' + data.message);
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
                 }
+                showVerifyAlertModal('Payment Notice', data.message, 'failed', false);
             } else {
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
                 }
-                alert(data.message || 'Status check complete.');
+                showVerifyAlertModal('Verification Status', data.message || 'Status check complete.', 'info', false);
             }
         })
         .catch(err => {
@@ -776,6 +846,7 @@
                 btnElement.disabled = false;
                 btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
             }
+            showVerifyAlertModal('Verification Notice', 'Unable to verify payment status at this moment. Please try again.', 'warning', false);
         });
     }
 

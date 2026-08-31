@@ -208,7 +208,9 @@ Route::middleware(['auth'])->group(function () {
     // Custom Comment Module (permission-based via ACL)
     Route::middleware(['auth'])->group(function () {
         Route::get('/custom-comments', [CustomCommentController::class, 'index'])->name('custom_comment.index');
+        Route::get('/custom-comments/create', [CustomCommentController::class, 'create'])->name('custom_comment.create');
         Route::post('/custom-comments', [CustomCommentController::class, 'store'])->name('custom_comment.store');
+        Route::get('/custom-comments/{encryptedId}', [CustomCommentController::class, 'show'])->name('custom_comment.show');
         Route::get('/custom-comments/{encryptedId}/edit', [CustomCommentController::class, 'edit'])->name('custom_comment.edit');
         Route::put('/custom-comments/{encryptedId}', [CustomCommentController::class, 'update'])->name('custom_comment.update');
         Route::delete('/custom-comments/{encryptedId}', [CustomCommentController::class, 'destroy'])->name('custom_comment.destroy');
