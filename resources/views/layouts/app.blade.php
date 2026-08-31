@@ -55,6 +55,26 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
 
+        /* Custom Medium-Sized Modern Vertical Scrollbar for Sidebar */
+        .mobile-sidebar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+        }
+        .mobile-sidebar::-webkit-scrollbar {
+            width: 6.5px;
+        }
+        .mobile-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .mobile-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 9999px;
+            transition: background-color 0.2s ease;
+        }
+        .mobile-sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(34, 168, 110, 0.6);
+        }
+
         /* Global Typography Base Standards (Reference + 1-2px Larger) */
         input, select, textarea, button {
             font-family: inherit;
@@ -321,7 +341,7 @@
                     <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'moha') ? 'active' : '' }}">
                         <span class="nav-icon"><i class="fa-solid fa-building"></i></span>
                         <span>
-                            @if($role === \App\Enums\Role::MohaDesk) Political-4 / Sasan-4 Desk
+                            @if($role === \App\Enums\Role::MohaDesk) Political-4 Desk
                             @elseif($role === \App\Enums\Role::JointSecretary) Joint / Additional Secretary
                             @elseif($role === \App\Enums\Role::NationalScreeningCommittee) Nat. Screening Committee
                             @else Senior Secretary / Minister
@@ -355,7 +375,7 @@
                 $aclMatrix = json_decode(\App\Models\Setting::get('acl_matrix', '{}'), true) ?: [];
                 $customCommentPerm = $aclMatrix['Custom Comment'][$roleVal] ?? 'none';
             @endphp
-            @if($customCommentPerm !== 'none')
+            @if($roleVal === 'system_admin' || $customCommentPerm !== 'none')
                 <div class="nav-section">Tools</div>
                 <a href="{{ route('custom_comment.index') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','custom_comment')?'active':'' }}">
                     <span class="nav-icon"><i class="fa-solid fa-comments"></i></span><span>Custom Comment</span>
@@ -373,11 +393,11 @@
         @endauth
 
         <!-- Bottom -->
-        <div style="padding:12px 16px 20px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="padding:12px 14px 20px;border-top:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0">
             <div class="flex items-center justify-between">
-                <div style="font-size:11px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:inline-flex;align-items:center;gap:6px;">
-                    <span>Designed & Developed By</span>
-                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:25px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
+                <div style="font-size:11px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;white-space:nowrap;">
+                    <span style="white-space:nowrap;flex-shrink:0;">Designed & Developed By</span>
+                    <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:25px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;flex-shrink:0;">
                 </div>
             </div>
         </div>

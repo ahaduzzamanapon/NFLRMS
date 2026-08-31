@@ -1,126 +1,118 @@
 @extends('layouts.app')
-@section('title', 'Custom Comment')
+@section('title', 'Custom Comments')
 
 @section('content')
+@php
+    $userRole = auth()->user()->role;
+    $roleVal = $userRole instanceof \App\Enums\Role ? $userRole->value : $userRole;
+    $isAdmin = $roleVal === 'system_admin';
+@endphp
+
 <div class="max-w-full space-y-5">
 
-    <!-- Page Header -->
-    <div>
-<h2 class="text-xl font-bold font-serif text-slate-900">Custom Comment</h2>
-        <p class="text-xs text-slate-500 mt-1 font-medium">
-            Create reusable comments to quickly fill remarks on application details.
-        </p>
+    <!-- Page Header & Actions -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-bold font-serif text-slate-900">Custom Comments</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">
+                {{ $isAdmin ? 'Manage all custom comment templates across the system.' : 'Manage reusable comments to quickly fill remarks during workflow processing.' }}
+            </p>
+        </div>
+        <a href="{{ route('custom_comment.create') }}"
+           class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors self-start sm:self-auto">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Custom Comment</span>
+        </a>
     </div>
 
-    <!-- Create / Edit Form -->
-    <form action="{{ isset($customComment) ? route('custom_comment.update', Crypt::encryptString($customComment->id)) : route('custom_comment.store') }}" method="POST"
-          class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        @csrf
-        @if(isset($customComment)) @method('PUT') @endif
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-<span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">
-                {{ isset($customComment) ? 'Edit Custom Comment' : 'Create New Custom Comment' }}
-            </span>
-            @if(isset($customComment))
-                <a href="{{ route('custom_comment.index') }}" class="text-[11px] font-semibold text-slate-400 hover:text-gov-green transition-colors"><i class="fa-solid fa-xmark mr-1"></i> Cancel Edit</a>
-            @endif
-        </div>
+    @if(session('success'))
+    <div class="px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-bold text-emerald-700">
+        <i class="fa-solid fa-check mr-1"></i> {{ session('success') }}
+    </div>
+    @endif
 
-        @if ($errors->any())
-<div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-bold space-y-1">
-                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-triangle-exclamation"></i> Please resolve the following errors:</span>
-                <ul class="list-disc pl-4 space-y-0.5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <div class="p-5 space-y-4">
-            <div>
-<label for="title" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Title</label>
-                <input type="text" name="title" id="title" value="{{ old('title', $customComment->title ?? '') }}" required
-                       placeholder="e.g. Documents Verified, Insufficient Documents"
-                       class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('title') border-rose-400 @enderror">
-                @error('title')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
-            </div>
-            <div>
-                <label for="comment" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Description</label>
-                <textarea name="comment" id="comment" rows="4" required
-                          placeholder="Write the comment/remarks text that will be inserted into the Remarks field..."
-                          class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none @error('comment') border-rose-400 @enderror">{{ old('comment', $customComment->comment ?? '') }}</textarea>
-                @error('comment')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
-            </div>
-            @if(auth()->user()->role instanceof \App\Enums\Role && auth()->user()->role === \App\Enums\Role::SystemAdmin)
-            <div>
-                <label for="role_id" class="block text-[11px] font-semibold uppercase text-slate-900 mb-1.5">Available To (Role)</label>
-                <select name="role_id" id="role_id"
-                        class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white @error('role_id') border-rose-400 @enderror">
-                    <option value="">— Everyone (All Roles) —</option>
-                    @foreach($roles as $roleKey => $roleLabel)
-                    <option value="{{ $roleKey }}" {{ old('role_id', $customComment->role_id ?? '') === $roleKey ? 'selected' : '' }}>{{ $roleLabel }}</option>
-                    @endforeach
-                </select>
-                <p class="text-[10px] text-slate-400 font-medium mt-1">Select a role to make this comment available to that role's Quick Fill. Leave empty for all users.</p>
-                @error('role_id')<span class="text-[10px] text-rose-600 font-bold mt-1 block">{{ $message }}</span>@enderror
-            </div>
-            @endif
-            <div class="flex justify-end">
-                <button type="submit"
-class="px-5 py-2.5 {{ isset($customComment) ? 'bg-amber-500 hover:bg-amber-600' : 'bg-gov-green hover:bg-gov-light' }} text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
-                    <i class="fa-solid fa-floppy-disk mr-1"></i> {{ isset($customComment) ? 'Update Comment' : 'Save Comment' }}
-                </button>
-            </div>
-        </div>
-    </form>
-
-    <!-- Existing Comments List -->
+    <!-- Existing Comments Table -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-<span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">My Saved Comments</span>
-            <span class="ml-2 px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-bold">{{ $comments->count() }}</span>
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+            <span class="text-[11px] font-semibold uppercase text-slate-900 tracking-widest">
+                {{ $isAdmin ? 'All Custom Comments (Admin Management)' : 'My Saved Comments' }}
+            </span>
+            <span class="ml-2 px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-bold">{{ $comments->total() }}</span>
         </div>
-        <div class="p-5">
-            @forelse($comments as $comment)
-                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 {{ !$loop->first ? 'mt-3' : '' }}">
-                    <div class="space-y-1 min-w-0 pr-0 sm:pr-3">
-                        <span class="font-semibold text-slate-900 text-sm block">{{ $comment->title }}</span>
-                        <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $comment->comment }}</p>
-                        @if($comment->role_id)
-                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold uppercase">
-                            <i class="fa-solid fa-bullseye mr-1"></i> {{ $roles[$comment->role_id] ?? $comment->role_id }} only
-                        </span>
-                        @else
-                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-bold uppercase">
-                            <i class="fa-solid fa-globe mr-1"></i> All Roles
-                        </span>
-                        @endif
-                        <span class="text-[10px] text-slate-400 font-semibold block mt-1">Created {{ $comment->created_at->format('d M Y · h:i A') }}</span>
-                    </div>
-                    <div class="flex items-center space-x-2 flex-shrink-0 self-start sm:self-auto">
-                        <a href="{{ route('custom_comment.edit', Crypt::encryptString($comment->id)) }}"
-                           class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
-                            <i class="fa-solid fa-pen-to-square mr-1"></i> Edit
-                        </a>
-                        <form action="{{ route('custom_comment.destroy', Crypt::encryptString($comment->id)) }}" method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this comment?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold border border-rose-200 transition-colors">
-                                <i class="fa-solid fa-trash-can mr-1"></i> Delete
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            @empty
-                <div class="text-center py-8 space-y-2">
-                    <i class="fa-solid fa-comments text-3xl text-slate-300 block"></i>
-<p class="text-xs text-slate-400 font-normal">No custom comments yet.</p>
-                    <p class="text-[11px] text-slate-400 font-medium">Create your first reusable comment above.</p>
-                </div>
-            @endforelse
+        
+        <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/70 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
+                        <th class="py-3 px-4 pl-5 w-14 text-center whitespace-nowrap">SL No.</th>
+                        <th class="py-3 px-4">Comment</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Available For</th>
+                        <th class="py-3 px-4 pr-5 text-right whitespace-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs divide-y divide-slate-100">
+                    @forelse($comments as $index => $comment)
+                        @php
+                            $canManage = $isAdmin || $comment->user_id === auth()->id() || $comment->role_id === $roleVal || is_null($comment->role_id);
+                            $slNo = $comments->firstItem() + $index;
+                        @endphp
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-3.5 px-4 pl-5 text-center font-bold text-slate-500 text-xs whitespace-nowrap">{{ $slNo }}</td>
+                            <td class="py-3.5 px-4">
+                                <span class="font-semibold text-slate-900 text-xs block mb-0.5">{{ $comment->title }}</span>
+                                <p class="text-[11px] text-slate-600 font-normal leading-relaxed line-clamp-2">{{ $comment->comment }}</p>
+                            </td>
+                            <td class="py-3.5 px-4 whitespace-nowrap">
+                                @if($comment->role_id)
+                                <span class="inline-block px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-bold uppercase">
+                                    <i class="fa-solid fa-bullseye mr-1"></i> {{ $roles[$comment->role_id] ?? $comment->role_id }}
+                                </span>
+                                @else
+                                <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px] font-bold uppercase">
+                                    <i class="fa-solid fa-globe mr-1"></i> All Roles
+                                </span>
+                                @endif
+                            </td>
+                            <td class="py-3.5 px-4 pr-5 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end space-x-1.5">
+                                    <a href="{{ route('custom_comment.show', Crypt::encryptString($comment->id)) }}"
+                                       class="px-2.5 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold border border-slate-200 transition-colors">
+                                        <i class="fa-solid fa-eye mr-1"></i> View Details
+                                    </a>
+                                    @if($canManage)
+                                    <a href="{{ route('custom_comment.edit', Crypt::encryptString($comment->id)) }}"
+                                       class="px-2.5 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-600 text-[11px] font-semibold border border-blue-200 transition-colors">
+                                        <i class="fa-solid fa-pen-to-square mr-1"></i> Edit
+                                    </a>
+                                    <form action="{{ route('custom_comment.destroy', Crypt::encryptString($comment->id)) }}" method="POST" class="inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-semibold border border-rose-200 transition-colors">
+                                            <i class="fa-solid fa-trash-can mr-1"></i> Delete
+                                        </button>
+                                    </form>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="p-8 text-center text-slate-400 font-normal">
+                                <i class="fa-solid fa-comments text-3xl text-slate-300 block mb-2"></i>
+                                No custom comments found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+
+        @if($comments->hasPages())
+        <div class="px-5 py-3 border-t border-slate-100 bg-slate-50">
+            {{ $comments->links() }}
+        </div>
+        @endif
     </div>
 </div>
 @endsection

@@ -329,41 +329,46 @@
                 <tbody class="text-xs divide-y divide-slate-100">
                     @forelse($applications as $a)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-mono font-semibold text-slate-900">{{ $a->app_number }}</td>
+                            <td class="p-3 pl-5 font-mono font-semibold text-slate-900">{{ $a->application_number }}</td>
                             <td class="p-3 font-semibold text-slate-700">
-                                {{ match($a->service_type) { 'new_dealer' => 'Form K — New Dealer License', 'dealer_renew' => 'Dealer License Renewal', default => ucfirst(str_replace('_',' ',$a->service_type)) } }}
+                                {{ match($a->type) {
+                                    'new_dealing_license', 'new_dealer' => 'New Dealer License',
+                                    'dealer_renew', 'renewal' => 'Dealer License Renewal',
+                                    default => ucfirst(str_replace('_', ' ', $a->type ?? ''))
+                                } }}
                             </td>
-                            <td class="p-3 font-medium text-slate-500">{{ $a->submitted_at?->format('d M Y') ?? '—' }}</td>
-                            <td class="p-3">
+                            <td class="p-3 font-medium text-slate-500">{{ $a->created_at?->format('d M Y') ?? '—' }}</td>
+                            <td class="p-3 whitespace-nowrap">
                                 @php
                                     $badgeStyles = match($a->status) {
-                                        'payment_pending' => 'bg-amber-50 text-amber-700 border-amber-200',
-                                        'submitted' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                        'under_review' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                                        'pending_vetting' => 'bg-purple-50 text-purple-700 border-purple-200',
-                                        'vetted_cleared' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                                        'vetted_flagged' => 'bg-rose-50 text-rose-700 border-rose-200',
-                                        'approved' => 'bg-emerald-100 text-emerald-800 border-emerald-300 font-bold',
-                                        'rejected' => 'bg-rose-100 text-rose-800 border-rose-300',
-                                        'suspended' => 'bg-slate-100 text-slate-800 border-slate-300',
-                                        default => 'bg-slate-50 text-slate-700 border-slate-200',
+                                        'payment_pending' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+                                        'waiting_for_license_fee' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
+                                        'submitted' => 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+                                        'received' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
+                                        'pending_vetting' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+                                        'vetted_cleared' => 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+                                        'vetted_flagged' => 'bg-red-500/10 text-red-600 border-red-500/20',
+                                        'approved', 'license_issued' => 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+                                        'rejected' => 'bg-red-500/10 text-red-600 border-red-500/20',
+                                        'suspended' => 'bg-rose-500/10 text-rose-600 border-rose-500/20',
+                                        default => 'bg-slate-500/10 text-slate-600 border-slate-500/20',
                                     };
-
                                     $statusLabel = match($a->status) {
-                                        'payment_pending' => 'Platform Fee Pending',
-                                        'waiting_for_license_fee' => 'License Fee Pending',
-                                        'submitted' => 'Application Submitted',
-                                        'under_review' => 'Under Review',
-                                        'pending_vetting' => 'Vetting Clearance',
+                                        'payment_pending' => 'Payment Pending',
+                                        'waiting_for_license_fee' => 'Waiting for License Fee',
+                                        'submitted' => 'Awaiting Verification',
+                                        'received' => 'Under Review',
+                                        'pending_vetting' => 'Awaiting Vetting Clearance',
                                         'vetted_cleared' => 'Vetted: Passed',
                                         'vetted_flagged' => 'Vetted: Flagged',
                                         'approved' => 'Certificate Issued',
+                                        'license_issued' => 'License Issued',
                                         'rejected' => 'Rejected',
                                         'suspended' => 'Suspended',
-                                        default => ucfirst($a->status),
+                                        default => ucfirst(str_replace('_', ' ', $a->status ?? '')),
                                     };
                                 @endphp
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border uppercase tracking-wider {{ $badgeStyles }}">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border uppercase tracking-wider {{ $badgeStyles }}">
                                     {{ $statusLabel }}
                                 </span>
                             </td>
@@ -376,7 +381,7 @@
                                         <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
                                     </button>
                                 @elseif($a->status === 'waiting_for_license_fee')
-                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 bg-gov-green hover:bg-gov-light text-white rounded text-[11px] font-semibold shadow-sm transition-colors animate-pulse">
+                                    <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 text-white rounded text-[11px] font-semibold shadow-sm transition-all animate-pay-license">
                                         Pay License Fee
                                     </a>
                                     <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
@@ -399,7 +404,38 @@
             </table>
         </div>
     </div>
+    <!-- Verification Alert Modal -->
+    <div id="verify-alert-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-sm w-full p-5 text-center transform transition-all">
+            <div id="verify-alert-icon-container" class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3">
+                <i id="verify-alert-icon" class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 id="verify-alert-title" class="text-sm font-bold text-slate-900 font-serif">Payment Status</h3>
+            <p id="verify-alert-message" class="text-xs text-slate-600 mt-1.5 leading-relaxed"></p>
+            <div class="mt-5">
+                <button id="verify-alert-ok-btn" onclick="closeVerifyAlertModal()" class="w-full py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+@keyframes payLicensePulse {
+    0%, 100% {
+        background-color: #047857; /* Deep Emerald Green Main Color */
+        box-shadow: 0 0 0 0 rgba(4, 120, 87, 0.4);
+    }
+    50% {
+        background-color: #d97706; /* Vibrant Amber Gold Blinking Color */
+        box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.25);
+    }
+}
+.animate-pay-license {
+    animation: payLicensePulse 1.8s infinite ease-in-out;
+}
+</style>
 @endsection
 
 @section('scripts')
@@ -421,6 +457,45 @@
         });
     });
 
+    let verifyModalReloadOnClose = false;
+
+    function showVerifyAlertModal(title, message, type = 'info', shouldReload = false) {
+        const modal = document.getElementById('verify-alert-modal');
+        const titleEl = document.getElementById('verify-alert-title');
+        const msgEl = document.getElementById('verify-alert-message');
+        const iconContainer = document.getElementById('verify-alert-icon-container');
+        const iconEl = document.getElementById('verify-alert-icon');
+
+        if (!modal) return;
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+        verifyModalReloadOnClose = shouldReload;
+
+        if (type === 'success') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-check';
+        } else if (type === 'warning' || type === 'failed') {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-triangle-exclamation';
+        } else {
+            iconContainer.className = 'w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-3';
+            iconEl.className = 'fa-solid fa-circle-info';
+        }
+
+        modal.classList.remove('hidden');
+    }
+
+    function closeVerifyAlertModal() {
+        const modal = document.getElementById('verify-alert-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+        if (verifyModalReloadOnClose) {
+            window.location.reload();
+        }
+    }
+
     function checkPaymentStatus(appId, btnElement) {
         if (btnElement) {
             btnElement.disabled = true;
@@ -436,20 +511,19 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Success: ' + data.message);
-                window.location.reload();
+                showVerifyAlertModal('Payment Verified', data.message, 'success', true);
             } else if (data.status === 'failed') {
-                alert('Payment Notice: ' + data.message);
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
+                showVerifyAlertModal('Payment Notice', data.message, 'failed', false);
             } else {
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
                 }
-                alert(data.message || 'Status check complete.');
+                showVerifyAlertModal('Verification Status', data.message || 'Status check complete.', 'info', false);
             }
         })
         .catch(err => {
@@ -457,6 +531,7 @@
                 btnElement.disabled = false;
                 btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify';
             }
+            showVerifyAlertModal('Verification Notice', 'Unable to verify payment status at this moment. Please try again.', 'warning', false);
         });
     }
 
