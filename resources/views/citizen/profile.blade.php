@@ -68,12 +68,9 @@
             </div>
             <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div class="sm:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-gov-green bg-slate-200 flex items-center justify-center text-slate-400 font-bold text-xl flex-shrink-0">
-                        @if($user->profile_photo_path)
-                            <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile Photo" class="w-full h-full object-cover">
-                        @else
-                            <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
-                        @endif
+                    <div id="profile-photo-preview-container" class="w-16 h-16 rounded-full overflow-hidden border-2 border-gov-green bg-slate-200 flex items-center justify-center text-slate-400 font-bold text-xl flex-shrink-0">
+                        <img id="profile-photo-preview" src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : '' }}" alt="Profile Photo" class="w-full h-full object-cover {{ $user->profile_photo_path ? '' : 'hidden' }}">
+                        <span id="profile-photo-initials" class="{{ $user->profile_photo_path ? 'hidden' : '' }}">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
                         <label for="profile_photo" class="block text-[11px] font-semibold uppercase text-slate-900">Upload Profile Photo (Passport Size)</label>
@@ -533,6 +530,27 @@
         }
 
         switchTab(initialTab);
+
+        // Profile photo live image preview
+        document.getElementById('profile_photo')?.addEventListener('change', function () {
+            const file = this.files && this.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.getElementById('profile-photo-preview');
+                    const initials = document.getElementById('profile-photo-initials');
+                    if (img) {
+                        img.src = e.target.result;
+                        img.classList.remove('hidden');
+                    }
+                    if (initials) {
+                        initials.classList.add('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
         // Clear error styling on user input for element
         document.querySelectorAll('#profile-form input, #profile-form select, #profile-form textarea').forEach(el => {
