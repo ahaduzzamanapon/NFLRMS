@@ -51,7 +51,7 @@ class AdminController extends Controller
             'total_citizens' => 6,
             'total_dealers' => 5,
             'total_firearms' => 120,
-            'total_ammunition' => 1200,
+            'total_ammunition' => 5000,
         ];
 
         // Top 8 Districts for District-wise License Statistics Chart
