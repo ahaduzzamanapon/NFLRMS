@@ -44,14 +44,14 @@ class AdminController extends Controller
             'rejected_applications' => Application::where('status', 'rejected')->count(),
             'active_licenses' => License::where('status', 'active')->count(),
             'total_districts' => District::count(),
-            'total_licenses' => 14850,
-            'total_approved_licenses' => 12420,
-            'total_pending_licenses' => 1830,
-            'total_suspended_licenses' => 600,
-            'total_citizens' => 11250,
-            'total_dealers' => 3600,
+            'total_licenses' => 14,
+            'total_approved_licenses' => 8,
+            'total_pending_licenses' => 4,
+            'total_suspended_licenses' => 2,
+            'total_citizens' => 6,
+            'total_dealers' => 5,
             'total_firearms' => 120,
-            'total_ammunition' => 5000,
+            'total_ammunition' => 1200,
         ];
 
         // Top 8 Districts for District-wise License Statistics Chart

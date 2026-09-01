@@ -351,14 +351,14 @@ class WorkflowController extends Controller
 
         // Count Cards (realistic dummy metrics, structured for easy DB conversion)
         $stats = [
-            'total_licenses' => 14850,
-            'total_approved_licenses' => 12420,
-            'total_pending_licenses' => 1830,
-            'total_suspended_licenses' => 600,
-            'total_citizens' => 11250,
-            'total_dealers' => 3600,
+            'total_licenses' => 14,
+            'total_approved_licenses' => 8,
+            'total_pending_licenses' => 4,
+            'total_suspended_licenses' => 2,
+            'total_citizens' => 6,
+            'total_dealers' => 5,
             'total_firearms' => 120,
-            'total_ammunition' => 5000,
+            'total_ammunition' => 1200,
         ];
 
         // District-wise License Statistics
