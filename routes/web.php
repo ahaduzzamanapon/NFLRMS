@@ -237,10 +237,13 @@ Route::middleware(['auth'])->group(function () {
 
         // Workflow Organogram CRUD
         Route::get('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'index'])->name('admin.workflow_organogram.index');
+        Route::get('/admin/workflow-organogram/create', [WorkflowOrganogramController::class, 'create'])->name('admin.workflow_organogram.create');
+        Route::post('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'store'])->name('admin.workflow_organogram.store');
         Route::get('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'show'])->name('admin.workflow_organogram.show');
         Route::get('/admin/workflow-organogram/{encryptedId}/edit', [WorkflowOrganogramController::class, 'edit'])->name('admin.workflow_organogram.edit');
         Route::put('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'update'])->name('admin.workflow_organogram.update');
         Route::post('/admin/workflow-organogram/{encryptedId}/steps', [WorkflowOrganogramController::class, 'storeStep'])->name('admin.workflow_organogram.steps.store');
+        Route::post('/admin/workflow-organogram/{encryptedId}/reorder', [WorkflowOrganogramController::class, 'reorderSteps'])->name('admin.workflow_organogram.steps.reorder');
         Route::get('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}/edit', [WorkflowOrganogramController::class, 'editStep'])->name('admin.workflow_organogram.steps.edit');
         Route::put('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'updateStep'])->name('admin.workflow_organogram.steps.update');
         Route::delete('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'destroyStep'])->name('admin.workflow_organogram.steps.destroy');

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class WorkflowOrganogramController extends Controller
 {
-    /** List all 4 workflow types */
     public function index()
     {
         $workflows = WorkflowType::withCount('steps')->orderBy('id')->get();
@@ -19,7 +18,26 @@ class WorkflowOrganogramController extends Controller
         return view('admin.workflow_organogram.index', compact('workflows'));
     }
 
-    /** Show steps of one workflow */
+    public function create()
+    {
+        return view('admin.workflow_organogram.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'key' => 'required|string|max:100|unique:workflow_types,key|alpha_dash',
+            'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
+        ]);
+
+        $workflow = WorkflowType::create($data + ['is_active' => true]);
+
+        return redirect()->route('admin.workflow_organogram.show', Crypt::encryptString($workflow->id))
+            ->with('success', 'Workflow created successfully.');
+    }
+
     public function show(string $encryptedId)
     {
         $id = $this->decrypt($encryptedId);
@@ -29,7 +47,6 @@ class WorkflowOrganogramController extends Controller
         return view('admin.workflow_organogram.show', compact('workflow', 'allRoles'));
     }
 
-    /** Edit workflow metadata */
     public function edit(string $encryptedId)
     {
         $id = $this->decrypt($encryptedId);
@@ -38,7 +55,6 @@ class WorkflowOrganogramController extends Controller
         return view('admin.workflow_organogram.edit', compact('workflow'));
     }
 
-    /** Update workflow metadata */
     public function update(Request $request, string $encryptedId)
     {
         $id = $this->decrypt($encryptedId);
@@ -54,10 +70,9 @@ class WorkflowOrganogramController extends Controller
         $workflow->update($data + ['is_active' => $request->boolean('is_active')]);
 
         return redirect()->route('admin.workflow_organogram.show', $encryptedId)
-            ->with('success', 'ওয়ার্কফ্লো তথ্য আপডেট হয়েছে।');
+            ->with('success', 'Workflow updated successfully.');
     }
 
-    /** Store a new step */
     public function storeStep(Request $request, string $encryptedId)
     {
         $id = $this->decrypt($encryptedId);
@@ -83,10 +98,9 @@ class WorkflowOrganogramController extends Controller
         ]);
 
         return redirect()->route('admin.workflow_organogram.show', $encryptedId)
-            ->with('success', 'নতুন ধাপ যোগ হয়েছে।');
+            ->with('success', 'Step added successfully.');
     }
 
-    /** Edit step form */
     public function editStep(string $encryptedWfId, string $encryptedStepId)
     {
         $wfId = $this->decrypt($encryptedWfId);
@@ -99,7 +113,6 @@ class WorkflowOrganogramController extends Controller
         return view('admin.workflow_organogram.edit_step', compact('workflow', 'step', 'allRoles', 'encryptedWfId', 'encryptedStepId'));
     }
 
-    /** Update step */
     public function updateStep(Request $request, string $encryptedWfId, string $encryptedStepId)
     {
         $wfId = $this->decrypt($encryptedWfId);
@@ -125,10 +138,9 @@ class WorkflowOrganogramController extends Controller
         ]);
 
         return redirect()->route('admin.workflow_organogram.show', $encryptedWfId)
-            ->with('success', 'ধাপ আপডেট হয়েছে।');
+            ->with('success', 'Step updated successfully.');
     }
 
-    /** Delete step */
     public function destroyStep(string $encryptedWfId, string $encryptedStepId)
     {
         $wfId = $this->decrypt($encryptedWfId);
@@ -137,17 +149,31 @@ class WorkflowOrganogramController extends Controller
         $step = WorkflowStep::where('workflow_type_id', $wfId)->findOrFail($stepId);
         $step->delete();
 
-        // Re-number remaining steps
         WorkflowStep::where('workflow_type_id', $wfId)
             ->orderBy('step_order')
             ->get()
             ->each(fn ($s, $i) => $s->update(['step_order' => $i + 1]));
 
         return redirect()->route('admin.workflow_organogram.show', $encryptedWfId)
-            ->with('success', 'ধাপ মুছে ফেলা হয়েছে।');
+            ->with('success', 'Step deleted successfully.');
     }
 
-    /** Move step up */
+    /** Reorder via AJAX (drag-and-drop) */
+    public function reorderSteps(Request $request, string $encryptedId)
+    {
+        $id = $this->decrypt($encryptedId);
+
+        $request->validate(['order' => 'required|array', 'order.*' => 'integer']);
+
+        foreach ($request->order as $position => $stepId) {
+            WorkflowStep::where('id', $stepId)
+                ->where('workflow_type_id', $id)
+                ->update(['step_order' => $position + 1]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function moveUp(string $encryptedWfId, string $encryptedStepId)
     {
         $wfId = $this->decrypt($encryptedWfId);
@@ -168,7 +194,6 @@ class WorkflowOrganogramController extends Controller
         return redirect()->route('admin.workflow_organogram.show', $encryptedWfId);
     }
 
-    /** Move step down */
     public function moveDown(string $encryptedWfId, string $encryptedStepId)
     {
         $wfId = $this->decrypt($encryptedWfId);
@@ -189,7 +214,6 @@ class WorkflowOrganogramController extends Controller
         return redirect()->route('admin.workflow_organogram.show', $encryptedWfId);
     }
 
-    /** Available roles: system + custom */
     private function availableRoles(): array
     {
         $systemRoles = [
