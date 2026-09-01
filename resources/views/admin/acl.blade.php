@@ -59,29 +59,80 @@
         </div>
     </form>
 
-    <!-- Create Custom Role Section -->
-    <form method="POST" action="{{ route('admin.acl.role.store') }}" class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-        @csrf
-        <label class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Create Custom Role</label>
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-            <input type="text" name="role_name" required placeholder="e.g. District Auditor"
-                   class="flex-grow px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
-            <button type="submit" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-lg flex items-center justify-center space-x-1 shadow-sm whitespace-nowrap">
-                <span><i class="fa-solid fa-plus"></i></span><span>Add role</span>
-            </button>
-            <div class="flex flex-wrap items-center gap-1.5 pt-1 sm:pt-0">
-                @foreach(['none','read','write','approve'] as $perm)
-                <span class="px-2 py-0.5 rounded border text-[10px] font-semibold uppercase
-                    @if($perm==='none') border-slate-300 text-slate-500
-                    @elseif($perm==='read') border-blue-300 text-blue-600
-                    @elseif($perm==='write') border-amber-300 text-amber-600
-                    @else border-emerald-300 text-emerald-600 @endif">
-                    {{ $perm }}
-                </span>
-                @endforeach
+    <!-- Role Management -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h3 class="text-sm font-bold text-slate-900">Role Management</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">System roles are read-only. Custom roles can be edited or deleted.</p>
             </div>
         </div>
-    </form>
+
+        <!-- Role List -->
+        <div class="divide-y divide-slate-50">
+            @php
+            $systemRoleList = [
+                'citizen_applicant'  => 'Citizen Applicant',
+                'dealer_applicant'   => 'Dealer Applicant',
+                'dc_front_desk'      => 'DC Office — Front Desk',
+                'dc_jm_branch'       => 'DC Office — JM Branch',
+                'district_commissioner' => 'District Commissioner',
+                'police_officer'     => 'Police Officer (SP/Thana)',
+                'special_branch'     => 'Special Branch (SB)',
+                'nsi_officer'        => 'NSI Officer',
+                'dgfi_officer'       => 'DGFI Officer',
+                'moha_desk'          => 'MoHA Desk',
+                'joint_secretary'    => 'Joint Secretary',
+                'senior_secretary'   => 'Senior Secretary',
+                'system_admin'       => 'System Admin',
+            ];
+            $customRoleList = json_decode(\App\Models\Setting::get('custom_roles', '{}'), true) ?: [];
+            @endphp
+
+            @foreach($systemRoleList as $rk => $rl)
+            <div class="flex items-center justify-between px-5 py-2.5">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 flex-shrink-0"></span>
+                    <span class="text-xs font-semibold text-slate-800">{{ $rl }}</span>
+                    <span class="font-mono text-[10px] text-slate-400">{{ $rk }}</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-slate-100 text-slate-500 border border-slate-200 flex-shrink-0">System</span>
+            </div>
+            @endforeach
+
+            @foreach($customRoleList as $rk => $rl)
+            <div class="flex items-center justify-between px-5 py-2.5 bg-amber-50/40">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>
+                    <span class="text-xs font-semibold text-slate-800">{{ $rl }}</span>
+                    <span class="font-mono text-[10px] text-slate-400">{{ $rk }}</span>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-amber-100 text-amber-700 border border-amber-200">Custom</span>
+                    <form method="POST" action="{{ route('admin.acl.role.destroy') }}" onsubmit="return confirm('Delete role &quot;{{ $rl }}&quot;?')">
+                        @csrf @method('DELETE')
+                        <input type="hidden" name="role_key" value="{{ $rk }}">
+                        <button type="submit" class="w-6 h-6 flex items-center justify-center rounded bg-rose-50 hover:bg-rose-100 text-rose-500 text-[10px] transition-colors" title="Delete role">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Add Custom Role -->
+        <div class="border-t border-slate-100 px-5 py-4 bg-slate-50">
+            <form method="POST" action="{{ route('admin.acl.role.store') }}" class="flex gap-2 items-center">
+                @csrf
+                <input type="text" name="role_name" required placeholder="e.g. District Auditor"
+                       class="flex-grow px-3 py-2 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
+                <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg flex items-center gap-1.5 shadow-sm whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-plus"></i> Add Role
+                </button>
+            </form>
+        </div>
+    </div>
 
 </div>
 @endsection

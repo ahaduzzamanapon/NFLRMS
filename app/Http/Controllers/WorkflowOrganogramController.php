@@ -34,8 +34,15 @@ class WorkflowOrganogramController extends Controller
 
         $workflow = WorkflowType::create($data + ['is_active' => true]);
 
-        return redirect()->route('admin.workflow_organogram.show', Crypt::encryptString($workflow->id))
-            ->with('success', 'Workflow created successfully.');
+        $encId = Crypt::encryptString($workflow->id);
+
+        if ($request->input('redirect_to') === 'manage') {
+            return redirect()->route('admin.workflow_organogram.show', $encId)
+                ->with('success', 'Workflow created. Now add your approval steps.');
+        }
+
+        return redirect()->route('admin.workflow_organogram.index')
+            ->with('success', 'Workflow "'.$workflow->name.'" created successfully.');
     }
 
     public function show(string $encryptedId)
@@ -152,7 +159,7 @@ class WorkflowOrganogramController extends Controller
         WorkflowStep::where('workflow_type_id', $wfId)
             ->orderBy('step_order')
             ->get()
-            ->each(fn ($s, $i) => $s->update(['step_order' => $i + 1]));
+            ->each(fn (WorkflowStep $s, $i) => $s->update(['step_order' => $i + 1]));
 
         return redirect()->route('admin.workflow_organogram.show', $encryptedWfId)
             ->with('success', 'Step deleted successfully.');

@@ -378,6 +378,23 @@ class AdminController extends Controller
         return redirect()->route('admin.acl')->with('success', 'Custom role "'.$name.'" added successfully.');
     }
 
+    public function destroyCustomRole(Request $request)
+    {
+        $request->validate(['role_key' => ['required', 'string']]);
+
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
+        $roleKey = $request->role_key;
+
+        if (! array_key_exists($roleKey, $customRoles)) {
+            return redirect()->route('admin.acl')->with('error', 'Role not found or is a system role.');
+        }
+
+        unset($customRoles[$roleKey]);
+        Setting::set('custom_roles', json_encode($customRoles));
+
+        return redirect()->route('admin.acl')->with('success', 'Custom role deleted successfully.');
+    }
+
     public function apiConfig()
     {
         return view('admin.api_config');

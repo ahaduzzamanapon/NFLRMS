@@ -228,6 +228,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/admin/users/{encryptedId}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
         Route::post('/admin/acl', [AdminController::class, 'saveAcl'])->name('admin.acl.save');
         Route::post('/admin/acl/role', [AdminController::class, 'addCustomRole'])->name('admin.acl.role.store');
+        Route::delete('/admin/acl/role', [AdminController::class, 'destroyCustomRole'])->name('admin.acl.role.destroy');
         Route::post('/admin/api-config', [AdminController::class, 'saveApiConfig'])->name('admin.api_config.save');
         Route::get('/admin/fee-config', [AdminController::class, 'feeConfig'])->name('admin.fee_config');
         Route::post('/admin/fee-config', [AdminController::class, 'saveFeeConfig'])->name('admin.fee_config.save');
