@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <h1 class="text-2xl font-bold text-slate-800 mb-2">Internal Server Error</h1>
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Internal Server Error</p><h1 class="text-4xl font-black text-slate-800 mb-2">Coming Soon</h1>
     <p class="text-slate-500 text-sm max-w-xs mb-1">
         Something went wrong on our end. We're already working on a fix.
     </p>

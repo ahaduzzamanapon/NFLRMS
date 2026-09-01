@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <h1 class="text-2xl font-bold text-slate-800 mb-2">Access Forbidden</h1>
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Access Forbidden</p><h1 class="text-4xl font-black text-slate-800 mb-2">Coming Soon</h1>
     <p class="text-slate-500 text-sm max-w-xs mb-1">
         You don't have permission to view this page.
     </p>
