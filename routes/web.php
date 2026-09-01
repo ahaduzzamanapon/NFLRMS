@@ -24,6 +24,15 @@ Route::get('/clear-cache', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
+// Temporary: preview custom error pages
+Route::prefix('error-preview')->middleware('auth')->group(function () {
+    Route::get('/404', fn () => response()->view('errors.404', [], 404));
+    Route::get('/403', fn () => response()->view('errors.403', [], 403));
+    Route::get('/500', fn () => response()->view('errors.500', [], 500));
+    Route::get('/419', fn () => response()->view('errors.419', [], 419));
+});
+
+
 // Reoptimized class loader:
 Route::get('/optimize', function () {
     $exitCode = Artisan::call('optimize');
@@ -230,6 +239,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/admin/users/{encryptedId}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
         Route::post('/admin/acl', [AdminController::class, 'saveAcl'])->name('admin.acl.save');
         Route::post('/admin/acl/role', [AdminController::class, 'addCustomRole'])->name('admin.acl.role.store');
+        Route::delete('/admin/acl/role', [AdminController::class, 'destroyCustomRole'])->name('admin.acl.role.destroy');
+
+        // Dedicated Role Management
+        Route::get('/admin/roles', [AdminController::class, 'roles'])->name('admin.roles');
+        Route::post('/admin/roles', [AdminController::class, 'storeRole'])->name('admin.roles.store');
+        Route::put('/admin/roles/{key}', [AdminController::class, 'updateRole'])->name('admin.roles.update');
+        Route::delete('/admin/roles/{key}', [AdminController::class, 'destroyRole'])->name('admin.roles.destroy');
         Route::post('/admin/api-config', [AdminController::class, 'saveApiConfig'])->name('admin.api_config.save');
         Route::get('/admin/fee-config', [AdminController::class, 'feeConfig'])->name('admin.fee_config');
         Route::post('/admin/fee-config', [AdminController::class, 'saveFeeConfig'])->name('admin.fee_config.save');
@@ -239,10 +255,14 @@ Route::middleware(['auth'])->group(function () {
 
         // Workflow Organogram CRUD
         Route::get('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'index'])->name('admin.workflow_organogram.index');
+        Route::get('/admin/workflow-organogram/create', [WorkflowOrganogramController::class, 'create'])->name('admin.workflow_organogram.create');
+        Route::post('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'store'])->name('admin.workflow_organogram.store');
         Route::get('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'show'])->name('admin.workflow_organogram.show');
         Route::get('/admin/workflow-organogram/{encryptedId}/edit', [WorkflowOrganogramController::class, 'edit'])->name('admin.workflow_organogram.edit');
+        Route::delete('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'destroy'])->name('admin.workflow_organogram.destroy');
         Route::put('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'update'])->name('admin.workflow_organogram.update');
         Route::post('/admin/workflow-organogram/{encryptedId}/steps', [WorkflowOrganogramController::class, 'storeStep'])->name('admin.workflow_organogram.steps.store');
+        Route::post('/admin/workflow-organogram/{encryptedId}/reorder', [WorkflowOrganogramController::class, 'reorderSteps'])->name('admin.workflow_organogram.steps.reorder');
         Route::get('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}/edit', [WorkflowOrganogramController::class, 'editStep'])->name('admin.workflow_organogram.steps.edit');
         Route::put('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'updateStep'])->name('admin.workflow_organogram.steps.update');
         Route::delete('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'destroyStep'])->name('admin.workflow_organogram.steps.destroy');
