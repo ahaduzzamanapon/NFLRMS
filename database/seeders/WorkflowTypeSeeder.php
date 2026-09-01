@@ -45,21 +45,21 @@ class WorkflowTypeSeeder extends Seeder
             WorkflowType::firstOrCreate(['key' => $typeData['key']], $typeData);
         }
 
-        // Default steps for citizen_new (the main workflow)
+        // Default steps for citizen_new
         $citizenNew = WorkflowType::where('key', 'citizen_new')->first();
 
         if ($citizenNew && $citizenNew->steps()->count() === 0) {
             $steps = [
-                ['step_order' => 1,  'role_key' => 'dc_front_desk',               'role_name' => 'DC Front Desk',               'step_name' => 'DC Front Desk যাচাই ও গ্রহণ',       'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 2,  'role_key' => 'dc_jm_branch',                'role_name' => 'DC JM Branch',                'step_name' => 'JM Branch পরীক্ষা ও মতামত',        'can_approve' => true,  'can_reject' => true,  'can_return' => true],
-                ['step_order' => 3,  'role_key' => 'district_commissioner',       'role_name' => 'District Commissioner',       'step_name' => 'জেলা প্রশাসকের সুপারিশ',           'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 4,  'role_key' => 'police_officer',              'role_name' => 'Police Officer (Thana)',       'step_name' => 'থানা পুলিশ ভেটিং',                 'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 5,  'role_key' => 'special_branch',              'role_name' => 'Special Branch (SB)',          'step_name' => 'বিশেষ শাখা ভেটিং',                 'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 6,  'role_key' => 'nsi_officer',                 'role_name' => 'NSI Officer',                  'step_name' => 'NSI ভেটিং',                          'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 7,  'role_key' => 'dgfi_officer',                'role_name' => 'DGFI Officer',                 'step_name' => 'DGFI ভেটিং',                         'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 8,  'role_key' => 'moha_desk',                   'role_name' => 'MoHA Desk (Political-4)',      'step_name' => 'স্বরাষ্ট্র মন্ত্রণালয় ডেস্ক যাচাই', 'can_approve' => true,  'can_reject' => true,  'can_return' => true],
-                ['step_order' => 9,  'role_key' => 'joint_secretary',             'role_name' => 'Joint Secretary',             'step_name' => 'যুগ্ম সচিব অনুমোদন',               'can_approve' => true,  'can_reject' => true,  'can_return' => false],
-                ['step_order' => 10, 'role_key' => 'senior_secretary',            'role_name' => 'Senior Secretary',            'step_name' => 'সিনিয়র সচিব চূড়ান্ত অনুমোদন',     'can_approve' => true,  'can_reject' => true,  'can_return' => false],
+                ['step_order' => 1,  'role_key' => 'dc_front_desk',         'role_name' => 'DC Front Desk',           'step_name' => 'DC Front Desk — Intake & Verification',   'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 2,  'role_key' => 'dc_jm_branch',          'role_name' => 'DC JM Branch',            'step_name' => 'JM Branch — Review & Recommendation',     'can_approve' => true, 'can_reject' => true,  'can_return' => true],
+                ['step_order' => 3,  'role_key' => 'district_commissioner', 'role_name' => 'District Commissioner',   'step_name' => 'District Commissioner — Recommendation',  'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 4,  'role_key' => 'police_officer',        'role_name' => 'Police Officer (Thana)',  'step_name' => 'Thana Police Vetting',                    'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 5,  'role_key' => 'special_branch',        'role_name' => 'Special Branch (SB)',     'step_name' => 'Special Branch (SB) Vetting',             'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 6,  'role_key' => 'nsi_officer',           'role_name' => 'NSI Officer',             'step_name' => 'NSI Vetting',                             'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 7,  'role_key' => 'dgfi_officer',          'role_name' => 'DGFI Officer',            'step_name' => 'DGFI Vetting',                            'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 8,  'role_key' => 'moha_desk',             'role_name' => 'MoHA Desk (Political-4)', 'step_name' => 'MoHA Desk — Verification',                'can_approve' => true, 'can_reject' => true,  'can_return' => true],
+                ['step_order' => 9,  'role_key' => 'joint_secretary',       'role_name' => 'Joint Secretary',         'step_name' => 'Joint Secretary — Approval',              'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 10, 'role_key' => 'senior_secretary',      'role_name' => 'Senior Secretary',        'step_name' => 'Senior Secretary — Final Approval',       'can_approve' => true, 'can_reject' => true,  'can_return' => false],
             ];
 
             foreach ($steps as $step) {
@@ -67,15 +67,15 @@ class WorkflowTypeSeeder extends Seeder
             }
         }
 
-        // Default steps for citizen_renew (simplified)
+        // Default steps for citizen_renew
         $citizenRenew = WorkflowType::where('key', 'citizen_renew')->first();
 
         if ($citizenRenew && $citizenRenew->steps()->count() === 0) {
             $steps = [
-                ['step_order' => 1, 'role_key' => 'dc_front_desk',         'role_name' => 'DC Front Desk',         'step_name' => 'DC Front Desk যাচাই',         'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 2, 'role_key' => 'dc_jm_branch',          'role_name' => 'DC JM Branch',          'step_name' => 'JM Branch মতামত',             'can_approve' => true, 'can_reject' => true,  'can_return' => true],
-                ['step_order' => 3, 'role_key' => 'district_commissioner', 'role_name' => 'District Commissioner', 'step_name' => 'DC সুপারিশ',                  'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 4, 'role_key' => 'moha_desk',             'role_name' => 'MoHA Desk',             'step_name' => 'MoHA ডেস্ক যাচাই ও অনুমোদন', 'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 1, 'role_key' => 'dc_front_desk',         'role_name' => 'DC Front Desk',         'step_name' => 'DC Front Desk — Verification',            'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 2, 'role_key' => 'dc_jm_branch',          'role_name' => 'DC JM Branch',          'step_name' => 'JM Branch — Recommendation',              'can_approve' => true, 'can_reject' => true,  'can_return' => true],
+                ['step_order' => 3, 'role_key' => 'district_commissioner', 'role_name' => 'District Commissioner', 'step_name' => 'District Commissioner — Recommendation',  'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 4, 'role_key' => 'moha_desk',             'role_name' => 'MoHA Desk',             'step_name' => 'MoHA Desk — Verification & Approval',     'can_approve' => true, 'can_reject' => true,  'can_return' => false],
             ];
 
             foreach ($steps as $step) {
@@ -88,12 +88,12 @@ class WorkflowTypeSeeder extends Seeder
 
         if ($dealerNew && $dealerNew->steps()->count() === 0) {
             $steps = [
-                ['step_order' => 1, 'role_key' => 'dc_front_desk',         'role_name' => 'DC Front Desk',         'step_name' => 'DC Front Desk গ্রহণ ও যাচাই',     'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 2, 'role_key' => 'dc_jm_branch',          'role_name' => 'DC JM Branch',          'step_name' => 'JM Branch পরীক্ষা',               'can_approve' => true, 'can_reject' => true,  'can_return' => true],
-                ['step_order' => 3, 'role_key' => 'district_commissioner', 'role_name' => 'District Commissioner', 'step_name' => 'DC সুপারিশ',                       'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 4, 'role_key' => 'police_officer',        'role_name' => 'Police Officer',        'step_name' => 'পুলিশ ভেটিং',                     'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 5, 'role_key' => 'moha_desk',             'role_name' => 'MoHA Desk',             'step_name' => 'স্বরাষ্ট্র মন্ত্রণালয় ডেস্ক অনুমোদন', 'can_approve' => true, 'can_reject' => true,  'can_return' => false],
-                ['step_order' => 6, 'role_key' => 'senior_secretary',      'role_name' => 'Senior Secretary',      'step_name' => 'সিনিয়র সচিব চূড়ান্ত অনুমোদন',   'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 1, 'role_key' => 'dc_front_desk',         'role_name' => 'DC Front Desk',         'step_name' => 'DC Front Desk — Intake & Verification',   'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 2, 'role_key' => 'dc_jm_branch',          'role_name' => 'DC JM Branch',          'step_name' => 'JM Branch — Review',                      'can_approve' => true, 'can_reject' => true,  'can_return' => true],
+                ['step_order' => 3, 'role_key' => 'district_commissioner', 'role_name' => 'District Commissioner', 'step_name' => 'District Commissioner — Recommendation',  'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 4, 'role_key' => 'police_officer',        'role_name' => 'Police Officer',        'step_name' => 'Police Vetting',                           'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 5, 'role_key' => 'moha_desk',             'role_name' => 'MoHA Desk',             'step_name' => 'MoHA Desk — Approval',                    'can_approve' => true, 'can_reject' => true,  'can_return' => false],
+                ['step_order' => 6, 'role_key' => 'senior_secretary',      'role_name' => 'Senior Secretary',      'step_name' => 'Senior Secretary — Final Approval',       'can_approve' => true, 'can_reject' => true,  'can_return' => false],
             ];
 
             foreach ($steps as $step) {
@@ -106,10 +106,10 @@ class WorkflowTypeSeeder extends Seeder
 
         if ($dealerRenew && $dealerRenew->steps()->count() === 0) {
             $steps = [
-                ['step_order' => 1, 'role_key' => 'dc_front_desk',    'role_name' => 'DC Front Desk', 'step_name' => 'DC Front Desk যাচাই',          'can_approve' => true, 'can_reject' => true, 'can_return' => false],
-                ['step_order' => 2, 'role_key' => 'dc_jm_branch',     'role_name' => 'DC JM Branch',  'step_name' => 'JM Branch মতামত',              'can_approve' => true, 'can_reject' => true, 'can_return' => true],
-                ['step_order' => 3, 'role_key' => 'moha_desk',        'role_name' => 'MoHA Desk',     'step_name' => 'MoHA ডেস্ক অনুমোদন',          'can_approve' => true, 'can_reject' => true, 'can_return' => false],
-                ['step_order' => 4, 'role_key' => 'senior_secretary', 'role_name' => 'Senior Secretary', 'step_name' => 'সিনিয়র সচিব চূড়ান্ত অনুমোদন', 'can_approve' => true, 'can_reject' => true, 'can_return' => false],
+                ['step_order' => 1, 'role_key' => 'dc_front_desk',    'role_name' => 'DC Front Desk',    'step_name' => 'DC Front Desk — Verification',       'can_approve' => true, 'can_reject' => true, 'can_return' => false],
+                ['step_order' => 2, 'role_key' => 'dc_jm_branch',     'role_name' => 'DC JM Branch',     'step_name' => 'JM Branch — Recommendation',         'can_approve' => true, 'can_reject' => true, 'can_return' => true],
+                ['step_order' => 3, 'role_key' => 'moha_desk',        'role_name' => 'MoHA Desk',        'step_name' => 'MoHA Desk — Approval',               'can_approve' => true, 'can_reject' => true, 'can_return' => false],
+                ['step_order' => 4, 'role_key' => 'senior_secretary', 'role_name' => 'Senior Secretary', 'step_name' => 'Senior Secretary — Final Approval',  'can_approve' => true, 'can_reject' => true, 'can_return' => false],
             ];
 
             foreach ($steps as $step) {

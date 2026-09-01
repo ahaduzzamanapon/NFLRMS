@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('custom_comments', function (Blueprint $table) {
-            // Nullable: null = visible only to creator; value = target role key (e.g. 'dc_front_desk')
-            $table->string('role_id')->nullable()->after('user_id');
-        });
+        if (! Schema::hasColumn('custom_comments', 'role_id')) {
+            Schema::table('custom_comments', function (Blueprint $table) {
+                // Nullable: null = visible only to creator; value = target role key (e.g. 'dc_front_desk')
+                $table->string('role_id')->nullable()->after('user_id');
+            });
+        }
     }
 
     /**
