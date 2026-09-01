@@ -220,7 +220,8 @@
                 @php $adminLinks = [
                     ['route'=>'admin.dashboard',              'icon'=>'fa-solid fa-house',              'label'=>'Home',                  'active_check'=>'exact'],
                     ['route'=>'admin.users',                  'icon'=>'fa-solid fa-user',               'label'=>'User Management',       'active_check'=>'prefix'],
-                    ['route'=>'admin.workflow_organogram.index', 'icon'=>'fa-solid fa-diagram-project', 'label'=>'Workflow Config',     'active_check'=>'prefix'],
+                    ['route'=>'admin.roles',                  'icon'=>'fa-solid fa-shield-halved',      'label'=>'Role Management',       'active_check'=>'exact'],
+                    ['route'=>'admin.workflow_organogram.index', 'icon'=>'fa-solid fa-diagram-project', 'label'=>'Workflow Config',       'active_check'=>'prefix'],
                     ['route'=>'admin.fee_config',             'icon'=>'fa-solid fa-money-bill-wave',    'label'=>'Fee & Fine Config',      'active_check'=>'exact'],
                     ['route'=>'admin.acl',                    'icon'=>'fa-solid fa-key',                'label'=>'ACL / Permissions',     'active_check'=>'exact'],
                     ['route'=>'admin.audit_log',              'icon'=>'fa-solid fa-file-lines',         'label'=>'Audit Log',             'active_check'=>'exact'],
