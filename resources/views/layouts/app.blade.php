@@ -432,7 +432,7 @@
                 @auth
                 @php
                     $authUser = auth()->user();
-                    $userPhoto = $authUser->photo_url ?? $authUser->avatar_url ?? $authUser->avatar ?? null;
+                    $userPhoto = $authUser->photo_url ?? $authUser->photo_url ?? null;
                     $ws = explode(' ', trim($authUser->name));
                     $initials = count($ws) >= 2 ? strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)) : strtoupper(substr($authUser->name,0,2));
                 @endphp
@@ -444,9 +444,13 @@
                             <img src="{{ $userPhoto }}" alt="{{ $authUser->name }}"
                                 class="w-7 h-7 rounded-full object-cover flex-shrink-0 ring-1 ring-slate-200">
                         @else
-                            <span style="width:28px;height:28px;background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;"
-                                class="rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                {{ $initials }}
+                            {{-- Default black & white person silhouette --}}
+                            <span style="width:28px;height:28px;background:#f1f5f9;border:1px solid #e2e8f0;"
+                                class="rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;">
+                                    <circle cx="12" cy="8" r="4" fill="#94a3b8"/>
+                                    <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" fill="#94a3b8"/>
+                                </svg>
                             </span>
                         @endif
                         <span class="hidden sm:inline text-xs sm:text-sm font-semibold text-slate-700 max-w-[130px] truncate">{{ $authUser->name }}</span>

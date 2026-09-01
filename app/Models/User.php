@@ -44,6 +44,16 @@ class User extends Authenticatable
         return Role::tryFrom($value) ?? $value;
     }
 
+    /** Returns the public URL for the user's profile photo, or null if none uploaded. */
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if (empty($this->attributes['profile_photo_path'])) {
+            return null;
+        }
+
+        return asset('storage/'.ltrim($this->attributes['profile_photo_path'], '/'));
+    }
+
     public function setRoleAttribute($value)
     {
         $this->attributes['role'] = $value instanceof Role ? $value->value : $value;
