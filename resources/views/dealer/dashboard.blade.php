@@ -145,165 +145,168 @@
     </div>
 
     <!-- Dealer Stock Status Panel -->
-    @if($licenses->isNotEmpty())
-        @php
-            $realStocks = auth()->user()->dealerStocks()->latest()->get();
-            $dummyStocks = collect([
-                (object)[
-                    'item' => 'Walther PPK Semi-Auto Pistol',
-                    'item_name' => 'Walther PPK Semi-Auto Pistol',
-                    'category' => 'Firearm',
-                    'item_type' => 'Firearm',
-                    'bore' => '.32 ACP',
-                    'quantity' => 24,
-                    'source' => 'MoHA Verified Import Batch #401',
-                    'remarks' => 'MoHA Verified Import Batch #401',
-                ],
-                (object)[
-                    'item' => 'Remington 870 Field Shotgun',
-                    'item_name' => 'Remington 870 Field Shotgun',
-                    'category' => 'Shotgun',
-                    'item_type' => 'Shotgun',
-                    'bore' => '12 Gauge',
-                    'quantity' => 18,
-                    'source' => 'Standard Police & Guard Supply',
-                    'remarks' => 'Standard Police & Guard Supply',
-                ],
-                (object)[
-                    'item' => '9mm Parabellum FMJ Ammunition',
-                    'item_name' => '9mm Parabellum FMJ Ammunition',
-                    'category' => 'Ammunition',
-                    'item_type' => 'Ammunition',
-                    'bore' => '9mm',
-                    'quantity' => 10000,
-                    'source' => 'Sealed Import Crate — Batch #2026-90',
-                    'remarks' => 'Sealed Import Crate — Batch #2026-90',
-                ],
-                (object)[
-                    'item' => '12 Gauge 00 Buckshot Ammunition',
-                    'item_name' => '12 Gauge 00 Buckshot Ammunition',
-                    'category' => 'Ammunition',
-                    'item_type' => 'Ammunition',
-                    'bore' => '12 Gauge',
-                    'quantity' => 5400,
-                    'source' => 'High-Density Vault #2 Storage',
-                    'remarks' => 'High-Density Vault #2 Storage',
-                ],
-                (object)[
-                    'item' => 'CZ 75 B Semi-Auto Pistol',
-                    'item_name' => 'CZ 75 B Semi-Auto Pistol',
-                    'category' => 'Firearm',
-                    'item_type' => 'Firearm',
-                    'bore' => '9mm',
-                    'quantity' => 12,
-                    'source' => 'MoHA Inspection Clearance Approved',
-                    'remarks' => 'MoHA Inspection Clearance Approved',
-                ],
-                (object)[
-                    'item' => 'Glock 17 Gen5 9mm Pistol',
-                    'item_name' => 'Glock 17 Gen5 9mm Pistol',
-                    'category' => 'Firearm',
-                    'item_type' => 'Firearm',
-                    'bore' => '9mm',
-                    'quantity' => 35,
-                    'source' => 'Customs Clearance Ref #BD-2026-881',
-                    'remarks' => 'Customs Clearance Ref #BD-2026-881',
-                ],
-                (object)[
-                    'item' => 'Winchester .308 Win Hunting Rifle',
-                    'item_name' => 'Winchester .308 Win Hunting Rifle',
-                    'category' => 'Rifle',
-                    'item_type' => 'Rifle',
-                    'bore' => '.308 Win',
-                    'quantity' => 8,
-                    'source' => 'Special License Import Permit #4402',
-                    'remarks' => 'Special License Import Permit #4402',
-                ],
-                (object)[
-                    'item' => 'Heckler & Koch MP5 Submachine Gun',
-                    'item_name' => 'Heckler & Koch MP5 Submachine Gun',
-                    'category' => 'Firearm',
-                    'item_type' => 'Firearm',
-                    'bore' => '9mm',
-                    'quantity' => 15,
-                    'source' => 'Institutional Security Reserve Stock',
-                    'remarks' => 'Institutional Security Reserve Stock',
-                ],
-            ]);
-            $stocks = $realStocks->isNotEmpty() ? $realStocks : $dummyStocks;
-            $firearmsCount = $stocks->filter(fn($s) => in_array(strtolower($s->item_type ?? $s->category ?? ''), ['firearm', 'rifle', 'shotgun']))->sum('quantity');
-            $ammoCount = $stocks->filter(fn($s) => strtolower($s->item_type ?? $s->category ?? '') === 'ammunition')->sum('quantity');
-        @endphp
-        <div class="space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                <h3 class="text-sm font-semibold text-slate-900 font-serif">Stock Ledger Summary</h3>
-                <a href="{{ route('dealer.stock_ledger') }}" class="text-[11px] font-semibold text-gov-green hover:underline">Manage Stock Ledger <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
-            </div>
+    @php
+        $realStocks = auth()->user()->dealerStocks()->latest()->get();
+        $dummyStocks = collect([
+            (object)[
+                'item' => 'Walther PPK Semi-Auto Pistol',
+                'item_name' => 'Walther PPK Semi-Auto Pistol',
+                'category' => 'Firearm',
+                'item_type' => 'Firearm',
+                'bore' => '.32 ACP',
+                'quantity' => 24,
+                'source' => 'MoHA Verified Import Batch #401',
+                'remarks' => 'MoHA Verified Import Batch #401',
+            ],
+            (object)[
+                'item' => 'Remington 870 Field Shotgun',
+                'item_name' => 'Remington 870 Field Shotgun',
+                'category' => 'Shotgun',
+                'item_type' => 'Shotgun',
+                'bore' => '12 Gauge',
+                'quantity' => 18,
+                'source' => 'Standard Police & Guard Supply',
+                'remarks' => 'Standard Police & Guard Supply',
+            ],
+            (object)[
+                'item' => '9mm Parabellum FMJ Ammunition',
+                'item_name' => '9mm Parabellum FMJ Ammunition',
+                'category' => 'Ammunition',
+                'item_type' => 'Ammunition',
+                'bore' => '9mm',
+                'quantity' => 10000,
+                'source' => 'Sealed Import Crate — Batch #2026-90',
+                'remarks' => 'Sealed Import Crate — Batch #2026-90',
+            ],
+            (object)[
+                'item' => '12 Gauge 00 Buckshot Ammunition',
+                'item_name' => '12 Gauge 00 Buckshot Ammunition',
+                'category' => 'Ammunition',
+                'item_type' => 'Ammunition',
+                'bore' => '12 Gauge',
+                'quantity' => 5400,
+                'source' => 'High-Density Vault #2 Storage',
+                'remarks' => 'High-Density Vault #2 Storage',
+            ],
+            (object)[
+                'item' => 'CZ 75 B Semi-Auto Pistol',
+                'item_name' => 'CZ 75 B Semi-Auto Pistol',
+                'category' => 'Firearm',
+                'item_type' => 'Firearm',
+                'bore' => '9mm',
+                'quantity' => 12,
+                'source' => 'MoHA Inspection Clearance Approved',
+                'remarks' => 'MoHA Inspection Clearance Approved',
+            ],
+            (object)[
+                'item' => 'Glock 17 Gen5 9mm Pistol',
+                'item_name' => 'Glock 17 Gen5 9mm Pistol',
+                'category' => 'Firearm',
+                'item_type' => 'Firearm',
+                'bore' => '9mm',
+                'quantity' => 35,
+                'source' => 'Customs Clearance Ref #BD-2026-881',
+                'remarks' => 'Customs Clearance Ref #BD-2026-881',
+            ],
+            (object)[
+                'item' => 'Winchester .308 Win Hunting Rifle',
+                'item_name' => 'Winchester .308 Win Hunting Rifle',
+                'category' => 'Rifle',
+                'item_type' => 'Rifle',
+                'bore' => '.308 Win',
+                'quantity' => 8,
+                'source' => 'Special License Import Permit #4402',
+                'remarks' => 'Special License Import Permit #4402',
+            ],
+            (object)[
+                'item' => 'Heckler & Koch MP5 Submachine Gun',
+                'item_name' => 'Heckler & Koch MP5 Submachine Gun',
+                'category' => 'Firearm',
+                'item_type' => 'Firearm',
+                'bore' => '9mm',
+                'quantity' => 15,
+                'source' => 'Institutional Security Reserve Stock',
+                'remarks' => 'Institutional Security Reserve Stock',
+            ],
+        ]);
+        $stocks = $realStocks->isNotEmpty() ? $realStocks : $dummyStocks;
+        $firearmsCount = $stocks->filter(fn($s) => in_array(strtolower($s->item_type ?? $s->category ?? ''), ['firearm', 'rifle', 'shotgun']))->sum('quantity');
+        $ammoCount = $stocks->filter(fn($s) => strtolower($s->item_type ?? $s->category ?? '') === 'ammunition')->sum('quantity');
+        $anomalyCount = $stocks->where('quantity', '<', 0)->count();
+    @endphp
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
-                    <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($firearmsCount) }} items</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
-                    <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($ammoCount) }} rds</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
-                    <div class="text-2xl font-bold text-gov-green mt-1"><i class="fa-solid fa-circle-check text-gov-green mr-1"></i> Verified Clear</div>
-                </div>
-            </div>
+    <div class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h3 class="text-sm font-semibold text-slate-900 font-serif">Stock Ledger Summary</h3>
+            <a href="{{ route('dealer.stock_ledger') }}" class="text-[11px] font-semibold text-gov-green hover:underline">Manage Stock Ledger <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+        </div>
 
-            <!-- Ledger Table -->
-            <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
-                <table class="w-full text-left border-collapse min-w-[540px]">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
-                            <th class="p-3 pl-5">Item Name</th>
-                            <th class="p-3">Type</th>
-                            <th class="p-3">Bore / Caliber</th>
-                            <th class="p-3">Quantity</th>
-                            <th class="p-3 pr-5 text-right">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-xs divide-y divide-slate-100">
-                        @forelse($stocks->take(8) as $stk)
-                        @php
-                            $itemName = $stk->item_name ?? $stk->item ?? 'Walther PPK Semi-Auto Pistol';
-                            $itemType = $stk->item_type ?? $stk->category ?? 'Firearm';
-                            $bore = $stk->bore ?? match(true) {
-                                str_contains(strtolower($itemName), '12 gauge') || str_contains(strtolower($itemName), 'shotgun') => '12 Gauge',
-                                str_contains(strtolower($itemName), '9mm') || str_contains(strtolower($itemName), 'glock') || str_contains(strtolower($itemName), 'mp5') || str_contains(strtolower($itemName), 'cz 75') => '9mm',
-                                str_contains(strtolower($itemName), '.32') || str_contains(strtolower($itemName), 'walther') || str_contains(strtolower($itemName), 'revolver') => '.32 ACP',
-                                str_contains(strtolower($itemName), '.308') || str_contains(strtolower($itemName), 'rifle') => '.308 Win',
-                                str_contains(strtolower($itemName), '.22') => '.22 LR',
-                                default => 'Standard Calibre'
-                            };
-                            $remarks = $stk->remarks ?? $stk->source ?? 'MoHA Audit Verified';
-                        @endphp
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 pl-5 font-semibold text-slate-900">{{ $itemName }}</td>
-                            <td class="p-3">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                                    {{ in_array(strtolower($itemType), ['firearm', 'rifle', 'shotgun']) ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-amber-50 text-amber-700 border border-amber-200' }}">
-                                    {{ $itemType }}
-                                </span>
-                            </td>
-                            <td class="p-3 font-medium text-slate-600 font-mono text-[11px]">{{ $bore }}</td>
-                            <td class="p-3 font-semibold text-slate-800">{{ number_format($stk->quantity) }}</td>
-                            <td class="p-3 pr-5 text-right text-slate-500 font-normal">{{ $remarks }}</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="p-8 text-center text-slate-400 font-normal">No stock ledger entries found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Firearms in Stock</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($firearmsCount) }} items</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Ammunition in Stock</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($ammoCount) }} rds</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
+                <div class="text-2xl font-bold text-gov-green mt-1">
+                    <i class="fa-solid fa-circle-check text-gov-green mr-1"></i>
+                    {{ $anomalyCount > 0 ? $anomalyCount . ' Alerts' : 'Verified Clear' }}
+                </div>
             </div>
         </div>
-    @endif
+
+        <!-- Ledger Table -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
+            <table class="w-full text-left border-collapse min-w-[540px]">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
+                        <th class="p-3 pl-5">Item Name</th>
+                        <th class="p-3">Type</th>
+                        <th class="p-3">Bore / Caliber</th>
+                        <th class="p-3">Quantity</th>
+                        <th class="p-3 pr-5 text-right">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs divide-y divide-slate-100">
+                    @forelse($stocks->take(8) as $stk)
+                    @php
+                        $itemName = $stk->item_name ?? $stk->item ?? 'Walther PPK Semi-Auto Pistol';
+                        $itemType = $stk->item_type ?? $stk->category ?? 'Firearm';
+                        $bore = $stk->bore ?? match(true) {
+                            str_contains(strtolower($itemName), '12 gauge') || str_contains(strtolower($itemName), 'shotgun') => '12 Gauge',
+                            str_contains(strtolower($itemName), '9mm') || str_contains(strtolower($itemName), 'glock') || str_contains(strtolower($itemName), 'mp5') || str_contains(strtolower($itemName), 'cz 75') => '9mm',
+                            str_contains(strtolower($itemName), '.32') || str_contains(strtolower($itemName), 'walther') || str_contains(strtolower($itemName), 'revolver') => '.32 ACP',
+                            str_contains(strtolower($itemName), '.308') || str_contains(strtolower($itemName), 'rifle') => '.308 Win',
+                            str_contains(strtolower($itemName), '.22') => '.22 LR',
+                            default => 'Standard Calibre'
+                        };
+                        $remarks = $stk->remarks ?? $stk->source ?? 'MoHA Audit Verified';
+                    @endphp
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="p-3 pl-5 font-semibold text-slate-900">{{ $itemName }}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
+                                {{ in_array(strtolower($itemType), ['firearm', 'rifle', 'shotgun']) ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-amber-50 text-amber-700 border border-amber-200' }}">
+                                {{ $itemType }}
+                            </span>
+                        </td>
+                        <td class="p-3 font-medium text-slate-600 font-mono text-[11px]">{{ $bore }}</td>
+                        <td class="p-3 font-semibold text-slate-800">{{ number_format($stk->quantity) }}</td>
+                        <td class="p-3 pr-5 text-right text-slate-500 font-normal">{{ $remarks }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="p-8 text-center text-slate-400 font-normal">No stock ledger entries found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- My Applications Section -->
     <div class="space-y-3">
