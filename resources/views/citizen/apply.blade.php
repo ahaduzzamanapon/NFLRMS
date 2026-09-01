@@ -82,12 +82,17 @@
                 <select name="service_type" id="service_type" onchange="onServiceTypeChanged(this.value)"
                         class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('service_type') ? 'border-rose-400' : 'border-slate-200' }} bg-white focus:ring-1 focus:ring-gov-green focus:border-transparent outline-none">
                     @if($isDealer)
-                        <option value="dealer_class_a">Class A — Manufacture &amp; Dealing (MoHA Approval)</option>
+                        <option value="dealer_class_a">Class A — Manufacture &amp; Dealing</option>
+                        <option value="dealer_class_b">Class B — Wholesale Dealing</option>
+                        <option value="dealer_class_c">Class C — Retail Dealing</option>
+                        {{-- <option value="dealer_class_a">Class A — Manufacture &amp; Dealing (MoHA Approval)</option>
                         <option value="dealer_class_b">Class B — Wholesale Dealing only (MoHA Approval)</option>
-                        <option value="dealer_class_c">Class C — Retail Dealing only (DC Approval)</option>
+                        <option value="dealer_class_c">Class C — Retail Dealing only (DC Approval)</option> --}}
                     @else
-                        <option value="long">New License &mdash; Long Gun (Shotgun/Rifle) &bull; DC Approval</option>
-                        <option value="handgun">New License &mdash; Handgun (Pistol/Revolver) &bull; MoHA Approval</option>
+                        <option value="long">New License &mdash; Long Gun (Shotgun/Rifle)</option>
+                        <option value="handgun">New License &mdash; Handgun (Pistol/Revolver)</option>
+                        {{-- <option value="long">New License &mdash; Long Gun (Shotgun/Rifle) &bull; DC Approval</option>
+                        <option value="handgun">New License &mdash; Handgun (Pistol/Revolver) &bull; MoHA Approval</option> --}}
                     @endif
                 </select>
                 @error('service_type')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="1">{{ $message }}</span>@enderror
