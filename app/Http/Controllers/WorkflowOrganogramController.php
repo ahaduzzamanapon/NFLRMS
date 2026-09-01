@@ -62,6 +62,19 @@ class WorkflowOrganogramController extends Controller
         return view('admin.workflow_organogram.edit', compact('workflow'));
     }
 
+    public function destroy(string $encryptedId)
+    {
+        $id = $this->decrypt($encryptedId);
+        $workflow = WorkflowType::findOrFail($id);
+
+        // Delete all steps first, then the workflow
+        $workflow->steps()->delete();
+        $workflow->delete();
+
+        return redirect()->route('admin.workflow_organogram.index')
+            ->with('success', 'Workflow "'.$workflow->name.'" deleted successfully.');
+    }
+
     public function update(Request $request, string $encryptedId)
     {
         $id = $this->decrypt($encryptedId);

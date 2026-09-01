@@ -229,6 +229,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/acl', [AdminController::class, 'saveAcl'])->name('admin.acl.save');
         Route::post('/admin/acl/role', [AdminController::class, 'addCustomRole'])->name('admin.acl.role.store');
         Route::delete('/admin/acl/role', [AdminController::class, 'destroyCustomRole'])->name('admin.acl.role.destroy');
+
+        // Dedicated Role Management
+        Route::get('/admin/roles', [AdminController::class, 'roles'])->name('admin.roles');
+        Route::post('/admin/roles', [AdminController::class, 'storeRole'])->name('admin.roles.store');
+        Route::put('/admin/roles/{key}', [AdminController::class, 'updateRole'])->name('admin.roles.update');
+        Route::delete('/admin/roles/{key}', [AdminController::class, 'destroyRole'])->name('admin.roles.destroy');
         Route::post('/admin/api-config', [AdminController::class, 'saveApiConfig'])->name('admin.api_config.save');
         Route::get('/admin/fee-config', [AdminController::class, 'feeConfig'])->name('admin.fee_config');
         Route::post('/admin/fee-config', [AdminController::class, 'saveFeeConfig'])->name('admin.fee_config.save');
@@ -242,6 +248,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'store'])->name('admin.workflow_organogram.store');
         Route::get('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'show'])->name('admin.workflow_organogram.show');
         Route::get('/admin/workflow-organogram/{encryptedId}/edit', [WorkflowOrganogramController::class, 'edit'])->name('admin.workflow_organogram.edit');
+        Route::delete('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'destroy'])->name('admin.workflow_organogram.destroy');
         Route::put('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'update'])->name('admin.workflow_organogram.update');
         Route::post('/admin/workflow-organogram/{encryptedId}/steps', [WorkflowOrganogramController::class, 'storeStep'])->name('admin.workflow_organogram.steps.store');
         Route::post('/admin/workflow-organogram/{encryptedId}/reorder', [WorkflowOrganogramController::class, 'reorderSteps'])->name('admin.workflow_organogram.steps.reorder');

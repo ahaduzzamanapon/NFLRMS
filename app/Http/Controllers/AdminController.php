@@ -395,6 +395,83 @@ class AdminController extends Controller
         return redirect()->route('admin.acl')->with('success', 'Custom role deleted successfully.');
     }
 
+    /** Dedicated Role Management page */
+    public function roles()
+    {
+        $systemRoles = $this->systemRoleList();
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
+
+        return view('admin.roles.index', compact('systemRoles', 'customRoles'));
+    }
+
+    public function storeRole(Request $request)
+    {
+        $request->validate(['role_name' => ['required', 'string', 'max:80']]);
+
+        $name = trim($request->role_name);
+        $key = strtolower(preg_replace('/[^A-Za-z0-9]+/', '_', $name));
+
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
+
+        if (array_key_exists($key, $customRoles) || array_key_exists($key, $this->systemRoleList())) {
+            return redirect()->route('admin.roles')->with('error', 'A role with that key already exists.');
+        }
+
+        $customRoles[$key] = $name;
+        Setting::set('custom_roles', json_encode($customRoles));
+
+        return redirect()->route('admin.roles')->with('success', 'Role "'.$name.'" created successfully.');
+    }
+
+    public function updateRole(Request $request, string $key)
+    {
+        $request->validate(['role_name' => ['required', 'string', 'max:80']]);
+
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
+
+        if (! array_key_exists($key, $customRoles)) {
+            return redirect()->route('admin.roles')->with('error', 'System roles cannot be edited.');
+        }
+
+        $customRoles[$key] = trim($request->role_name);
+        Setting::set('custom_roles', json_encode($customRoles));
+
+        return redirect()->route('admin.roles')->with('success', 'Role updated successfully.');
+    }
+
+    public function destroyRole(string $key)
+    {
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
+
+        if (! array_key_exists($key, $customRoles)) {
+            return redirect()->route('admin.roles')->with('error', 'System roles cannot be deleted.');
+        }
+
+        unset($customRoles[$key]);
+        Setting::set('custom_roles', json_encode($customRoles));
+
+        return redirect()->route('admin.roles')->with('success', 'Role deleted successfully.');
+    }
+
+    private function systemRoleList(): array
+    {
+        return [
+            'citizen_applicant' => 'Citizen Applicant',
+            'dealer_applicant' => 'Dealer Applicant',
+            'dc_front_desk' => 'DC Office — Front Desk',
+            'dc_jm_branch' => 'DC Office — JM Branch',
+            'district_commissioner' => 'District Commissioner',
+            'police_officer' => 'Police Officer (SP/Thana)',
+            'special_branch' => 'Special Branch (SB)',
+            'nsi_officer' => 'NSI Officer',
+            'dgfi_officer' => 'DGFI Officer',
+            'moha_desk' => 'MoHA Desk',
+            'joint_secretary' => 'Joint Secretary',
+            'senior_secretary' => 'Senior Secretary',
+            'system_admin' => 'System Admin',
+        ];
+    }
+
     public function apiConfig()
     {
         return view('admin.api_config');

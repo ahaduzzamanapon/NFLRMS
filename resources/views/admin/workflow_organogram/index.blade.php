@@ -62,6 +62,14 @@
                     {{ $wf->steps_count }} steps
                 </span>
                 <div class="flex gap-1.5">
+                    <form action="{{ route('admin.workflow_organogram.destroy', $encId) }}" method="POST"
+                          onsubmit="return confirm('Delete workflow &quot;{{ $wf->name }}&quot; and all its steps? This cannot be undone.')">
+                        @csrf @method('DELETE')
+                        <button type="submit"
+                                class="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 transition-colors">
+                            <i class="fa-solid fa-trash mr-0.5"></i>
+                        </button>
+                    </form>
                     <a href="{{ route('admin.workflow_organogram.edit', $encId) }}"
                        class="px-3 py-1.5 text-[11px] font-bold rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors">
                         <i class="fa-solid fa-pen-to-square mr-0.5"></i> Edit
