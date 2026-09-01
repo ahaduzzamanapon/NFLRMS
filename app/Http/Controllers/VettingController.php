@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vetting;
+use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
-use App\Enums\Role;
+use App\Models\CustomComment;
+use App\Models\Vetting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class VettingController extends Controller
 {
@@ -18,7 +21,7 @@ class VettingController extends Controller
         $user = auth()->user();
         $agency = $this->getAgencyByRole($user->role);
 
-        if (!$agency) {
+        if (! $agency) {
             abort(403, 'Unauthorized vetting access.');
         }
 
@@ -40,18 +43,42 @@ class VettingController extends Controller
     /**
      * Show a single vetting detail/report form.
      */
-    public function show(Vetting $vetting)
+    public function show(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $vetting = Vetting::findOrFail($id);
         $vetting->load(['application.user.district', 'application.logs']);
 
-        return view('office.vetting_show', compact('vetting'));
+        // Custom comments for the current user or role (used in the remarks quick-fill dropdown)
+        $userRole = auth()->user()->role;
+        $roleVal = $userRole instanceof Role ? $userRole->value : $userRole;
+
+        $customComments = CustomComment::where(function ($q) use ($roleVal) {
+            $q->where('user_id', auth()->id())
+                ->orWhere('role_id', $roleVal);
+        })->latest()->get();
+
+        return view('office.vetting_show', compact('vetting', 'customComments'));
     }
 
     /**
      * Submit a vetting report.
      */
-    public function submit(Request $request, Vetting $vetting)
+    public function submit(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $vetting = Vetting::findOrFail($id);
+
         $request->validate([
             'status' => ['required', 'string', 'in:cleared,flagged'],
             'remarks' => ['required', 'string'],
@@ -65,7 +92,7 @@ class VettingController extends Controller
             'remarks' => $request->remarks,
             'vetted_by' => $user->id,
             'vetted_at' => now(),
-            'report_file' => 'reports/' . $vetting->id . '_clearance.pdf', // Mock uploaded report file
+            'report_file' => 'reports/'.$vetting->id.'_clearance.pdf', // Mock uploaded report file
         ]);
 
         // Check if all vettings for this application are complete
@@ -76,11 +103,11 @@ class VettingController extends Controller
         // Log the action
         ApplicationLog::create([
             'application_id' => $application->id,
-            'action' => 'vetted_by_' . $vetting->agency,
+            'action' => 'vetted_by_'.$vetting->agency,
             'from_status' => $application->status,
             'to_status' => $application->status,
             'actor_id' => $user->id,
-            'remarks' => strtoupper($vetting->agency) . ' vetting completed: ' . ucfirst($request->status) . '. Remarks: ' . $request->remarks,
+            'remarks' => strtoupper($vetting->agency).' vetting completed: '.ucfirst($request->status).'. Remarks: '.$request->remarks,
         ]);
 
         if ($totalVettings === $completedVettings) {
@@ -112,6 +139,7 @@ class VettingController extends Controller
     protected function getAgencyByRole($role): ?string
     {
         $roleValue = $role instanceof Role ? $role->value : $role;
+
         return match ($roleValue) {
             Role::PoliceOfficer->value => 'police',
             Role::SpecialBranch->value => 'sb',

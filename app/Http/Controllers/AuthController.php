@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\District;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -84,7 +86,7 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'phone' => 'The provided credentials do not match our records.',
-            'email' => 'The provided credentials do not match our records.',
+            'password' => 'Please check your password and try again.',
         ])->onlyInput('phone', 'email');
     }
 
@@ -119,16 +121,26 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'name_bn' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'regex:/^01[3-9]\d{8}$/'],
+            'nid' => ['required', 'string', 'regex:/^(\d{10}|\d{17})$/', 'unique:users,nid'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required', 'string', 'in:citizen_applicant,dealer_applicant'],
             'district_id' => ['required', 'integer', 'exists:districts,id'],
             'upazila_id' => ['required', 'integer', 'exists:upazilas,id'],
+        ], [
+            'phone.required' => 'Mobile phone number is required.',
+            'phone.regex' => 'The phone number must be a valid 11-digit Bangladeshi mobile number (e.g. 01712345678).',
+            'nid.required' => 'National ID (NID) is required.',
+            'nid.regex' => 'National ID (NID) must be exactly 10 or 17 digits.',
+            'nid.unique' => 'This National ID (NID) has already been registered.',
         ]);
 
         $user = User::create([
             'name' => $data['name'],
             'name_bn' => $data['name_bn'] ?? $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
+            'nid' => $data['nid'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
             'district_id' => $data['district_id'],
@@ -143,8 +155,20 @@ class AuthController extends Controller
     /**
      * Get upazilas of a district (API helper).
      */
-    public function getUpazilas(District $district)
+    public function getUpazilas(string $encryptedId)
     {
+        if (is_numeric($encryptedId)) {
+            $id = (int) $encryptedId;
+        } else {
+            try {
+                $id = Crypt::decryptString($encryptedId);
+            } catch (DecryptException $e) {
+                abort(404);
+            }
+        }
+
+        $district = District::findOrFail($id);
+
         return response()->json($district->upazilas()->orderBy('name')->get());
     }
 
@@ -162,7 +186,8 @@ class AuthController extends Controller
             Role::DcJmBranch->value => redirect()->route('jm_branch.dashboard'),
             Role::DistrictCommissioner->value => redirect()->route('dc.dashboard'),
             Role::PoliceOfficer->value, Role::SpecialBranch->value, Role::NsiOfficer->value, Role::DgfiOfficer->value => redirect()->route('vetting.dashboard'),
-            Role::MohaDesk->value, Role::JointSecretary->value, Role::SeniorSecretary->value, Role::NationalScreeningCommittee->value => redirect()->route('moha.dashboard'),
+            Role::SeniorSecretary->value => redirect()->route('senior_secretary.dashboard'),
+            Role::MohaDesk->value, Role::JointSecretary->value, Role::NationalScreeningCommittee->value => redirect()->route('moha.dashboard'),
             Role::Executive->value => redirect()->route('executive.dashboard'),
             Role::SystemAdmin->value => redirect()->route('admin.dashboard'),
             default => redirect()->route('profile.edit')->with('warning', 'You have been logged in. Since you have a custom role, please contact your administrator for system permissions.'),

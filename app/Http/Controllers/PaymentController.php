@@ -7,8 +7,10 @@ use App\Models\Application;
 use App\Models\ApplicationLog;
 use App\Models\License;
 use App\Models\Setting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -37,8 +39,15 @@ class PaymentController extends Controller
     /**
      * Initiate payment for PayStation.
      */
-    public function initiate(Request $request, Application $application)
+    public function initiate(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
         $type = $request->query('type', 'service_fee');
         $user = auth()->user();
 
@@ -156,10 +165,23 @@ class PaymentController extends Controller
     /**
      * Public Endpoint to check and reconcile payment status for an application.
      */
-    public function checkApplicationPaymentStatus(Application $application)
+    public function checkApplicationPaymentStatus(Application|string $applicationOrEncryptedId)
     {
+        if ($applicationOrEncryptedId instanceof Application) {
+            $application = $applicationOrEncryptedId;
+        } elseif (is_numeric($applicationOrEncryptedId)) {
+            $application = Application::findOrFail((int) $applicationOrEncryptedId);
+        } else {
+            try {
+                $id = Crypt::decryptString($applicationOrEncryptedId);
+            } catch (DecryptException $e) {
+                abort(404);
+            }
+
+            $application = Application::findOrFail($id);
+        }
         // If already approved and license fee paid
-        if ($application->status === 'approved' && $application->license_fee_paid) {
+        if (in_array($application->status, ['license_issued', 'approved']) && $application->license_fee_paid) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Payment verified. Application is approved and license is active.',
@@ -384,7 +406,7 @@ class PaymentController extends Controller
         } else {
             $application->update([
                 'license_fee_paid' => true,
-                'status' => 'approved',
+                'status' => 'license_issued',
                 'payment_details' => $details,
             ]);
 

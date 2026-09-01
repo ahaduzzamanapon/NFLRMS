@@ -7,6 +7,8 @@ use App\Models\License;
 use App\Models\Upazila;
 use App\Models\User;
 use App\Models\Vetting;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 beforeEach(function () {
     $this->seed();
@@ -22,10 +24,16 @@ test('it validates authentication and dashboard accessibility for roles', functi
 
     // 2. Dealer
     $dealer = User::where('role', Role::DealerApplicant)->first();
-    $this->actingAs($dealer)
+    $dealerApp = Application::where('user_id', $dealer->id)->first();
+    $response = $this->actingAs($dealer)
         ->get(route('dealer.dashboard'))
         ->assertOk()
         ->assertSee('Dealer Portal');
+
+    if ($dealerApp) {
+        $response->assertSee($dealerApp->application_number)
+            ->assertSee($dealerApp->created_at->format('d M Y'));
+    }
 
     // 3. Front Desk
     $frontDesk = User::where('role', Role::DcFrontDesk)->first();
@@ -80,7 +88,10 @@ test('citizen can submit a new license application', function () {
 
     $app = Application::where('user_id', $citizen->id)->latest()->first();
 
-    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
+    $redirectUrl = $response->headers->get('Location');
+    $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
+    $encryptedParam = Str::before(Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $citizen->id,
@@ -109,7 +120,10 @@ test('dealer can submit Form K dealing license application', function () {
 
     $app = Application::where('user_id', $dealer->id)->latest()->first();
 
-    $response->assertRedirect(route('payment.initiate', ['application' => $app->id, 'type' => 'service_fee']));
+    $redirectUrl = $response->headers->get('Location');
+    $this->assertStringContainsString('/payment/initiate/', $redirectUrl);
+    $encryptedParam = Str::before(Str::after($redirectUrl, '/payment/initiate/'), '?');
+    $this->assertEquals($app->id, Crypt::decryptString(urldecode($encryptedParam)));
 
     $this->assertDatabaseHas('applications', [
         'user_id' => $dealer->id,
@@ -124,7 +138,7 @@ test('front desk can receive and forward application', function () {
     $app = Application::where('status', 'submitted')->first();
 
     $response = $this->actingAs($frontDesk)
-        ->post(route('front_desk.action', $app->id), [
+        ->post(route('front_desk.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'All documents verified and found authentic.',
         ]);
@@ -143,7 +157,7 @@ test('jm branch can dispatch security vetting', function () {
     $app = Application::where('status', 'received')->first();
 
     $response = $this->actingAs($jmBranch)
-        ->post(route('jm_branch.action', $app->id), [
+        ->post(route('jm_branch.action', Crypt::encryptString($app->id)), [
             'action' => 'trigger_vetting',
             'remarks' => 'Dispatch to Police, SB, NSI, and DGFI for security vetting.',
         ]);
@@ -195,7 +209,7 @@ test('agencies can submit vetting clearances and autocomplete workflow trigger',
         $vetting = Vetting::where('application_id', $app->id)->where('agency', $agency)->first();
 
         $response = $this->actingAs($user)
-            ->post(route('vetting.submit', $vetting->id), [
+            ->post(route('vetting.submit', Crypt::encryptString($vetting->id)), [
                 'status' => 'cleared',
                 'remarks' => 'Verified. No adverse record.',
             ]);
@@ -223,7 +237,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     // JM Branch forwards to DC
     $response = $this->actingAs($jmBranch)
-        ->post(route('jm_branch.action', $app->id), [
+        ->post(route('jm_branch.action', Crypt::encryptString($app->id)), [
             'action' => 'forward_dc',
             'remarks' => 'Highly recommended. Background checks are all green.',
         ]);
@@ -238,7 +252,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     // DC approves
     $response2 = $this->actingAs($dc)
-        ->post(route('dc.action', $app->id), [
+        ->post(route('dc.action', Crypt::encryptString($app->id)), [
             'action' => 'approve',
             'remarks' => 'Approved and license issued.',
         ]);
@@ -264,7 +278,7 @@ test('jm branch can recommend to DC and DC can approve', function () {
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
-        'status' => 'approved',
+        'status' => 'license_issued',
         'license_fee_paid' => true,
     ]);
 
@@ -290,7 +304,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // DC forwards to MoHA
     $this->actingAs($dc)
-        ->post(route('dc.action', $app->id), [
+        ->post(route('dc.action', Crypt::encryptString($app->id)), [
             'action' => 'forward_moha',
             'remarks' => 'Forwarded for Ministry screening.',
         ])
@@ -304,7 +318,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // MoHA Desk -> Joint Secretary
     $this->actingAs($mohaDesk)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'MoHA Desk verified.',
         ])
@@ -318,7 +332,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // Joint Secretary -> NSC
     $this->actingAs($js)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'Joint Secretary reviewed.',
         ])
@@ -332,7 +346,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // NSC -> Senior Secretary
     $this->actingAs($nsc)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'forward',
             'remarks' => 'National Screening Committee recommended.',
         ])
@@ -346,7 +360,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     // Senior Secretary approves
     $this->actingAs($ss)
-        ->post(route('moha.action', $app->id), [
+        ->post(route('moha.action', Crypt::encryptString($app->id)), [
             'action' => 'approve',
             'remarks' => 'Final approval granted by Senior Secretary.',
         ])
@@ -371,7 +385,7 @@ test('dc can forward to MoHA and MoHA screening committee approvals complete wor
 
     $this->assertDatabaseHas('applications', [
         'id' => $app->id,
-        'status' => 'approved',
+        'status' => 'license_issued',
         'license_fee_paid' => true,
     ]);
 
@@ -387,4 +401,87 @@ test('public verify page can look up licenses', function () {
     $this->get(route('verify', ['license_number' => $license->license_number]))
         ->assertOk()
         ->assertSee($license->license_number);
+});
+
+test('tampered or invalid encrypted admin IDs safely return 404', function () {
+    $admin = User::where('role', Role::SystemAdmin)->first();
+
+    $this->actingAs($admin)
+        ->get(route('admin.users.edit', 'invalid-tampered-encrypted-id-string'))
+        ->assertStatus(404);
+});
+
+test('citizen dashboard loads successfully after DC approval and license issuance without 404', function () {
+    $dc = User::where('role', Role::DistrictCommissioner)->first();
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+
+    $app = Application::create([
+        'application_number' => 'NFLRMS-TEST-'.rand(1000, 9999),
+        'user_id' => $citizen->id,
+        'type' => 'new_license',
+        'applicant_type' => 'individual',
+        'status' => 'recommended',
+        'current_actor_role' => Role::DistrictCommissioner->value,
+        'applicant_details' => ['name' => $citizen->name, 'nid' => '1234567890'],
+        'firearm_details' => ['weapon_type' => 'Pistol', 'bore' => '9mm'],
+    ]);
+
+    // DC approves application
+    $this->actingAs($dc)->post(route('dc.action', Crypt::encryptString($app->id)), [
+        'action' => 'approve',
+        'remarks' => 'Approved by DC.',
+    ])->assertRedirect(route('dc.dashboard'));
+
+    // Citizen loads dashboard (status is waiting_for_license_fee)
+    $response = $this->actingAs($citizen)->get(route('citizen.dashboard'));
+    $response->assertStatus(200);
+    $response->assertSee('My Applications');
+    $response->assertSee('Pay License Fee');
+
+    // Simulate PayStation callback for license fee
+    $invoice = $app->application_number.'_LF';
+    $this->actingAs($citizen)->get(route('payment.callback', [
+        'status' => 'Successful',
+        'invoice_number' => $invoice,
+        'trx_id' => 'TEST_TRX_DC_APPROVED',
+    ]))->assertRedirect(route('citizen.dashboard'));
+
+    // Citizen loads dashboard after license issuance
+    $response2 = $this->actingAs($citizen)->get(route('citizen.dashboard'));
+    $response2->assertStatus(200);
+    $response2->assertSee('Active Licence');
+});
+
+test('reject custom comment is available in quick fill and can be selected to reject application', function () {
+    $frontDesk = User::where('role', Role::DcFrontDesk)->first();
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+
+    $app = Application::create([
+        'application_number' => 'NFLRMS-REJECT-TEST-'.rand(1000, 9999),
+        'user_id' => $citizen->id,
+        'type' => 'new_license',
+        'applicant_type' => 'individual',
+        'status' => 'submitted',
+        'current_actor_role' => Role::DcFrontDesk->value,
+        'applicant_details' => ['name' => $citizen->name, 'nid' => '1234567890'],
+        'firearm_details' => ['weapon_type' => 'Shotgun'],
+    ]);
+
+    // Ensure Quick Fill dropdown on case detail page includes the Reject comment
+    $response = $this->actingAs($frontDesk)
+        ->get(route('front_desk.show', Crypt::encryptString($app->id)));
+
+    $response->assertOk()
+        ->assertSee('Application Rejected')
+        ->assertSee('Application rejected due to incomplete or insufficient information.');
+
+    // Execute Reject action using the custom comment wording
+    $this->actingAs($frontDesk)
+        ->post(route('front_desk.action', Crypt::encryptString($app->id)), [
+            'action' => 'reject',
+            'remarks' => 'Application rejected due to incomplete or insufficient information.',
+        ])
+        ->assertRedirect(route('front_desk.dashboard'));
+
+    expect($app->fresh()->status)->toBe('rejected_front_desk');
 });

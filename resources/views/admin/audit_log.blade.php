@@ -2,17 +2,17 @@
 @section('title', 'Immutable Audit Log')
 
 @section('content')
-<div class="max-w-5xl space-y-5">
+<div class="max-w-full space-y-5">
 
     <div>
-        <h2 class="text-2xl font-black font-serif text-slate-900">Immutable Audit Log</h2>
+<h2 class="text-2xl font-bold font-serif text-slate-900">Immutable Audit Log</h2>
         <p class="text-xs text-slate-500 mt-1">Every status change, approval & override — attributed & timestamped (FR-ADM-03)</p>
     </div>
 
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[500px]">
             <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
+<tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
                     <th class="p-3 pl-5">Timestamp</th>
                     <th class="p-3">Actor</th>
                     <th class="p-3">Case</th>
@@ -27,15 +27,15 @@
                     </td>
                     <td class="p-3">
                         @if($log->actor)
-                        <span class="font-bold text-slate-900">{{ $log->actor->name }}</span>
-                        <div class="text-[9px] text-slate-400">{{ $log->actor->role->label() }}</div>
+<span class="font-semibold text-slate-900">{{ $log->actor->name }}</span>
+                        <div class="text-[10px] text-slate-400">{{ $log->actor->role->label() }}</div>
                         @else
                         <span class="text-slate-400 font-semibold italic">System</span>
                         @endif
                     </td>
                     <td class="p-3">
                         @if($log->application)
-                        <span class="font-bold font-mono text-gov-green text-[10px]">{{ $log->application->application_number }}</span>
+<span class="font-semibold font-mono text-gov-green text-[11px]">{{ $log->application->application_number }}</span>
                         @else
                         <span class="text-slate-400">—</span>
                         @endif
@@ -44,7 +44,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="p-8 text-center text-slate-400 font-bold">No audit log entries found.</td>
+<td colspan="4" class="p-8 text-center text-slate-400 font-normal">No audit log entries found.</td>
                 </tr>
                 @endforelse
             </tbody>

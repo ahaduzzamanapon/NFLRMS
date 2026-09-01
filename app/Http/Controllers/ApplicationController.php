@@ -9,7 +9,9 @@ use App\Models\District;
 use App\Models\License;
 use App\Models\Upazila;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
@@ -25,6 +27,22 @@ class ApplicationController extends Controller
         $licenses = $user->licenses()->latest()->get();
 
         return view('citizen.dashboard', compact('applications', 'licenses'));
+    }
+
+    /**
+     * Display a listing of applicant's applications for tracking.
+     */
+    public function tracking()
+    {
+        $user = auth()->user();
+        PaymentController::syncUserPendingPayments($user);
+
+        $applications = $user->applications()
+            ->with(['district', 'upazila', 'logs.actor'])
+            ->latest()
+            ->get();
+
+        return view('citizen.tracking', compact('applications'));
     }
 
     /**
@@ -54,8 +72,6 @@ class ApplicationController extends Controller
                 'mobile' => ['required', 'string'],
                 'annual_income' => ['required', 'numeric', 'min:0'],
                 'categories' => ['required', 'array', 'min:1'],
-                'nid_copy' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
-                'tin_certificate' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             ]);
 
             $appNumber = 'DEAL-'.strtoupper(Str::random(8)).'-'.date('Y');
@@ -143,7 +159,7 @@ class ApplicationController extends Controller
             'remarks' => 'Application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
+        return redirect()->route('payment.initiate', ['encryptedId' => Crypt::encryptString($application->id), 'type' => 'service_fee']);
     }
 
     /**
@@ -192,8 +208,19 @@ class ApplicationController extends Controller
     /**
      * Display the specified application details.
      */
-    public function show(Application $application)
+    /**
+     * Display the specified application details.
+     */
+    public function show(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         // Check if user is authorized to view this application
         $user = auth()->user();
         if ($user->role === Role::CitizenApplicant || $user->role === Role::DealerApplicant) {
@@ -211,8 +238,16 @@ class ApplicationController extends Controller
     /**
      * Show renewal apply form.
      */
-    public function renewalForm(License $license)
+    public function renewalForm(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $license = License::findOrFail($id);
+
         $user = auth()->user();
         if ($license->user_id !== $user->id) {
             abort(403);
@@ -226,12 +261,40 @@ class ApplicationController extends Controller
     /**
      * Submit renewal application.
      */
-    public function storeRenewal(Request $request, License $license)
+    public function storeRenewal(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $license = License::findOrFail($id);
+
         $user = auth()->user();
         if ($license->user_id !== $user->id) {
             abort(403);
         }
+
+        $request->validate([
+            'selected_licence' => 'required|string',
+            'firing_report_ack' => 'required|accepted',
+            'medical_ack' => 'required|accepted',
+            'police_ack' => 'required|accepted',
+            'ammo_ledger' => 'required|string|max:255',
+            'firing_report' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'medical_cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'police_clearance' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'payment_channel' => 'required|in:bkash,nagad,card',
+            'declaration_ack' => 'required|accepted',
+        ], [
+            'firing_report_ack.accepted' => 'Please confirm the firing-range annual report checklist item.',
+            'medical_ack.accepted' => 'Please confirm the medical fitness declaration.',
+            'police_ack.accepted' => 'Please confirm the police clearance checklist item.',
+            'firing_report.required' => 'Firing-range annual report is mandatory.',
+            'police_clearance.required' => 'Local police station clearance letter is mandatory.',
+            'declaration_ack.accepted' => 'Please confirm the declaration before submitting.',
+        ]);
 
         $appNumber = 'RL-'.strtoupper(Str::random(8)).'-'.date('Y');
 
@@ -264,7 +327,7 @@ class ApplicationController extends Controller
             'remarks' => 'Renewal application created. Redirecting to payment checkout for platform service fee.',
         ]);
 
-        return redirect()->route('payment.initiate', ['application' => $application->id, 'type' => 'service_fee']);
+        return redirect()->route('payment.initiate', ['encryptedId' => Crypt::encryptString($application->id), 'type' => 'service_fee']);
     }
 
     /**
@@ -275,7 +338,7 @@ class ApplicationController extends Controller
         $user = auth()->user();
         $license = $user->licenses()->first();
         if ($license) {
-            return redirect()->route('citizen.renew', $license->id);
+            return redirect()->route('citizen.renew', Crypt::encryptString($license->id));
         }
         $route = auth()->user()->role === Role::DealerApplicant ? 'dealer.dashboard' : 'citizen.dashboard';
 

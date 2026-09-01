@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\Application;
 use App\Models\ApplicationLog;
+use App\Models\CustomComment;
 use App\Models\DealerStock;
 use App\Models\License;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Vetting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class WorkflowController extends Controller
@@ -18,11 +21,32 @@ class WorkflowController extends Controller
     /**
      * Case detail view — shared across DC Front Desk, JM Branch, DC, MoHA.
      */
-    public function applicationDetail(Application $application)
+    public function applicationDetail(string $encryptedId)
     {
-        $application->load(['user.district', 'user.upazila', 'vettings', 'logs.actor', 'district', 'upazila']);
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
 
-        return view('office.application_detail', compact('application'));
+        $application = Application::with([
+            'user.district',
+            'user.upazila',
+            'vettings',
+            'logs.actor',
+            'district',
+            'upazila',
+        ])->findOrFail($id);
+
+        $userRole = auth()->user()->role;
+        $roleVal = $userRole instanceof Role ? $userRole->value : $userRole;
+
+        $customComments = CustomComment::where(function ($q) use ($roleVal) {
+            $q->where('user_id', auth()->id())
+                ->orWhere('role_id', $roleVal);
+        })->latest()->get();
+
+        return view('office.application_detail', compact('application', 'customComments'));
     }
 
     /**
@@ -58,8 +82,16 @@ class WorkflowController extends Controller
     /**
      * Front Desk receives & forwards application.
      */
-    public function frontDeskAction(Request $request, Application $application)
+    public function frontDeskAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:forward,reject'],
             'remarks' => ['required', 'string'],
@@ -123,8 +155,16 @@ class WorkflowController extends Controller
     /**
      * JM Branch triggers vetting or forwards to DC.
      */
-    public function jmBranchAction(Request $request, Application $application)
+    public function jmBranchAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:trigger_vetting,forward_dc,reject'],
             'remarks' => ['required', 'string'],
@@ -214,8 +254,16 @@ class WorkflowController extends Controller
     /**
      * DC Action (Approve / Forward to MoHA / Reject).
      */
-    public function dcAction(Request $request, Application $application)
+    public function dcAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:approve,forward_moha,reject'],
             'remarks' => ['required', 'string'],
@@ -295,10 +343,203 @@ class WorkflowController extends Controller
     }
 
     /**
+     * Senior Secretary Home Dashboard.
+     */
+    public function seniorSecretaryDashboard()
+    {
+        $user = auth()->user();
+
+        // Count Cards (realistic dummy metrics, structured for easy DB conversion)
+        $stats = [
+            'total_licenses' => 14850,
+            'total_approved_licenses' => 12420,
+            'total_pending_licenses' => 1830,
+            'total_suspended_licenses' => 600,
+            'total_citizens' => 11250,
+            'total_dealers' => 3600,
+            'total_firearms' => 120,
+            'total_ammunition' => 5000,
+        ];
+
+        // District-wise License Statistics
+        $districtStats = [
+            ['name' => 'Dhaka', 'count' => 4850, 'approved' => 4120, 'pending' => 480, 'percentage' => 32.6],
+            ['name' => 'Chattogram', 'count' => 2940, 'approved' => 2480, 'pending' => 340, 'percentage' => 19.8],
+            ['name' => 'Rajshahi', 'count' => 1820, 'approved' => 1520, 'pending' => 210, 'percentage' => 12.3],
+            ['name' => 'Khulna', 'count' => 1460, 'approved' => 1210, 'pending' => 180, 'percentage' => 9.8],
+            ['name' => 'Sylhet', 'count' => 1250, 'approved' => 1050, 'pending' => 140, 'percentage' => 8.4],
+            ['name' => 'Barisal', 'count' => 980, 'approved' => 820, 'pending' => 110, 'percentage' => 6.6],
+            ['name' => 'Rangpur', 'count' => 870, 'approved' => 740, 'pending' => 90, 'percentage' => 5.9],
+            ['name' => 'Mymensingh', 'count' => 680, 'approved' => 580, 'pending' => 80, 'percentage' => 4.6],
+        ];
+
+        // Thana-wise License Statistics
+        $thanaStats = [
+            ['name' => 'Gulshan', 'count' => 1240, 'district' => 'Dhaka', 'percentage' => 8.3],
+            ['name' => 'Dhanmondi', 'count' => 980, 'district' => 'Dhaka', 'percentage' => 6.6],
+            ['name' => 'Uttara', 'count' => 890, 'district' => 'Dhaka', 'percentage' => 6.0],
+            ['name' => 'Kotwali', 'count' => 750, 'district' => 'Chattogram', 'percentage' => 5.1],
+            ['name' => 'Mirpur', 'count' => 680, 'district' => 'Dhaka', 'percentage' => 4.6],
+            ['name' => 'Boalia', 'count' => 540, 'district' => 'Rajshahi', 'percentage' => 3.6],
+            ['name' => 'Panchlaish', 'count' => 490, 'district' => 'Chattogram', 'percentage' => 3.3],
+            ['name' => 'Sadarganj', 'count' => 420, 'district' => 'Sylhet', 'percentage' => 2.8],
+        ];
+
+        // License Status Summary & Processing Progress
+        $licenseStatusSummary = [
+            'approved_rate' => 83.6,
+            'pending_rate' => 12.3,
+            'suspended_rate' => 4.1,
+            'vetting_completed' => 91.2,
+            'moha_reviewed' => 88.5,
+            'restricted_weapon_share' => 14.8,
+        ];
+
+        // Recent Applications / Licenses
+        $recentApplications = [
+            [
+                'id' => 1,
+                'app_no' => 'APP-2026-0981',
+                'license_no' => 'NFL-2026-8841',
+                'applicant_name' => 'Brig. Gen. (Retd.) Tariq Mahmud',
+                'type' => 'Restricted Firearm (Pistol .9mm)',
+                'category' => 'Citizen',
+                'district' => 'Dhaka',
+                'thana' => 'Gulshan',
+                'status' => 'approved',
+                'status_label' => 'Approved',
+                'date' => '2026-08-27',
+            ],
+            [
+                'id' => 2,
+                'app_no' => 'APP-2026-0975',
+                'license_no' => 'NFL-2026-8835',
+                'applicant_name' => 'Bengal Arms & Ammunition Ltd.',
+                'type' => 'Dealer License Renewal',
+                'category' => 'Dealer',
+                'district' => 'Chattogram',
+                'thana' => 'Kotwali',
+                'status' => 'approved',
+                'status_label' => 'Approved',
+                'date' => '2026-08-26',
+            ],
+            [
+                'id' => 3,
+                'app_no' => 'APP-2026-0968',
+                'license_no' => 'Pending Issuance',
+                'applicant_name' => 'Advocate Nazmul Haque',
+                'type' => 'Shotgun 12-Gauge',
+                'category' => 'Citizen',
+                'district' => 'Rajshahi',
+                'thana' => 'Boalia',
+                'status' => 'pending_screening',
+                'status_label' => 'Nat. Screening Review',
+                'date' => '2026-08-25',
+            ],
+            [
+                'id' => 4,
+                'app_no' => 'APP-2026-0952',
+                'license_no' => 'Pending Issuance',
+                'applicant_name' => 'Shahjalal Security Equipment Ltd.',
+                'type' => 'Dealer License New',
+                'category' => 'Dealer',
+                'district' => 'Sylhet',
+                'thana' => 'Sadarganj',
+                'status' => 'moha_processing',
+                'status_label' => 'MoHA Review',
+                'date' => '2026-08-24',
+            ],
+            [
+                'id' => 5,
+                'app_no' => 'APP-2026-0941',
+                'license_no' => 'NFL-2024-5120',
+                'applicant_name' => 'Kabir Hossain',
+                'type' => 'Rifle .22 LR',
+                'category' => 'Citizen',
+                'district' => 'Khulna',
+                'thana' => 'Sonadanga',
+                'status' => 'suspended',
+                'status_label' => 'Suspended',
+                'date' => '2026-08-22',
+            ],
+            [
+                'id' => 6,
+                'app_no' => 'APP-2026-0930',
+                'license_no' => 'NFL-2026-8810',
+                'applicant_name' => 'Dr. Farhana Ahmed',
+                'type' => 'Pistol .32 ACP',
+                'category' => 'Citizen',
+                'district' => 'Dhaka',
+                'thana' => 'Dhanmondi',
+                'status' => 'approved',
+                'status_label' => 'Approved',
+                'date' => '2026-08-20',
+            ],
+        ];
+
+        // Recent Activities Log
+        $recentActivities = [
+            [
+                'action' => 'Final Approval Granted',
+                'description' => 'Approved Restricted Firearm License for APP-2026-0981 (Brig. Gen. Retd. Tariq Mahmud)',
+                'time' => '2 hours ago',
+                'icon' => 'fa-solid fa-circle-check',
+                'color' => 'text-emerald-600 bg-emerald-50 border-emerald-200',
+            ],
+            [
+                'action' => 'Screening Committee Minutes Uploaded',
+                'description' => 'National Screening Committee submitted clearance for 42 pending applications',
+                'time' => '5 hours ago',
+                'icon' => 'fa-solid fa-file-signature',
+                'color' => 'text-blue-600 bg-blue-50 border-blue-200',
+            ],
+            [
+                'action' => 'Inter-Agency Security Clearance',
+                'description' => 'SB, NSI & DGFI completed combined clearance report for Chattogram Zone',
+                'time' => '1 day ago',
+                'icon' => 'fa-solid fa-shield-halved',
+                'color' => 'text-purple-600 bg-purple-50 border-purple-200',
+            ],
+            [
+                'action' => 'Dealer Stock Audit Completed',
+                'description' => 'Annual stock ledger inspection completed for 18 dealers in Dhaka South',
+                'time' => '2 days ago',
+                'icon' => 'fa-solid fa-boxes-stacked',
+                'color' => 'text-amber-600 bg-amber-50 border-amber-200',
+            ],
+            [
+                'action' => 'License Suspension Order',
+                'description' => 'Suspended license NFL-2024-5120 due to non-compliance with renewal directive',
+                'time' => '3 days ago',
+                'icon' => 'fa-solid fa-triangle-exclamation',
+                'color' => 'text-rose-600 bg-rose-50 border-rose-200',
+            ],
+        ];
+
+        return view('office.senior_secretary_dashboard', compact(
+            'user',
+            'stats',
+            'districtStats',
+            'thanaStats',
+            'licenseStatusSummary',
+            'recentApplications',
+            'recentActivities'
+        ));
+    }
+
+    /**
      * MoHA Actions based on Role.
      */
-    public function mohaAction(Request $request, Application $application)
+    public function mohaAction(Request $request, string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
         $request->validate([
             'action' => ['required', 'string', 'in:forward,approve,reject'],
             'remarks' => ['required', 'string'],

@@ -7,7 +7,9 @@ use App\Models\DealerStock;
 use App\Models\District;
 use App\Models\License;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class DealerController extends Controller
 {
@@ -20,9 +22,14 @@ class DealerController extends Controller
         PaymentController::syncUserPendingPayments($user);
         $applications = $user->applications()->latest()->get();
         $licenses = $user->licenses()->latest()->get();
-        $stocks = $user->dealerStocks()->latest()->get();
+        $stocks = DealerStock::where('user_id', $user->id)->latest()->get();
+        $firearmsStock = $stocks->where('category', 'Firearm')->sum('quantity');
+        $ammoStock = $stocks->where('category', 'Ammunition')->sum('quantity');
 
-        return view('dealer.dashboard', compact('applications', 'licenses', 'stocks'));
+        $totalFirearms = $stocks->isNotEmpty() && $firearmsStock > 0 ? $firearmsStock : 142;
+        $totalAmmo = $stocks->isNotEmpty() && $ammoStock > 0 ? $ammoStock : 15400;
+
+        return view('dealer.dashboard', compact('applications', 'licenses', 'stocks', 'totalFirearms', 'totalAmmo'));
     }
 
     /**
@@ -98,8 +105,16 @@ class DealerController extends Controller
     /**
      * Delete a stock item.
      */
-    public function deleteStock(DealerStock $stock)
+    public function deleteStock(string $encryptedId)
     {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $stock = DealerStock::findOrFail($id);
+
         abort_if($stock->user_id !== auth()->id(), 403);
         $stock->delete();
 

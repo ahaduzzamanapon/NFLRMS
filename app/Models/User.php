@@ -54,8 +54,9 @@ class User extends Authenticatable
         if ($this->role instanceof Role) {
             return $this->role->label();
         }
-        $customRoles = json_decode(\App\Models\Setting::get('custom_roles', '{}'), true) ?: [];
+        $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
         $roleStr = is_string($this->role) ? $this->role : '';
+
         return $customRoles[$roleStr] ?? ucfirst(str_replace('_', ' ', $roleStr));
     }
 
@@ -100,6 +101,44 @@ class User extends Authenticatable
     }
 
     /**
+     * Fields required to auto-fill a license application.
+     *
+     * @return array<string>
+     */
+    public static function requiredProfileFields(): array
+    {
+        return [
+            'name_bn', 'nid', 'dob', 'father_name', 'mother_name',
+            'marital_status', 'religion',
+            'present_address', 'permanent_address',
+            'district_id', 'upazila_id',
+            'edu_qualification', 'occupation', 'employer_address',
+            'annual_income', 'tin_number',
+        ];
+    }
+
+    /**
+     * Returns the list of required profile fields that are still empty.
+     *
+     * @return array<string>
+     */
+    public function profileMissingFields(): array
+    {
+        return array_filter(
+            self::requiredProfileFields(),
+            fn (string $field) => empty($this->attributes[$field] ?? $this->{$field})
+        );
+    }
+
+    /**
+     * Whether all fields needed for a license application have been filled.
+     */
+    public function isProfileComplete(): bool
+    {
+        return empty($this->profileMissingFields());
+    }
+
+    /**
      * Check if the user has the specified role(s).
      */
     public function hasRole(Role|string|array $roles): bool
@@ -110,11 +149,13 @@ class User extends Authenticatable
                     return true;
                 }
             }
+
             return false;
         }
 
         $roleValue = $roles instanceof Role ? $roles->value : $roles;
         $userRoleValue = $this->role instanceof Role ? $this->role->value : $this->role;
+
         return $userRoleValue === $roleValue;
     }
 }

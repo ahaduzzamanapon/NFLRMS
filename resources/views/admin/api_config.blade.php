@@ -2,24 +2,24 @@
 @section('title', 'API Configuration')
 
 @section('content')
-<form method="POST" action="{{ route('admin.api_config.save') }}" class="max-w-3xl space-y-5">
+<form method="POST" action="{{ route('admin.api_config.save') }}" class="max-w-full space-y-5">
     @csrf
 
-    <div class="flex items-start justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-black font-serif text-slate-900">API Configuration</h2>
-            <p class="text-xs text-slate-500 mt-1">Third-party integrations · secrets stored encrypted · rotate keys quarterly (BRS §5.14 · NFR-SEC-04)</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">API Configuration</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Third-party integrations &bull; secrets stored encrypted &bull; rotate keys quarterly (BRS §5.14 &bull; NFR-SEC-04)</p>
         </div>
-        <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
-            <span>💾</span><span>Save All Settings</span>
+        <button type="submit" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-semibold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm self-start sm:self-auto">
+            <span><i class="fa-solid fa-floppy-disk"></i></span><span>Save All Settings</span>
         </button>
     </div>
 
     <!-- Tabs -->
-    <div class="flex space-x-1 border-b border-slate-200" id="api-tabs">
+    <div class="flex overflow-x-auto no-scrollbar space-x-1 border-b border-slate-200" id="api-tabs">
         @foreach(['SMS Gateway','Email (SMTP)','Payment Gateway','NID / Identity','Webhooks'] as $i => $tab)
         <button type="button" onclick="switchTab({{ $i }})" id="tab-{{ $i }}"
-                class="px-4 py-2.5 text-xs font-bold transition-colors border-b-2 -mb-px
+                class="px-3.5 sm:px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors border-b-2 -mb-px
                 {{ $i === 0 ? 'border-gov-green text-gov-green' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             {{ $tab }}
         </button>
@@ -89,23 +89,23 @@
     @foreach($panels as $i => $panel)
     <div id="panel-{{ $i }}" class="{{ $i !== 0 ? 'hidden' : '' }}">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-start justify-between">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                    <div class="text-sm font-bold text-slate-900">{{ $panel['title'] }}</div>
-                    <div class="text-[10px] text-slate-500 mt-0.5">{{ $panel['desc'] }}</div>
+                    <div class="text-sm font-semibold text-slate-900">{{ $panel['title'] }}</div>
+                    <div class="text-[11px] text-slate-500 font-normal mt-0.5">{{ $panel['desc'] }}</div>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <button type="button" class="px-3 py-1.5 border border-slate-200 text-xs font-bold text-slate-600 rounded-lg hover:bg-slate-50">Test connection</button>
-                    <button type="submit" class="px-3 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg shadow-sm">Save</button>
+                <div class="flex items-center space-x-2 self-start sm:self-auto">
+                    <button type="button" class="px-3 py-1.5 border border-slate-200 text-xs font-semibold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">Test connection</button>
+                    <button type="submit" class="px-3 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">Save</button>
                 </div>
             </div>
 
             @if(!empty($panel['providers']))
-            <div class="p-5 border-b border-slate-100">
-                <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-2">Provider</label>
+            <div class="p-4 sm:p-5 border-b border-slate-100">
+                <label class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider block mb-2">Provider</label>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     @foreach($panel['providers'] as $j => $provider)
-                    <button type="button" class="py-2 px-3 rounded-lg border text-xs font-bold transition-colors
+                    <button type="button" class="py-2 px-3 rounded-lg border text-xs font-semibold transition-colors
                         {{ $j === 0 ? 'border-gov-green bg-gov-green/5 text-gov-green' : 'border-slate-200 text-slate-600 hover:border-gov-green hover:text-gov-green' }}">
                         {{ $provider }}
                     </button>
@@ -114,15 +114,15 @@
             </div>
             @endif
 
-            <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 @foreach($panel['fields'] as $field)
                 <div class="{{ $field['name'] === 'sms_endpoint' || $field['name'] === 'pay_endpoint' || $field['name'] === 'nid_endpoint' ? 'sm:col-span-2' : '' }}">
-                    <label class="text-[9px] font-extrabold uppercase text-slate-900 tracking-widest block mb-1.5">{{ $field['label'] }}</label>
+                    <label class="text-[10px] font-semibold uppercase text-slate-700 tracking-wider block mb-1.5">{{ $field['label'] }}</label>
                     <div class="relative">
                         <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" placeholder="{{ $field['placeholder'] }}" value="{{ $field['value'] }}"
                                class="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white">
                         @if($field['type'] === 'password')
-                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-900 hover:text-slate-600 text-[10px]">👁</button>
+                        <button type="button" onclick="togglePasswordVisibility(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"><i class="fa-solid fa-eye"></i></button>
                         @endif
                     </div>
                 </div>
@@ -149,10 +149,10 @@ function togglePasswordVisibility(btn) {
     if (input) {
         if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '🙈';
+            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
         } else {
             input.type = 'password';
-            btn.textContent = '👁';
+            btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
         }
     }
 }
