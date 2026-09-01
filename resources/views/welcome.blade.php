@@ -106,6 +106,7 @@
 
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-10 text-[14px] font-semibold text-slate-300">
+                <a href="{{ url('/') }}" class="hover:text-white transition-colors">Home</a>
                 <a href="#services" class="hover:text-white transition-colors">Services</a>
                 {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
                 <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
@@ -155,7 +156,7 @@
                 @else
                     <a href="{{ route('login') }}"
                         class="px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
-                        Applicant / Office Login
+                        Login
                     </a>
                     <a href="{{ route('register') }}"
                         class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] rounded-lg shadow-md transition-all">
@@ -226,7 +227,7 @@
                         <i class="fa-solid fa-circle-check text-emerald-500"></i> Certificate Issued
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
-                    <div class="text-[11px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
+                    <div class="text-[11px] text-slate-500 font-medium mt-1">Ms. Nasrin Sultana · Revolver</div>
                     <div class="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full bg-emerald-500 w-[92%]"></div>
                     </div>
@@ -246,7 +247,7 @@
     </header>
 
     <!-- Why NFLRMS Features -->
-    <section class="max-w-7xl mx-auto py-20 px-6">
+    <section id="services" class="max-w-7xl mx-auto py-20 px-6">
         <span class="text-[14px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
             NFLRMS</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
@@ -430,6 +431,15 @@
             <div>
                 <h4 class="font-bold text-white font-serif text-[14px]">Ministry of Home Affairs</h4>
                 <p class="text-[12px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
+                <div class="mt-3.5">
+                    <a href="{{ route('office.login') }}" class="group inline-flex items-center gap-2 text-[12px] font-semibold text-slate-100 bg-white/5 hover:bg-gov-accent/15 border border-white/10 hover:border-gov-accent/40 rounded-full pl-3 pr-3.5 py-2 transition-all duration-200">
+                        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-gov-accent/20 group-hover:bg-gov-accent/30 transition-colors">
+                            <i class="fa-solid fa-lock text-[10px] text-gov-accent"></i>
+                        </span>
+                        <span>Office Login</span>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-gov-accent group-hover:translate-x-0.5 transition-all"></i>
+                    </a>
+                </div>
             </div>
             <div class="text-center md:text-right text-[12px]">
                 <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
