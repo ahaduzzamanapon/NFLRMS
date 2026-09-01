@@ -18,6 +18,18 @@
             </button>
         </div>
 
+        @if($filterRole)
+        <div class="flex items-center justify-between px-4 py-2.5 bg-gov-green/10 border border-gov-green/30 rounded-lg">
+            <p class="text-xs font-semibold text-gov-green">
+                <i class="fa-solid fa-filter mr-1"></i>
+                Showing permissions for: <span class="font-bold">{{ array_values(\Illuminate\Support\Arr::only(array_merge([], $roles), [$filterRole]))[0] ?? $filterRole }}</span>
+            </p>
+            <a href="{{ route('admin.acl') }}" class="text-[11px] font-bold text-gov-green hover:text-gov-light underline">
+                ← Show all roles
+            </a>
+        </div>
+        @endif
+
         <!-- Permissions Matrix Table -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">

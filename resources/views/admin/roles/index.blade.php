@@ -45,14 +45,34 @@
                 @foreach($systemRoles as $key => $name)
                 <tr class="hover:bg-slate-50/50 transition-colors">
                     <td class="p-3 pl-5 text-slate-400 font-mono text-[10px]">{{ $loop->iteration }}</td>
-                    <td class="p-3 font-semibold text-slate-900">{{ $name }}</td>
+
+                    <td class="p-3 font-semibold text-slate-900" id="role-name-cell-{{ $key }}">{{ $name }}</td>
+
                     <td class="p-3">
                         <span class="font-mono text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded">{{ $key }}</span>
                     </td>
                     <td class="p-3">
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-50 text-slate-500 border border-slate-200">System</span>
                     </td>
-                    <td class="p-3 pr-5 text-right text-[11px] text-slate-300 italic">Read-only</td>
+                    <td class="p-3 pr-5 text-right">
+                        <div class="flex items-center justify-end gap-3" id="role-actions-{{ $key }}">
+                            <a href="{{ route('admin.acl', ['role' => $key]) }}"
+                               class="text-[11px] font-semibold text-gov-green hover:underline">Manage Permissions</a>
+                            <button onclick="startInlineEdit('{{ $key }}', '{{ addslashes($name) }}')"
+                                    class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</button>
+                            <form action="{{ route('admin.roles.destroy', $key) }}" method="POST" class="inline"
+                                  onsubmit="return confirm('Delete system role &quot;{{ $name }}&quot;? This may break existing functionality.')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">Delete</button>
+                            </form>
+                        </div>
+                        <div class="hidden items-center justify-end gap-3" id="role-edit-actions-{{ $key }}">
+                            <button onclick="saveInlineEdit('{{ $key }}')"
+                                    class="text-[11px] font-semibold text-gov-green hover:underline">Save</button>
+                            <button onclick="cancelInlineEdit('{{ $key }}', '{{ addslashes($name) }}')"
+                                    class="text-[11px] font-semibold text-slate-400 hover:underline">Cancel</button>
+                        </div>
+                    </td>
                 </tr>
                 @endforeach
 
@@ -71,9 +91,10 @@
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <div class="flex items-center justify-end gap-3" id="role-actions-{{ $key }}">
+                            <a href="{{ route('admin.acl', ['role' => $key]) }}"
+                               class="text-[11px] font-semibold text-gov-green hover:underline">Manage Permissions</a>
                             <button onclick="startInlineEdit('{{ $key }}', '{{ addslashes($name) }}')"
                                     class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</button>
-
                             <form action="{{ route('admin.roles.destroy', $key) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Delete role &quot;{{ $name }}&quot;? This cannot be undone.')">
                                 @csrf @method('DELETE')
