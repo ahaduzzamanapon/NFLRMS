@@ -32,7 +32,7 @@
 
     <!-- Actions -->
     <div class="flex flex-wrap gap-3 justify-center">
-        <a href="{{ route('dashboard') }}"
+        <a href="{{ url('/') }}"
            class="px-5 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-sm rounded-xl shadow-sm transition-colors">
             <i class="fa-solid fa-house mr-1.5"></i> Go to Dashboard
         </a>

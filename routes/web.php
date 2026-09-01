@@ -24,6 +24,15 @@ Route::get('/clear-cache', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
+// Temporary: preview custom error pages
+Route::prefix('error-preview')->middleware('auth')->group(function () {
+    Route::get('/404', fn () => response()->view('errors.404', [], 404));
+    Route::get('/403', fn () => response()->view('errors.403', [], 403));
+    Route::get('/500', fn () => response()->view('errors.500', [], 500));
+    Route::get('/419', fn () => response()->view('errors.419', [], 419));
+});
+
+
 // Reoptimized class loader:
 Route::get('/optimize', function () {
     $exitCode = Artisan::call('optimize');
