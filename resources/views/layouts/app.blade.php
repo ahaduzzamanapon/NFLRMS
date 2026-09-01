@@ -218,13 +218,14 @@
             @if($role === \App\Enums\Role::SystemAdmin)
                 <div class="nav-section">System Administration</div>
                 @php $adminLinks = [
-                    ['route'=>'admin.dashboard', 'icon'=>'fa-solid fa-house','label'=>'Home', 'active_check'=>'exact'],
-                    ['route'=>'admin.users',     'icon'=>'fa-solid fa-user','label'=>'User Management', 'active_check'=>'prefix'],
-                    ['route'=>'admin.fee_config', 'icon'=>'fa-solid fa-money-bill-wave','label'=>'Fee & Fine Config', 'active_check'=>'exact'],
-                    ['route'=>'admin.acl',         'icon'=>'fa-solid fa-key','label'=>'ACL / Permissions', 'active_check'=>'exact'],
-                    ['route'=>'admin.audit_log',   'icon'=>'fa-solid fa-file-lines','label'=>'Audit Log', 'active_check'=>'exact'],
-                    ['route'=>'admin.reports',     'icon'=>'fa-solid fa-chart-pie','label'=>'Reports & Analytics', 'active_check'=>'exact'],
-                    ['route'=>'admin.api_config',  'icon'=>'fa-solid fa-plug','label'=>'API Configuration', 'active_check'=>'exact'],
+                    ['route'=>'admin.dashboard',              'icon'=>'fa-solid fa-house',              'label'=>'Home',                  'active_check'=>'exact'],
+                    ['route'=>'admin.users',                  'icon'=>'fa-solid fa-user',               'label'=>'User Management',       'active_check'=>'prefix'],
+                    ['route'=>'admin.workflow_organogram.index', 'icon'=>'fa-solid fa-diagram-project', 'label'=>'ওয়ার্কফ্লো কনফিগ',     'active_check'=>'prefix'],
+                    ['route'=>'admin.fee_config',             'icon'=>'fa-solid fa-money-bill-wave',    'label'=>'Fee & Fine Config',      'active_check'=>'exact'],
+                    ['route'=>'admin.acl',                    'icon'=>'fa-solid fa-key',                'label'=>'ACL / Permissions',     'active_check'=>'exact'],
+                    ['route'=>'admin.audit_log',              'icon'=>'fa-solid fa-file-lines',         'label'=>'Audit Log',             'active_check'=>'exact'],
+                    ['route'=>'admin.reports',                'icon'=>'fa-solid fa-chart-pie',          'label'=>'Reports & Analytics',   'active_check'=>'exact'],
+                    ['route'=>'admin.api_config',             'icon'=>'fa-solid fa-plug',               'label'=>'API Configuration',     'active_check'=>'exact'],
                 ]; @endphp
                 @foreach($adminLinks as $lnk)
                 @php

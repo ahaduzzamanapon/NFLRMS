@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VettingController;
 use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\WorkflowOrganogramController;
 use App\Models\District;
 use App\Models\License;
 use App\Models\Setting;
@@ -233,6 +234,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/acl', [AdminController::class, 'acl'])->name('admin.acl');
         Route::get('/admin/api-config', [AdminController::class, 'apiConfig'])->name('admin.api_config');
         Route::get('/admin/audit-log', [AdminController::class, 'auditLog'])->name('admin.audit_log');
+
+        // Workflow Organogram CRUD
+        Route::get('/admin/workflow-organogram', [WorkflowOrganogramController::class, 'index'])->name('admin.workflow_organogram.index');
+        Route::get('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'show'])->name('admin.workflow_organogram.show');
+        Route::get('/admin/workflow-organogram/{encryptedId}/edit', [WorkflowOrganogramController::class, 'edit'])->name('admin.workflow_organogram.edit');
+        Route::put('/admin/workflow-organogram/{encryptedId}', [WorkflowOrganogramController::class, 'update'])->name('admin.workflow_organogram.update');
+        Route::post('/admin/workflow-organogram/{encryptedId}/steps', [WorkflowOrganogramController::class, 'storeStep'])->name('admin.workflow_organogram.steps.store');
+        Route::get('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}/edit', [WorkflowOrganogramController::class, 'editStep'])->name('admin.workflow_organogram.steps.edit');
+        Route::put('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'updateStep'])->name('admin.workflow_organogram.steps.update');
+        Route::delete('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}', [WorkflowOrganogramController::class, 'destroyStep'])->name('admin.workflow_organogram.steps.destroy');
+        Route::post('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}/move-up', [WorkflowOrganogramController::class, 'moveUp'])->name('admin.workflow_organogram.steps.move_up');
+        Route::post('/admin/workflow-organogram/{encryptedWfId}/steps/{encryptedStepId}/move-down', [WorkflowOrganogramController::class, 'moveDown'])->name('admin.workflow_organogram.steps.move_down');
     });
 
     // Reports & Analytics (System Admin, Executive, Senior Secretary)
