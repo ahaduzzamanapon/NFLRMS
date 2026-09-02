@@ -7,13 +7,23 @@
 <div class="w-full space-y-6">
 
     <!-- Title and Subtitle -->
-    <div>
-        <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
-            {{ $isDealer ? 'Dealer Arms License Application' : 'New Firearm License Application' }}
-        </h2>
-        <p class="text-xs text-slate-500 mt-1 font-normal">
-            {{ $isDealer ? 'Dealer/Stock authorization — Appendix B, BRS §7.2 · Class A / B / C' : 'Fields correspond to the official Arms License Application (Appendix A, BRS §7.1)' }}
-        </p>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
+                {{ $isDealer ? 'Dealer Arms License Application' : 'New Firearm License Application' }}
+            </h2>
+            <p class="text-xs text-slate-500 mt-1 font-normal">
+                {{ $isDealer ? 'Dealer/Stock authorization — Appendix B, BRS §7.2 · Class A / B / C' : 'Fields correspond to the official Arms License Application (Appendix A, BRS §7.1)' }}
+            </p>
+        </div>
+        {{-- @if(!auth()->user()->isProfileComplete())
+            <div class="flex-shrink-0">
+                <a href="{{ route('profile.edit') }}" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg transition-colors inline-flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-user-pen"></i>
+                    <span>Complete Profile</span>
+                </a>
+            </div>
+        @endif --}}
     </div>
 
     <!-- Stepper Navigation Header -->
@@ -66,9 +76,17 @@
     @endif
 
     <!-- Profile Incomplete Error -->
-    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
-        <span><i class="fa-solid fa-triangle-exclamation"></i></span>
-        <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+        </div>
+        @if(!auth()->user()->isProfileComplete())
+            <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>Complete Profile</span>
+            </a>
+        @endif
     </div>
 
     <!-- Multi-Step Form Wrapper -->
@@ -193,11 +211,19 @@
 
         <!-- STEP 2: APPLICANT -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-2">
-            <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal space-y-1">
-                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
-                <p class="font-semibold">
-                    Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
-                </p>
+            <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
+                    <p class="font-semibold">
+                        Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
+                    </p>
+                </div>
+                @if(!auth()->user()->isProfileComplete())
+                    <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span>Complete Profile</span>
+                    </a>
+                @endif
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -302,11 +328,19 @@
 
         <!-- STEP 3: ADDRESS & INCOME -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-3">
-            <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal space-y-1">
-                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
-                <p class="font-semibold">
-                    Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
-                </p>
+            <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
+                    <p class="font-semibold">
+                        Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
+                    </p>
+                </div>
+                @if(!auth()->user()->isProfileComplete())
+                    <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span>Complete Profile</span>
+                    </a>
+                @endif
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -403,14 +437,6 @@
 
         <!-- STEP 4: DECLARATIONS -->
         <div class="step-panel hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4" id="panel-4">
-            <div>
-                <label for="purpose" class="block text-[11px] font-semibold uppercase text-slate-455 mb-1.5">Justification / Purpose of License</label>
-                <textarea name="purpose" id="purpose" required rows="3"
-                          placeholder="Describe the reason you are applying for a firearm license..."
-                          class="w-full px-3.5 py-2.5 text-xs rounded-lg border {{ $errors->has('purpose') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white"></textarea>
-                @error('purpose')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block" data-error-step="4">{{ $message }}</span>@enderror
-            </div>
-
             <!-- Declarations checkboxes list -->
             <div class="space-y-3 pt-2">
                 <div>

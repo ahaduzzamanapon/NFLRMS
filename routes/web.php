@@ -32,7 +32,6 @@ Route::prefix('error-preview')->middleware('auth')->group(function () {
     Route::get('/419', fn () => response()->view('errors.419', [], 419));
 });
 
-
 // Reoptimized class loader:
 Route::get('/optimize', function () {
     $exitCode = Artisan::call('optimize');
@@ -143,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Document download
     Route::get('/document/download', [ApplicationController::class, 'downloadDocument'])->name('document.download');
+    Route::get('/license/download/{encryptedId}', [ApplicationController::class, 'downloadLicense'])->name('license.download');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // Citizen / Dealer Applicant

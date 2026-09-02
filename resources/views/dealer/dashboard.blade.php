@@ -121,11 +121,20 @@
                         </div>
                     </div>
 
-                    <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between">
+                    <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between flex-wrap gap-2">
                         <a href="{{ route('dealer.renew') }}"
                            class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-arrows-rotate mr-1"></i> Renew License</a>
-                        <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
-                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-download mr-1"></i> Download / Verify</a>
+                        <div class="flex items-center space-x-3">
+                            <a href="{{ route('license.download', Crypt::encryptString($l->id)) }}"
+                               target="_blank"
+                               class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
+                                <i class="fa-solid fa-file-pdf mr-1"></i> Download PDF
+                            </a>
+                            <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
+                               class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
+                                <i class="fa-solid fa-circle-check mr-1"></i> Verify
+                            </a>
+                        </div>
                     </div>
                 </div>
 
