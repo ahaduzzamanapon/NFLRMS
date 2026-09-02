@@ -109,7 +109,7 @@
                 <a href="{{ url('/') }}" class="hover:text-white transition-colors">Home</a>
                 <a href="#services" class="hover:text-white transition-colors">Services</a>
                 {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
-                <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
+                <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify License</a>
             </div>
 
             <!-- Auth Buttons -->
