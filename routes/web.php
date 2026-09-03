@@ -32,7 +32,6 @@ Route::prefix('error-preview')->middleware('auth')->group(function () {
     Route::get('/419', fn () => response()->view('errors.419', [], 419));
 });
 
-
 // Reoptimized class loader:
 Route::get('/optimize', function () {
     $exitCode = Artisan::call('optimize');
@@ -143,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Document download
     Route::get('/document/download', [ApplicationController::class, 'downloadDocument'])->name('document.download');
+    Route::get('/license/download/{encryptedId}', [ApplicationController::class, 'downloadLicense'])->name('license.download');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // Citizen / Dealer Applicant
@@ -278,8 +278,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/reports/export-all/{format}', [AdminController::class, 'exportAllReports'])->name('admin.reports.export_all');
     });
 
-    // Firearms & Ammunition Overview (System Admin, Senior Secretary)
-    Route::middleware(['role:system_admin,senior_secretary'])->group(function () {
+    // Firearms, Ammunition & Registry Overview (System Admin, Senior Secretary, MoHA)
+    Route::middleware(['role:system_admin,senior_secretary,moha_desk,joint_secretary,national_screening_committee'])->group(function () {
+        Route::get('/office/overview/licenses', [OverviewController::class, 'licensesList'])->name('overview.licenses');
+        Route::get('/office/overview/licenses/approved', [OverviewController::class, 'approvedLicensesList'])->name('overview.licenses.approved');
+        Route::get('/office/overview/licenses/pending', [OverviewController::class, 'pendingLicensesList'])->name('overview.licenses.pending');
+        Route::get('/office/overview/licenses/suspended', [OverviewController::class, 'suspendedLicensesList'])->name('overview.licenses.suspended');
+        Route::get('/office/overview/licenses/{id}', [OverviewController::class, 'licenseShow'])->name('overview.licenses.show')->whereNumber('id');
+        Route::get('/office/overview/citizens', [OverviewController::class, 'citizensList'])->name('overview.citizens');
+        Route::get('/office/overview/citizens/{id}', [OverviewController::class, 'citizenShow'])->name('overview.citizens.show')->whereNumber('id');
+        Route::get('/office/overview/dealers', [OverviewController::class, 'dealersList'])->name('overview.dealers');
+        Route::get('/office/overview/dealers/{id}', [OverviewController::class, 'dealerShow'])->name('overview.dealers.show')->whereNumber('id');
         Route::get('/office/overview/firearms', [OverviewController::class, 'firearmsList'])->name('overview.firearms');
         Route::get('/office/overview/ammunition', [OverviewController::class, 'ammunitionList'])->name('overview.ammunition');
     });

@@ -23,8 +23,8 @@
     <!-- Top KPI Cards (2 Rows of 4 Cards) -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
 
-        <!-- Card 1: Total Licenses -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-300 transition-all group">
+        <!-- Card 1: Total Licenses (Clickable -> Licenses List) -->
+        <a href="{{ route('overview.licenses') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Licenses</span>
                 <div class="w-8 h-8 rounded-xl bg-emerald-50 text-gov-green flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -34,13 +34,13 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                 {{ number_format($stats['total_licenses']) }}
             </div>
-            <div class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-md px-2 py-0.5 mt-2 inline-block">
-                All Categories Issued
+            <div class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>All Categories Issued</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
-        <!-- Card 2: Approved Licenses -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-400 transition-all group">
+        <!-- Card 2: Approved Licenses (Clickable -> Approved Licenses List) -->
+        <a href="{{ route('overview.licenses.approved') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Approved Licenses</span>
                 <div class="w-8 h-8 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -50,13 +50,13 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">
                 {{ number_format($stats['total_approved_licenses']) }}
             </div>
-            <div class="text-[10px] font-semibold text-slate-500 mt-2 flex items-center gap-1">
-                <span class="text-emerald-600 font-bold">83.6%</span> active status
+            <div class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Active &amp; Valid Status</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
-        <!-- Card 3: Pending Licenses -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-amber-300 transition-all group">
+        <!-- Card 3: Pending Licenses (Clickable -> Pending Licenses List) -->
+        <a href="{{ route('overview.licenses.pending') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-amber-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Pending Licenses</span>
                 <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -66,13 +66,13 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-amber-600 tracking-tight">
                 {{ number_format($stats['total_pending_licenses']) }}
             </div>
-            <div class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-100 rounded-md px-2 py-0.5 mt-2 inline-block">
-                In Workflow Queues
+            <div class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>In Workflow Queues</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
-        <!-- Card 4: Suspended Licenses -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-rose-300 transition-all group">
+        <!-- Card 4: Suspended Licenses (Clickable -> Suspended Licenses List) -->
+        <a href="{{ route('overview.licenses.suspended') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-rose-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Suspended Licenses</span>
                 <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -82,13 +82,13 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-rose-600 tracking-tight">
                 {{ number_format($stats['total_suspended_licenses']) }}
             </div>
-            <div class="text-[10px] font-semibold text-rose-700 bg-rose-50 border border-rose-100 rounded-md px-2 py-0.5 mt-2 inline-block">
-                Non-Compliant / Flagged
+            <div class="text-[10px] font-semibold text-rose-700 bg-rose-50 border border-rose-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Non-Compliant / Flagged</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
-        <!-- Card 5: Total Citizens -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-blue-300 transition-all group">
+        <!-- Card 5: Total Citizens (Clickable -> Citizens List) -->
+        <a href="{{ route('overview.citizens') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-blue-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Citizens</span>
                 <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -98,13 +98,13 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-blue-600 tracking-tight">
                 {{ number_format($stats['total_citizens']) }}
             </div>
-            <div class="text-[10px] font-semibold text-slate-500 mt-2">
-                Individual Licensees
+            <div class="text-[10px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Individual Licensees</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
-        <!-- Card 6: Total Dealers -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-purple-300 transition-all group">
+        <!-- Card 6: Total Dealers (Clickable -> Dealers List) -->
+        <a href="{{ route('overview.dealers') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-purple-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Dealers</span>
                 <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
@@ -114,10 +114,10 @@
             <div class="text-2xl sm:text-3xl font-extrabold text-purple-600 tracking-tight">
                 {{ number_format($stats['total_dealers']) }}
             </div>
-            <div class="text-[10px] font-semibold text-purple-700 bg-purple-50 border border-purple-100 rounded-md px-2 py-0.5 mt-2 inline-block">
-                Commercial Stockers
+            <div class="text-[10px] font-semibold text-purple-700 bg-purple-50 border border-purple-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
+                <span>Commercial Stockers</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
-        </div>
+        </a>
 
         <!-- Card 7: Total Firearms (Clickable -> Firearms List) -->
         <a href="{{ route('overview.firearms') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-cyan-400 hover:shadow-md transition-all group block">

@@ -258,7 +258,7 @@
                     <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>Application Tracking</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify License</span>
                 </a>
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
@@ -284,7 +284,7 @@
                     <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>Stock Ledger</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify License</span>
                 </a>
                 <div class="nav-section">Account</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
@@ -432,7 +432,7 @@
                 @auth
                 @php
                     $authUser = auth()->user();
-                    $userPhoto = $authUser->photo_url ?? $authUser->photo_url ?? null;
+                    $userPhoto = $authUser->photo_url ?? null;
                     $ws = explode(' ', trim($authUser->name));
                     $initials = count($ws) >= 2 ? strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)) : strtoupper(substr($authUser->name,0,2));
                 @endphp

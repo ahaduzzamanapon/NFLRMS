@@ -128,14 +128,30 @@ class User extends Authenticatable
     }
 
     /**
+     * Fields required to auto-fill a dealer application (Form K).
+     *
+     * @return array<string>
+     */
+    public static function requiredDealerProfileFields(): array
+    {
+        return [
+            'name', 'nid', 'phone', 'annual_income',
+        ];
+    }
+
+    /**
      * Returns the list of required profile fields that are still empty.
      *
      * @return array<string>
      */
     public function profileMissingFields(): array
     {
+        $fields = $this->hasRole(Role::DealerApplicant)
+            ? self::requiredDealerProfileFields()
+            : self::requiredProfileFields();
+
         return array_filter(
-            self::requiredProfileFields(),
+            $fields,
             fn (string $field) => empty($this->attributes[$field] ?? $this->{$field})
         );
     }

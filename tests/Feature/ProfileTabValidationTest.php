@@ -2,7 +2,9 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     $this->seed();
@@ -96,4 +98,65 @@ test('personal tab validates personal fields strictly when active_tab is persona
 
     $response->assertRedirect(route('profile.edit'))
         ->assertSessionHasErrors(['name', 'email']);
+});
+
+test('profile photo can be uploaded, stored, and its photo url is generated correctly', function () {
+    Storage::fake('public');
+
+    $user = User::where('role', Role::CitizenApplicant)->first();
+    $file = UploadedFile::fake()->image('avatar.jpg');
+
+    $response = $this->actingAs($user)
+        ->put(route('profile.update'), [
+            'active_tab' => 'personal',
+            'name' => 'Citizen Applicant',
+            'name_bn' => 'নাগরিক আবেদনকারী',
+            'email' => $user->email,
+            'phone' => '01712345678',
+            'profile_photo' => $file,
+        ]);
+
+    $response->assertRedirect(route('profile.edit'))
+        ->assertSessionHas('success')
+        ->assertSessionHasNoErrors();
+
+    $freshUser = $user->fresh();
+    expect($freshUser->profile_photo_path)->not->toBeNull();
+    Storage::disk('public')->assertExists($freshUser->profile_photo_path);
+    expect($freshUser->photo_url)->toBe(asset('storage/'.$freshUser->profile_photo_path));
+});
+
+test('profile photo stored in public disk is accessible through public storage link', function () {
+    $user = User::where('role', Role::CitizenApplicant)->first();
+    $file = UploadedFile::fake()->image('real_test_avatar.jpg');
+
+    $response = $this->actingAs($user)
+        ->put(route('profile.update'), [
+            'active_tab' => 'personal',
+            'name' => 'Citizen Applicant',
+            'name_bn' => 'নাগরিক আবেদনকারী',
+            'email' => $user->email,
+            'phone' => '01712345678',
+            'profile_photo' => $file,
+        ]);
+
+    $response->assertRedirect(route('profile.edit'))
+        ->assertSessionHas('success')
+        ->assertSessionHasNoErrors();
+
+    $freshUser = $user->fresh();
+    expect($freshUser->profile_photo_path)->not->toBeNull();
+
+    // Check physical file exists in storage/app/public/profiles/...
+    $actualPath = storage_path('app/public/'.$freshUser->profile_photo_path);
+    expect(file_exists($actualPath))->toBeTrue();
+
+    // Check accessible through public/storage link
+    $publicLinkedPath = public_path('storage/'.$freshUser->profile_photo_path);
+    expect(file_exists($publicLinkedPath))->toBeTrue();
+
+    // Clean up created test file
+    if (file_exists($actualPath)) {
+        unlink($actualPath);
+    }
 });
