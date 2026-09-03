@@ -160,3 +160,76 @@ test('profile photo stored in public disk is accessible through public storage l
         unlink($actualPath);
     }
 });
+
+test('uploading a new profile picture deletes the old profile picture file from storage', function () {
+    Storage::fake('public');
+
+    $user = User::where('role', Role::CitizenApplicant)->first();
+
+    // 1. Upload first picture
+    $firstFile = UploadedFile::fake()->image('first_avatar.jpg');
+    $this->actingAs($user)->put(route('profile.update'), [
+        'active_tab' => 'personal',
+        'name' => 'Citizen Applicant',
+        'name_bn' => 'নাগরিক আবেদনকারী',
+        'email' => $user->email,
+        'phone' => '01712345678',
+        'profile_photo' => $firstFile,
+    ]);
+
+    $firstPhotoPath = $user->fresh()->profile_photo_path;
+    expect($firstPhotoPath)->not->toBeNull();
+    Storage::disk('public')->assertExists($firstPhotoPath);
+
+    // Also put an unrelated file in storage to verify it is untouched
+    Storage::disk('public')->put('profiles/other_user_photo.jpg', 'unrelated content');
+
+    // 2. Upload second picture
+    $secondFile = UploadedFile::fake()->image('second_avatar.jpg');
+    $this->actingAs($user)->put(route('profile.update'), [
+        'active_tab' => 'personal',
+        'name' => 'Citizen Applicant',
+        'name_bn' => 'নাগরিক আবেদনকারী',
+        'email' => $user->email,
+        'phone' => '01712345678',
+        'profile_photo' => $secondFile,
+    ]);
+
+    $secondPhotoPath = $user->fresh()->profile_photo_path;
+    expect($secondPhotoPath)->not->toBeNull();
+    expect($secondPhotoPath)->not->toBe($firstPhotoPath);
+
+    // The old file must be completely deleted
+    Storage::disk('public')->assertMissing($firstPhotoPath);
+
+    // The new file must exist
+    Storage::disk('public')->assertExists($secondPhotoPath);
+
+    // Unrelated files must remain untouched
+    Storage::disk('public')->assertExists('profiles/other_user_photo.jpg');
+});
+
+test('uploading a new profile picture handles non-existent old file safely', function () {
+    Storage::fake('public');
+
+    $user = User::where('role', Role::CitizenApplicant)->first();
+    $user->update(['profile_photo_path' => 'profiles/non_existent_file.jpg']);
+
+    $file = UploadedFile::fake()->image('new_avatar.jpg');
+    $response = $this->actingAs($user)->put(route('profile.update'), [
+        'active_tab' => 'personal',
+        'name' => 'Citizen Applicant',
+        'name_bn' => 'নাগরিক আবেদনকারী',
+        'email' => $user->email,
+        'phone' => '01712345678',
+        'profile_photo' => $file,
+    ]);
+
+    $response->assertRedirect(route('profile.edit'))
+        ->assertSessionHas('success')
+        ->assertSessionHasNoErrors();
+
+    $newPath = $user->fresh()->profile_photo_path;
+    expect($newPath)->not->toBe('profiles/non_existent_file.jpg');
+    Storage::disk('public')->assertExists($newPath);
+});
