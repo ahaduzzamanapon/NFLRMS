@@ -432,7 +432,7 @@
                 @auth
                 @php
                     $authUser = auth()->user();
-                    $userPhoto = $authUser->photo_url ?? $authUser->photo_url ?? null;
+                    $userPhoto = $authUser->photo_url ?? null;
                     $ws = explode(' ', trim($authUser->name));
                     $initials = count($ws) >= 2 ? strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)) : strtoupper(substr($authUser->name,0,2));
                 @endphp

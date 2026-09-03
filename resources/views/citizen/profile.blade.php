@@ -73,9 +73,16 @@
                         <span id="profile-photo-initials" class="{{ $user->profile_photo_path ? 'hidden' : '' }}">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
-                        <label for="profile_photo" class="block text-[11px] font-semibold uppercase text-slate-900">Upload Profile Photo (Passport Size)</label>
-                        <input type="file" name="profile_photo" id="profile_photo" accept="image/*"
-                               class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-gov-green file:text-white hover:file:bg-gov-light cursor-pointer">
+                        <label class="block text-[11px] font-semibold uppercase text-slate-900">Upload Profile Photo (Passport Size)</label>
+                        <div class="flex items-center space-x-3">
+                            <input type="file" name="profile_photo" id="profile_photo" accept="image/*" class="sr-only peer"
+                                   onchange="document.getElementById('profile-photo-filename').textContent = this.files[0] ? this.files[0].name : 'No file chosen';">
+                            <label for="profile_photo"
+                                   class="py-1.5 px-3 rounded-md text-xs font-semibold bg-gov-green hover:bg-gov-light text-white cursor-pointer transition-colors shrink-0 peer-focus:ring-2 peer-focus:ring-gov-green peer-focus:ring-offset-2">
+                                Choose Image
+                            </label>
+                            <span id="profile-photo-filename" class="text-xs text-slate-500 truncate">No file chosen</span>
+                        </div>
                         <span class="text-[10px] text-slate-500 block font-medium">Supported: JPG, PNG, WEBP (Max 2MB)</span>
                         <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="profile_photo">@error('profile_photo'){{ $message }}@enderror</span>
                     </div>

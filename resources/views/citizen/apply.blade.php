@@ -218,12 +218,10 @@
                         Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
                     </p>
                 </div>
-                @if(!auth()->user()->isProfileComplete())
-                    <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span>Complete Profile</span>
-                    </a>
-                @endif
+                <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-user-pen"></i>
+                    <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+                </a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -335,12 +333,10 @@
                         Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
                     </p>
                 </div>
-                @if(!auth()->user()->isProfileComplete())
-                    <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span>Complete Profile</span>
-                    </a>
-                @endif
+                <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-user-pen"></i>
+                    <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+                </a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
