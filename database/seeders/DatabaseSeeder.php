@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $this->call([
+            WorkflowTypeSeeder::class,
             UserSeeder::class,
             ApplicationSeeder::class,
             CustomCommentSeeder::class,

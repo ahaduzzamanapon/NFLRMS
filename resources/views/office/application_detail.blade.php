@@ -9,6 +9,7 @@
         $role === 'dc_jm_branch'        => route('jm_branch.dashboard'),
         $role === 'district_commissioner' => route('dc.dashboard'),
         in_array($role, ['moha_desk','joint_secretary','senior_secretary','national_screening_committee']) => route('moha.dashboard'),
+        in_array($role, ['police_officer','special_branch','nsi_officer','dgfi_officer']) => route('vetting.dashboard'),
         default => url()->previous(),
     };
     $actionRoute = match(true) {
@@ -16,7 +17,7 @@
         $role === 'dc_jm_branch'        => route('jm_branch.action', Crypt::encryptString($application->id)),
         $role === 'district_commissioner' => route('dc.action', Crypt::encryptString($application->id)),
         in_array($role, ['moha_desk','joint_secretary','senior_secretary','national_screening_committee']) => route('moha.action', Crypt::encryptString($application->id)),
-        default => '#',
+        default => route('workflow.action', Crypt::encryptString($application->id)),
     };
     $actions = match(true) {
         $role === 'dc_front_desk'       => ['forward' => 'Accept & Screen', 'reject' => 'Reject'],
@@ -27,10 +28,21 @@
         default => [],
     };
 
+    if (empty($actions) && !empty($canAct)) {
+        $actionRoute = route('workflow.action', Crypt::encryptString($application->id));
+        $actions = [
+            'approve' => !empty($stepStatus['is_multi']) ? 'Approve & Submit Clearance' : 'Approve & Forward',
+            'reject' => 'Reject',
+        ];
+        if (!empty($currentStep) && $currentStep->can_return) {
+            $actions['return'] = 'Return to Previous Step';
+        }
+    }
+
     // Filter actions based on ACL permissions (Application Approve / Application Reject)
     $aclMatrix = json_decode(\App\Models\Setting::get('acl_matrix', '{}'), true) ?: [];
-    $canApprove = ($aclMatrix['Application Approve'][$role] ?? 'none') !== 'none';
-    $canReject = ($aclMatrix['Application Reject'][$role] ?? 'none') !== 'none';
+    $canApprove = ($aclMatrix['Application Approve'][$role] ?? 'full') !== 'none';
+    $canReject = ($aclMatrix['Application Reject'][$role] ?? 'full') !== 'none';
 
     $actions = array_filter($actions, function ($value) use ($canApprove, $canReject) {
         if ($value === 'approve') return $canApprove;
@@ -67,6 +79,27 @@
         'license_issued' => 5,
     ];
     $currentStepIndex = $statusMap[$status] ?? 0;
+
+    if (isset($workflow) && $workflow->activeSteps->isNotEmpty()) {
+        $pipeline = [];
+        $workflowSteps = $workflow->activeSteps;
+        $activeStepId = $currentStep?->id;
+        $currentStepIndex = 0;
+
+        foreach ($workflowSteps as $idx => $ws) {
+            $pipeline[$ws->id] = [
+                'label' => $ws->step_name,
+                'icon' => $ws->isMultiRole() ? '<i class="fa-solid fa-users"></i>' : '<i class="fa-solid fa-user-check"></i>',
+            ];
+            if ($activeStepId && $ws->id === $activeStepId) {
+                $currentStepIndex = $idx;
+            }
+        }
+
+        if (in_array($status, ['waiting_for_license_fee', 'approved', 'license_issued'])) {
+            $currentStepIndex = count($workflowSteps);
+        }
+    }
 
     // Document data
     $userUploadedDocs = $application->documents;
@@ -578,10 +611,73 @@
 
         <!-- ===== RIGHT: OFFICER ACTIONS (always visible, sticky) ===== -->
         <div class="space-y-4">
-            @if(!empty($actions) && $actionRoute !== '#')
+
+            {{-- Parallel Multi-Role Review Widget --}}
+            @if(!empty($stepStatus['is_multi']))
+            <div class="bg-blue-50/90 border border-blue-200 rounded-2xl shadow-sm p-4 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-users text-blue-600"></i> Parallel Review (All Required)
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-200 text-blue-900">
+                        {{ count($stepStatus['approved_roles']) }} / {{ count($stepStatus['required_roles']) }} Approved
+                    </span>
+                </div>
+                <p class="text-[10px] text-blue-700 leading-tight">
+                    This step requires approval from all assigned agencies/roles before advancing to the next stage.
+                </p>
+                <div class="space-y-1.5 pt-1">
+                    @foreach($stepStatus['required_roles'] as $reqRole)
+                        @php
+                            $isRoleApproved = in_array($reqRole, $stepStatus['approved_roles']);
+                            $roleApproval = $stepStatus['approvals'][$reqRole] ?? null;
+                        @endphp
+                        <div class="flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs {{ $isRoleApproved ? 'bg-emerald-50/90 border-emerald-200 text-emerald-900' : 'bg-white border-slate-200 text-slate-700' }}">
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid {{ $isRoleApproved ? 'fa-circle-check text-emerald-600' : 'fa-clock text-amber-500' }} text-xs"></i>
+                                <span class="font-semibold text-[11px]">{{ $allRoles[$reqRole] ?? ucwords(str_replace('_', ' ', $reqRole)) }}</span>
+                            </div>
+                            <div class="text-[10px]">
+                                @if($isRoleApproved)
+                                    <span class="font-bold text-emerald-700">Approved</span>
+                                    @if(!empty($roleApproval['user_name']))
+                                        <span class="text-slate-400 font-normal">({{ $roleApproval['user_name'] }})</span>
+                                    @endif
+                                @else
+                                    <span class="text-amber-600 font-semibold">Pending</span>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            {{-- Notice if current user already submitted approval --}}
+            @if(!empty($stepStatus['approvals'][$role]))
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-emerald-800 text-xs shadow-sm flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-base mt-0.5 flex-shrink-0"></i>
+                <div class="space-y-0.5">
+                    <p class="font-bold text-emerald-900 text-xs">Your approval has been submitted</p>
+                    <p class="text-[11px] text-emerald-700 leading-relaxed">
+                        @if(!empty($stepStatus['pending_roles']))
+                            Awaiting approval from: 
+                            <span class="font-bold">{{ implode(', ', array_map(fn($r) => $allRoles[$r] ?? ucwords(str_replace('_', ' ', $r)), $stepStatus['pending_roles'])) }}</span>.
+                        @else
+                            All required approvals have been received for this stage.
+                        @endif
+                    </p>
+                </div>
+            </div>
+            @endif
+
+            @if(!empty($actions) && $actionRoute !== '#' && empty($stepStatus['approvals'][$role]))
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden lg:sticky lg:top-4">
-                <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
+                <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                     <span class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Officer Actions</span>
+                    @if(!empty($currentStep))
+                        <span class="text-[9px] font-bold text-slate-400">Step {{ $currentStep->step_order }}: {{ $currentStep->step_name }}</span>
+                    @endif
                 </div>
                 @if ($errors->any())
                     <div class="p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
@@ -612,7 +708,7 @@
 
                         <div>
                             <label for="remarks" class="block text-[9px] font-semibold uppercase text-slate-700 tracking-wider mb-1.5"><i class="fa-solid fa-pen-to-square mr-1"></i> Remarks</label>
-                            <textarea name="remarks" id="remarks" rows="3" placeholder="Remarks (mandatory)"
+                            <textarea name="remarks" id="remarks" rows="3" placeholder="Remarks (mandatory)" required
                                       class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green bg-white resize-none"></textarea>
                         </div>
 

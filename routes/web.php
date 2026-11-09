@@ -32,7 +32,6 @@ Route::prefix('error-preview')->middleware('auth')->group(function () {
     Route::get('/419', fn () => response()->view('errors.419', [], 419));
 });
 
-
 // Reoptimized class loader:
 Route::get('/optimize', function () {
     $exitCode = Artisan::call('optimize');
@@ -142,6 +141,10 @@ Route::middleware(['auth'])->group(function () {
     // Document download
     Route::get('/document/download', [ApplicationController::class, 'downloadDocument'])->name('document.download');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Unified Workflow Action & Detail
+    Route::post('/office/workflow/action/{encryptedId}', [WorkflowController::class, 'workflowAction'])->name('workflow.action');
+    Route::get('/office/workflow/applications/{encryptedId}', [WorkflowController::class, 'applicationDetail'])->name('workflow.show');
 
     // Citizen / Dealer Applicant
     Route::middleware(['role:citizen_applicant,dealer_applicant'])->group(function () {

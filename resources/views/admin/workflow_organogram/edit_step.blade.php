@@ -19,14 +19,51 @@
         <form action="{{ route('admin.workflow_organogram.steps.update', [$encryptedWfId, $encryptedStepId]) }}" method="POST" class="space-y-4">
             @csrf @method('PUT')
 
+            @php
+                $isMulti = $step->isMultiRole();
+                $currentKeys = $step->getAllRoleKeys();
+            @endphp
+
+            <!-- Role Type Toggle -->
             <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Approver Type</label>
+                <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-lg text-center text-xs font-semibold max-w-xs">
+                    <button type="button" id="btn_type_single" onclick="setApproverMode('single')"
+                            class="py-1 rounded {{ !$isMulti ? 'bg-white text-gov-green shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900 font-semibold' }} transition-all">Single Role</button>
+                    <button type="button" id="btn_type_multi" onclick="setApproverMode('multi')"
+                            class="py-1 rounded {{ $isMulti ? 'bg-white text-gov-green shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900 font-semibold' }} transition-all">Multiple Roles (Parallel)</button>
+                </div>
+            </div>
+
+            <!-- Single Role Selection -->
+            <div id="single_role_container" class="{{ $isMulti ? 'hidden' : '' }}">
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Role <span class="text-rose-500">*</span></label>
-                <select name="role_key" id="edit_role_key" required
+                <select name="role_key" id="edit_role_key" {{ !$isMulti ? 'required' : '' }}
                         class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:ring-1 focus:ring-gov-green outline-none bg-white">
                     @foreach($allRoles as $key => $label)
                     <option value="{{ $key }}" {{ old('role_key', $step->role_key) === $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <!-- Multi Role Selection (Checkboxes) -->
+            <div id="multi_role_container" class="{{ !$isMulti ? 'hidden' : '' }}">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Assign Roles (Parallel Approvers) <span class="text-rose-500">*</span>
+                </label>
+                <div class="max-h-48 overflow-y-auto border border-slate-200 rounded-lg p-2.5 bg-slate-50 space-y-1.5">
+                    @foreach($allRoles as $key => $label)
+                    <label class="flex items-center gap-2 text-xs cursor-pointer hover:bg-white p-1 rounded transition-colors">
+                        <input type="checkbox" name="role_keys[]" value="{{ $key }}"
+                               {{ in_array($key, old('role_keys', $currentKeys)) ? 'checked' : '' }}
+                               class="edit-multi-role-cb rounded text-gov-green focus:ring-gov-green">
+                        <span class="text-slate-700 font-medium">{{ $label }}</span>
+                    </label>
+                    @endforeach
+                </div>
+                <p class="text-[10px] text-blue-600 mt-1 flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-circle-info"></i> All selected roles must approve before application advances to next step.
+                </p>
             </div>
 
             <div>
@@ -84,11 +121,45 @@
 
 <script>
 const roleLabels = @json($allRoles);
+
+function setApproverMode(mode) {
+    const singleContainer = document.getElementById('single_role_container');
+    const multiContainer = document.getElementById('multi_role_container');
+    const btnSingle = document.getElementById('btn_type_single');
+    const btnMulti = document.getElementById('btn_type_multi');
+    const singleSelect = document.getElementById('edit_role_key');
+
+    if (mode === 'single') {
+        singleContainer.classList.remove('hidden');
+        multiContainer.classList.add('hidden');
+        btnSingle.className = 'py-1 rounded bg-white text-gov-green shadow-xs transition-all font-bold';
+        btnMulti.className = 'py-1 rounded text-slate-600 hover:text-slate-900 transition-all font-semibold';
+        singleSelect.setAttribute('required', 'required');
+    } else {
+        singleContainer.classList.add('hidden');
+        multiContainer.classList.remove('hidden');
+        btnSingle.className = 'py-1 rounded text-slate-600 hover:text-slate-900 transition-all font-semibold';
+        btnMulti.className = 'py-1 rounded bg-white text-gov-green shadow-xs transition-all font-bold';
+        singleSelect.removeAttribute('required');
+    }
+}
+
 document.getElementById('edit_role_key').addEventListener('change', function () {
     const nameInput = document.getElementById('edit_role_name');
     if (this.value && roleLabels[this.value]) {
         nameInput.value = roleLabels[this.value];
     }
+});
+
+document.querySelectorAll('.edit-multi-role-cb').forEach(cb => {
+    cb.addEventListener('change', function () {
+        const checked = Array.from(document.querySelectorAll('.edit-multi-role-cb:checked'))
+            .map(c => roleLabels[c.value] || c.value);
+        const nameInput = document.getElementById('edit_role_name');
+        if (checked.length > 0) {
+            nameInput.value = checked.join(', ');
+        }
+    });
 });
 </script>
 @endsection

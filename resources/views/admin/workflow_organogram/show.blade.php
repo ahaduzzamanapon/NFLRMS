@@ -98,10 +98,21 @@
                         <!-- Info -->
                         <div class="flex-1 min-w-0">
                             <div class="font-semibold text-slate-900 text-xs truncate">{{ $step->step_name }}</div>
-                            <div class="text-[10px] text-slate-400 mt-0.5">
-                                <span class="text-gov-green font-semibold">{{ $step->role_name }}</span>
-                                <span class="mx-1">·</span>
-                                <span class="font-mono">{{ $step->role_key }}</span>
+                            <div class="text-[10px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-1">
+                                @if($step->isMultiRole())
+                                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                        <i class="fa-solid fa-users mr-1 text-[8px]"></i> Parallel ({{ count($step->getAllRoleKeys()) }} Approvers · All Required)
+                                    </span>
+                                    <span class="text-slate-600 font-medium">
+                                        @foreach($step->getAllRoleKeys() as $rk)
+                                            <span class="inline-block bg-slate-100 text-slate-700 px-1 py-0.2 rounded text-[9px] mr-0.5">{{ $allRoles[$rk] ?? $rk }}</span>
+                                        @endforeach
+                                    </span>
+                                @else
+                                    <span class="text-gov-green font-semibold">{{ $step->role_name }}</span>
+                                    <span class="mx-0.5">·</span>
+                                    <span class="font-mono text-slate-400">{{ $step->role_key }}</span>
+                                @endif
                             </div>
                             <!-- Capabilities inline -->
                             <div class="flex gap-1 mt-1">
@@ -161,9 +172,21 @@
                 <form action="{{ route('admin.workflow_organogram.steps.store', $encWfId) }}" method="POST" class="space-y-3">
                     @csrf
 
+                    <!-- Role Type Toggle -->
                     <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Role</label>
-                        <select name="role_key" id="role_key_select" required
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Approver Type</label>
+                        <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-lg text-center text-xs font-semibold">
+                            <button type="button" id="btn_type_single" onclick="setApproverMode('single')"
+                                    class="py-1 rounded bg-white text-gov-green shadow-xs transition-all">Single Role</button>
+                            <button type="button" id="btn_type_multi" onclick="setApproverMode('multi')"
+                                    class="py-1 rounded text-slate-600 hover:text-slate-900 transition-all">Multiple Roles (Parallel)</button>
+                        </div>
+                    </div>
+
+                    <!-- Single Role Selection -->
+                    <div id="single_role_container">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Role <span class="text-rose-500">*</span></label>
+                        <select name="role_key" id="role_key_select"
                                 class="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 focus:ring-1 focus:ring-gov-green outline-none bg-white">
                             <option value="">— Select role —</option>
                             @foreach($allRoles as $key => $label)
@@ -172,15 +195,33 @@
                         </select>
                     </div>
 
+                    <!-- Multi Role Selection (Checkboxes) -->
+                    <div id="multi_role_container" class="hidden">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+                            Assign Roles (Parallel Approvers) <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="max-h-40 overflow-y-auto border border-slate-200 rounded-lg p-2 bg-slate-50 space-y-1.5">
+                            @foreach($allRoles as $key => $label)
+                            <label class="flex items-center gap-2 text-xs cursor-pointer hover:bg-white p-1 rounded transition-colors">
+                                <input type="checkbox" name="role_keys[]" value="{{ $key }}" class="multi-role-cb rounded text-gov-green focus:ring-gov-green">
+                                <span class="text-slate-700 font-medium">{{ $label }}</span>
+                            </label>
+                            @endforeach
+                        </div>
+                        <p class="text-[9px] text-blue-600 mt-1 flex items-center gap-1 font-semibold">
+                            <i class="fa-solid fa-circle-info"></i> All selected roles must approve before application moves to next step.
+                        </p>
+                    </div>
+
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Display Name</label>
-                        <input type="text" name="role_name" id="role_name_input" required
+                        <input type="text" name="role_name" id="role_name_input"
                                class="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 focus:ring-1 focus:ring-gov-green outline-none"
                                placeholder="e.g. DC Front Desk">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Step Label</label>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Step Label <span class="text-rose-500">*</span></label>
                         <input type="text" name="step_name" required
                                class="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 focus:ring-1 focus:ring-gov-green outline-none"
                                placeholder="e.g. DC Front Desk Verification">
@@ -224,12 +265,46 @@
 <script>
 const roleLabels = @json($allRoles);
 
+function setApproverMode(mode) {
+    const singleContainer = document.getElementById('single_role_container');
+    const multiContainer = document.getElementById('multi_role_container');
+    const btnSingle = document.getElementById('btn_type_single');
+    const btnMulti = document.getElementById('btn_type_multi');
+    const singleSelect = document.getElementById('role_key_select');
+
+    if (mode === 'single') {
+        singleContainer.classList.remove('hidden');
+        multiContainer.classList.add('hidden');
+        btnSingle.className = 'py-1 rounded bg-white text-gov-green shadow-xs transition-all font-bold';
+        btnMulti.className = 'py-1 rounded text-slate-600 hover:text-slate-900 transition-all font-semibold';
+        singleSelect.setAttribute('required', 'required');
+    } else {
+        singleContainer.classList.add('hidden');
+        multiContainer.classList.remove('hidden');
+        btnSingle.className = 'py-1 rounded text-slate-600 hover:text-slate-900 transition-all font-semibold';
+        btnMulti.className = 'py-1 rounded bg-white text-gov-green shadow-xs transition-all font-bold';
+        singleSelect.removeAttribute('required');
+    }
+}
+
 // Auto-fill role name on role select
 document.getElementById('role_key_select').addEventListener('change', function () {
     const nameInput = document.getElementById('role_name_input');
     if (this.value && roleLabels[this.value]) {
         nameInput.value = roleLabels[this.value];
     }
+});
+
+// Auto-fill role name on multi-role checkboxes
+document.querySelectorAll('.multi-role-cb').forEach(cb => {
+    cb.addEventListener('change', function () {
+        const checked = Array.from(document.querySelectorAll('.multi-role-cb:checked'))
+            .map(c => roleLabels[c.value] || c.value);
+        const nameInput = document.getElementById('role_name_input');
+        if (checked.length > 0) {
+            nameInput.value = checked.join(', ');
+        }
+    });
 });
 
 // Drag-and-drop reorder

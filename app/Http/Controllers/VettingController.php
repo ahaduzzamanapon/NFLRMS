@@ -95,6 +95,19 @@ class VettingController extends Controller
             'report_file' => 'reports/'.$vetting->id.'_clearance.pdf', // Mock uploaded report file
         ]);
 
+        // Record in application step_approvals for workflow tracking
+        $userRoleVal = $user->role instanceof Role ? $user->role->value : (string) $user->role;
+        $approvals = $vetting->application->step_approvals ?? [];
+        $approvals[$userRoleVal] = [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'role' => $userRoleVal,
+            'action' => $request->status,
+            'remarks' => $request->remarks,
+            'acted_at' => now()->toIso8601String(),
+        ];
+        $vetting->application->update(['step_approvals' => $approvals]);
+
         // Check if all vettings for this application are complete
         $application = $vetting->application;
         $totalVettings = $application->vettings()->count();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Models\User;
 use App\Models\WorkflowStep;
 use App\Models\WorkflowType;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -50,8 +51,9 @@ class WorkflowOrganogramController extends Controller
         $id = $this->decrypt($encryptedId);
         $workflow = WorkflowType::with('steps')->findOrFail($id);
         $allRoles = $this->availableRoles();
+        $allUsers = User::where('is_active', true)->orderBy('name')->get();
 
-        return view('admin.workflow_organogram.show', compact('workflow', 'allRoles'));
+        return view('admin.workflow_organogram.show', compact('workflow', 'allRoles', 'allUsers'));
     }
 
     public function edit(string $encryptedId)
@@ -98,22 +100,47 @@ class WorkflowOrganogramController extends Controller
         $id = $this->decrypt($encryptedId);
         $workflow = WorkflowType::findOrFail($id);
 
-        $data = $request->validate([
-            'role_key' => 'required|string|max:100',
-            'role_name' => 'required|string|max:255',
+        $request->validate([
             'step_name' => 'required|string|max:255',
+            'role_key' => 'nullable|string|max:100',
+            'role_keys' => 'nullable|array',
+            'role_keys.*' => 'string|max:100',
+            'role_name' => 'nullable|string|max:255',
+            'approval_type' => 'nullable|in:all,any',
+            'user_ids' => 'nullable|array',
+            'user_ids.*' => 'integer|exists:users,id',
             'can_approve' => 'boolean',
             'can_reject' => 'boolean',
             'can_return' => 'boolean',
         ]);
 
+        $allRoles = $this->availableRoles();
+        $roleKeys = $request->input('role_keys', []);
+        if (empty($roleKeys) && $request->filled('role_key')) {
+            $roleKeys = [$request->input('role_key')];
+        }
+
+        $primaryRoleKey = $roleKeys[0] ?? $request->input('role_key', 'dc_front_desk');
+
+        $roleName = $request->input('role_name');
+        if (empty($roleName)) {
+            $names = array_map(fn ($k) => $allRoles[$k] ?? ucwords(str_replace('_', ' ', $k)), $roleKeys);
+            $roleName = implode(', ', $names);
+        }
+
         $nextOrder = $workflow->steps()->max('step_order') + 1;
 
-        $workflow->steps()->create($data + [
+        $workflow->steps()->create([
             'step_order' => $nextOrder,
-            'can_approve' => $request->boolean('can_approve'),
-            'can_reject' => $request->boolean('can_reject'),
-            'can_return' => $request->boolean('can_return'),
+            'step_name' => $request->step_name,
+            'role_key' => $primaryRoleKey,
+            'role_keys' => $roleKeys,
+            'role_name' => $roleName,
+            'approval_type' => $request->input('approval_type', 'all'),
+            'user_ids' => $request->input('user_ids', []),
+            'can_approve' => $request->boolean('can_approve', true),
+            'can_reject' => $request->boolean('can_reject', true),
+            'can_return' => $request->boolean('can_return', false),
             'is_active' => true,
         ]);
 
@@ -129,8 +156,9 @@ class WorkflowOrganogramController extends Controller
         $workflow = WorkflowType::findOrFail($wfId);
         $step = WorkflowStep::where('workflow_type_id', $wfId)->findOrFail($stepId);
         $allRoles = $this->availableRoles();
+        $allUsers = User::where('is_active', true)->orderBy('name')->get();
 
-        return view('admin.workflow_organogram.edit_step', compact('workflow', 'step', 'allRoles', 'encryptedWfId', 'encryptedStepId'));
+        return view('admin.workflow_organogram.edit_step', compact('workflow', 'step', 'allRoles', 'allUsers', 'encryptedWfId', 'encryptedStepId'));
     }
 
     public function updateStep(Request $request, string $encryptedWfId, string $encryptedStepId)
@@ -140,17 +168,42 @@ class WorkflowOrganogramController extends Controller
 
         $step = WorkflowStep::where('workflow_type_id', $wfId)->findOrFail($stepId);
 
-        $data = $request->validate([
-            'role_key' => 'required|string|max:100',
-            'role_name' => 'required|string|max:255',
+        $request->validate([
             'step_name' => 'required|string|max:255',
+            'role_key' => 'nullable|string|max:100',
+            'role_keys' => 'nullable|array',
+            'role_keys.*' => 'string|max:100',
+            'role_name' => 'nullable|string|max:255',
+            'approval_type' => 'nullable|in:all,any',
+            'user_ids' => 'nullable|array',
+            'user_ids.*' => 'integer|exists:users,id',
             'can_approve' => 'boolean',
             'can_reject' => 'boolean',
             'can_return' => 'boolean',
             'is_active' => 'boolean',
         ]);
 
-        $step->update($data + [
+        $allRoles = $this->availableRoles();
+        $roleKeys = $request->input('role_keys', []);
+        if (empty($roleKeys) && $request->filled('role_key')) {
+            $roleKeys = [$request->input('role_key')];
+        }
+
+        $primaryRoleKey = $roleKeys[0] ?? $request->input('role_key', $step->role_key);
+
+        $roleName = $request->input('role_name');
+        if (empty($roleName)) {
+            $names = array_map(fn ($k) => $allRoles[$k] ?? ucwords(str_replace('_', ' ', $k)), $roleKeys);
+            $roleName = implode(', ', $names);
+        }
+
+        $step->update([
+            'step_name' => $request->step_name,
+            'role_key' => $primaryRoleKey,
+            'role_keys' => $roleKeys,
+            'role_name' => $roleName,
+            'approval_type' => $request->input('approval_type', 'all'),
+            'user_ids' => $request->input('user_ids', []),
             'can_approve' => $request->boolean('can_approve'),
             'can_reject' => $request->boolean('can_reject'),
             'can_return' => $request->boolean('can_return'),

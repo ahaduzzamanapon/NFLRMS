@@ -15,6 +15,7 @@ class Application extends Model
         'dealer_id',
         'type',
         'applicant_type',
+        'workflow_type_id',
         'status',
         'district_id',
         'upazila_id',
@@ -22,6 +23,8 @@ class Application extends Model
         'firearm_details',
         'documents',
         'current_actor_role',
+        'current_step_id',
+        'step_approvals',
         'remarks',
         'service_fee_paid',
         'license_fee_paid',
@@ -35,7 +38,24 @@ class Application extends Model
         'firearm_details' => 'array',
         'documents' => 'array',
         'payment_details' => 'array',
+        'step_approvals' => 'array',
     ];
+
+    /**
+     * Get the workflow type configured for this application.
+     */
+    public function workflowType(): BelongsTo
+    {
+        return $this->belongsTo(WorkflowType::class);
+    }
+
+    /**
+     * Get the current active step in the workflow organogram.
+     */
+    public function currentStep(): BelongsTo
+    {
+        return $this->belongsTo(WorkflowStep::class, 'current_step_id');
+    }
 
     /**
      * Get the applicant user.

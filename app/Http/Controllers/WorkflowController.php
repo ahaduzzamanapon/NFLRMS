@@ -11,6 +11,7 @@ use App\Models\License;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Vetting;
+use App\Services\WorkflowService;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -36,7 +37,15 @@ class WorkflowController extends Controller
             'logs.actor',
             'district',
             'upazila',
+            'currentStep',
+            'workflowType.steps',
         ])->findOrFail($id);
+
+        $workflowService = app(WorkflowService::class);
+        $currentStep = $workflowService->getCurrentStep($application);
+        $stepStatus = $workflowService->getStepApprovalStatus($application);
+        $canAct = $workflowService->canUserAct($application, auth()->user());
+        $workflow = $workflowService->resolveWorkflowType($application);
 
         $userRole = auth()->user()->role;
         $roleVal = $userRole instanceof Role ? $userRole->value : $userRole;
@@ -46,7 +55,59 @@ class WorkflowController extends Controller
                 ->orWhere('role_id', $roleVal);
         })->latest()->get();
 
-        return view('office.application_detail', compact('application', 'customComments'));
+        $allRoles = array_merge([
+            'dc_front_desk' => 'DC Front Desk',
+            'dc_jm_branch' => 'DC JM Branch',
+            'district_commissioner' => 'District Commissioner',
+            'police_officer' => 'Police Officer',
+            'special_branch' => 'Special Branch (SB)',
+            'nsi_officer' => 'NSI Officer',
+            'dgfi_officer' => 'DGFI Officer',
+            'moha_desk' => 'MoHA Desk',
+            'joint_secretary' => 'Joint Secretary',
+            'senior_secretary' => 'Senior Secretary',
+            'national_screening_committee' => 'National Screening Committee',
+            'executive' => 'Executive',
+            'system_admin' => 'System Administrator',
+        ], json_decode(Setting::get('custom_roles', '{}'), true) ?: []);
+
+        return view('office.application_detail', compact('application', 'customComments', 'currentStep', 'stepStatus', 'canAct', 'workflow', 'allRoles'));
+    }
+
+    /**
+     * Unified dynamic workflow action handler.
+     */
+    public function workflowAction(Request $request, string $encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $application = Application::findOrFail($id);
+
+        $request->validate([
+            'action' => ['required', 'string'],
+            'remarks' => ['required', 'string'],
+        ]);
+
+        $workflowService = app(WorkflowService::class);
+        $user = auth()->user();
+
+        if (! $workflowService->canUserAct($application, $user)) {
+            return redirect()->back()->with('error', 'You are not authorized to act on this application at this step, or you have already submitted your approval.');
+        }
+
+        $normalizedAction = match ($request->action) {
+            'reject' => 'reject',
+            'return' => 'return',
+            default => 'approve',
+        };
+
+        $result = $workflowService->processAction($application, $user, $normalizedAction, $request->remarks);
+
+        return redirect()->back()->with($result['success'] ? 'success' : 'error', $result['message']);
     }
 
     /**

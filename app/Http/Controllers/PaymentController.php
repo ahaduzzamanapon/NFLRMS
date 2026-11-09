@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\ApplicationLog;
 use App\Models\License;
 use App\Models\Setting;
+use App\Services\WorkflowService;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -245,6 +246,8 @@ class PaymentController extends Controller
                     'payment_details' => $details,
                 ]);
 
+                app(WorkflowService::class)->initWorkflow($application);
+
                 ApplicationLog::create([
                     'application_id' => $application->id,
                     'action' => 'submitted',
@@ -389,6 +392,8 @@ class PaymentController extends Controller
                 'current_actor_role' => Role::DcFrontDesk->value,
                 'payment_details' => $details,
             ]);
+
+            app(WorkflowService::class)->initWorkflow($application);
 
             // Create log entry
             ApplicationLog::create([
