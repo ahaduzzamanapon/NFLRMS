@@ -62,12 +62,12 @@ class User extends Authenticatable
     public function roleLabel(): string
     {
         if ($this->role instanceof Role) {
-            return $this->role->label();
+            return $this->role->localizedLabel();
         }
         $customRoles = json_decode(Setting::get('custom_roles', '{}'), true) ?: [];
         $roleStr = is_string($this->role) ? $this->role : '';
 
-        return $customRoles[$roleStr] ?? ucfirst(str_replace('_', ' ', $roleStr));
+        return __($customRoles[$roleStr] ?? ucfirst(str_replace('_', ' ', $roleStr)));
     }
 
     /**

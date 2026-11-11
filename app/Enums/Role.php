@@ -43,4 +43,12 @@ enum Role: string
             self::SystemAdmin => 'System Administrator',
         };
     }
+
+    /**
+     * Get the localized label for the role based on current app locale.
+     */
+    public function localizedLabel(): string
+    {
+        return __($this->label());
+    }
 }

@@ -21,7 +21,7 @@ class SetLocale
         $locale = session('locale');
 
         if (! $locale || ! in_array($locale, $supportedLocales, true)) {
-            $locale = config('app.locale', 'en');
+            $locale = config('app.locale', 'bn');
         }
 
         App::setLocale($locale);

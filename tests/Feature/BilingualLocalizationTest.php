@@ -63,3 +63,11 @@ test('authenticated user sees localized layout with kalpurush font in bangla', f
     $response->assertSee('সিস্টেম প্রশাসন');
     $response->assertSee('জন এডমিন');
 });
+
+test('application defaults to bangla locale for all users including admin and office', function () {
+    $response = $this->get(route('login'));
+    $response->assertOk();
+    $response->assertSee('lang="bn"', false);
+    $response->assertSee('Kalpurush');
+    $response->assertSee('স্বরাষ্ট্র মন্ত্রণালয়');
+});
