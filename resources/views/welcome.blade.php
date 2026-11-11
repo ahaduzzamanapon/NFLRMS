@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -31,15 +32,22 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Inter"', 'sans-serif'],
-                        bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
+                        sans: ['"Inter"', '"Kalpurush"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', '"Kalpurush"', 'sans-serif'],
+                        bn: ['"Kalpurush"', '"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('{{ asset('fonts/kalpurush.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Nikosh';
             src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
@@ -57,7 +65,23 @@
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
-        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
+        
+        /* Kalpurush font on Bengali locale */
+        html[lang="bn"] body,
+        html[lang="bn"] input,
+        html[lang="bn"] select,
+        html[lang="bn"] textarea,
+        html[lang="bn"] button,
+        html[lang="bn"] h1,
+        html[lang="bn"] h2,
+        html[lang="bn"] h3,
+        html[lang="bn"] h4,
+        html[lang="bn"] h5,
+        html[lang="bn"] h6,
+        html[lang="bn"] .font-serif,
+        .font-bn, [lang="bn"] {
+            font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
+        }
 
         .hero-bg {
             background: linear-gradient(rgba(3, 52, 37, 0.93), rgba(3, 52, 37, 0.95)), url('https://flms.lovable.app/__l5e/assets-v1/d9f2dc6d-2e28-4bf1-b5d5-e32f5583aae4/home.jpg');
@@ -111,8 +135,21 @@
                 <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
             </div>
 
-            <!-- Auth Buttons -->
+            <!-- Auth Buttons & Language -->
             <div class="flex items-center space-x-3">
+                <!-- Language Switcher -->
+                <div class="flex items-center bg-white/10 p-0.5 rounded-lg border border-white/15 text-xs shrink-0 mr-1">
+                    <a href="{{ route('lang.switch', 'en') }}"
+                       title="Switch to English"
+                       class="px-2.5 py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'en' ? 'bg-white text-emerald-950 shadow-sm' : 'text-slate-300 hover:text-white' }}">
+                        EN
+                    </a>
+                    <a href="{{ route('lang.switch', 'bn') }}"
+                       title="বাংলায় দেখুন"
+                       class="px-2.5 py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'bn' ? 'bg-gov-accent text-slate-950 shadow-sm font-bn' : 'text-slate-300 hover:text-white font-bn' }}">
+                        বাংলা
+                    </a>
+                </div>
                 @auth
                     @php
                         $roleVal =

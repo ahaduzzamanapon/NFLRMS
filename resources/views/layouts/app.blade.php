@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,9 +30,9 @@
                         }
                     },
                     fontFamily: {
-                        sans:  ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Inter"', 'sans-serif'],
-                        bn:    ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
+                        sans:  ['"Inter"', '"Kalpurush"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', '"Kalpurush"', 'sans-serif'],
+                        bn:    ['"Kalpurush"', '"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
@@ -39,6 +40,13 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('{{ asset('fonts/kalpurush.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Nikosh';
             src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
@@ -50,7 +58,23 @@
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
-        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
+        
+        /* Kalpurush Bengali Font Application */
+        html[lang="bn"] body,
+        html[lang="bn"] input,
+        html[lang="bn"] select,
+        html[lang="bn"] textarea,
+        html[lang="bn"] button,
+        html[lang="bn"] h1,
+        html[lang="bn"] h2,
+        html[lang="bn"] h3,
+        html[lang="bn"] h4,
+        html[lang="bn"] h5,
+        html[lang="bn"] h6,
+        html[lang="bn"] .font-serif,
+        .font-bn, [lang="bn"] {
+            font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
+        }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
@@ -185,23 +209,23 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <div class="flex items-center gap-3 mb-3">
-                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-12 h-12 object-contain shrink-0">
+                <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="{{ __('Government of the People\'s Republic of Bangladesh') }}" class="w-12 h-12 object-contain shrink-0">
                 <div>
                     <div style="color:#fff;font-weight:800;font-size: 20px;letter-spacing:-0.01em;line-height:1.1;">NFLRMS</div>
-                    <div style="color:#e8b84b;font-size:13px;font-weight:600;margin-top:2px;line-height:1.1;">Home Affairs</div>
+                    <div style="color:#e8b84b;font-size:13px;font-weight:600;margin-top:2px;line-height:1.1;">{{ __('Home Affairs') }}</div>
                 </div>
             </div>
-            <p style="font-size:10.5px;color:rgba(255,255,255,0.45);font-weight:500;line-height:1.4;margin:0;">National Firearms Licensing &amp; Renewal<br>Management System</p>
+            <p style="font-size:10.5px;color:rgba(255,255,255,0.45);font-weight:500;line-height:1.4;margin:0;">{{ __('National Firearms Licensing & Renewal Management System') }}</p>
         </div>
 
         <!-- User Pill -->
         @auth
         <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:11px;color:rgba(255, 255, 255, 0.40);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Signed in as</div>
+        <div style="font-size:11px;color:rgba(255, 255, 255, 0.40);font-weight:600;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">{{ __('Signed in as') }}</div>
             <a href="{{ route('profile.edit') }}" style="display:flex;align-items:center;justify-content:between;gap:8px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:background 0.15s;width:100%;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
                     <span style="color:#10b981;font-size:13px;flex-shrink:0;"><i class="fa-solid fa-arrow-right text-emerald-400 text-xs"></i></span>
-                    <span style="color:#fff;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</span>
+                    <span style="color:#fff;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ (app()->getLocale() === 'bn' && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : auth()->user()->name }}</span>
                 </div>
                 <svg style="width:12px;height:12px;color:rgba(255, 255, 255, 0.5);flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
             </a>
@@ -216,7 +240,7 @@
 
             {{-- SYSTEM ADMIN --}}
             @if($role === \App\Enums\Role::SystemAdmin)
-                <div class="nav-section">System Administration</div>
+                <div class="nav-section">{{ __('System Administration') }}</div>
                 @php $adminLinks = [
                     ['route'=>'admin.dashboard',              'icon'=>'fa-solid fa-house',              'label'=>'Home',                  'active_check'=>'exact'],
                     ['route'=>'admin.users',                  'icon'=>'fa-solid fa-user',               'label'=>'User Management',       'active_check'=>'prefix'],
@@ -238,115 +262,115 @@
                     }
                 @endphp
                 <a href="{{ route($lnk['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="{{ $lnk['icon'] }}"></i></span><span>{{ $lnk['label'] }}</span>
+                    <span class="nav-icon"><i class="{{ $lnk['icon'] }}"></i></span><span>{{ __($lnk['label']) }}</span>
                 </a>
                 @endforeach
 
             {{-- CITIZEN --}}
             @elseif($roleVal === 'citizen_applicant')
-                <div class="nav-section">My Licences</div>
+                <div class="nav-section">{{ __('My Licences') }}</div>
                 <a href="{{ route('citizen.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='citizen.dashboard'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-file-lines"></i></span><span>My Applications</span>
+                    <span class="nav-icon"><i class="fa-solid fa-file-lines"></i></span><span>{{ __('My Applications') }}</span>
                 </a>
                 <a href="{{ route('citizen.apply') }}" class="nav-link {{ Route::currentRouteName()==='citizen.apply'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>New License</span>
+                    <span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>{{ __('New License') }}</span>
                 </a>
                 <a href="{{ route('citizen.renew_general') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'citizen.renew') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew License</span>
+                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>{{ __('Renew Licence') }}</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>Application Tracking</span>
+                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>{{ __('Application Tracking') }}</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>{{ __('Verify Certificate') }}</span>
                 </a>
-                <div class="nav-section">Account</div>
+                <div class="nav-section">{{ __('Account') }}</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>{{ __('My Profile') }}</span>
                 </a>
 
             {{-- DEALER --}}
             @elseif($roleVal === 'dealer_applicant')
-                <div class="nav-section">Dealer Portal</div>
+                <div class="nav-section">{{ __('Dealer Portal') }}</div>
                 <a href="{{ route('dealer.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='dealer.dashboard'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>Dealer Home</span>
+                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>{{ __('Dealer Home') }}</span>
                 </a>
                 <a href="{{ route('dealer.apply') }}" class="nav-link {{ Route::currentRouteName()==='dealer.apply'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>Apply for New Licence</span>
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>{{ __('Apply for New Licence') }}</span>
                 </a>
                 <a href="{{ route('dealer.renew') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'dealer.renew') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>Renew Dealing Licence</span>
+                    <span class="nav-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span>{{ __('Renew Dealing Licence') }}</span>
                 </a>
                 <a href="{{ route('applicant.tracking') }}" class="nav-link {{ Route::currentRouteName()==='applicant.tracking'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>Application Tracking</span>
+                    <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span><span>{{ __('Application Tracking') }}</span>
                 </a>
                 <a href="{{ route('dealer.stock_ledger') }}" class="nav-link {{ Route::currentRouteName()==='dealer.stock_ledger'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>Stock Ledger</span>
+                    <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>{{ __('Stock Ledger') }}</span>
                 </a>
                 <a href="{{ route('dashboard.verify') }}" class="nav-link {{ Route::currentRouteName()==='dashboard.verify'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>Verify Certificate</span>
+                    <span class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span><span>{{ __('Verify Certificate') }}</span>
                 </a>
-                <div class="nav-section">Account</div>
+                <div class="nav-section">{{ __('Account') }}</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>{{ __('My Profile') }}</span>
                 </a>
 
             {{-- DC FRONT DESK --}}
             @elseif($role===\App\Enums\Role::DcFrontDesk)
-                <div class="nav-section">DC Office</div>
+                <div class="nav-section">{{ __('DC Office') }}</div>
                 <a href="{{ route('front_desk.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','front_desk')?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-inbox"></i></span><span>Front Desk Intake</span>
+                    <span class="nav-icon"><i class="fa-solid fa-inbox"></i></span><span>{{ __('Front Desk Intake') }}</span>
                 </a>
 
             {{-- DC JM BRANCH --}}
             @elseif($role===\App\Enums\Role::DcJmBranch)
-                <div class="nav-section">DC Office</div>
+                <div class="nav-section">{{ __('DC Office') }}</div>
                 <a href="{{ route('jm_branch.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','jm_branch')?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>JM Branch Queue</span>
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span><span>{{ __('JM Branch Queue') }}</span>
                 </a>
 
             {{-- DISTRICT COMMISSIONER --}}
             @elseif($role===\App\Enums\Role::DistrictCommissioner)
-                <div class="nav-section">DC Office</div>
+                <div class="nav-section">{{ __('DC Office') }}</div>
                 <a href="{{ route('dc.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','dc.')?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>DC Approval Queue</span>
+                    <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>{{ __('DC Approval Queue') }}</span>
                 </a>
 
             {{-- VETTING --}}
             @elseif(in_array($roleVal,['police_officer','special_branch','nsi_officer','dgfi_officer']))
-                <div class="nav-section">Security Vetting</div>
+                <div class="nav-section">{{ __('Security Vetting') }}</div>
                 <a href="{{ route('vetting.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','vetting')?'active':'' }}">
                     <span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span>
                     <span>
-                        @if($role === \App\Enums\Role::PoliceOfficer) Police Vetting Queue
-                        @elseif($role === \App\Enums\Role::SpecialBranch) SB Vetting Queue
-                        @elseif($role === \App\Enums\Role::NsiOfficer) NSI Vetting Queue
-                        @else DGFI Vetting Queue
+                        @if($role === \App\Enums\Role::PoliceOfficer) {{ __('Police Vetting Queue') }}
+                        @elseif($role === \App\Enums\Role::SpecialBranch) {{ __('SB Vetting Queue') }}
+                        @elseif($role === \App\Enums\Role::NsiOfficer) {{ __('NSI Vetting Queue') }}
+                        @else {{ __('DGFI Vetting Queue') }}
                         @endif
                     </span>
                 </a>
 
             {{-- MoHA --}}
             @elseif(in_array($roleVal,['moha_desk','joint_secretary','senior_secretary','national_screening_committee']))
-                <div class="nav-section">MoHA</div>
+                <div class="nav-section">{{ __('MoHA') }}</div>
                 @if($role === \App\Enums\Role::SeniorSecretary)
                     <a href="{{ route('senior_secretary.dashboard') }}" class="nav-link {{ Route::currentRouteName() === 'senior_secretary.dashboard' ? 'active' : '' }}">
-                        <span class="nav-icon"><i class="fa-solid fa-house"></i></span><span>Home</span>
+                        <span class="nav-icon"><i class="fa-solid fa-house"></i></span><span>{{ __('Home') }}</span>
                     </a>
                     <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'moha') ? 'active' : '' }}">
-                        <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>Approval Queue</span>
+                        <span class="nav-icon"><i class="fa-solid fa-building-columns"></i></span><span>{{ __('Approval Queue') }}</span>
                     </a>
                     <a href="{{ route('admin.reports') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'admin.reports') ? 'active' : '' }}">
-                        <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>Reports &amp; Analytics</span>
+                        <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>{{ __('Reports & Analytics') }}</span>
                     </a>
                 @else
                     <a href="{{ route('moha.dashboard') }}" class="nav-link {{ str_starts_with(Route::currentRouteName() ?? '', 'moha') ? 'active' : '' }}">
                         <span class="nav-icon"><i class="fa-solid fa-building"></i></span>
                         <span>
-                            @if($role === \App\Enums\Role::MohaDesk) Political-4 Desk
-                            @elseif($role === \App\Enums\Role::JointSecretary) Joint / Additional Secretary
-                            @elseif($role === \App\Enums\Role::NationalScreeningCommittee) Nat. Screening Committee
-                            @else Senior Secretary / Minister
+                            @if($role === \App\Enums\Role::MohaDesk) {{ __('Political-4 Desk') }}
+                            @elseif($role === \App\Enums\Role::JointSecretary) {{ __('Joint / Additional Secretary') }}
+                            @elseif($role === \App\Enums\Role::NationalScreeningCommittee) {{ __('Nat. Screening Committee') }}
+                            @else {{ __('Senior Secretary / Minister') }}
                             @endif
                         </span>
                     </a>
@@ -354,21 +378,21 @@
 
             {{-- EXECUTIVE --}}
             @elseif($role===\App\Enums\Role::Executive)
-                <div class="nav-section">Executive</div>
+                <div class="nav-section">{{ __('Executive') }}</div>
                 <a href="{{ route('executive.dashboard') }}" class="nav-link {{ Route::currentRouteName()==='executive.dashboard'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>Executive Dashboard</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span>{{ __('Executive Dashboard') }}</span>
                 </a>
                 <a href="{{ route('executive.licenses') }}" class="nav-link {{ Route::currentRouteName()==='executive.licenses'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-scroll"></i></span><span>All Licences</span>
+                    <span class="nav-icon"><i class="fa-solid fa-scroll"></i></span><span>{{ __('All Licences') }}</span>
                 </a>
                 <a href="{{ route('executive.dealers') }}" class="nav-link {{ Route::currentRouteName()==='executive.dealers'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>Dealers &amp; Stock</span>
+                    <span class="nav-icon"><i class="fa-solid fa-store"></i></span><span>{{ __('Dealers & Stock') }}</span>
                 </a>
                 <a href="{{ route('executive.dealing_central') }}" class="nav-link {{ Route::currentRouteName()==='executive.dealing_central'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-folder-tree"></i></span><span>Dealing License Central</span>
+                    <span class="nav-icon"><i class="fa-solid fa-folder-tree"></i></span><span>{{ __('Dealing License Central') }}</span>
                 </a>
                 <a href="{{ route('admin.reports') }}" class="nav-link {{ Route::currentRouteName()==='admin.reports'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Reports &amp; Analytics</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>{{ __('Reports & Analytics') }}</span>
                 </a>
             @endif
 
@@ -378,17 +402,17 @@
                 $customCommentPerm = $aclMatrix['Custom Comment'][$roleVal] ?? 'none';
             @endphp
             @if($roleVal === 'system_admin' || $customCommentPerm !== 'none')
-                <div class="nav-section">Tools</div>
+                <div class="nav-section">{{ __('Tools') }}</div>
                 <a href="{{ route('custom_comment.index') }}" class="nav-link {{ str_starts_with(Route::currentRouteName()??'','custom_comment')?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-comments"></i></span><span>Custom Comment</span>
+                    <span class="nav-icon"><i class="fa-solid fa-comments"></i></span><span>{{ __('Custom Comment') }}</span>
                 </a>
             @endif
 
             {{-- Officer Profile --}}
             @if(!in_array($roleVal,['citizen_applicant','dealer_applicant','system_admin']))
-                <div class="nav-section">Account</div>
+                <div class="nav-section">{{ __('Account') }}</div>
                 <a href="{{ route('profile.edit') }}" class="nav-link {{ Route::currentRouteName()==='profile.edit'?'active':'' }}">
-                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>My Profile</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user"></i></span><span>{{ __('My Profile') }}</span>
                 </a>
             @endif
         </nav>
@@ -398,7 +422,7 @@
         <div style="padding:12px 14px 20px;border-top:1px solid rgba(255,255,255,0.06);" class="flex-shrink-0">
             <div class="flex items-center justify-between">
                 <div style="font-size:11px;color:rgba(255, 255, 255, 0.6);font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;white-space:nowrap;">
-                    <span style="white-space:nowrap;flex-shrink:0;">Designed & Developed By</span>
+                    <span style="white-space:nowrap;flex-shrink:0;">{{ __('Designed & Developed By') }}</span>
                     <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:25px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;flex-shrink:0;">
                 </div>
             </div>
@@ -416,23 +440,31 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
                 <i class="fa-solid fa-building hidden sm:inline flex-shrink-0 text-slate-400"></i>
-                <span class="font-medium text-slate-700 truncate text-[11px] sm:text-sm">Ministry of Home Affairs</span>
+                <span class="font-medium text-slate-700 truncate text-[11px] sm:text-sm">{{ __('Ministry of Home Affairs') }}</span>
                 <span class="text-slate-300 hidden md:inline">·</span>
-                <span class="hidden md:inline truncate text-slate-500 text-[11px] sm:text-sm">Government of the People's Republic of Bangladesh</span>
+                <span class="hidden md:inline truncate text-slate-500 text-[11px] sm:text-sm">{{ __('Government of the People\'s Republic of Bangladesh') }}</span>
             </div>
 
             <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-                {{-- <div class="hidden sm:flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">System Live</span>
+                <!-- Language Switcher Toggle -->
+                <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs shrink-0 shadow-inner">
+                    <a href="{{ route('lang.switch', 'en') }}"
+                       title="Switch to English"
+                       class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'en' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
+                        EN
+                    </a>
+                    <a href="{{ route('lang.switch', 'bn') }}"
+                       title="বাংলায় দেখুন"
+                       class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'bn' ? 'bg-gov-green text-white shadow-sm font-bn' : 'text-slate-500 hover:text-slate-900 font-bn' }}">
+                        বাংলা
+                    </a>
                 </div>
-                <div class="hidden md:block px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 uppercase tracking-wider truncate max-w-[170px]">
-                    @yield('title','Dashboard')
-                </div> --}}
+
                 @auth
                 @php
                     $authUser = auth()->user();
-                    $userPhoto = $authUser->photo_url ?? $authUser->photo_url ?? null;
+                    $userDisplayName = (app()->getLocale() === 'bn' && !empty($authUser->name_bn)) ? $authUser->name_bn : $authUser->name;
+                    $userPhoto = $authUser->photo_url ?? null;
                     $ws = explode(' ', trim($authUser->name));
                     $initials = count($ws) >= 2 ? strtoupper(substr($ws[0],0,1).substr($ws[1],0,1)) : strtoupper(substr($authUser->name,0,2));
                 @endphp
@@ -441,7 +473,7 @@
                         class="flex items-center gap-1.5 sm:gap-2.5 pl-1 sm:pl-1.5 pr-2 sm:pr-2.5 py-1 sm:py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors"
                         aria-haspopup="true" aria-expanded="false">
                         @if($userPhoto)
-                            <img src="{{ $userPhoto }}" alt="{{ $authUser->name }}"
+                            <img src="{{ $userPhoto }}" alt="{{ $userDisplayName }}"
                                 class="w-7 h-7 rounded-full object-cover flex-shrink-0 ring-1 ring-slate-200">
                         @else
                             {{-- Default black & white person silhouette --}}
@@ -453,7 +485,7 @@
                                 </svg>
                             </span>
                         @endif
-                        <span class="hidden sm:inline text-xs sm:text-sm font-semibold text-slate-700 max-w-[130px] truncate">{{ $authUser->name }}</span>
+                        <span class="hidden sm:inline text-xs sm:text-sm font-semibold text-slate-700 max-w-[130px] truncate">{{ $userDisplayName }}</span>
                         <svg id="user-menu-chevron" class="w-3.5 h-3.5 text-slate-400 flex-shrink-0 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -463,7 +495,7 @@
                         class="hidden absolute right-0 mt-2 w-56 max-w-[calc(100vw-1.5rem)] bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50"
                         style="animation: none;">
                         <div class="px-3.5 py-3 border-b border-slate-100">
-                            <p class="text-sm font-semibold text-slate-800 truncate">{{ $authUser->name }}</p>
+                            <p class="text-sm font-semibold text-slate-800 truncate">{{ $userDisplayName }}</p>
                             @if($authUser->email)
                                 <p class="text-xs text-slate-400 truncate mt-0.5">{{ $authUser->email }}</p>
                             @endif
@@ -473,7 +505,7 @@
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
-                            <span>My Profile</span>
+                            <span>{{ __('My Profile') }}</span>
                         </a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
@@ -482,7 +514,7 @@
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                                 </svg>
-                                <span>Logout</span>
+                                <span>{{ __('Logout') }}</span>
                             </button>
                         </form>
                     </div>

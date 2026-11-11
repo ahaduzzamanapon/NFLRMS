@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-white">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-white">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in — NFLRMS</title>
+    <title>{{ __('Sign in') }} — NFLRMS</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,15 +34,22 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Inter"', 'sans-serif'],
-                        bn: ['"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
+                        sans: ['"Inter"', '"Kalpurush"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Inter"', '"Kalpurush"', 'sans-serif'],
+                        bn: ['"Kalpurush"', '"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('{{ asset('fonts/kalpurush.ttf') }}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Nikosh';
             src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
@@ -53,12 +61,28 @@
         h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
-        .font-bn, [lang="bn"] { font-family: 'Nikosh', 'Noto Sans Bengali', sans-serif; }
+        
+        /* Kalpurush font on Bengali locale */
+        html[lang="bn"] body,
+        html[lang="bn"] input,
+        html[lang="bn"] select,
+        html[lang="bn"] textarea,
+        html[lang="bn"] button,
+        html[lang="bn"] h1,
+        html[lang="bn"] h2,
+        html[lang="bn"] h3,
+        html[lang="bn"] h4,
+        html[lang="bn"] h5,
+        html[lang="bn"] h6,
+        html[lang="bn"] .font-serif,
+        .font-bn, [lang="bn"] {
+            font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
+        }
         .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
         .sec-chip { font-variant-numeric: tabular-nums; }
         .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* Global Typography Base Standards (Reference + 1-2px Larger) */
+        /* Global Typography Base Standards */
         input, select, textarea, button { font-family: inherit; font-size: 0.9375rem; line-height: 1.45; }
         label, .form-label { font-size: 0.84375rem; font-weight: 500; letter-spacing: 0.01em; }
         th { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.035em; }
@@ -104,7 +128,7 @@
             <div class="flex items-center justify-between">
                 <a href="/" class="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-2 transition-colors">
                     <span>&larr;</span>
-                    <span>Back to home</span>
+                    <span>{{ __('Back') }}</span>
                 </a>
                 <span class="text-[11px] tracking-[0.2em] uppercase text-gold-soft font-semibold">Form NFLRMS&ndash;02</span>
             </div>
@@ -164,8 +188,8 @@
             <!-- Bottom Footer -->
             <div class="flex items-center justify-between text-[11px] text-slate-400 font-medium pt-6 border-t border-white/10">
                 <span class="flex items-center gap-2">
-                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Ministry of Home Affairs" class="w-4 h-4 object-contain opacity-90 rounded-full">
-                    <span>Ministry of Home Affairs &bull; Government of Bangladesh</span>
+                    <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="{{ __('Ministry of Home Affairs') }}" class="w-4 h-4 object-contain opacity-90 rounded-full">
+                    <span>{{ __('Ministry of Home Affairs') }} &bull; {{ __('Government of the People\'s Republic of Bangladesh') }}</span>
                 </span>
                 <span class="text-slate-500">v1.0</span>
             </div>
@@ -176,9 +200,24 @@
     <div class="w-full lg:w-1/2 bg-slate-50 flex flex-col p-5 sm:p-6 lg:px-8 lg:py-8">
         <div class="max-w-xl w-full mx-auto my-auto space-y-6 bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-16px_rgba(3,52,37,0.25)]">
 
-            <div>
-                <h3 class="text-2xl font-bold font-serif text-slate-900 leading-none">Sign in</h3>
-                <p class="text-xs text-slate-500 mt-1.5 font-medium">Use your mobile number <span class="text-slate-400">or</span> email address and password.</p>
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <h3 class="text-2xl font-bold font-serif text-slate-900 leading-none">{{ __('Sign in') }}</h3>
+                    <p class="text-xs text-slate-500 mt-1.5 font-medium">{{ __('Official Secure Portal') }}</p>
+                </div>
+                <!-- Language Switcher -->
+                <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs shrink-0 shadow-inner">
+                    <a href="{{ route('lang.switch', 'en') }}"
+                       title="Switch to English"
+                       class="px-2.5 py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'en' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
+                        EN
+                    </a>
+                    <a href="{{ route('lang.switch', 'bn') }}"
+                       title="বাংলায় দেখুন"
+                       class="px-2.5 py-1 rounded-md font-semibold transition-all {{ app()->getLocale() === 'bn' ? 'bg-gov-green text-white shadow-sm font-bn' : 'text-slate-500 hover:text-slate-900 font-bn' }}">
+                        বাংলা
+                    </a>
+                </div>
             </div>
 
             <form action="{{ route('login') }}" method="POST" class="space-y-4" id="main-login-form">
@@ -195,12 +234,12 @@
                 <div class="space-y-3">
                     <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-950">
                         <span class="sec-chip inline-flex w-4 h-4 rounded-[4px] bg-gov-deep text-white items-center justify-center text-[10px]">A</span>
-                        Access Credentials
+                        {{ __('Access Credentials') }}
                     </p>
 
                     <div>
                         <label for="login-identifier" class="block text-[11px] font-semibold text-slate-600 mb-1.5">
-                            Mobile <span class="text-slate-400 font-normal">/</span> Email
+                            {{ __('Mobile Number') }} <span class="text-slate-400 font-normal">/</span> {{ __('Email Address') }}
                         </label>
                         <div class="relative">
                             {{-- Dynamic icon: switches between phone & email based on input --}}
@@ -212,7 +251,7 @@
                             </span>
                             <input type="text" name="phone" id="login-identifier"
                                    class="w-full pl-9 pr-3 py-2.5 text-xs rounded-lg border bg-white outline-none focus:ring-2 transition-all @error('phone') border-rose-500 focus:ring-rose-200 @else border-slate-200 focus:ring-gov-green/25 focus:border-gov-green @enderror"
-                                   placeholder="Enter mobile or email" value="{{ old('phone') }}" autocomplete="username">
+                                   placeholder="{{ __('Mobile Number') }} / {{ __('Email Address') }}" value="{{ old('phone') }}" autocomplete="username">
                         </div>
                         @if ($errors->has('phone') || $errors->has('email'))
                             <span class="text-[11px] text-rose-500 font-semibold mt-1 block">
@@ -223,7 +262,7 @@
                     </div>
 
                     <div>
-                        <label for="login-password" class="block text-[11px] font-semibold text-slate-600 mb-1.5">Password</label>
+                        <label for="login-password" class="block text-[11px] font-semibold text-slate-600 mb-1.5">{{ __('Password') }}</label>
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                             <input type="password" name="password" id="login-password"
@@ -240,19 +279,16 @@
                 <button type="submit"
                         class="w-full py-3 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md shadow-gov-green/20 transition-all flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H3" /></svg>
-                    <span>Sign in</span>
+                    <span>{{ __('Sign in') }}</span>
                 </button>
             </form>
 
             <div class="text-center space-y-2">
-                {{-- <p class="text-[11px] text-slate-500 leading-relaxed font-medium bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
-                    Demo credentials: 01711234567 / demo1234 (citizen), 01711000111 / demo1234 (dealer)
-                </p> --}}
                 <p class="text-xs text-slate-500">
-                    No account? <a href="{{ route('register') }}" class="text-gov-green hover:underline font-semibold">Sign up</a>
+                    {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}" class="text-gov-green hover:underline font-semibold">{{ __('Register') }}</a>
                 </p>
                 <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium pt-3 border-t border-slate-100">
-                    <span>Designed & Developed By</span>
+                    <span>{{ __('Designed & Developed By') }}</span>
                     <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:32px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>

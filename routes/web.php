@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomCommentController;
 use App\Http\Controllers\DealerController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -99,6 +100,9 @@ Route::get('/verify', function (Request $request) {
 
     return view('verify', compact('license', 'status', 'licenseNumber'));
 })->name('verify');
+
+// Language Switcher
+Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 
 // Authentication
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
