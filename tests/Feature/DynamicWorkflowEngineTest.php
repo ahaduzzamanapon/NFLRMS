@@ -206,3 +206,119 @@ test('officer can submit workflow action via unified route', function () {
     // Step should have advanced or recorded approval
     expect($app->status)->not->toBe('submitted');
 });
+
+test('application can be returned to previous step and rejected', function () {
+    $workflowService = app(WorkflowService::class);
+
+    $workflow = WorkflowType::create([
+        'key' => 'return_reject_workflow',
+        'name' => 'Return Reject Test Workflow',
+        'is_active' => true,
+    ]);
+
+    $step1 = WorkflowStep::create([
+        'workflow_type_id' => $workflow->id,
+        'step_order' => 1,
+        'role_key' => Role::DcFrontDesk->value,
+        'role_name' => 'Front Desk',
+        'step_name' => 'Intake',
+        'can_approve' => true,
+        'can_reject' => true,
+        'can_return' => false,
+        'is_active' => true,
+    ]);
+
+    $step2 = WorkflowStep::create([
+        'workflow_type_id' => $workflow->id,
+        'step_order' => 2,
+        'role_key' => Role::DcJmBranch->value,
+        'role_name' => 'JM Branch',
+        'step_name' => 'Scrutiny',
+        'can_approve' => true,
+        'can_reject' => true,
+        'can_return' => true,
+        'is_active' => true,
+    ]);
+
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+    $frontDeskUser = User::where('role', Role::DcFrontDesk)->first();
+    $jmBranchUser = User::where('role', Role::DcJmBranch)->first();
+
+    $app = Application::create([
+        'application_number' => 'RET-TEST-001',
+        'user_id' => $citizen->id,
+        'type' => 'new',
+        'applicant_type' => 'citizen',
+        'status' => 'submitted',
+        'workflow_type_id' => $workflow->id,
+        'current_step_id' => $step1->id,
+        'current_actor_role' => Role::DcFrontDesk->value,
+        'applicant_details' => ['name' => $citizen->name],
+        'firearm_details' => ['weapon_type' => 'Shotgun'],
+    ]);
+
+    // Front Desk approves -> goes to Step 2
+    $workflowService->processAction($app, $frontDeskUser, 'approve', 'Passed to JM Branch');
+    $app->refresh();
+    expect($app->current_step_id)->toBe($step2->id);
+
+    // JM Branch returns -> goes back to Step 1
+    $resReturn = $workflowService->processAction($app, $jmBranchUser, 'return', 'Incomplete documents');
+    expect($resReturn['success'])->toBeTrue();
+
+    $app->refresh();
+    expect($app->current_step_id)->toBe($step1->id);
+    expect($app->current_actor_role)->toBe(Role::DcFrontDesk->value);
+
+    // Front Desk rejects -> application is marked rejected
+    $resReject = $workflowService->processAction($app, $frontDeskUser, 'reject', 'Applicant failed verification');
+    expect($resReject['success'])->toBeTrue();
+
+    $app->refresh();
+    expect($app->status)->toContain('rejected');
+});
+
+test('case detail view renders correctly for application in parallel step', function () {
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+    $policeUser = User::where('role', Role::PoliceOfficer)->first();
+
+    $workflow = WorkflowType::create([
+        'key' => 'parallel_view_wf',
+        'name' => 'Parallel View Workflow',
+        'is_active' => true,
+    ]);
+
+    $parallelStep = WorkflowStep::create([
+        'workflow_type_id' => $workflow->id,
+        'step_order' => 1,
+        'role_key' => Role::PoliceOfficer->value,
+        'role_keys' => [Role::PoliceOfficer->value, Role::SpecialBranch->value],
+        'role_name' => 'Police & SB',
+        'step_name' => 'Security Clearances',
+        'approval_type' => 'all',
+        'can_approve' => true,
+        'can_reject' => true,
+        'can_return' => false,
+        'is_active' => true,
+    ]);
+
+    $app = Application::create([
+        'application_number' => 'PARALLEL-VIEW-001',
+        'user_id' => $citizen->id,
+        'type' => 'new',
+        'applicant_type' => 'citizen',
+        'status' => 'pending_vetting',
+        'workflow_type_id' => $workflow->id,
+        'current_step_id' => $parallelStep->id,
+        'current_actor_role' => Role::PoliceOfficer->value,
+        'applicant_details' => ['name' => $citizen->name],
+        'firearm_details' => ['weapon_type' => 'Pistol'],
+    ]);
+
+    $response = $this->actingAs($policeUser)->get(route('workflow.show', Crypt::encryptString($app->id)));
+    $response->assertOk();
+    $response->assertSee('Parallel Review (All Required)');
+    $response->assertSee('Security Clearances');
+    $response->assertSee('Police Officer');
+    $response->assertSee('Special Branch (SB)');
+});
