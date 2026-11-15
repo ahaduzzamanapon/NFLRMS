@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'DC Approval Queue')
+@section('title', __('DC Approval Queue'))
 
 @section('content')
 <div class="max-w-full space-y-5">
 
     <div class="flex items-start justify-between">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900">DC Approval Queue</h2>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">{{ __('DC Approval Queue') }}</h2>
             <p class="text-xs text-slate-500 mt-1">
-                {{ auth()->user()->district->name ?? 'Dhaka' }} District &bull; {{ $applications->count() }} case{{ $applications->count() !== 1 ? 's' : '' }} in your queue
+                {{ auth()->user()->district->name ?? 'Dhaka' }} {{ __('District') }} &bull; {{ $applications->count() }} {{ __('cases in your queue') }}
             </p>
         </div>
     </div>
@@ -22,10 +22,10 @@
     @endphp
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         @foreach([
-            ['label' => 'In Queue',            'value' => $inQueue,        'color' => 'text-slate-900'],
-            ['label' => 'Awaiting Agency',     'value' => $awaitingAgency, 'color' => 'text-gov-green'],
-            ['label' => 'Pending Your Action', 'value' => $pendingAction,  'color' => 'text-amber-600'],
-            ['label' => 'SLA Breach (10d+)',   'value' => $slaBreached,    'color' => 'text-rose-600'],
+            ['label' => __('In Queue'),            'value' => $inQueue,        'color' => 'text-slate-900'],
+            ['label' => __('Awaiting Agency'),     'value' => $awaitingAgency, 'color' => 'text-gov-green'],
+            ['label' => __('Pending Your Action'), 'value' => $pendingAction,  'color' => 'text-amber-600'],
+            ['label' => __('SLA Breach (10d+)'),   'value' => $slaBreached,    'color' => 'text-rose-600'],
         ] as $stat)
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 sm:p-4">
             <div class="text-[10px] font-semibold uppercase text-slate-500 tracking-wider">{{ $stat['label'] }}</div>
@@ -36,11 +36,19 @@
 
     <!-- Filter Tabs -->
     <div class="flex flex-wrap items-center gap-2">
-        @foreach(['All','Long Gun','Handgun','Dealing'] as $i => $f)
-        <button onclick="filterApps('{{ $f }}')" id="ftab-{{ $i }}"
+        @php
+            $filterTabs = [
+                'All' => __('All'),
+                'Long Gun' => __('Long Gun'),
+                'Handgun' => __('Handgun'),
+                'Dealing' => __('Dealing'),
+            ];
+        @endphp
+        @foreach($filterTabs as $fKey => $fLabel)
+        <button onclick="filterApps('{{ $fKey }}')" id="ftab-{{ $loop->index }}"
                 class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors
-                       {{ $i === 0 ? 'bg-gov-green text-white' : 'bg-white border border-slate-200 text-slate-600 hover:border-gov-green hover:text-gov-green' }}">
-            {{ $f }}
+                       {{ $loop->first ? 'bg-gov-green text-white' : 'bg-white border border-slate-200 text-slate-600 hover:border-gov-green hover:text-gov-green' }}">
+            {{ $fLabel }}
         </button>
         @endforeach
     </div>
@@ -50,12 +58,12 @@
         <table class="w-full text-left border-collapse min-w-[560px]" id="apps-table">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
-                    <th class="p-3 pl-5">Reference</th>
-                    <th class="p-3">Applicant</th>
-                    <th class="p-3">Service</th>
-                    <th class="p-3">Age</th>
-                    <th class="p-3">Status</th>
-                    <th class="p-3 pr-5 text-right">Action</th>
+                    <th class="p-3 pl-5">{{ __('Reference') }}</th>
+                    <th class="p-3">{{ __('Applicant') }}</th>
+                    <th class="p-3">{{ __('Service') }}</th>
+                    <th class="p-3">{{ __('Age') }}</th>
+                    <th class="p-3">{{ __('Status') }}</th>
+                    <th class="p-3 pr-5 text-right">{{ __('Action') }}</th>
                 </tr>
             </thead>
             <tbody class="text-xs divide-y divide-slate-100">
@@ -91,12 +99,12 @@
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <a href="{{ route('dc.show', Crypt::encryptString($a->id)) }}"
-                           class="text-xs font-semibold text-gov-green hover:underline">Open <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+                           class="text-xs font-semibold text-gov-green hover:underline">{{ __('Open') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="p-10 text-center text-slate-500 font-medium">No cases pending DC approval.</td>
+                    <td colspan="6" class="p-10 text-center text-slate-500 font-medium">{{ __('No cases pending DC approval.') }}</td>
                 </tr>
                 @endforelse
             </tbody>

@@ -1,32 +1,32 @@
 @extends('layouts.app')
-@section('title', 'MoHA Desk')
+@section('title', __('MoHA Desk'))
 
 @section('content')
 <div class="max-w-8xl space-y-5">
 
     <div>
         <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
-            @if($user->role === \App\Enums\Role::MohaDesk) MoHA — Political-4 Desk
-            @elseif($user->role === \App\Enums\Role::JointSecretary) MoHA — Joint / Additional Secretary
-            @elseif($user->role === \App\Enums\Role::NationalScreeningCommittee) National Screening Committee
-            @else MoHA — Senior Secretary / Minister
+            @if($user->role === \App\Enums\Role::MohaDesk) {{ __('MoHA — Political-4 Desk') }}
+            @elseif($user->role === \App\Enums\Role::JointSecretary) {{ __('MoHA — Joint / Additional Secretary') }}
+            @elseif($user->role === \App\Enums\Role::NationalScreeningCommittee) {{ __('National Screening Committee') }}
+            @else {{ __('MoHA — Senior Secretary / Minister') }}
             @endif
         </h2>
         <p class="text-xs text-slate-500 mt-1 font-medium">
-            {{ $applications->count() }} case(s) awaiting your action &bull; Handgun / Renewal / Dealing
+            {{ $applications->count() }} {{ __('cases in your queue') }}
         </p>
     </div>
 
     <!-- Approval Chain Banner -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm px-4 sm:px-5 py-4 overflow-hidden">
-        <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider mb-3">Three-tier MoHA approval chain</div>
+        <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider mb-3">{{ __('Three-tier MoHA approval chain') }}</div>
         <div class="flex overflow-x-auto no-scrollbar items-center space-x-2 text-xs pb-1">
             @php
                 $chain = [
-                    ['label' => 'Political-4', 'role' => \App\Enums\Role::MohaDesk],
-                    ['label' => 'Joint / Additional Secretary', 'role' => \App\Enums\Role::JointSecretary],
-                    ['label' => 'National Screening Committee', 'role' => \App\Enums\Role::NationalScreeningCommittee],
-                    ['label' => 'Senior Secretary / Minister', 'role' => \App\Enums\Role::SeniorSecretary],
+                    ['label' => __('Political-4 Desk'), 'role' => \App\Enums\Role::MohaDesk],
+                    ['label' => __('Joint / Additional Secretary'), 'role' => \App\Enums\Role::JointSecretary],
+                    ['label' => __('National Screening Committee'), 'role' => \App\Enums\Role::NationalScreeningCommittee],
+                    ['label' => __('Senior Secretary / Hon\'ble Minister'), 'role' => \App\Enums\Role::SeniorSecretary],
                 ];
             @endphp
             @foreach($chain as $i => $step)
@@ -46,12 +46,12 @@
         <table class="w-full text-left border-collapse min-w-[560px]">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold uppercase text-slate-500 tracking-wider">
-                    <th class="p-3 pl-5">Reference</th>
-                    <th class="p-3">Applicant</th>
-                    <th class="p-3">Service</th>
-                    <th class="p-3">District</th>
-                    <th class="p-3">Status</th>
-                    <th class="p-3 pr-5 text-right">Action</th>
+                    <th class="p-3 pl-5">{{ __('Reference') }}</th>
+                    <th class="p-3">{{ __('Applicant') }}</th>
+                    <th class="p-3">{{ __('Service') }}</th>
+                    <th class="p-3">{{ __('District') }}</th>
+                    <th class="p-3">{{ __('Status') }}</th>
+                    <th class="p-3 pr-5 text-right">{{ __('Action') }}</th>
                 </tr>
             </thead>
             <tbody class="text-xs divide-y divide-slate-100">
@@ -73,12 +73,12 @@
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <a href="{{ route('moha.show', Crypt::encryptString($a->id)) }}"
-                           class="text-xs font-semibold text-gov-green hover:underline">Open <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+                           class="text-xs font-semibold text-gov-green hover:underline">{{ __('Open') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="p-10 text-center text-slate-400 font-normal">No cases at your stage.</td>
+                    <td colspan="6" class="p-10 text-center text-slate-400 font-normal">{{ __('No cases at your stage.') }}</td>
                 </tr>
                 @endforelse
             </tbody>

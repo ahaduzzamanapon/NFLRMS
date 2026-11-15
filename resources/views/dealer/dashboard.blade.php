@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Dealer Dashboard')
+@section('title', __('Dealer Dashboard'))
 
 @section('content')
 <div class="space-y-6">
@@ -8,17 +8,17 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
-                Dealer Portal
+                {{ __('Dealer Portal') }}
             </h2>
             <p class="text-xs text-slate-500 mt-1 font-normal">
-                {{ auth()->user()->name }} &bull; {{ auth()->user()->district->name ?? 'N/A' }} &bull;
-                <span class="text-gov-green font-semibold">Dealer Applicant</span>
+                {{ (app()->getLocale() === 'bn' && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : auth()->user()->name }} &bull; {{ auth()->user()->district->name ?? 'N/A' }} &bull;
+                <span class="text-gov-green font-semibold">{{ auth()->user()->roleLabel() }}</span>
             </p>
         </div>
         <div class="flex-shrink-0">
             <a href="{{ route('dealer.apply') }}" class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
                 <span>+</span>
-                <span>New Dealer Application</span>
+                <span>{{ __('New Dealer Application') }}</span>
             </a>
         </div>
     </div>
@@ -27,14 +27,14 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <!-- Card 1: Dealer's Total Licences (Real DB Count) -->
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Total Licences</h4>
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Total Licences') }}</h4>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-emerald-600 mt-1">{{ number_format($licenses->count()) }}</p>
         </div>
 
         <!-- Card 2: Total Firearms in Stock (Clickable -> Stock Ledger) -->
         <a href="{{ route('dealer.stock_ledger') }}" class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm hover:border-gov-green/50 hover:shadow-md transition-all flex flex-col justify-between min-h-[5.5rem] h-auto group cursor-pointer">
             <div class="flex items-center justify-between">
-                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">Total Firearms in Stock</h4>
+                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">{{ __('Total Firearms in Stock') }}</h4>
                 <span class="text-xs text-slate-400 group-hover:text-gov-green transition-colors"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
             </div>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalFirearms ?? 142) }}</p>
@@ -43,7 +43,7 @@
         <!-- Card 3: Total Ammunations (Clickable -> Stock Ledger) -->
         <a href="{{ route('dealer.stock_ledger') }}" class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm hover:border-gov-green/50 hover:shadow-md transition-all flex flex-col justify-between min-h-[5.5rem] h-auto group cursor-pointer">
             <div class="flex items-center justify-between">
-                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">Total Ammunations</h4>
+                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">{{ __('Total Ammunations') }}</h4>
                 <span class="text-xs text-slate-400 group-hover:text-gov-green transition-colors"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
             </div>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalAmmo ?? 15400) }}</p>

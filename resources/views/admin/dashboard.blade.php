@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'User Management')
+@section('title', __('User Management'))
 
 @section('content')
 <div class="w-full space-y-5">
@@ -7,12 +7,12 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900">User Management</h2>
-            <p class="text-xs text-slate-500 mt-1">Create, deactivate & reassign accounts — no deployment required (FR-ADM-01)</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">{{ __('User Management') }}</h2>
+            <p class="text-xs text-slate-500 mt-1">{{ __('Create, deactivate & reassign accounts — no deployment required (FR-ADM-01)') }}</p>
         </div>
         <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')"
                 class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 shadow-sm transition-colors self-start sm:self-auto">
-            <span><i class="fa-solid fa-plus"></i></span><span>Add User</span>
+            <span><i class="fa-solid fa-plus"></i></span><span>{{ __('Add User') }}</span>
         </button>
     </div>
 
@@ -25,11 +25,11 @@
         <table class="w-full text-left border-collapse min-w-[560px]">
             <thead>
 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
-                    <th class="p-3 pl-5">Name</th>
-                    <th class="p-3">Role</th>
-                    <th class="p-3">Unit / Office</th>
-                    <th class="p-3">Status</th>
-                    <th class="p-3 pr-5 text-right">Actions</th>
+                    <th class="p-3 pl-5">{{ __('Name') }}</th>
+                    <th class="p-3">{{ __('Role') }}</th>
+                    <th class="p-3">{{ __('Unit / Office') }}</th>
+                    <th class="p-3">{{ __('Status') }}</th>
+                    <th class="p-3 pr-5 text-right">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody class="text-xs divide-y divide-slate-100">
@@ -69,19 +69,19 @@
                     <td class="p-3">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase
                             {{ $isActive ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200' }}">
-                            {{ $isActive ? 'Active' : 'Inactive' }}
+                            {{ $isActive ? __('Active') : __('Inactive') }}
                         </span>
                     </td>
                     <td class="p-3 pr-5 text-right">
                         <div class="flex items-center justify-end gap-3">
                             <a href="{{ route('admin.users.edit', Crypt::encryptString($u->id)) }}"
-                               class="text-[11px] font-semibold text-blue-500 hover:underline">Edit</a>
+                               class="text-[11px] font-semibold text-blue-500 hover:underline">{{ __('Edit') }}</a>
 
                             <form action="{{ route('admin.users.toggle', Crypt::encryptString($u->id)) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
                                         class="text-[11px] font-semibold {{ $isActive ? 'text-amber-500 hover:underline' : 'text-gov-green hover:underline' }}">
-                                    {{ $isActive ? 'Deactivate' : 'Activate' }}
+                                    {{ $isActive ? __('Deactivate') : __('Activate') }}
                                 </button>
                             </form>
 
@@ -90,7 +90,7 @@
                                   onsubmit="return confirm('Delete {{ addslashes($u->name) }}? This cannot be undone.')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">Delete</button>
+                                <button type="submit" class="text-[11px] font-semibold text-rose-500 hover:underline">{{ __('Delete') }}</button>
                             </form>
                             @endif
                         </div>

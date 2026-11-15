@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'My Applications')
+@section('title', __('My Applications'))
 
 @section('content')
 <div class="space-y-6">
@@ -8,16 +8,16 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">
-                Welcome, {{ auth()->user()->name }}
+                {{ __('Welcome') }}, {{ (app()->getLocale() === 'bn' && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : auth()->user()->name }}
             </h2>
             <p class="text-xs text-slate-500 mt-1 font-medium">
-                NID {{ auth()->user()->nid ?? '—' }} &bull; {{ auth()->user()->district->name ?? 'Dhaka' }} District
+                {{ __('NID Number') }}: {{ auth()->user()->nid ?? '—' }} &bull; {{ auth()->user()->district->name ?? 'Dhaka' }} {{ __('District') }}
             </p>
         </div>
         <div class="flex-shrink-0">
             <a href="{{ route('citizen.apply') }}" class="px-4 py-2.5 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm">
                 <span>+</span>
-                <span>New Application</span>
+                <span>{{ __('New Application') }}</span>
             </a>
         </div>
     </div>
@@ -25,19 +25,19 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Active Licenses</h4>
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Active Licenses') }}</h4>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-emerald-600 mt-1">{{ $licenses->count() }}</p>
         </div>
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">In Progress</h4>
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('In Progress') }}</h4>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-blue-600 mt-1">{{ $applications->whereNotIn('status', ['approved', 'rejected', 'suspended'])->count() }}</p>
         </div>
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Needs Attention</h4>
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Needs Attention') }}</h4>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-amber-500 mt-1">{{ $applications->where('status', 'suspended')->count() }}</p>
         </div>
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">Total Applications</h4>
+            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Total Applications') }}</h4>
             <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 mt-1">{{ $applications->count() }}</p>
         </div>
     </div>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Executive Dashboard')
+@section('title', __('Executive Dashboard'))
 
 @section('content')
 <div class="max-w-full space-y-5">
@@ -7,19 +7,13 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">Executive Dashboard</h2>
-            <p class="text-xs text-slate-500 mt-1 font-medium">Minister / Secretary &bull; Real-time national oversight (BRS §9.1)</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">{{ __('Executive Dashboard') }}</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">{{ __('Senior Secretary / Hon\'ble Minister') }} &bull; {{ __('Ministry-grade Oversight') }}</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('dashboard.verify') }}" class="px-3.5 py-2 bg-gov-green hover:bg-gov-light text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
-                Check any licence <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+                {{ __('Verify Licence') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </a>
-            {{-- <button class="px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
-                <i class="fa-solid fa-download mr-1"></i> Export PDF
-            </button> --}}
-            {{-- <button class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white transition-colors shadow-sm">
-                <i class="fa-solid fa-bolt mr-1"></i> Emergency Kill-Switch
-            </button> --}}
         </div>
     </div>
 
@@ -27,10 +21,10 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         @php
         $kpis = [
-            ['label' => 'Active Licenses',         'value' => number_format($stats['approved_licenses']),   'sub' => '+dynamic from DB', 'icon' => '<i class="fa-solid fa-users text-gov-green"></i>', 'color' => 'text-gov-green'],
-            ['label' => 'Total Arms in Dealer Stock','value' => number_format($stats['total_dealer_stock']), 'sub' => 'Across registered dealers', 'icon' => '<i class="fa-solid fa-boxes-stacked text-gov-green"></i>', 'color' => 'text-gov-green'],
-            ['label' => 'Revenue Collected (FY26)', 'value' => '৳' . number_format($stats['total_revenue']), 'sub' => 'Licence & application fees', 'icon' => '<i class="fa-solid fa-building-columns text-gov-green"></i>', 'color' => 'text-gov-green'],
-            ['label' => 'On-Time Renewal Rate',     'value' => number_format($stats['renewal_rate'], 1) . '%', 'sub' => 'Annual renewal metrics', 'icon' => '<i class="fa-solid fa-chart-line text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => __('Active Licenses'),         'value' => number_format($stats['approved_licenses']),   'sub' => __('Total Licences'), 'icon' => '<i class="fa-solid fa-users text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => __('Total Arms in Dealer Stock'),'value' => number_format($stats['total_dealer_stock']), 'sub' => __('Across registered dealers'), 'icon' => '<i class="fa-solid fa-boxes-stacked text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => __('Revenue Collected (FY26)'), 'value' => '৳' . number_format($stats['total_revenue']), 'sub' => __('Licence & application fees'), 'icon' => '<i class="fa-solid fa-building-columns text-gov-green"></i>', 'color' => 'text-gov-green'],
+            ['label' => __('On-Time Renewal Rate'),     'value' => number_format($stats['renewal_rate'], 1) . '%', 'sub' => __('Annual renewal metrics'), 'icon' => '<i class="fa-solid fa-chart-line text-gov-green"></i>', 'color' => 'text-gov-green'],
         ];
         @endphp
         @foreach($kpis as $kpi)

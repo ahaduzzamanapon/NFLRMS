@@ -151,10 +151,10 @@
                 <div class="h-px w-16 bg-gold/60"></div>
 
                 <h2 class="text-3xl lg:text-[2.0rem] font-extrabold font-serif leading-[1.1]">
-                    Welcome back to NFLRMS
+                    {{ __('Welcome back to NFLRMS') }}
                 </h2>
                 <p class="text-slate-300 text-xs md:text-sm leading-relaxed font-medium max-w-sm">
-                    Sign in to manage your firearm license or dealing license applications.
+                    {{ __('Sign in to manage your firearm license or dealing license applications.') }}
                 </p>
 
                 <ul class="space-y-3 text-xs text-slate-200 font-medium pt-2">
@@ -162,25 +162,25 @@
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                        <span>Mobile number <span class="text-slate-400 font-normal">or</span> email sign-in</span>
+                        <span>{{ __('Mobile number or email sign-in') }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                        <span>Role-based secure access</span>
+                        <span>{{ __('Role-based secure access') }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                        <span>Every session logged for audit</span>
+                        <span>{{ __('Every session logged for audit') }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="mt-0.5 w-4 h-4 rounded-full border border-gold/70 flex items-center justify-center shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
                         </span>
-                        <span>Bilingual (Bangla + English) notifications</span>
+                        <span>{{ __('Bilingual (Bangla + English) notifications') }}</span>
                     </li>
                 </ul>
             </div>

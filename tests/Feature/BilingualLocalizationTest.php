@@ -71,3 +71,25 @@ test('application defaults to bangla locale for all users including admin and of
     $response->assertSee('Kalpurush');
     $response->assertSee('স্বরাষ্ট্র মন্ত্রণালয়');
 });
+
+test('welcome landing page renders in bangla by default with kalpurush', function () {
+    $response = $this->get('/');
+    $response->assertOk();
+    $response->assertSee('lang="bn"', false);
+    $response->assertSee('Kalpurush');
+    $response->assertSee('জাতীয় আগ্নেয়াস্ত্র');
+    $response->assertSee('বাংলাদেশ সরকার');
+    $response->assertSee('স্বরাষ্ট্র মন্ত্রণালয়');
+    $response->assertSee('এনএফএলআরএমএস . প্রডাকশন সিস্টেম');
+    $response->assertSee('কেন এনএফএলআরএমএস');
+});
+
+test('welcome landing page renders in english when english locale is selected', function () {
+    $response = $this->withSession(['locale' => 'en'])->get('/');
+    $response->assertOk();
+    $response->assertSee('lang="en"', false);
+    $response->assertSee('National Firearms');
+    $response->assertSee('Govt. of Bangladesh');
+    $response->assertSee('Ministry of Home Affairs');
+    $response->assertSee('Why NFLRMS');
+});

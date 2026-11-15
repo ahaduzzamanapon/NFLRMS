@@ -79,6 +79,7 @@
         html[lang="bn"] h5,
         html[lang="bn"] h6,
         html[lang="bn"] .font-serif,
+        html[lang="bn"] .text-serif,
         .font-bn, [lang="bn"] {
             font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
         }
@@ -119,20 +120,20 @@
 
             <div class="flex items-center space-x-3.5">
                 <img src="{{ asset('assets/brand/govt-logo.png') }}"
-                    alt="Government of Bangladesh" width="50" height="50" class="w-15 h-15 object-contain rounded-full" />
+                    alt="{{ __('Government of Bangladesh') }}" width="50" height="50" class="w-15 h-15 object-contain rounded-full" />
                 <div class="leading-tight">
                     <h1 class="text-[14px] font-bold uppercase tracking-wider leading-none text-slate-100 text-accent">
-                        Govt. of Bangladesh</h1>
-                    <p class="text-[12px] text-slate-400 font-semibold uppercase mt-1 leading-none">Ministry of Home Affairs
+                        {{ __('Govt. of Bangladesh') }}</h1>
+                    <p class="text-[12px] text-slate-400 font-semibold uppercase mt-1 leading-none">{{ __('Ministry of Home Affairs') }}
                     </p>
                 </div>
             </div>
 
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-10 text-[14px] font-semibold text-slate-300">
-                <a href="#services" class="hover:text-white transition-colors">Services</a>
+                <a href="#services" class="hover:text-white transition-colors">{{ __('Services') }}</a>
                 {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
-                <a href="{{ route('verify') }}" class="hover:text-white transition-colors">Verify Certificate</a>
+                <a href="{{ route('verify') }}" class="hover:text-white transition-colors">{{ __('Verify Certificate') }}</a>
             </div>
 
             <!-- Auth Buttons & Language -->
@@ -179,24 +180,24 @@
                     @endphp
                     <a href="{{ route($dashRoute) }}"
                         class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] rounded-lg shadow-md transition-all flex items-center space-x-1.5">
-                        <span>Dashboard ({{ auth()->user()->name }})</span>
+                        <span>{{ __('Dashboard') }} ({{ (app()->getLocale() === 'bn' && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : auth()->user()->name }})</span>
                         <span>&rarr;</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
                             class="px-3 py-2 text-[14px] font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 rounded-lg">
-                            Logout
+                            {{ __('Logout') }}
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}"
                         class="px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10 rounded-lg transition-colors border border-white/10">
-                        Applicant / Office Login
+                        {{ __('Applicant / Office Login') }}
                     </a>
                     <a href="{{ route('register') }}"
                         class="px-4 py-2 bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] rounded-lg shadow-md transition-all">
-                        New Registration
+                        {{ __('New Registration') }}
                     </a>
                 @endauth
             </div>
@@ -213,34 +214,36 @@
                 <!-- Badge -->
                 <span
                     class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gov-accent text-[10px] font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-gem text-gov-accent"></i> <span>NFLRMS . PRODUCTION SYSTEM</span>
+                    <i class="fa-solid fa-gem text-gov-accent"></i> <span>{{ __('NFLRMS . PRODUCTION SYSTEM') }}</span>
                 </span>
 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-serif leading-[1.1]">
-                    National Firearms<br>Licensing & Renewal<br>Management System
+                    @if(app()->getLocale() === 'bn')
+                        জাতীয় আগ্নেয়াস্ত্র<br>লাইসেন্স ও নবায়ন<br>ব্যবস্থাপনা পদ্ধতি
+                    @else
+                        National Firearms<br>Licensing & Renewal<br>Management System
+                    @endif
                 </h1>
 
                 <p class="text-slate-300 text-xs md:text-sm leading-relaxed max-w-xl font-medium">
-                    A single, secure digital platform for citizens, arms dealers, District Commissioners, intelligence
-                    agencies, and the Ministry of Home Affairs — preserving every statutory approval of the Arms Rules
-                    1924 & Explosive Substances Rules 1981.
+                    {{ __('A single, secure digital platform for citizens, arms dealers, District Commissioners, intelligence agencies, and the Ministry of Home Affairs — preserving every statutory approval of the Arms Rules 1924 & Explosive Substances Rules 1981.') }}
                 </p>
 
                 <div class="flex flex-wrap gap-4 pt-2">
                     @auth
                         <a href="{{ route($dashRoute) }}"
                             class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
-                            <span>Go to Your Dashboard</span>
+                            <span>{{ __('Go to Your Dashboard') }}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                         <a href="{{ route('verify') }}"
                             class="px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/25 text-white font-semibold text-[14px] transition-colors">
-                            Verify a Certificate
+                            {{ __('Verify a Certificate') }}
                         </a>
                     @else
                         <a href="{{ route('register') }}"
                             class="px-6 py-3.5 rounded-lg bg-gov-accent hover:bg-amber-500 text-slate-950 font-bold text-[14px] shadow-lg transition-transform hover:scale-[1.02] flex items-center space-x-2">
-                            <span>Create Citizen / Dealer Account</span>
+                            <span>{{ __('Create Citizen / Dealer Account') }}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     @endauth
@@ -260,21 +263,21 @@
                 <div
                     class="absolute -bottom-6 -left-6 w-64 bg-white text-slate-800 rounded-xl p-4 shadow-2xl ring-1 ring-black/5 -rotate-2">
                     <div class="flex items-center gap-2 text-xs text-emerald-600 font-bold">
-                        <i class="fa-solid fa-circle-check text-emerald-500"></i> Certificate Issued
+                        <i class="fa-solid fa-circle-check text-emerald-500"></i> {{ __('Certificate Issued') }}
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
                     <div class="text-[11px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
                     <div class="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full bg-emerald-500 w-[92%]"></div>
                     </div>
-                    <div class="text-[11px] text-slate-400 mt-1">92% of validity remaining</div>
+                    <div class="text-[11px] text-slate-400 mt-1">{{ __('92% of validity remaining') }}</div>
                 </div>
 
                 <div
                     class="absolute -top-4 -right-4 w-56 bg-white text-slate-800 rounded-xl p-4 shadow-2xl ring-1 ring-black/5 rotate-3">
-                    <div class="text-[11px] uppercase text-slate-400 font-semibold">Renewal reminder</div>
-                    <div class="text-sm font-bold mt-1 text-slate-900">28 days remaining</div>
-                    <div class="text-[11px] text-slate-500 font-medium mt-1">SMS + email dispatched at 60d / 30d / 15d
+                    <div class="text-[11px] uppercase text-slate-400 font-semibold">{{ __('Renewal reminder') }}</div>
+                    <div class="text-sm font-bold mt-1 text-slate-900">{{ __('28 days remaining') }}</div>
+                    <div class="text-[11px] text-slate-500 font-medium mt-1">{{ __('SMS + email dispatched at 60d / 30d / 15d') }}
                     </div>
                 </div>
             </div>
@@ -284,10 +287,9 @@
 
     <!-- Why NFLRMS Features -->
     <section class="max-w-7xl mx-auto py-20 px-6">
-        <span class="text-[14px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">Why
-            NFLRMS</span>
+        <span class="text-[14px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">{{ __('Why NFLRMS') }}</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
-            A statutory workflow, digitized without losing a single approval.
+            {{ __('A statutory workflow, digitized without losing a single approval.') }}
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -295,30 +297,27 @@
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-shield-halved"></i></span>
-                <h3 class="text-[14px] font-semibold text-serif text-slate-900">Statutory Chain Preserved</h3>
+                <h3 class="text-[14px] font-semibold text-serif text-slate-900">{{ __('Statutory Chain Preserved') }}</h3>
                 <p class="text-[12px] text-slate-500 leading-relaxed font-medium">
-                    DC Office &rarr; Police / SB (individuals) or Police/SB/NSI/DGFI (dealers) &rarr; MoHA Political-4
-                    &rarr; Joint Secretary &rarr; Minister. Every signature, every register.
+                    {{ __('DC Office → Police / SB (individuals) or Police/SB/NSI/DGFI (dealers) → MoHA Political-4 → Joint Secretary → Minister. Every signature, every register.') }}
                 </p>
             </div>
             <!-- Feature 2 -->
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-hourglass-half"></i></span>
-                <h3 class="text-sm font-semibold text-serif text-slate-900">Automatic Renewal Lifecycle</h3>
+                <h3 class="text-sm font-semibold text-serif text-slate-900">{{ __('Automatic Renewal Lifecycle') }}</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
-                    60/30/15-day reminders, grace period, 3-tier late-fine engine, auto-suspension, mandatory re-vetting
-                    — no case is forgotten.
+                    {{ __('60/30/15-day reminders, grace period, 3-tier late-fine engine, auto-suspension, mandatory re-vetting — no case is forgotten.') }}
                 </p>
             </div>
             <!-- Feature 3 -->
             <div
                 class="p-8 bg-white rounded-2xl border border-slate-200/80 shadow-sm space-y-4 hover:shadow-md transition-shadow">
                 <span class="p-3 rounded-xl bg-emerald-50 text-emerald-600 text-xl inline-block"><i class="fa-solid fa-building-columns"></i></span>
-                <h3 class="text-sm font-semibold text-serif text-slate-900">Ministry-grade Oversight</h3>
+                <h3 class="text-sm font-semibold text-serif text-slate-900">{{ __('Ministry-grade Oversight') }}</h3>
                 <p class="text-xs text-slate-500 leading-relaxed font-medium">
-                    Real-time revenue, quota, and heatmap dashboards for the Secretary and Minister — with an emergency
-                    national kill-switch.
+                    {{ __('Real-time revenue, quota, and heatmap dashboards for the Secretary and Minister — with an emergency national kill-switch.') }}
                 </p>
             </div>
         </div>
@@ -465,13 +464,13 @@
         <div
             class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs gap-6 text-slate-300">
             <div>
-                <h4 class="font-bold text-white font-serif text-[14px]">Ministry of Home Affairs</h4>
-                <p class="text-[12px] text-slate-400 mt-1">Bangladesh Secretariat, Dhaka-1000</p>
+                <h4 class="font-bold text-white font-serif text-[14px]">{{ __('Ministry of Home Affairs') }}</h4>
+                <p class="text-[12px] text-slate-400 mt-1">{{ __('Bangladesh Secretariat, Dhaka-1000') }}</p>
             </div>
             <div class="text-center md:text-right text-[12px]">
-                <p>&copy; 2026 Government of the People's Republic of Bangladesh. All rights reserved.</p>
+                <p>&copy; 2026 {{ __("Government of the People's Republic of Bangladesh. All rights reserved.") }}</p>
                 <div class="flex items-center justify-center md:justify-end gap-2 text-slate-400 mt-2 font-medium">
-                    <span>Designed & Developed by</span>
+                    <span>{{ __('Designed & Developed by') }}</span>
                     <img src="https://mysoftheaven.com/fwedget/img/mysoft-logo.png" alt="MysoftheavenBD Ltd." style="height:34px;width:auto;object-fit:contain;border-radius:3px;background:#ffffff;padding:2px 4px;">
                 </div>
             </div>
