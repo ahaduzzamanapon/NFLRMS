@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
 
     <!-- Font Awesome CSS -->
@@ -32,15 +32,22 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Inter"', '"Kalpurush"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Inter"', '"Kalpurush"', 'sans-serif'],
-                        bn: ['"Kalpurush"', '"Nikosh"', '"Noto Sans Bengali"', 'sans-serif'],
+                        sans: ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', '"Inter"', 'sans-serif'],
+                        bn: ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('{{ asset('fonts/NotoSansBengali.ttf') }}') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Kalpurush';
             src: url('{{ asset('fonts/kalpurush.ttf') }}') format('truetype');
@@ -56,17 +63,17 @@
             font-display: swap;
         }
         body {
-            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            font-family: 'Noto Sans Bengali', 'Kalpurush', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif;
             background-color: #fafbfc;
-            font-size: 15.5px;
-            line-height: 1.55;
+            font-size: 15px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Noto Sans Bengali', 'Kalpurush', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         
-        /* Kalpurush font on Bengali locale */
+        /* Land.gov.bd exact typography & font application */
         html[lang="bn"] body,
         html[lang="bn"] input,
         html[lang="bn"] select,
@@ -81,7 +88,64 @@
         html[lang="bn"] .font-serif,
         html[lang="bn"] .text-serif,
         .font-bn, [lang="bn"] {
-            font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
+            font-family: 'Noto Sans Bengali', 'Nikosh', 'SolaimanLipi', 'Kalpurush', sans-serif !important;
+            letter-spacing: normal !important;
+        }
+
+        html[lang="bn"] body {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        html[lang="bn"] h1 {
+            font-size: 2.25rem !important;
+            line-height: 1.25 !important;
+            font-weight: 700 !important;
+        }
+        html[lang="bn"] h2 {
+            font-size: 1.75rem !important;
+            line-height: 1.35 !important;
+            font-weight: 700 !important;
+        }
+        html[lang="bn"] h3 {
+            font-size: 1.25rem !important;
+            line-height: 1.4 !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] h4 {
+            font-size: 1.05rem !important;
+            line-height: 1.45 !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] label,
+        html[lang="bn"] .form-label {
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: #1e293b !important;
+        }
+        html[lang="bn"] input,
+        html[lang="bn"] select,
+        html[lang="bn"] textarea {
+            font-size: 14.5px !important;
+            letter-spacing: normal !important;
+        }
+        html[lang="bn"] th {
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] td {
+            font-size: 14px !important;
+            letter-spacing: normal !important;
+        }
+        html[lang="bn"] .tracking-wider,
+        html[lang="bn"] .tracking-widest {
+            letter-spacing: normal !important;
+        }
+        html[lang="bn"] .uppercase {
+            text-transform: none !important;
         }
 
         .hero-bg {
@@ -131,6 +195,7 @@
 
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-10 text-[14px] font-semibold text-slate-300">
+                <a href="{{ url('/') }}" class="hover:text-white transition-colors">{{ __('Home') }}</a>
                 <a href="#services" class="hover:text-white transition-colors">{{ __('Services') }}</a>
                 {{-- <a href="#pricing" class="hover:text-white transition-colors">Pricing</a> --}}
                 <a href="{{ route('verify') }}" class="hover:text-white transition-colors">{{ __('Verify Certificate') }}</a>
@@ -266,7 +331,7 @@
                         <i class="fa-solid fa-circle-check text-emerald-500"></i> {{ __('Certificate Issued') }}
                     </div>
                     <div class="mt-2 font-mono text-xs font-bold text-slate-900">BD-HND-DHK-004521</div>
-                    <div class="text-[11px] text-slate-500 font-medium mt-1">Md. Nasrin Sultana · Revolver</div>
+                    <div class="text-[11px] text-slate-500 font-medium mt-1">Ms. Nasrin Sultana · Revolver</div>
                     <div class="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full bg-emerald-500 w-[92%]"></div>
                     </div>
@@ -286,7 +351,7 @@
     </header>
 
     <!-- Why NFLRMS Features -->
-    <section class="max-w-7xl mx-auto py-20 px-6">
+    <section id="services" class="max-w-7xl mx-auto py-20 px-6">
         <span class="text-[14px] font-bold uppercase text-gov-accent tracking-widest block text-center mb-2">{{ __('Why NFLRMS') }}</span>
         <h2 class="text-3xl font-bold text-serif text-slate-900 text-center max-w-xl mx-auto leading-tight mb-12">
             {{ __('A statutory workflow, digitized without losing a single approval.') }}
@@ -466,6 +531,15 @@
             <div>
                 <h4 class="font-bold text-white font-serif text-[14px]">{{ __('Ministry of Home Affairs') }}</h4>
                 <p class="text-[12px] text-slate-400 mt-1">{{ __('Bangladesh Secretariat, Dhaka-1000') }}</p>
+                <div class="mt-3.5">
+                    <a href="{{ route('office.login') }}" class="group inline-flex items-center gap-2 text-[12px] font-semibold text-slate-100 bg-white/5 hover:bg-gov-accent/15 border border-white/10 hover:border-gov-accent/40 rounded-full pl-3 pr-3.5 py-2 transition-all duration-200">
+                        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-gov-accent/20 group-hover:bg-gov-accent/30 transition-colors">
+                            <i class="fa-solid fa-lock text-[10px] text-gov-accent"></i>
+                        </span>
+                        <span>{{ __('Office Login') }}</span>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-gov-accent group-hover:translate-x-0.5 transition-all"></i>
+                    </a>
+                </div>
             </div>
             <div class="text-center md:text-right text-[12px]">
                 <p>&copy; 2026 {{ __("Government of the People's Republic of Bangladesh. All rights reserved.") }}</p>

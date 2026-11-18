@@ -109,7 +109,7 @@ class ApplicationController extends Controller
                 'annual_income' => ['required', 'numeric', 'min:0'],
                 'weapon_type' => ['required', 'string'],
                 'bore' => ['required', 'string'],
-                'purpose' => ['required', 'string'],
+                'purpose' => ['nullable', 'string'],
                 'dealer_name' => ['nullable', 'string', 'max:255'],
                 'dealer_id' => ['nullable', 'integer', 'exists:users,id'],
                 'district_id' => ['required', 'integer', 'exists:districts,id'],
@@ -450,5 +450,20 @@ class ApplicationController extends Controller
 
         // If no uploaded file exists on disk, return 404 Not Found
         abort(404, 'File Not Found: No document file was uploaded by the applicant for '.$title.'.');
+    }
+
+    /**
+     * Download official digital license certificate view.
+     */
+    public function downloadLicense(string $encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $license = License::with(['user', 'application.district'])->findOrFail($id);
+        } catch (\Exception $e) {
+            abort(404, 'License certificate not found.');
+        }
+
+        return view('license_pdf', compact('license'));
     }
 }

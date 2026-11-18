@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
@@ -127,6 +128,11 @@ class ProfileController extends Controller
 
         if ($tab === 'personal' || ! $tab) {
             if ($request->hasFile('profile_photo')) {
+                $user = auth()->user();
+                if (! empty($user->profile_photo_path) && Storage::disk('public')->exists($user->profile_photo_path)) {
+                    Storage::disk('public')->delete($user->profile_photo_path);
+                }
+
                 $path = $request->file('profile_photo')->store('profiles', 'public');
                 $data['profile_photo_path'] = $path;
             }

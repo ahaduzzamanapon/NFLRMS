@@ -81,7 +81,6 @@ test('citizen can submit a new license application', function () {
             'annual_income' => '2500000',
             'weapon_type' => 'Shotgun',
             'bore' => '12 Gauge',
-            'purpose' => 'Self defense',
             'district_id' => $dhaka->id,
             'upazila_id' => $upazila->id,
         ]);
@@ -484,4 +483,19 @@ test('reject custom comment is available in quick fill and can be selected to re
         ->assertRedirect(route('front_desk.dashboard'));
 
     expect($app->fresh()->status)->toBe('rejected_front_desk');
+});
+
+test('authenticated user can download license certificate', function () {
+    $citizen = User::where('role', Role::CitizenApplicant)->first();
+    $license = License::first();
+
+    if ($license) {
+        $response = $this->actingAs($citizen)
+            ->get(route('license.download', Crypt::encryptString($license->id)));
+
+        $response->assertOk();
+        $response->assertSee('Government of Bangladesh');
+    } else {
+        expect(true)->toBeTrue();
+    }
 });

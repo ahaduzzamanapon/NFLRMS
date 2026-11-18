@@ -59,14 +59,18 @@
             My Active Licence
         </h3>
 
-        @if($licenses->isEmpty())
+        @php
+            $activeLicenses = $licenses->where('status', 'active');
+        @endphp
+
+        @if($activeLicenses->isEmpty())
             <div class="max-w-xl p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md">
                 <p class="text-xs text-slate-400 font-medium text-center py-4">
                     No active license yet. <a href="{{ route('citizen.apply') }}" class="text-gov-green font-bold hover:underline">Apply for a new license <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                 </p>
             </div>
         @else
-            @foreach($licenses as $l)
+            @foreach($activeLicenses as $l)
             <div class="max-w-xl p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md flex flex-col sm:flex-row justify-between gap-4 sm:gap-6">
                 <div class="flex-grow space-y-4">
                     <!-- Header -->
@@ -118,11 +122,20 @@
                         </div>
                     </div>
 
-                    <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between">
+                    <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between flex-wrap gap-2">
                         <a href="{{ route('citizen.renew', Crypt::encryptString($l->id)) }}"
                            class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-arrows-rotate mr-1"></i> Renew License</a>
-                        <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
-                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-download mr-1"></i> Download / Verify</a>
+                        <div class="flex items-center space-x-3">
+                            <a href="{{ route('license.download', Crypt::encryptString($l->id)) }}"
+                               target="_blank"
+                               class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
+                                <i class="fa-solid fa-file-pdf mr-1"></i> Download PDF
+                            </a>
+                            <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
+                               class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
+                                <i class="fa-solid fa-circle-check mr-1"></i> Verify
+                            </a>
+                        </div>
                     </div>
                 </div>
 

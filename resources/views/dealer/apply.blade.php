@@ -5,11 +5,19 @@
 <div class="w-full space-y-6">
 
     <!-- Header -->
-    <div>
-        <h2 class="text-2xl font-bold font-serif text-slate-900">New Dealing Licence (Form K)</h2>
-        <p class="text-xs text-slate-500 mt-1 font-normal">
-            Arms Dealing Authorization · Appendix B, BRS §7.2 · 4-agency vetting required
-        </p>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">New Dealing Licence (Form K)</h2>
+            <p class="text-xs text-slate-500 mt-1 font-normal">
+                Arms Dealing Authorization · Appendix B, BRS §7.2 · 4-agency vetting required
+            </p>
+        </div>
+        <div class="flex-shrink-0">
+            <a href="{{ route('profile.edit') }}" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors inline-flex items-center space-x-1.5 shadow-sm">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+            </a>
+        </div>
     </div>
 
     @php
@@ -33,9 +41,15 @@
     </div>
 
     <!-- Profile Incomplete Alert -->
-    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex items-center space-x-2">
-        <span><i class="fa-solid fa-triangle-exclamation"></i></span>
-        <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+    <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+        </div>
+        <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5">
+            <i class="fa-solid fa-user-pen"></i>
+            <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+        </a>
     </div>
 
     <form action="{{ route('dealer.apply.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" id="formKForm" novalidate>
@@ -107,6 +121,20 @@
                     @error('license_class')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
             </div>
+        </div>
+
+        <!-- Profile Notice for Part 2 -->
+        <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
+                <p class="font-semibold">
+                    Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
+                </p>
+            </div>
+            <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+            </a>
         </div>
 
         <!-- Section 2: Proprietor Details -->
