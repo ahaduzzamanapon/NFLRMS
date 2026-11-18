@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -69,19 +70,19 @@
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         
-        /* Universal Bengali font & sizing rule matching land.gov.bd */
+        /* Universal Bengali font & sizing rule matching land.gov.bd (EXCLUDING icons) */
         html[lang="bn"],
-        html[lang="bn"] *,
+        html[lang="bn"] *:not(i):not([class*="fa-"]):not([class^="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands),
         html[lang="bn"] body,
-        html[lang="bn"] div,
+        html[lang="bn"] div:not([class*="fa-"]),
         html[lang="bn"] p,
-        html[lang="bn"] span,
-        html[lang="bn"] a,
+        html[lang="bn"] span:not([class*="fa-"]):not(.fa):not(.fas):not(.fa-solid),
+        html[lang="bn"] a:not([class*="fa-"]),
         html[lang="bn"] label,
         html[lang="bn"] input,
         html[lang="bn"] select,
         html[lang="bn"] textarea,
-        html[lang="bn"] button,
+        html[lang="bn"] button:not([class*="fa-"]),
         html[lang="bn"] table,
         html[lang="bn"] th,
         html[lang="bn"] td,
@@ -96,6 +97,27 @@
         .font-bn, [lang="bn"] {
             font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
             letter-spacing: normal !important;
+        }
+
+        /* Protect and enforce Font Awesome 6 Icons */
+        i.fa, i.fas, i.far, i.fab, i.fa-solid, i.fa-regular, i.fa-brands,
+        .fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands,
+        [class*="fa-"], [class^="fa-"] {
+            font-family: "Font Awesome 6 Free" !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            text-rendering: auto !important;
+            line-height: 1 !important;
+        }
+        i.fa-solid, .fa-solid, i.fas, .fas {
+            font-weight: 900 !important;
+        }
+        i.fa-regular, .fa-regular, i.far, .far {
+            font-weight: 400 !important;
+        }
+        i.fa-brands, .fa-brands, i.fab, .fab {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
         }
 
         html[lang="bn"] body {

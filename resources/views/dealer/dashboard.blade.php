@@ -257,17 +257,17 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Firearms in Stock') }}</div>
-                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($firearmsCount) }} items</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($firearmsCount) }} {{ __('items') }}</div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Ammunition in Stock') }}</div>
-                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($ammoCount) }} rds</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1">{{ number_format($ammoCount) }} {{ __('rds') }}</div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">Stock Anomalies</div>
+                <div class="text-[10px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Stock Anomalies') }}</div>
                 <div class="text-2xl font-bold text-gov-green mt-1">
                     <i class="fa-solid fa-circle-check text-gov-green mr-1"></i>
-                    {{ $anomalyCount > 0 ? $anomalyCount . ' Alerts' : 'Verified Clear' }}
+                    {{ $anomalyCount > 0 ? $anomalyCount . ' ' . __('Alerts') : __('Verified Clear') }}
                 </div>
             </div>
         </div>
@@ -277,11 +277,11 @@
             <table class="w-full text-left border-collapse min-w-[540px]">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
-                        <th class="p-3 pl-5">Item Name</th>
+                        <th class="p-3 pl-5">{{ __('Item Name') }}</th>
                         <th class="p-3">{{ __('Service') }}</th>
-                        <th class="p-3">Bore / Caliber</th>
-                        <th class="p-3">Quantity</th>
-                        <th class="p-3 pr-5 text-right">Remarks</th>
+                        <th class="p-3">{{ __('Bore / Caliber') }}</th>
+                        <th class="p-3">{{ __('Quantity') }}</th>
+                        <th class="p-3 pr-5 text-right">{{ __('Remarks') }}</th>
                     </tr>
                 </thead>
                 <tbody class="text-xs divide-y divide-slate-100">
@@ -314,7 +314,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="p-8 text-center text-slate-400 font-normal">No stock ledger entries found.</td>
+                        <td colspan="5" class="p-8 text-center text-slate-400 font-normal">{{ __('No stock ledger entries found.') }}</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -325,7 +325,7 @@
     <!-- My Applications Section -->
     <div class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 class="text-sm font-semibold text-slate-900 font-serif">My Applications</h3>
+            <h3 class="text-sm font-semibold text-slate-900 font-serif">{{ __('My Applications') }}</h3>
             <button onclick="window.location.reload()" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
                 <span><i class="fa-solid fa-arrows-rotate"></i></span>
                 <span>{{ __('Refresh') }}</span>
