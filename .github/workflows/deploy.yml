@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Production Composer Dependencies
         run: |
@@ -41,7 +40,7 @@ jobs:
 
       - name: Install NPM Dependencies & Build Assets
         run: |
-          npm ci
+          npm install
           npm run build
 
       - name: Remove Node Modules Before Deploy
