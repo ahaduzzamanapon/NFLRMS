@@ -28,7 +28,7 @@ test('it validates authentication and dashboard accessibility for roles', functi
     $response = $this->actingAs($dealer)
         ->get(route('dealer.dashboard'))
         ->assertOk()
-        ->assertSee('Dealer Portal');
+        ->assertSee(__('Dealer Portal'));
 
     if ($dealerApp) {
         $response->assertSee($dealerApp->application_number)

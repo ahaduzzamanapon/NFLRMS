@@ -20,7 +20,10 @@ class DealerController extends Controller
     {
         $user = auth()->user();
         PaymentController::syncUserPendingPayments($user);
-        $applications = $user->applications()->latest()->get();
+        $applications = $user->applications()
+            ->with(['district', 'upazila', 'logs.actor', 'currentStep.workflowType', 'workflowType.steps'])
+            ->latest()
+            ->get();
         $licenses = $user->licenses()->latest()->get();
         $stocks = DealerStock::where('user_id', $user->id)->latest()->get();
         $firearmsStock = $stocks->where('category', 'Firearm')->sum('quantity');

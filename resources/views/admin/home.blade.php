@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Admin Dashboard')
+@section('title', __('Admin Dashboard'))
 
 @section('content')
 <div class="max-w-full space-y-6">
@@ -7,15 +7,15 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">Admin Home Dashboard</h2>
-            <p class="text-xs text-slate-500 mt-1 font-medium">System operations, user statistics &amp; application oversight</p>
+            <h2 class="text-2xl font-bold font-serif text-slate-900 leading-tight">{{ __('Admin Home Dashboard') }}</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">{{ __('System operations, user statistics & application oversight') }}</p>
         </div>
         <div class="flex items-center gap-2">
             <a href="{{ route('admin.users') }}" class="px-3.5 py-2 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-xl transition-colors shadow-sm flex items-center gap-1.5">
-                <span><i class="fa-solid fa-users"></i></span><span>Manage Users</span>
+                <span><i class="fa-solid fa-users"></i></span><span>{{ __('Manage Users') }}</span>
             </a>
             <a href="{{ route('admin.audit_log') }}" class="px-3.5 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5">
-                <span><i class="fa-solid fa-file-lines text-slate-500"></i></span><span>Audit Trail</span>
+                <span><i class="fa-solid fa-file-lines text-slate-500"></i></span><span>{{ __('Audit Trail') }}</span>
             </a>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <!-- Card 1: Total Licenses (Clickable -> Licenses List) -->
         <a href="{{ route('overview.licenses') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Licenses</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Total Licenses') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-emerald-50 text-gov-green flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-certificate"></i>
                 </div>
@@ -35,14 +35,14 @@
                 {{ number_format($stats['total_licenses']) }}
             </div>
             <div class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>All Categories Issued</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('All Categories Issued') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 2: Approved Licenses (Clickable -> Approved Licenses List) -->
         <a href="{{ route('overview.licenses.approved') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-emerald-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Approved Licenses</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Approved Licenses') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
@@ -51,14 +51,14 @@
                 {{ number_format($stats['total_approved_licenses']) }}
             </div>
             <div class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Active &amp; Valid Status</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Active & Valid Status') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 3: Pending Licenses (Clickable -> Pending Licenses List) -->
         <a href="{{ route('overview.licenses.pending') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-amber-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Pending Licenses</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Pending Licenses') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-hourglass-half"></i>
                 </div>
@@ -67,14 +67,14 @@
                 {{ number_format($stats['total_pending_licenses']) }}
             </div>
             <div class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>In Workflow Queues</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('In Workflow Queues') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 4: Suspended Licenses (Clickable -> Suspended Licenses List) -->
         <a href="{{ route('overview.licenses.suspended') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-rose-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Suspended Licenses</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Suspended Licenses') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
@@ -83,14 +83,14 @@
                 {{ number_format($stats['total_suspended_licenses']) }}
             </div>
             <div class="text-[10px] font-semibold text-rose-700 bg-rose-50 border border-rose-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Non-Compliant / Flagged</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Non-Compliant / Flagged') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 5: Total Citizens (Clickable -> Citizens List) -->
         <a href="{{ route('overview.citizens') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-blue-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Citizens</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Total Citizens') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-users"></i>
                 </div>
@@ -99,14 +99,14 @@
                 {{ number_format($stats['total_citizens']) }}
             </div>
             <div class="text-[10px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Individual Licensees</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Individual Licensees') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 6: Total Dealers (Clickable -> Dealers List) -->
         <a href="{{ route('overview.dealers') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-purple-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Dealers</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Total Dealers') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-store"></i>
                 </div>
@@ -115,14 +115,14 @@
                 {{ number_format($stats['total_dealers']) }}
             </div>
             <div class="text-[10px] font-semibold text-purple-700 bg-purple-50 border border-purple-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Commercial Stockers</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Commercial Stockers') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 7: Total Firearms (Clickable -> Firearms List) -->
         <a href="{{ route('overview.firearms') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-cyan-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Firearms</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Total Firearms') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-gun"></i>
                 </div>
@@ -131,14 +131,14 @@
                 {{ number_format($stats['total_firearms']) }}
             </div>
             <div class="text-[10px] font-semibold text-cyan-700 bg-cyan-50 border border-cyan-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Citizen &amp; Dealer Arms</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Citizen & Dealer Arms') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
         <!-- Card 8: Total Ammunition (Clickable -> Ammunition List) -->
         <a href="{{ route('overview.ammunition') }}" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 hover:border-indigo-400 hover:shadow-md transition-all group block">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Ammunition</span>
+                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">{{ __('Total Ammunition') }}</span>
                 <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-boxes-stacked"></i>
                 </div>
@@ -147,7 +147,7 @@
                 {{ number_format($stats['total_ammunition']) }}
             </div>
             <div class="text-[10px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-md px-2 py-0.5 mt-2 inline-flex items-center gap-1">
-                <span>Licensed Calibre Stock</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                <span>{{ __('Licensed Calibre Stock') }}</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
             </div>
         </a>
 
@@ -164,11 +164,11 @@
                         <i class="fa-solid fa-map-location-dot"></i>
                     </div>
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900">District-wise License Statistics</h3>
-                        <p class="text-[10px] text-slate-400">Distribution of active &amp; pending licenses across top divisions</p>
+                        <h3 class="text-xs font-bold text-slate-900">{{ __('District-wise License Statistics') }}</h3>
+                        <p class="text-[10px] text-slate-400">{{ __('Distribution of active & pending licenses across top divisions') }}</p>
                     </div>
                 </div>
-                <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">Top 8 Districts</span>
+                <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">{{ __('Top 8 Districts') }}</span>
             </div>
             <div class="p-5">
                 <div class="relative w-full h-[260px]">
@@ -203,11 +203,11 @@
                         <i class="fa-solid fa-chart-pie"></i>
                     </div>
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900">Thana-wise License Statistics</h3>
-                        <p class="text-[10px] text-slate-400">High-density administrative police stations (Thanas)</p>
+                        <h3 class="text-xs font-bold text-slate-900">{{ __('Thana-wise License Statistics') }}</h3>
+                        <p class="text-[10px] text-slate-400">{{ __('High-density administrative police stations (Thanas)') }}</p>
                     </div>
                 </div>
-                <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">Metropolitan Thanas</span>
+                <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">{{ __('Metropolitan Thanas') }}</span>
             </div>
             <div class="p-5">
                 <div class="relative w-full h-[260px]">
@@ -230,7 +230,7 @@
             <div>
                 <div class="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
                     <h3 class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                        <span><i class="fa-solid fa-chart-pie text-gov-green"></i></span><span>Application Summary</span>
+                        <span><i class="fa-solid fa-chart-pie text-gov-green"></i></span><span>{{ __('Application Summary') }}</span>
                     </h3>
                     <span class="text-[10px] font-semibold text-slate-400">Status counts</span>
                 </div>

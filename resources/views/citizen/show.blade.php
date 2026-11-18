@@ -7,33 +7,63 @@
     $status = $application->status;
     $isRejected = str_contains($status, 'rejected');
 
-    // Application tracker pipeline
-    $pipeline = [
-        'submitted' => ['label' => 'Submitted', 'icon' => 'fa-solid fa-file-lines'],
-        'received' => ['label' => 'Received', 'icon' => 'fa-solid fa-inbox'],
-        'pending_vetting' => ['label' => 'Vetting', 'icon' => 'fa-solid fa-shield-halved'],
-        'recommended' => ['label' => 'Recommended', 'icon' => 'fa-solid fa-check'],
-        'approved' => ['label' => 'Approved', 'icon' => 'fa-solid fa-building-columns'],
-        'license_issued' => ['label' => 'Issued', 'icon' => 'fa-solid fa-scroll'],
-    ];
+    // Application tracker pipeline dynamically driven by workflow
+    $wfService = app(\App\Services\WorkflowService::class);
+    $workflow = $application->workflowType ?: $wfService->resolveWorkflowType($application);
+    $currentStep = $application->currentStep ?: $wfService->getCurrentStep($application);
 
-    $statusMap = [
-        'submitted' => 0,
-        'received' => 1,
-        'pending_vetting' => 2,
-        'vetted_cleared' => 2,
-        'vetted_flagged' => 2,
-        'recommended' => 3,
-        'referred_moha' => 3,
-        'moha_processing' => 3,
-        'pending_screening' => 3,
-        'screened' => 3,
-        'waiting_for_license_fee' => 4,
-        'approved' => 4,
-        'license_issued' => 5,
-        'payment_pending' => 0,
-    ];
-    $currentStepIndex = $statusMap[$status] ?? 0;
+    $pipeline = [];
+    $currentStepIndex = 0;
+
+    if ($workflow && $workflow->activeSteps->isNotEmpty()) {
+        $workflowSteps = $workflow->activeSteps;
+        $activeStepId = $currentStep?->id;
+
+        foreach ($workflowSteps as $idx => $ws) {
+            $pipeline[$ws->id] = [
+                'label' => __($ws->step_name),
+                'icon' => $ws->isMultiRole() ? 'fa-solid fa-users' : 'fa-solid fa-user-check',
+            ];
+            if ($activeStepId && $ws->id === $activeStepId) {
+                $currentStepIndex = $idx;
+            }
+        }
+
+        if (in_array($status, ['waiting_for_license_fee', 'approved', 'license_issued'])) {
+            $pipeline['issued'] = [
+                'label' => in_array($status, ['approved', 'waiting_for_license_fee']) ? __('Approved') : __('License Issued'),
+                'icon' => 'fa-solid fa-certificate',
+            ];
+            $currentStepIndex = count($workflowSteps);
+        }
+    } else {
+        $pipeline = [
+            'submitted' => ['label' => __('Submitted'), 'icon' => 'fa-solid fa-file-lines'],
+            'received' => ['label' => __('Received'), 'icon' => 'fa-solid fa-inbox'],
+            'pending_vetting' => ['label' => __('Vetting'), 'icon' => 'fa-solid fa-shield-halved'],
+            'recommended' => ['label' => __('Recommended'), 'icon' => 'fa-solid fa-check'],
+            'approved' => ['label' => __('Approved'), 'icon' => 'fa-solid fa-building-columns'],
+            'license_issued' => ['label' => __('Issued'), 'icon' => 'fa-solid fa-scroll'],
+        ];
+
+        $statusMap = [
+            'submitted' => 0,
+            'received' => 1,
+            'pending_vetting' => 2,
+            'vetted_cleared' => 2,
+            'vetted_flagged' => 2,
+            'recommended' => 3,
+            'referred_moha' => 3,
+            'moha_processing' => 3,
+            'pending_screening' => 3,
+            'screened' => 3,
+            'waiting_for_license_fee' => 4,
+            'approved' => 4,
+            'license_issued' => 5,
+            'payment_pending' => 0,
+        ];
+        $currentStepIndex = $statusMap[$status] ?? 0;
+    }
 
     // Document data
     $userUploadedDocs = $application->documents;
@@ -145,7 +175,7 @@
                     @if(in_array($status, ['approved','license_issued','vetted_cleared'])) border-emerald-500/30 bg-emerald-50 text-emerald-700
                     @elseif($isRejected || $status === 'vetted_flagged') border-rose-500/30 bg-rose-50 text-rose-700
                     @else border-amber-500/30 bg-amber-50 text-amber-700 @endif">
-                    {{ ucfirst(str_replace('_', ' ', $status)) }}
+                    {{ $application->getStageLabel() }}
                 </span>
                 <span class="text-[10px] text-slate-400 font-normal">Updated {{ $application->updated_at->diffForHumans() }}</span>
             </div>
@@ -486,38 +516,38 @@
             <!-- Status Panel -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-slate-100 bg-slate-50">
-                     <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-chart-line text-gov-green mr-1"></i> Current File Status</span>
+                     <span class="text-[11px] font-semibold uppercase text-slate-500 tracking-widest"><i class="fa-solid fa-chart-line text-gov-green mr-1"></i> {{ __('Current File Status') }}</span>
                 </div>
                 <div class="p-5 text-center">
-                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-block
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold inline-block
                         @if($status === 'payment_pending') bg-amber-500/10 text-amber-600 border border-amber-500/20
                         @elseif($status === 'waiting_for_license_fee') bg-indigo-500/10 text-indigo-600 border border-indigo-500/20
-                        @elseif(str_contains($status, 'approved')) bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
+                        @elseif(str_contains($status, 'approved') || $status === 'license_issued') bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
                         @elseif(str_contains($status, 'reject')) bg-rose-500/10 text-rose-600 border border-rose-500/20
-                        @else bg-amber-500/10 text-amber-600 border border-amber-500/20 @endif">
-                        {{ str_replace('_', ' ', $status) }}
+                        @else bg-blue-500/10 text-blue-600 border border-blue-500/20 @endif">
+                        {{ $application->getStageLabel() }}
                     </span>
-                     <p class="text-[11px] text-slate-500 mt-2 font-normal">Active Desk: {{ is_string($application->current_actor_role) ? ucwords(str_replace('_', ' ', $application->current_actor_role)) : (\App\Enums\Role::tryFrom($application->current_actor_role)?->label() ?? 'Applicant') }}</p>
+                     <p class="text-[11px] text-slate-500 mt-2 font-normal">{{ __('Active Desk') }}: {{ is_string($application->current_actor_role) ? ucwords(str_replace('_', ' ', $application->current_actor_role)) : (\App\Enums\Role::tryFrom($application->current_actor_role)?->label() ?? __('Applicant')) }}</p>
 
                     @if($status === 'payment_pending')
                         <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
-                             <p class="text-[11px] text-slate-500 font-semibold uppercase">Platform Service Charge Pending</p>
+                             <p class="text-[11px] text-slate-500 font-semibold uppercase">{{ __('Platform Service Charge Pending') }}</p>
                              <a href="{{ route('payment.initiate', [Crypt::encryptString($application->id), 'type' => 'service_fee']) }}" class="w-full block py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow-sm transition-colors">
-                                <i class="fa-solid fa-credit-card mr-1"></i> Pay Platform Fee (PayStation)
+                                <i class="fa-solid fa-credit-card mr-1"></i> {{ __('Pay Platform Fee (PayStation)') }}
                             </a>
                              <button onclick="checkPaymentStatus('{{ Crypt::encryptString($application->id) }}', this)" class="w-full block py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold border border-slate-300 transition-colors">
-                                <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status
+                                <i class="fa-solid fa-magnifying-glass mr-1"></i> {{ __('Verify Payment Status') }}
                             </button>
                         </div>
                     @elseif($status === 'waiting_for_license_fee')
                         <div class="mt-4 pt-4 border-t border-slate-100 space-y-2">
-                             <p class="text-[11px] text-slate-500 font-semibold uppercase block">Approved &bull; Waiting for License Fee</p>
+                             <p class="text-[11px] text-slate-500 font-semibold uppercase block">{{ __('Approved') }} &bull; {{ __('Waiting for License Fee') }}</p>
                              <p class="text-base font-bold text-slate-800">৳{{ number_format($application->license_fee_amount ?? 0) }}</p>
                              <a href="{{ route('payment.initiate', [Crypt::encryptString($application->id), 'type' => 'license_fee']) }}" class="w-full block py-2 text-white rounded-lg text-xs font-bold shadow-sm transition-all animate-pay-license text-center">
-                                <i class="fa-solid fa-credit-card mr-1"></i> Pay License Fee
+                                <i class="fa-solid fa-credit-card mr-1"></i> {{ __('Pay License Fee') }}
                             </a>
                              <button onclick="checkPaymentStatus('{{ Crypt::encryptString($application->id) }}', this)" class="w-full block py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold border border-slate-300 transition-colors">
-                                <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status
+                                <i class="fa-solid fa-magnifying-glass mr-1"></i> {{ __('Verify Payment Status') }}
                             </button>
                         </div>
                     @endif
@@ -831,13 +861,13 @@
             } else if (data.status === 'failed') {
                 if (btnElement) {
                     btnElement.disabled = false;
-                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
+                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> {{ __('Verify Payment Status') }}';
                 }
                 showVerifyAlertModal('Payment Notice', data.message, 'failed', false);
             } else {
                 if (btnElement) {
                     btnElement.disabled = false;
-                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
+                    btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> {{ __('Verify Payment Status') }}';
                 }
                 showVerifyAlertModal('Verification Status', data.message || 'Status check complete.', 'info', false);
             }
@@ -845,7 +875,7 @@
         .catch(err => {
             if (btnElement) {
                 btnElement.disabled = false;
-                btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Payment Status';
+                btnElement.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> {{ __('Verify Payment Status') }}';
             }
             showVerifyAlertModal('Verification Notice', 'Unable to verify payment status at this moment. Please try again.', 'warning', false);
         });

@@ -47,8 +47,8 @@
         <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start space-x-2.5">
             <span class="text-base mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i></span>
             <div>
-                <span class="font-bold">You have {{ $applications->where('status', 'suspended')->count() }} application(s) needing action.</span>
-                <p class="text-slate-600 mt-0.5">Complete payment or begin re-vetting to reactivate a suspended license.</p>
+                <span class="font-bold">{{ __('You have :count application(s) needing action.', ['count' => $applications->where('status', 'suspended')->count()]) }}</span>
+                <p class="text-slate-600 mt-0.5">{{ __('Complete payment or begin re-vetting to reactivate a suspended license.') }}</p>
             </div>
         </div>
     @endif
@@ -56,7 +56,7 @@
     <!-- My Active Licence Section -->
     <div class="space-y-3">
         <h3 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">
-            My Active Licence
+            {{ __('My Active Licence') }}
         </h3>
 
         @php
@@ -66,7 +66,7 @@
         @if($activeLicenses->isEmpty())
             <div class="max-w-xl p-5 rounded-2xl bg-white border border-slate-200/80 shadow-md">
                 <p class="text-xs text-slate-400 font-medium text-center py-4">
-                    No active license yet. <a href="{{ route('citizen.apply') }}" class="text-gov-green font-bold hover:underline">Apply for a new license <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+                    {{ __('No active license yet.') }} <a href="{{ route('citizen.apply') }}" class="text-gov-green font-bold hover:underline">{{ __('Apply for a new license') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                 </p>
             </div>
         @else
@@ -76,13 +76,13 @@
                     <!-- Header -->
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                         <div class="flex items-center space-x-2">
-                            <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="Government of Bangladesh" class="w-8 h-8 object-contain shrink-0">
+                            <img src="{{ asset('assets/brand/govt-logo.png') }}" alt="{{ __('Government of Bangladesh') }}" class="w-8 h-8 object-contain shrink-0">
                             <div>
                                 <h4 class="text-[10px] font-semibold uppercase text-slate-500 leading-none">
-                                    Government of Bangladesh &bull; MoHA
+                                    {{ __('Government of Bangladesh') }} &bull; {{ __('MoHA') }}
                                 </h4>
                                 <h3 class="text-xs font-bold text-slate-900 mt-1 leading-none">
-                                    Firearm Licence
+                                    {{ __('Firearm Licence') }}
                                 </h3>
                             </div>
                         </div>
@@ -95,27 +95,27 @@
                     <!-- Fields -->
                     <div class="grid grid-cols-2 gap-3 sm:gap-4 text-[11px]">
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Holder</span>
-                            <span class="font-bold text-slate-900">{{ auth()->user()->name }}</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('Holder') }}</span>
+                            <span class="font-bold text-slate-900">{{ (app()->getLocale() === 'bn' && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : auth()->user()->name }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Weapon</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('Weapon') }}</span>
                             <span class="font-bold text-slate-900">{{ $l->firearm_details['weapon_type'] ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Licence No.</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('Licence No.') }}</span>
                             <span class="font-bold text-slate-900 uppercase font-mono break-all">{{ $l->license_number }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">District</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('District') }}</span>
                             <span class="font-bold text-slate-900">{{ auth()->user()->district->name ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Issued</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('Issued') }}</span>
                             <span class="font-bold text-slate-900">{{ $l->issue_date->format('d M Y') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">Expires</span>
+                            <span class="text-slate-400 block font-semibold uppercase tracking-wider text-[9px]">{{ __('Expires') }}</span>
                             <span class="font-bold text-slate-900 {{ $l->expiry_date->isPast() ? 'text-rose-600' : '' }}">
                                 {{ $l->expiry_date->format('d M Y') }}
                             </span>
@@ -124,16 +124,16 @@
 
                     <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between flex-wrap gap-2">
                         <a href="{{ route('citizen.renew', Crypt::encryptString($l->id)) }}"
-                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-arrows-rotate mr-1"></i> Renew License</a>
+                           class="text-[10px] font-semibold text-gov-green hover:underline"><i class="fa-solid fa-arrows-rotate mr-1"></i> {{ __('Renew License') }}</a>
                         <div class="flex items-center space-x-3">
                             <a href="{{ route('license.download', Crypt::encryptString($l->id)) }}"
                                target="_blank"
                                class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
-                                <i class="fa-solid fa-file-pdf mr-1"></i> Download PDF
+                                <i class="fa-solid fa-file-pdf mr-1"></i> {{ __('Download PDF') }}
                             </a>
                             <a href="{{ route('verify', ['license_number' => $l->license_number]) }}"
                                class="text-[10px] font-semibold text-gov-green hover:underline flex items-center">
-                                <i class="fa-solid fa-circle-check mr-1"></i> Verify
+                                <i class="fa-solid fa-circle-check mr-1"></i> {{ __('Verify') }}
                             </a>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                              class="w-full h-full">
                         </div>
                     </div>
-                    <span class="text-[8px] text-slate-400 font-medium uppercase mt-2 leading-tight">Scan to verify<br>on NFLRMS portal</span>
+                    <span class="text-[8px] text-slate-400 font-medium uppercase mt-2 leading-tight">{{ __('Scan to verify on NFLRMS portal') }}</span>
                 </div>
             </div>
             @endforeach
@@ -157,10 +157,10 @@
     <!-- My Applications Table Section -->
     <div class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 class="text-sm font-bold text-slate-900 font-serif">My Applications</h3>
+            <h3 class="text-sm font-bold text-slate-900 font-serif">{{ __('My Applications') }}</h3>
             <button onclick="window.location.reload()" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 flex items-center space-x-1">
                 <span><i class="fa-solid fa-arrows-rotate"></i></span>
-                <span>Refresh</span>
+                <span>{{ __('Refresh') }}</span>
             </button>
         </div>
 
@@ -168,11 +168,11 @@
             <table class="w-full text-left border-collapse min-w-[680px]">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
-                        <th class="p-3 pl-5">Reference</th>
-                        <th class="p-3">Service</th>
-                        <th class="p-3">Submitted</th>
-                        <th class="p-3">Status</th>
-                        <th class="p-3 pr-5 text-right">Action</th>
+                        <th class="p-3 pl-5">{{ __('Reference') }}</th>
+                        <th class="p-3">{{ __('Service') }}</th>
+                        <th class="p-3">{{ __('Submitted') }}</th>
+                        <th class="p-3">{{ __('Status') }}</th>
+                        <th class="p-3 pr-5 text-right">{{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody class="text-[11px] divide-y divide-slate-100">
@@ -182,9 +182,9 @@
                             <td class="p-3 whitespace-nowrap">
                                 <span class="font-semibold text-slate-800">
                                     @if($a->type === 'renewal')
-                                        Renewal &bull; {{ in_array($a->firearm_details['weapon_type'] ?? '', ['Pistol', 'Revolver']) ? 'Handgun' : 'Long Gun' }}
+                                        {{ __('Renewal') }} &bull; {{ in_array($a->firearm_details['weapon_type'] ?? '', ['Pistol', 'Revolver']) ? __('Handgun') : __('Long Gun') }}
                                     @else
-                                        New License &bull; {{ in_array($a->firearm_details['weapon_type'] ?? '', ['Pistol', 'Revolver']) ? 'Handgun' : 'Long Gun' }}
+                                        {{ __('New License') }} &bull; {{ in_array($a->firearm_details['weapon_type'] ?? '', ['Pistol', 'Revolver']) ? __('Handgun') : __('Long Gun') }}
                                     @endif
                                 </span>
                                 <span class="text-slate-400 font-normal">&bull; {{ $a->firearm_details['weapon_type'] ?? 'Revolver' }} ({{ $a->firearm_details['bore'] ?? '12 Bore' }})</span>
@@ -197,54 +197,36 @@
                                     $badgeStyles = match($a->status) {
                                         'payment_pending' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
                                         'waiting_for_license_fee' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
-                                        'submitted' => 'bg-blue-500/10 text-blue-600 border-blue-500/20',
-                                        'received' => 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
-                                        'pending_vetting' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
-                                        'vetted_cleared' => 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
-                                        'vetted_flagged' => 'bg-red-500/10 text-red-600 border-red-500/20',
                                         'approved', 'license_issued' => 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
-                                        'rejected' => 'bg-red-500/10 text-red-600 border-red-500/20',
+                                        'rejected', 'rejected_by_dc', 'rejected_by_ministry' => 'bg-red-500/10 text-red-600 border-red-500/20',
+                                        'returned' => 'bg-amber-500/10 text-amber-600 border-amber-500/20',
                                         'suspended' => 'bg-rose-500/10 text-rose-600 border-rose-500/20',
-                                        default => 'bg-slate-500/10 text-slate-600 border-slate-500/20',
-                                    };
-                                    $statusLabel = match($a->status) {
-                                        'payment_pending' => 'Payment Pending',
-                                        'waiting_for_license_fee' => 'Waiting for License Fee',
-                                        'submitted' => 'Awaiting Verification',
-                                        'received' => 'Under Review',
-                                        'pending_vetting' => 'Awaiting Vetting Clearance',
-                                        'vetted_cleared' => 'Vetted: Passed',
-                                        'vetted_flagged' => 'Vetted: Flagged',
-                                        'approved' => 'Certificate Issued',
-                                        'license_issued' => 'License Issued',
-                                        'rejected' => 'Rejected',
-                                        'suspended' => 'Suspended',
-                                        default => ucfirst(str_replace('_', ' ', $a->status ?? '')),
+                                        default => 'bg-blue-500/10 text-blue-600 border-blue-500/20',
                                     };
                                 @endphp
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border uppercase tracking-wider {{ $badgeStyles }}">
-                                    {{ $statusLabel }}
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $badgeStyles }}">
+                                    {{ $a->getStageLabel() }}
                                 </span>
                             </td>
                             <td class="p-3 pr-5 text-right whitespace-nowrap">
                                 <div class="inline-flex items-center justify-end space-x-1.5">
                                     @if($a->status === 'payment_pending')
                                         <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'service_fee']) }}" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-[11px] font-bold shadow-sm transition-colors">
-                                            Pay Platform Fee
+                                            {{ __('Pay Platform Fee') }}
                                         </a>
-                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="{{ __('Check payment gateway status') }}">
                                             <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
                                         </button>
                                     @elseif($a->status === 'waiting_for_license_fee')
                                         <a href="{{ route('payment.initiate', [Crypt::encryptString($a->id), 'type' => 'license_fee']) }}" class="px-2.5 py-1 text-white rounded text-[11px] font-bold shadow-sm transition-all animate-pay-license">
-                                            Pay License Fee
+                                            {{ __('Pay License Fee') }}
                                         </a>
-                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="Check PayStation gateway for payment status">
+                                        <button onclick="checkPaymentStatus('{{ Crypt::encryptString($a->id) }}', this)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold border border-slate-300 transition-colors" title="{{ __('Check payment gateway status') }}">
                                             <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify
                                         </button>
                                     @endif
                                     <a href="{{ route('citizen.show', Crypt::encryptString($a->id)) }}" class="text-gov-green hover:underline font-semibold ml-1.5">
-                                        View <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+                                        {{ __('View') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
                                     </a>
                                 </div>
                             </td>
@@ -252,7 +234,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="text-center p-8 text-slate-400 font-normal">
-                                No application records found.
+                                {{ __('No application records found.') }}
                             </td>
                         </tr>
                     @endforelse

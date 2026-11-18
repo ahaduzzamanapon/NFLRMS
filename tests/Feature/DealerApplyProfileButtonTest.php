@@ -14,10 +14,10 @@ test('dealer apply page shows profile notice above Part 2 and Complete Profile b
     $response = $this->actingAs($dealer)->get(route('dealer.apply'));
 
     $response->assertOk()
-        ->assertSee('Pulled from your Profile')
-        ->assertSee('Fields below are pulled from your')
-        ->assertSee('Complete Profile')
-        ->assertDontSee('Update Profile')
+        ->assertSee(__('Pulled from your Profile'))
+        ->assertSee(__("Fields below are pulled from your Profile and can't be edited here. To change them, update your Profile first."))
+        ->assertSee(__('Complete Profile'))
+        ->assertDontSee(__('Update Profile'))
         ->assertSee(route('profile.edit'));
 });
 
@@ -52,9 +52,9 @@ test('dealer profile is complete when only dealer apply profile fields (name, ni
     $response = $this->actingAs($freshDealer)->get(route('dealer.apply'));
 
     $response->assertOk()
-        ->assertSee('Pulled from your Profile')
-        ->assertSee('Update Profile')
-        ->assertDontSee('Complete Profile')
+        ->assertSee(__('Pulled from your Profile'))
+        ->assertSee(__('Update Profile'))
+        ->assertDontSee(__('Complete Profile'))
         ->assertSee(route('profile.edit'));
 });
 
@@ -75,8 +75,8 @@ test('dealer profile is incomplete if any dealer-required field is missing', fun
     $response = $this->actingAs($freshDealer)->get(route('dealer.apply'));
 
     $response->assertOk()
-        ->assertSee('Complete Profile')
-        ->assertDontSee('Update Profile');
+        ->assertSee(__('Complete Profile'))
+        ->assertDontSee(__('Update Profile'));
 });
 
 test('citizen profile completeness requirements remain unchanged', function () {

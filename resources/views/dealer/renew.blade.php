@@ -1,38 +1,46 @@
 @extends('layouts.app')
-@section('title', 'Renew Dealing Licence')
+@section('title', __('Renew Dealing Licence'))
 
 @section('content')
 <div class="w-full space-y-6">
 
     <!-- Header -->
     <div>
-        <h2 class="text-2xl font-bold font-serif text-slate-900">Renew Dealing Licence</h2>
+        <h2 class="text-2xl font-bold font-serif text-slate-900">{{ __('Renew Dealing Licence') }}</h2>
         <p class="text-xs text-slate-500 mt-1 font-normal">
-            Stock ledger reconciliation required · Committee review · BRS §8.3
+            {{ __('Stock ledger reconciliation required · Committee review · BRS §8.3') }}
         </p>
     </div>
 
     @php
         $renewalFees = \App\Models\Setting::getFees();
+        $isBn = app()->getLocale() === 'bn';
+        $toBnDigits = function($number) {
+            $bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+            return str_replace(range(0, 9), $bnDigits, $number);
+        };
+        $renewalFee = $renewalFees['dealer_fee_class_a_renewal'] ?? 75000;
+        $platformFee = $renewalFees['dealer_platform_renewal'] ?? 2500;
+        $totalFee = $renewalFee + $platformFee;
     @endphp
 
     <!-- Fee (dynamic based on selected License Class) -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="text-xs font-medium text-amber-800">
-            Renewal Fee: <span class="font-bold" id="fee-renewal">৳{{ number_format($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) }}</span>
-            &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($renewalFees['dealer_platform_renewal'] ?? 2500) }}</span>
+            {{ __('Renewal Fee') }}: <span class="font-bold" id="fee-renewal">৳{{ $isBn ? $toBnDigits(number_format($renewalFee)) : number_format($renewalFee) }}</span>
+            &bull; {{ __('Platform Charge') }}: <span class="font-bold" id="fee-platform">৳{{ $isBn ? $toBnDigits(number_format($platformFee)) : number_format($platformFee) }}</span>
         </div>
-        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($renewalFees['dealer_fee_class_a_renewal'] ?? 75000) + ($renewalFees['dealer_platform_renewal'] ?? 2500)) }}</span></span>
+        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">{{ __('Total') }}: <span id="fee-total">৳{{ $isBn ? $toBnDigits(number_format($totalFee)) : number_format($totalFee) }}</span></span>
     </div>
 
     @if($licenses->isEmpty())
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-10 text-center space-y-3">
         <i class="fa-solid fa-clipboard-list text-3xl text-slate-300 block"></i>
-        <div class="text-sm font-semibold text-slate-700">No active dealing licences found</div>
-        <p class="text-xs text-slate-500">You need an issued dealing licence before you can renew. Apply for a new licence first.</p>
+        <div class="text-sm font-semibold text-slate-700">{{ __('No active dealing licences found') }}</div>
+        <p class="text-xs text-slate-500">{{ __('You need an issued dealing licence before you can renew. Apply for a new licence first.') }}</p>
         <a href="{{ route('dealer.apply') }}"
            class="inline-block mt-2 px-5 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow transition-colors">
-            Apply for New Dealing Licence <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+            {{ __('Apply for New Dealing Licence') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
         </a>
     </div>
     @else
@@ -42,14 +50,14 @@
         <!-- Validation Summary Alert -->
         <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
             <span class="block text-sm font-bold font-serif">
-                <i class="fa-solid fa-triangle-exclamation"></i> Please fill in the highlighted required field(s) above before continuing.
+                <i class="fa-solid fa-triangle-exclamation"></i> {{ __('Please fill in the highlighted required field(s) above before continuing.') }}
             </span>
         </div>
 
         <!-- Select Licence -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Select Dealing Licence to Renew</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">{{ __('Select Dealing Licence to Renew') }}</span>
             </div>
             <div class="p-5 space-y-3 rounded-lg border border-transparent js-error-wrapper" data-wrapper-for="license_id">
                 @foreach($licenses as $lic)
@@ -65,8 +73,8 @@
                     <div>
                         <div class="text-xs font-semibold text-slate-900 break-all">{{ $lic->license_number }}</div>
                         <div class="text-[11px] text-slate-500 font-medium">
-                            Expires: {{ $lic->expiry_date?->format('d M Y') ?? 'N/A' }} &bull;
-                            Status: <span class="font-semibold text-{{ $lic->status === 'active' ? 'gov-green' : 'amber-600' }}">{{ ucfirst($lic->status) }}</span>
+                            {{ __('Expires') }}: {{ $lic->expiry_date?->format('d M Y') ?? 'N/A' }} &bull;
+                            {{ __('Status') }}: <span class="font-semibold text-{{ $lic->status === 'active' ? 'gov-green' : 'amber-600' }}">{{ __($lic->status === 'active' ? 'Active' : ucfirst($lic->status)) }}</span>
                         </div>
                     </div>
                 </label>
@@ -81,16 +89,16 @@
         <!-- Stock Declaration -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Stock Declaration (Year-end)</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">{{ __('Stock Declaration (Year-end)') }}</span>
             </div>
             <div class="p-5 space-y-3">
                 <p class="text-xs text-slate-500 font-medium">
-                    Declare your closing stock for the year. This will be cross-checked against your submitted Stock Ledger.
-                    <a href="{{ route('dealer.stock_ledger') }}" class="text-gov-green font-semibold hover:underline">View Stock Ledger <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
+                    {{ __('Declare your closing stock for the year. This will be cross-checked against your submitted Stock Ledger.') }}
+                    <a href="{{ route('dealer.stock_ledger') }}" class="text-gov-green font-semibold hover:underline">{{ __('View Stock Ledger') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a>
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Firearms in Stock</label>
+                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ __('Total Firearms in Stock') }}</label>
                         <input type="number" name="declared_firearms" id="declared_firearms" min="0" required step="1" value="{{ old('declared_firearms') }}"
                                class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('declared_firearms') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                                placeholder="0">
@@ -98,7 +106,7 @@
                         @error('declared_firearms')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Total Ammunition Rounds</label>
+                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ __('Total Ammunition Rounds') }}</label>
                         <input type="number" name="declared_ammo" id="declared_ammo" min="0" required step="1" value="{{ old('declared_ammo') }}"
                                class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('declared_ammo') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
                                placeholder="0">
@@ -115,8 +123,7 @@
                 <input type="checkbox" name="declaration" id="declaration" required value="1"
                        class="mt-0.5 rounded border-slate-300 text-gov-green focus:ring-gov-green">
                 <span class="text-xs text-slate-600 leading-relaxed font-medium">
-                    I confirm that the declared stock is accurate and matches the physical inventory at my premises.
-                    I understand that discrepancies may result in an anomaly audit by MoHA.
+                    {{ __('I confirm that the declared stock is accurate and matches the physical inventory at my premises. I understand that discrepancies may result in an anomaly audit by MoHA.') }}
                 </span>
             </label>
             <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
@@ -126,11 +133,11 @@
         <div class="flex flex-wrap gap-3 justify-end">
             <a href="{{ route('citizen.dashboard') }}"
                class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
-                Cancel
+                {{ __('Cancel') }}
             </a>
             <button type="submit"
                     class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
-                Submit Renewal Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+                {{ __('Submit Renewal Application') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
         </div>
     </form>
@@ -140,6 +147,18 @@
 
 @section('scripts')
 <script>
+    const isBn = {{ $isBn ? 'true' : 'false' }};
+    const bnDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+
+    const i18n = {
+        selectLicense: "{{ __('Please select a licence to renew.') }}",
+        declarationRequired: "{{ __('You must accept the declaration to proceed.') }}",
+        isRequired: "{{ __('is required.') }}",
+        mustBeWhole: "{{ __('must be a whole number of 0 or more.') }}",
+        firearmsLabel: "{{ __('Total firearms in stock') }}",
+        ammoLabel: "{{ __('Total ammunition rounds') }}"
+    };
+
     // ===== RENEWAL FEE MAP (based on License Class) =====
     const renewalFeeMap = {
         A: {
@@ -157,7 +176,11 @@
     };
 
     function formatBDT(amount) {
-        return '৳' + Number(amount).toLocaleString('en-IN');
+        let str = Number(amount).toLocaleString('en-IN');
+        if (isBn) {
+            str = str.replace(/\d/g, d => bnDigits[d]);
+        }
+        return '৳' + str;
     }
 
     function updateRenewalFee(licenseClass) {
@@ -182,7 +205,6 @@
             const checkedRadio = document.querySelector('input[name="license_id"]:checked');
             if (checkedRadio) {
                 form.action = checkedRadio.dataset.action;
-                // Update fee based on the selected license's class
                 updateRenewalFee(checkedRadio.dataset.class || 'A');
             }
         }
@@ -191,7 +213,6 @@
             radio.addEventListener('change', updateAction);
         });
 
-        // Initial set (also sets initial fee based on pre-selected radio)
         updateAction();
 
         // ---- Renewal form client-side validation ----
@@ -224,7 +245,7 @@
         function validateLicense() {
             const checked = form.querySelector('input[name="license_id"]:checked');
             if (!checked) {
-                showError('license_id', 'Please select a licence to renew.');
+                showError('license_id', i18n.selectLicense);
                 return false;
             }
             showError('license_id', '');
@@ -234,7 +255,7 @@
         function validateDeclaration() {
             const declaration = document.getElementById('declaration');
             if (!declaration.checked) {
-                showError('declaration', 'You must accept the declaration to proceed.');
+                showError('declaration', i18n.declarationRequired);
                 return false;
             }
             showError('declaration', '');
@@ -244,12 +265,12 @@
         function validateStockField(input, label) {
             const value = input.value.trim();
             if (value === '') {
-                showError(input.name, `${label} is required.`);
+                showError(input.name, `${label} ${i18n.isRequired}`);
                 return false;
             }
             const num = Number(value);
             if (!Number.isInteger(num) || num < 0) {
-                showError(input.name, `${label} must be a whole number of 0 or more.`);
+                showError(input.name, `${label} ${i18n.mustBeWhole}`);
                 return false;
             }
             showError(input.name, '');
@@ -257,11 +278,11 @@
         }
 
         function validateFirearms() {
-            return validateStockField(document.getElementById('declared_firearms'), 'Total firearms in stock');
+            return validateStockField(document.getElementById('declared_firearms'), i18n.firearmsLabel);
         }
 
         function validateAmmo() {
-            return validateStockField(document.getElementById('declared_ammo'), 'Total ammunition rounds');
+            return validateStockField(document.getElementById('declared_ammo'), i18n.ammoLabel);
         }
 
         function validateForm() {

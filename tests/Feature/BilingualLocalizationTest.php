@@ -1,7 +1,9 @@
 <?php
 
 use App\Enums\Role;
+use App\Models\Application;
 use App\Models\User;
+use App\Models\WorkflowType;
 use Illuminate\Support\Facades\App;
 
 test('locale switch route sets session and changes app language', function () {
@@ -92,4 +94,44 @@ test('welcome landing page renders in english when english locale is selected', 
     $response->assertSee('Govt. of Bangladesh');
     $response->assertSee('Ministry of Home Affairs');
     $response->assertSee('Why NFLRMS');
+});
+
+test('application stage label is dynamically derived from workflow step', function () {
+    $workflow = WorkflowType::create([
+        'key' => 'test_workflow',
+        'name' => 'Test Workflow',
+        'is_active' => true,
+    ]);
+
+    $step1 = $workflow->steps()->create([
+        'step_order' => 1,
+        'step_name' => 'DC Front Desk — Intake & Verification',
+        'role_key' => 'dc_front_desk',
+        'role_name' => 'DC Front Desk',
+        'can_approve' => true,
+        'can_reject' => true,
+        'can_return' => false,
+        'is_active' => true,
+    ]);
+
+    $user = User::factory()->create([
+        'role' => Role::CitizenApplicant,
+    ]);
+
+    $app = Application::create([
+        'application_number' => 'APP-TEST-001',
+        'user_id' => $user->id,
+        'type' => 'new_license',
+        'applicant_type' => 'citizen',
+        'workflow_type_id' => $workflow->id,
+        'current_step_id' => $step1->id,
+        'current_actor_role' => 'dc_front_desk',
+        'status' => 'submitted',
+    ]);
+
+    App::setLocale('en');
+    expect($app->getStageLabel())->toContain('Step 1/1: DC Front Desk — Intake & Verification');
+
+    App::setLocale('bn');
+    expect($app->getStageLabel())->toContain('ডিসি ফ্রন্ট ডেস্ক — গ্রহণ ও প্রাথমিক যাচাই');
 });

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'New Dealing Licence — Form K')
+@section('title', __('New Dealing Licence (Form K)'))
 
 @section('content')
 <div class="w-full space-y-6">
@@ -7,36 +7,44 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold font-serif text-slate-900">New Dealing Licence (Form K)</h2>
+            <h2 class="text-2xl font-bold font-serif text-slate-900">{{ __('New Dealing Licence (Form K)') }}</h2>
             <p class="text-xs text-slate-500 mt-1 font-normal">
-                Arms Dealing Authorization · Appendix B, BRS §7.2 · 4-agency vetting required
+                {{ __('Arms Dealing Authorization · Appendix B, BRS §7.2 · 4-agency vetting required') }}
             </p>
         </div>
         <div class="flex-shrink-0">
             <a href="{{ route('profile.edit') }}" class="px-4 py-2 bg-gov-green hover:bg-gov-light text-white font-bold text-xs rounded-lg transition-colors inline-flex items-center space-x-1.5 shadow-sm">
                 <i class="fa-solid fa-user-pen"></i>
-                <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+                <span>{{ auth()->user()->isProfileComplete() ? __('Update Profile') : __('Complete Profile') }}</span>
             </a>
         </div>
     </div>
 
     @php
         $dealerFees = \App\Models\Setting::getFees();
+        $isBn = app()->getLocale() === 'bn';
+        $toBnDigits = function($number) {
+            $bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+            return str_replace(range(0, 9), $bnDigits, $number);
+        };
+        $statutoryFee = $dealerFees['dealer_fee_class_a_new'] ?? 150000;
+        $platformFee = $dealerFees['dealer_platform_new'] ?? 2500;
+        $totalFee = $statutoryFee + $platformFee;
     @endphp
 
     <!-- Fee Summary (dynamic based on selected License Class) -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="text-xs font-medium text-amber-800">
-            Statutory Fee: <span class="font-bold" id="fee-statutory">৳{{ number_format($dealerFees['dealer_fee_class_a_new'] ?? 150000) }}</span>
-            &bull; Platform Charge: <span class="font-bold" id="fee-platform">৳{{ number_format($dealerFees['dealer_platform_new'] ?? 2500) }}</span>
+            {{ __('Statutory Fee') }}: <span class="font-bold" id="fee-statutory">৳{{ $isBn ? $toBnDigits(number_format($statutoryFee)) : number_format($statutoryFee) }}</span>
+            &bull; {{ __('Platform Charge') }}: <span class="font-bold" id="fee-platform">৳{{ $isBn ? $toBnDigits(number_format($platformFee)) : number_format($platformFee) }}</span>
         </div>
-        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Total: <span id="fee-total">৳{{ number_format(($dealerFees['dealer_fee_class_a_new'] ?? 150000) + ($dealerFees['dealer_platform_new'] ?? 2500)) }}</span></span>
+        <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">{{ __('Total') }}: <span id="fee-total">৳{{ $isBn ? $toBnDigits(number_format($totalFee)) : number_format($totalFee) }}</span></span>
     </div>
 
     <!-- Validation Summary Alert -->
     <div id="formValidationAlert" class="{{ $errors->any() ? '' : 'hidden' }} p-4 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl font-normal space-y-1">
         <span class="block text-sm font-bold font-serif">
-            <i class="fa-solid fa-triangle-exclamation"></i> Please fill in the highlighted required field(s) above before continuing.
+            <i class="fa-solid fa-triangle-exclamation"></i> {{ __('Please fill in the highlighted required field(s) above before continuing.') }}
         </span>
     </div>
 
@@ -44,11 +52,11 @@
     <div id="profile-incomplete-error" class="hidden p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-normal flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center space-x-2">
             <span><i class="fa-solid fa-triangle-exclamation"></i></span>
-            <span id="profile-incomplete-error-text">Complete your profile first — the highlighted field(s) above are missing.</span>
+            <span id="profile-incomplete-error-text">{{ __('Complete your profile first — the highlighted field(s) above are missing.') }}</span>
         </div>
         <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5">
             <i class="fa-solid fa-user-pen"></i>
-            <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+            <span>{{ auth()->user()->isProfileComplete() ? __('Update Profile') : __('Complete Profile') }}</span>
         </a>
     </div>
 
@@ -59,19 +67,19 @@
         <!-- Section 1: Business Information -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">1. Business Information</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-900">{{ __('1. Business Information') }}</span>
             </div>
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Firm / Business Name <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Firm / Business Name') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="firm_name" id="firm_name" required minlength="3" value="{{ old('firm_name') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
-                           placeholder="e.g. Karim Arms & Ammunition">
+                           placeholder="{{ __('e.g. Karim Arms & Ammunition') }}">
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="firm_name"></span>
                     @error('firm_name')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Trade License Number <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Trade License Number') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="trade_license" id="trade_license" required
                            pattern="^TL-[A-Z]{2,4}-\d{4}-\d{3,6}$" value="{{ old('trade_license') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border border-slate-200 outline-none focus:ring-1 focus:ring-gov-green"
@@ -80,42 +88,42 @@
                     @error('trade_license')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Business Address <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Business Address') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <input type="text" name="business_address" id="business_address" required minlength="10" value="{{ old('business_address') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('business_address') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green"
-                           placeholder="Full address of premises">
+                           placeholder="{{ __('Full address of premises') }}">
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="business_address"></span>
                     @error('business_address')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">District <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('District') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="district_id" id="dealer_district_id" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('district_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                        <option value="">— Select District —</option>
+                        <option value="">{{ __('— Select District —') }}</option>
                         @foreach($districts as $d)
-                        <option value="{{ $d->id }}" {{ old('district_id')==$d->id?'selected':'' }}>{{ $d->name }}</option>
+                        <option value="{{ $d->id }}" {{ old('district_id')==$d->id?'selected':'' }}>{{ ($isBn && !empty($d->bn_name)) ? $d->bn_name : $d->name }}</option>
                         @endforeach
                     </select>
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="district_id"></span>
                     @error('district_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Upazila / Thana <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Upazila / Thana') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="upazila_id" id="dealer_upazila_id" required disabled
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('upazila_id') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                        <option value="">— Select District First —</option>
+                        <option value="">{{ __('— Select District First —') }}</option>
                     </select>
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="upazila_id"></span>
                     @error('upazila_id')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Licence Class <span class="text-rose-500 font-semibold">*</span></label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Licence Class') }} <span class="text-rose-500 font-semibold">*</span></label>
                     <select name="license_class" id="license_class" required
                             class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('license_class') ? 'border-rose-400' : 'border-slate-200' }} outline-none focus:ring-1 focus:ring-gov-green bg-white">
-                        <option value="">— Select Class —</option>
-                        <option value="A" {{ old('license_class')=='A'?'selected':'' }}>Class A — Retail Sale</option>
-                        <option value="B" {{ old('license_class')=='B'?'selected':'' }}>Class B — Wholesale</option>
-                        <option value="C" {{ old('license_class')=='C'?'selected':'' }}>Class C — Import / Export</option>
+                        <option value="">{{ __('— Select Class —') }}</option>
+                        <option value="A" {{ old('license_class')=='A'?'selected':'' }}>{{ __('Class A — Retail Sale') }}</option>
+                        <option value="B" {{ old('license_class')=='B'?'selected':'' }}>{{ __('Class B — Wholesale') }}</option>
+                        <option value="C" {{ old('license_class')=='C'?'selected':'' }}>{{ __('Class C — Import / Export') }}</option>
                     </select>
                     <span class="text-[11px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="license_class"></span>
                     @error('license_class')<span class="text-[11px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
@@ -126,44 +134,44 @@
         <!-- Profile Notice for Part 2 -->
         <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl font-normal flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> Pulled from your Profile</span>
+                <span class="block text-sm font-bold font-serif"><i class="fa-solid fa-circle-info mr-1"></i> {{ __('Pulled from your Profile') }}</span>
                 <p class="font-semibold">
-                    Fields below are pulled from your <span class="font-semibold">Profile</span> and can't be edited here. To change them, update your Profile first.
+                    {{ __("Fields below are pulled from your Profile and can't be edited here. To change them, update your Profile first.") }}
                 </p>
             </div>
             <a href="{{ route('profile.edit') }}" class="px-3.5 py-1.5 bg-gov-green hover:bg-gov-light text-white text-xs font-bold rounded-lg transition-colors shrink-0 inline-flex items-center space-x-1.5 shadow-sm">
                 <i class="fa-solid fa-user-pen"></i>
-                <span>{{ auth()->user()->isProfileComplete() ? 'Update Profile' : 'Complete Profile' }}</span>
+                <span>{{ auth()->user()->isProfileComplete() ? __('Update Profile') : __('Complete Profile') }}</span>
             </a>
         </div>
 
         <!-- Section 2: Proprietor Details -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
-                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">2. Proprietor / Responsible Person</span>
-                <span class="text-[9px] font-semibold text-slate-400">Fields marked <span class="text-gov-green font-bold">From Profile</span> are locked — edit them in your profile.</span>
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-900">{{ __('2. Proprietor / Responsible Person') }}</span>
+                <span class="text-[9px] font-semibold text-slate-400">{{ __('Fields marked') }} <span class="text-gov-green font-bold">{{ __('From Profile') }}</span> {{ __('are locked — edit them in your profile.') }}</span>
             </div>
             <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="proprietor_name" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Full Name <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
-                    <input type="text" id="proprietor_name" disabled required value="{{ strtoupper(auth()->user()->name ?? '') }}"
-                           placeholder="FULL NAME"
+                    <label for="proprietor_name" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Full Name') }} <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">{{ __('From Profile') }}</span></label>
+                    <input type="text" id="proprietor_name" disabled required value="{{ ($isBn && !empty(auth()->user()->name_bn)) ? auth()->user()->name_bn : strtoupper(auth()->user()->name ?? '') }}"
+                           placeholder="{{ __('Full Name') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('proprietor_name') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="proprietor_name" value="{{ auth()->user()->name ?? '' }}">
                     <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="proprietor_name"></span>
                     @error('proprietor_name')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="nid" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">National ID (NID) <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <label for="nid" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('National ID (NID)') }} <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">{{ __('From Profile') }}</span></label>
                     <input type="text" id="nid" disabled required value="{{ auth()->user()->nid ?? '' }}"
-                           placeholder="10 or 17-digit NID number"
+                           placeholder="{{ __('10 or 17-digit NID number') }}"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('nid') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
                     <input type="hidden" name="nid" value="{{ auth()->user()->nid ?? '' }}">
                     <span class="text-[10px] text-rose-500 font-semibold mt-0.5 block js-error" data-for="nid"></span>
                     @error('nid')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="mobile" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Mobile Number <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <label for="mobile" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Mobile Number') }} <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">{{ __('From Profile') }}</span></label>
                     <input type="text" id="mobile" disabled required value="{{ auth()->user()->phone ?? '' }}"
                            placeholder="01XXXXXXXXX"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('mobile') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -172,7 +180,7 @@
                     @error('mobile')<span class="text-[10px] text-rose-500 font-semibold mt-0.5 block">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label for="annual_income" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">Annual Income (BDT) <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">From Profile</span></label>
+                    <label for="annual_income" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-900 mb-1">{{ __('Annual Income (BDT)') }} <span class="text-rose-500 font-semibold">*</span> <span class="inline-block align-middle ml-1 px-1.5 py-0.5 rounded-full border border-gov-green text-gov-green bg-emerald-50/10 text-[10px] font-bold normal-case">{{ __('From Profile') }}</span></label>
                     <input type="number" id="annual_income" disabled required min="1" step="1" value="{{ auth()->user()->annual_income ?? '' }}"
                            placeholder="e.g. 500000"
                            class="w-full px-3 py-2.5 text-xs rounded-lg border {{ $errors->has('annual_income') ? 'border-rose-400' : 'border-slate-200' }} outline-none bg-white disabled:bg-slate-100 disabled:text-slate-900 disabled:cursor-not-allowed">
@@ -186,16 +194,26 @@
         <!-- Section 3: Stock Categories -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">3. Arms Categories to be Dealt</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">{{ __('3. Arms Categories to be Dealt') }}</span>
             </div>
             <div class="p-5">
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-2 rounded-lg border {{ $errors->has('categories') ? 'border-rose-400 bg-rose-50/40' : 'border-transparent' }} js-error-wrapper" data-wrapper-for="categories">
-                    @foreach(['Pistol','Revolver','Shotgun','Rifle','Air Gun','Ammunition'] as $cat)
+                    @php
+                        $availableCats = [
+                            'Pistol' => __('Pistol'),
+                            'Revolver' => __('Revolver'),
+                            'Shotgun' => __('Shotgun'),
+                            'Rifle' => __('Rifle'),
+                            'Air Gun' => __('Air Gun'),
+                            'Ammunition' => __('Ammunition')
+                        ];
+                    @endphp
+                    @foreach($availableCats as $catVal => $catLabel)
                     <label class="flex items-center space-x-2.5 p-3 rounded-lg border border-slate-200 cursor-pointer hover:border-gov-green hover:bg-emerald-50/50 transition-colors">
-                        <input type="checkbox" name="categories[]" value="{{ $cat }}"
+                        <input type="checkbox" name="categories[]" value="{{ $catVal }}"
                                class="rounded border-slate-300 text-gov-green focus:ring-gov-green"
-                               {{ in_array($cat, old('categories', [])) ? 'checked' : '' }}>
-                        <span class="text-xs font-medium text-slate-700">{{ $cat }}</span>
+                               {{ in_array($catVal, old('categories', [])) ? 'checked' : '' }}>
+                        <span class="text-xs font-medium text-slate-700">{{ $catLabel }}</span>
                     </label>
                     @endforeach
                 </div>
@@ -207,20 +225,23 @@
         <!-- Section 4: Documents -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
-                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">4. Required Documents</span>
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">{{ __('4. Required Documents') }}</span>
             </div>
             <div class="p-5 space-y-3">
-                @foreach([
-                    ['name'=>'nid_copy','label'=>'NID Copy (Front & Back)'],
-                    ['name'=>'trade_license_doc','label'=>'Trade License (Current Year)'],
-                    ['name'=>'premises_photo','label'=>'Premises Photograph'],
-                    ['name'=>'bank_statement','label'=>'Bank Statement (Last 6 months)'],
-                ] as $doc)
+                @php
+                    $dealerDocs = [
+                        ['name'=>'nid_copy','label'=>__('NID Copy (Front & Back)')],
+                        ['name'=>'trade_license_doc','label'=>__('Trade License (Current Year)')],
+                        ['name'=>'premises_photo','label'=>__('Premises Photograph')],
+                        ['name'=>'bank_statement','label'=>__('Bank Statement (Last 6 months)')],
+                    ];
+                @endphp
+                @foreach($dealerDocs as $doc)
                 <div>
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg border {{ $errors->has($doc['name']) ? 'border-rose-400 bg-rose-50/40' : 'border-slate-200' }} js-error-wrapper" data-wrapper-for="{{ $doc['name'] }}">
                         <div>
                             <div class="text-xs font-semibold text-slate-900">{{ $doc['label'] }}</div>
-                            <div class="text-[11px] text-slate-400 font-medium">PDF or JPG/PNG · Max 5MB</div>
+                            <div class="text-[11px] text-slate-400 font-medium">{{ __('PDF or JPG/PNG · Max 5MB') }}</div>
                         </div>
                         <input type="file" name="{{ $doc['name'] }}" id="{{ $doc['name'] }}" required
                                accept=".pdf,.jpg,.jpeg,.png" data-max-size="5242880"
@@ -239,9 +260,7 @@
                 <input type="checkbox" name="declaration" id="declaration" required value="1"
                        class="mt-0.5 rounded border-slate-300 text-gov-green focus:ring-gov-green">
                 <span class="text-xs text-slate-600 leading-relaxed font-medium">
-                    I declare that all information provided above is true and accurate to the best of my knowledge.
-                    I understand that submission of false information may result in rejection of my application and legal prosecution
-                    under the Arms Act 1878 and applicable provisions of the Penal Code.
+                    {{ __('I declare that all information provided above is true and accurate to the best of my knowledge. I understand that submission of false information may result in rejection of my application and legal prosecution under the Arms Act 1878 and applicable provisions of the Penal Code.') }}
                 </span>
             </label>
             <span class="text-[11px] text-rose-500 font-semibold mt-1 block js-error" data-for="declaration"></span>
@@ -252,17 +271,42 @@
         <div class="flex flex-wrap gap-3 justify-end">
             <a href="{{ route('dealer.dashboard') }}"
                class="px-5 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
-                Cancel
+                {{ __('Cancel') }}
             </a>
             <button type="submit"
                     class="px-6 py-2.5 rounded-lg bg-gov-green hover:bg-gov-light text-white font-bold text-xs shadow-md transition-colors">
-                Submit Application <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
+                {{ __('Submit Application') }} <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
         </div>
     </form>
 </div>
 
 <script>
+    const isBn = {{ $isBn ? 'true' : 'false' }};
+    const bnDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+
+    // Localized text dictionary for JS
+    const i18n = {
+        loading: "{{ __('Loading...') }}",
+        selectDistrictFirst: "{{ __('— Select District First —') }}",
+        selectUpazila: "{{ __('— Select Upazila / Thana —') }}",
+        errorLoadingUpazilas: "{{ __('Error loading upazilas') }}",
+        docRequired: "{{ __('This document is required.') }}",
+        fileTypesAllowed: "{{ __('Only PDF, JPG or PNG files are allowed.') }}",
+        fileExceeds: "{{ __('File exceeds the 5MB size limit.') }}",
+        categoryRequired: "{{ __('Select at least one arms category.') }}",
+        profileFieldMissing: "{{ __('This field is missing from your profile.') }}",
+        firmMin: "{{ __('Firm / business name must be at least 3 characters.') }}",
+        tradeValid: "{{ __('Enter a valid trade license number, e.g. TL-DHK-2024-00123.') }}",
+        addressMin: "{{ __('Enter the full business address (min. 10 characters).') }}",
+        districtRequired: "{{ __('Please select a district.') }}",
+        upazilaRequired: "{{ __('Please select an upazila / thana.') }}",
+        classRequired: "{{ __('Please select a licence class.') }}",
+        declarationRequired: "{{ __('You must accept the declaration to proceed.') }}",
+        profileIncompleteMsg: "{{ __('Complete your profile first — the highlighted field(s) above are missing.') }}",
+        fillHighlightedMsg: "{{ __('Please fill in the highlighted required field(s) above before continuing.') }}"
+    };
+
     // ===== DYNAMIC FEE SUMMARY (based on License Class) =====
     const dealerFeeMap = {
         A: {
@@ -280,7 +324,11 @@
     };
 
     function formatBDT(amount) {
-        return '৳' + Number(amount).toLocaleString('en-IN');
+        let str = Number(amount).toLocaleString('en-IN');
+        if (isBn) {
+            str = str.replace(/\d/g, d => bnDigits[d]);
+        }
+        return '৳' + str;
     }
 
     function updateFeeSummary(licenseClass) {
@@ -309,26 +357,27 @@
     document.getElementById('dealer_district_id')?.addEventListener('change', function () {
         const districtId = this.value;
         const upazilaSelect = document.getElementById('dealer_upazila_id');
-        upazilaSelect.innerHTML = '<option value="">Loading...</option>';
+        upazilaSelect.innerHTML = `<option value="">${i18n.loading}</option>`;
         upazilaSelect.disabled = true;
 
         if (!districtId) {
-            upazilaSelect.innerHTML = '<option value="">— Select District First —</option>';
+            upazilaSelect.innerHTML = `<option value="">${i18n.selectDistrictFirst}</option>`;
             return;
         }
 
         fetch(`/api/districts/${districtId}/upazilas`)
             .then(response => response.json())
             .then(data => {
-                upazilaSelect.innerHTML = '<option value="">— Select Upazila / Thana —</option>';
+                upazilaSelect.innerHTML = `<option value="">${i18n.selectUpazila}</option>`;
                 data.forEach(upazila => {
-                    upazilaSelect.innerHTML += `<option value="${upazila.id}">${upazila.name}</option>`;
+                    const upzName = (isBn && upazila.bn_name) ? upazila.bn_name : upazila.name;
+                    upazilaSelect.innerHTML += `<option value="${upazila.id}">${upzName}</option>`;
                 });
                 upazilaSelect.disabled = false;
             })
             .catch(error => {
                 console.error('Error fetching upazilas:', error);
-                upazilaSelect.innerHTML = '<option value="">Error loading upazilas</option>';
+                upazilaSelect.innerHTML = `<option value="">${i18n.errorLoadingUpazilas}</option>`;
             });
     });
 
@@ -346,9 +395,6 @@
             const input = form.querySelector(`[name="${fieldName}"]`) || document.getElementById(fieldName);
             if (input) input.classList.toggle('border-rose-400', !!message);
 
-            // Checkbox groups, file inputs, and the declaration checkbox render
-            // without a visible border on the control itself, so highlight the
-            // surrounding card instead.
             const wrapper = form.querySelector(`.js-error-wrapper[data-wrapper-for="${fieldName}"]`);
             if (wrapper) {
                 wrapper.classList.toggle('border-rose-400', !!message);
@@ -366,16 +412,16 @@
         function validateFile(input) {
             const file = input.files && input.files[0];
             if (!file) {
-                showError(input.name, 'This document is required.');
+                showError(input.name, i18n.docRequired);
                 return false;
             }
             const ext = file.name.split('.').pop().toLowerCase();
             if (!ALLOWED_EXT.includes(ext)) {
-                showError(input.name, 'Only PDF, JPG or PNG files are allowed.');
+                showError(input.name, i18n.fileTypesAllowed);
                 return false;
             }
             if (file.size > MAX_FILE_SIZE) {
-                showError(input.name, 'File exceeds the 5MB size limit.');
+                showError(input.name, i18n.fileExceeds);
                 return false;
             }
             showError(input.name, '');
@@ -394,7 +440,7 @@
         function validateCategories() {
             const checked = form.querySelectorAll('input[name="categories[]"]:checked');
             if (checked.length === 0) {
-                showError('categories', 'Select at least one arms category.');
+                showError('categories', i18n.categoryRequired);
                 return false;
             }
             showError('categories', '');
@@ -414,7 +460,7 @@
                 const hiddenInput = form.querySelector(`input[type="hidden"][name="${el.id}"]`);
                 const value = (hiddenInput ? hiddenInput.value : el.value || '').trim();
                 if (!value) {
-                    showError(el.id, 'This field is missing from your profile.');
+                    showError(el.id, i18n.profileFieldMissing);
                     profileValid = false;
                 }
             });
@@ -425,12 +471,12 @@
             clearAllErrors();
             let valid = true;
 
-            valid = validateField(document.getElementById('firm_name'), 'Firm / business name must be at least 3 characters.') && valid;
-            valid = validateField(document.getElementById('trade_license'), 'Enter a valid trade license number, e.g. TL-DHK-2024-00123.') && valid;
-            valid = validateField(document.getElementById('business_address'), 'Enter the full business address (min. 10 characters).') && valid;
-            valid = validateField(document.getElementById('dealer_district_id'), 'Please select a district.') && valid;
-            valid = validateField(document.getElementById('dealer_upazila_id'), 'Please select an upazila / thana.') && valid;
-            valid = validateField(document.querySelector('select[name="license_class"]'), 'Please select a licence class.') && valid;
+            valid = validateField(document.getElementById('firm_name'), i18n.firmMin) && valid;
+            valid = validateField(document.getElementById('trade_license'), i18n.tradeValid) && valid;
+            valid = validateField(document.getElementById('business_address'), i18n.addressMin) && valid;
+            valid = validateField(document.getElementById('dealer_district_id'), i18n.districtRequired) && valid;
+            valid = validateField(document.getElementById('dealer_upazila_id'), i18n.upazilaRequired) && valid;
+            valid = validateField(document.querySelector('select[name="license_class"]'), i18n.classRequired) && valid;
             valid = validateProfileFields() && valid;
 
             valid = validateCategories() && valid;
@@ -441,7 +487,7 @@
 
             const declaration = document.getElementById('declaration');
             if (!declaration.checked) {
-                showError('declaration', 'You must accept the declaration to proceed.');
+                showError('declaration', i18n.declarationRequired);
                 valid = false;
             }
 
@@ -461,8 +507,8 @@
             box.classList.remove('hidden');
             if (text) {
                 text.textContent = isProfileField
-                    ? 'Complete your profile first — the highlighted field(s) above are missing.'
-                    : 'Please fill in the highlighted required field(s) above before continuing.';
+                    ? i18n.profileIncompleteMsg
+                    : i18n.fillHighlightedMsg;
             }
         }
 
@@ -471,18 +517,13 @@
             if (box) box.classList.add('hidden');
         }
 
-        // Live validation on blur/change for a smoother experience
-        // ['firm_name', 'trade_license', 'business_address', 'nid', 'mobile', 'annual_income', 'proprietor_name'].forEach(id => {
-        //     const el = document.getElementById(id);
-        //     el?.addEventListener('blur', () => { validateField(el, el.title || 'This field is invalid.'); maybeHideAlert(); });
-        // });
         document.getElementById('dealer_district_id')?.addEventListener('change', () => { showError('district_id', ''); maybeHideAlert(); });
         document.getElementById('dealer_upazila_id')?.addEventListener('change', () => { showError('upazila_id', ''); maybeHideAlert(); });
         document.querySelector('select[name="license_class"]')?.addEventListener('change', function () { showError('license_class', ''); maybeHideAlert(); });
         form.querySelectorAll('input[name="categories[]"]').forEach(cb => cb.addEventListener('change', () => { validateCategories(); maybeHideAlert(); }));
         form.querySelectorAll('.js-file-input').forEach(input => input.addEventListener('change', () => { validateFile(input); maybeHideAlert(); }));
         document.getElementById('declaration')?.addEventListener('change', function () {
-            showError('declaration', this.checked ? '' : 'You must accept the declaration to proceed.');
+            showError('declaration', this.checked ? '' : i18n.declarationRequired);
             maybeHideAlert();
         });
 
@@ -492,7 +533,6 @@
                 e.preventDefault();
                 alertBox?.classList.remove('hidden');
 
-                // Determine if the first error is a profile field
                 const firstError = form.querySelector('.js-error:not(:empty)');
                 const isProfileField = firstError && profileMatchedFieldIds.has(firstError.dataset.for);
                 showIncompleteError(isProfileField);

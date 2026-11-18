@@ -38,7 +38,7 @@ class ApplicationController extends Controller
         PaymentController::syncUserPendingPayments($user);
 
         $applications = $user->applications()
-            ->with(['district', 'upazila', 'logs.actor'])
+            ->with(['district', 'upazila', 'logs.actor', 'currentStep.workflowType', 'workflowType.steps'])
             ->latest()
             ->get();
 
