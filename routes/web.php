@@ -25,6 +25,19 @@ Route::get('/clear-cache', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
+Route::get('/run-migrations', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        $migrateOut = Artisan::output();
+        Artisan::call('optimize:clear');
+        $clearOut = Artisan::output();
+
+        return response('<pre>MIGRATION SUCCESS:'.PHP_EOL.htmlspecialchars($migrateOut).PHP_EOL.htmlspecialchars($clearOut).'</pre>');
+    } catch (Throwable $e) {
+        return response('<pre>MIGRATION ERROR:'.PHP_EOL.htmlspecialchars($e->getMessage()).PHP_EOL.htmlspecialchars($e->getTraceAsString()).'</pre>', 500);
+    }
+});
+
 // Secure deployment hook for FTP CI/CD deployments (runs migrations and caches)
 Route::get('/deploy-run', function (Request $request) {
     $expectedSecret = config('app.deploy_secret') ?? env('DEPLOY_SECRET_KEY');

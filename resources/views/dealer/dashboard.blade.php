@@ -111,12 +111,12 @@
                         </div>
                         <div>
                             <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Issued') }}</span>
-                            <span class="font-semibold text-slate-900">{{ $l->issue_date->format('d M Y') }}</span>
+                            <span class="font-semibold text-slate-900">{{ $l->issue_date?->format('d M Y') ?? '—' }}</span>
                         </div>
                         <div>
                             <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Expires') }}</span>
-                            <span class="font-semibold text-slate-900 {{ $l->expiry_date->isPast() ? 'text-rose-600' : '' }}">
-                                {{ $l->expiry_date->format('d M Y') }}
+                            <span class="font-semibold text-slate-900 {{ ($l->expiry_date && $l->expiry_date->isPast()) ? 'text-rose-600' : '' }}">
+                                {{ $l->expiry_date?->format('d M Y') ?? '—' }}
                             </span>
                         </div>
                     </div>
@@ -155,7 +155,11 @@
 
     <!-- Dealer Stock Status Panel -->
     @php
-        $realStocks = auth()->user()->dealerStocks()->latest()->get();
+        try {
+            $realStocks = auth()->user()->dealerStocks ? auth()->user()->dealerStocks()->latest()->get() : collect();
+        } catch (\Throwable $e) {
+            $realStocks = collect();
+        }
         $dummyStocks = collect([
             (object)[
                 'item' => 'Walther PPK Semi-Auto Pistol',
@@ -283,17 +287,18 @@
                 <tbody class="text-xs divide-y divide-slate-100">
                     @forelse($stocks->take(8) as $stk)
                     @php
-                        $itemName = $stk->item_name ?? $stk->item ?? 'Walther PPK Semi-Auto Pistol';
-                        $itemType = $stk->item_type ?? $stk->category ?? 'Firearm';
+                        $itemName = (string)($stk->item_name ?? $stk->item ?? 'Walther PPK Semi-Auto Pistol');
+                        $itemType = (string)($stk->item_type ?? $stk->category ?? 'Firearm');
+                        $itemLower = strtolower($itemName);
                         $bore = $stk->bore ?? match(true) {
-                            str_contains(strtolower($itemName), '12 gauge') || str_contains(strtolower($itemName), 'shotgun') => '12 Gauge',
-                            str_contains(strtolower($itemName), '9mm') || str_contains(strtolower($itemName), 'glock') || str_contains(strtolower($itemName), 'mp5') || str_contains(strtolower($itemName), 'cz 75') => '9mm',
-                            str_contains(strtolower($itemName), '.32') || str_contains(strtolower($itemName), 'walther') || str_contains(strtolower($itemName), 'revolver') => '.32 ACP',
-                            str_contains(strtolower($itemName), '.308') || str_contains(strtolower($itemName), 'rifle') => '.308 Win',
-                            str_contains(strtolower($itemName), '.22') => '.22 LR',
+                            str_contains($itemLower, '12 gauge') || str_contains($itemLower, 'shotgun') => '12 Gauge',
+                            str_contains($itemLower, '9mm') || str_contains($itemLower, 'glock') || str_contains($itemLower, 'mp5') || str_contains($itemLower, 'cz 75') => '9mm',
+                            str_contains($itemLower, '.32') || str_contains($itemLower, 'walther') || str_contains($itemLower, 'revolver') => '.32 ACP',
+                            str_contains($itemLower, '.308') || str_contains($itemLower, 'rifle') => '.308 Win',
+                            str_contains($itemLower, '.22') => '.22 LR',
                             default => 'Standard Calibre'
                         };
-                        $remarks = $stk->remarks ?? $stk->source ?? 'MoHA Audit Verified';
+                        $remarks = (string)($stk->remarks ?? $stk->source ?? 'MoHA Audit Verified');
                     @endphp
                     <tr class="hover:bg-slate-50/50 transition-colors">
                         <td class="p-3 pl-5 font-semibold text-slate-900">{{ $itemName }}</td>
@@ -363,7 +368,7 @@
                                     };
                                 @endphp
                                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $badgeStyles }}">
-                                    {{ $a->getStageLabel() }}
+                                    {{ method_exists($a, 'getStageLabel') ? $a->getStageLabel() : ucfirst($a->status ?? 'Submitted') }}
                                 </span>
                             </td>
                             <td class="p-3 pr-5 text-right space-x-1.5 flex items-center justify-end">

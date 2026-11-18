@@ -19,13 +19,42 @@ class DealerController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
-        PaymentController::syncUserPendingPayments($user);
-        $applications = $user->applications()
-            ->with(['district', 'upazila', 'logs.actor', 'currentStep.workflowType', 'workflowType.steps'])
-            ->latest()
-            ->get();
-        $licenses = $user->licenses()->latest()->get();
-        $stocks = DealerStock::where('user_id', $user->id)->latest()->get();
+
+        try {
+            PaymentController::syncUserPendingPayments($user);
+        } catch (\Throwable $e) {
+            \Log::warning('Dealer payment sync error: '.$e->getMessage());
+        }
+
+        try {
+            $applications = $user->applications()
+                ->with(['district', 'upazila', 'logs.actor', 'currentStep.workflowType', 'workflowType.steps'])
+                ->latest()
+                ->get();
+        } catch (\Throwable $e) {
+            \Log::warning('Dealer applications eager loading error: '.$e->getMessage());
+            try {
+                $applications = $user->applications()
+                    ->with(['district', 'upazila', 'logs.actor'])
+                    ->latest()
+                    ->get();
+            } catch (\Throwable $e2) {
+                $applications = $user->applications()->latest()->get();
+            }
+        }
+
+        try {
+            $licenses = $user->licenses()->latest()->get();
+        } catch (\Throwable $e) {
+            $licenses = collect();
+        }
+
+        try {
+            $stocks = DealerStock::where('user_id', $user->id)->latest()->get();
+        } catch (\Throwable $e) {
+            $stocks = collect();
+        }
+
         $firearmsStock = $stocks->where('category', 'Firearm')->sum('quantity');
         $ammoStock = $stocks->where('category', 'Ammunition')->sum('quantity');
 

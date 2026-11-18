@@ -37,12 +37,39 @@
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('/fonts/kalpurush.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Nikosh';
+            src: url('/fonts/Nikosh.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
         body {
-            font-family: 'Inter', 'Nikosh', ui-sans-serif, system-ui, sans-serif;
+            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif;
             background-color: #f4f7f5;
-            font-size: 15.5px;
-            line-height: 1.55;
+            font-size: 15px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+        }
+        html[lang="bn"],
+        html[lang="bn"] *,
+        .font-bn, [lang="bn"] {
+            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
+            letter-spacing: normal !important;
         }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }

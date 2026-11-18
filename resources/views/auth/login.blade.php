@@ -45,29 +45,46 @@
     <style>
         @font-face {
             font-family: 'Kalpurush';
-            src: url('{{ asset('fonts/kalpurush.ttf') }}') format('truetype');
-            font-weight: 400;
+            src: url('/fonts/kalpurush.ttf') format('truetype');
+            font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Nikosh';
-            src: url('{{ asset('fonts/Nikosh.ttf') }}') format('truetype');
-            font-weight: 400;
+            src: url('/fonts/Nikosh.ttf') format('truetype');
+            font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        body { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
         
-        /* Kalpurush font on Bengali locale */
+        /* Universal Bengali font & sizing rule matching land.gov.bd */
+        html[lang="bn"],
+        html[lang="bn"] *,
         html[lang="bn"] body,
+        html[lang="bn"] div,
+        html[lang="bn"] p,
+        html[lang="bn"] span,
+        html[lang="bn"] a,
+        html[lang="bn"] label,
         html[lang="bn"] input,
         html[lang="bn"] select,
         html[lang="bn"] textarea,
         html[lang="bn"] button,
+        html[lang="bn"] table,
+        html[lang="bn"] th,
+        html[lang="bn"] td,
         html[lang="bn"] h1,
         html[lang="bn"] h2,
         html[lang="bn"] h3,
@@ -75,9 +92,55 @@
         html[lang="bn"] h5,
         html[lang="bn"] h6,
         html[lang="bn"] .font-serif,
+        html[lang="bn"] .text-serif,
         .font-bn, [lang="bn"] {
-            font-family: 'Kalpurush', 'Nikosh', 'Noto Sans Bengali', sans-serif !important;
+            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
+            letter-spacing: normal !important;
         }
+
+        html[lang="bn"] body {
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+        }
+        html[lang="bn"] h1 {
+            font-size: 26px !important;
+            line-height: 1.35 !important;
+            font-weight: 700 !important;
+        }
+        html[lang="bn"] h2 {
+            font-size: 22px !important;
+            line-height: 1.4 !important;
+            font-weight: 700 !important;
+        }
+        html[lang="bn"] h3 {
+            font-size: 18px !important;
+            line-height: 1.45 !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] h4, html[lang="bn"] h5, html[lang="bn"] h6 {
+            font-size: 16px !important;
+            line-height: 1.5 !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] label, html[lang="bn"] .form-label {
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            line-height: 1.5 !important;
+            text-transform: none !important;
+        }
+        html[lang="bn"] input, html[lang="bn"] select, html[lang="bn"] textarea, html[lang="bn"] button {
+            font-size: 14.5px !important;
+            line-height: 1.5 !important;
+        }
+        html[lang="bn"] th {
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+        }
+        html[lang="bn"] td {
+            font-size: 14.5px !important;
+            line-height: 1.55 !important;
+        }
+
         .seal-ring { box-shadow: 0 0 0 1px rgba(201,162,75,0.55), 0 0 0 4px rgba(201,162,75,0.12); }
         .sec-chip { font-variant-numeric: tabular-nums; }
         .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
