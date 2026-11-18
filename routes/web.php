@@ -25,6 +25,36 @@ Route::get('/clear-cache', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
+// Secure deployment hook for FTP CI/CD deployments (runs migrations and caches)
+Route::get('/deploy-run', function (Request $request) {
+    $expectedSecret = config('app.deploy_secret') ?? env('DEPLOY_SECRET_KEY');
+    if (empty($expectedSecret) || $request->query('key') !== $expectedSecret) {
+        abort(403, 'Unauthorized deploy request.');
+    }
+
+    $outputs = [];
+    Artisan::call('migrate', ['--force' => true]);
+    $outputs['migrate'] = trim(Artisan::output());
+
+    Artisan::call('optimize:clear');
+    $outputs['optimize_clear'] = trim(Artisan::output());
+
+    Artisan::call('config:cache');
+    $outputs['config_cache'] = trim(Artisan::output());
+
+    Artisan::call('route:cache');
+    $outputs['route_cache'] = trim(Artisan::output());
+
+    Artisan::call('view:cache');
+    $outputs['view_cache'] = trim(Artisan::output());
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Post-deploy migrations and optimizations completed successfully.',
+        'details' => $outputs,
+    ]);
+});
+
 // Temporary: preview custom error pages
 Route::prefix('error-preview')->middleware('auth')->group(function () {
     Route::get('/404', fn () => response()->view('errors.404', [], 404));
