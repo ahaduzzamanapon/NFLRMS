@@ -38,6 +38,13 @@
     </script>
     <style>
         @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
             font-family: 'Kalpurush';
             src: url('/fonts/kalpurush.ttf') format('truetype');
             font-weight: normal;
@@ -51,25 +58,25 @@
             font-style: normal;
             font-display: swap;
         }
-        @font-face {
-            font-family: 'Noto Sans Bengali';
-            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
-            font-weight: 100 900;
-            font-style: normal;
-            font-display: swap;
-        }
         body {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif;
+            font-family: 'Noto Sans Bengali', 'Inter', ui-sans-serif, system-ui, sans-serif;
             background-color: #f4f7f5;
             font-size: 15px;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
         html[lang="bn"],
-        html[lang="bn"] *,
+        html[lang="bn"] *:not(i):not([class*="fa-"]):not([class^="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands),
         .font-bn, [lang="bn"] {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
+            font-family: 'Noto Sans Bengali', 'Kalpurush', 'Nikosh', sans-serif !important;
             letter-spacing: normal !important;
+        }
+        /* Protect Font Awesome Icons */
+        i.fa, i.fas, i.far, i.fab, i.fa-solid, i.fa-regular, i.fa-brands,
+        .fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands,
+        [class*="fa-"], [class^="fa-"] {
+            font-family: "Font Awesome 6 Free" !important;
+            font-style: normal !important;
         }
         h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
         h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }

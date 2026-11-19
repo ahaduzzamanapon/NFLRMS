@@ -34,15 +34,22 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Kalpurush"', '"Noto Sans Bengali"', '"Nikosh"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Kalpurush"', '"Noto Sans Bengali"', '"Nikosh"', '"Inter"', 'sans-serif'],
-                        bn: ['"Kalpurush"', '"Noto Sans Bengali"', '"Nikosh"', 'sans-serif'],
+                        sans: ['"Noto Sans Bengali"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Noto Sans Bengali"', '"Inter"', 'sans-serif'],
+                        bn: ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Kalpurush';
             src: url('/fonts/kalpurush.ttf') format('truetype');
@@ -57,17 +64,10 @@
             font-style: normal;
             font-display: swap;
         }
-        @font-face {
-            font-family: 'Noto Sans Bengali';
-            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
-            font-weight: 100 900;
-            font-style: normal;
-            font-display: swap;
-        }
-        body { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; }
-        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
-        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
+        body { font-family: 'Noto Sans Bengali', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Noto Sans Bengali', 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.01em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: normal; }
 
         /* Universal Bengali Font Rule matching land.gov.bd (EXCLUDING icons) */
         html[lang="bn"],
@@ -92,7 +92,7 @@
         html[lang="bn"] h5,
         html[lang="bn"] h6,
         .font-bn, [lang="bn"] {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
+            font-family: 'Noto Sans Bengali', 'Kalpurush', 'Nikosh', sans-serif !important;
             letter-spacing: normal !important;
         }
 

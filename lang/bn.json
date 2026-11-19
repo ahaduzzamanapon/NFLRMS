@@ -582,5 +582,12 @@
     "items": "টি",
     "rds": "রাউন্ড",
     "No stock ledger entries found.": "কোনো স্টক লেজার তথ্য পাওয়া যায়নি।",
-    "No application records found.": "কোনো আবেদনের তথ্য পাওয়া যায়নি।"
+    "No application records found.": "কোনো আবেদনের তথ্য পাওয়া যায়নি।",
+    "Alerts": "সতর্কবার্তা",
+    "Dealer Dashboard": "ডিলার ড্যাশবোর্ড",
+    "Download PDF": "পিডিএফ ডাউনলোড",
+    "New Dealing Licence": "নতুন ডিলিং লাইসেন্স",
+    "Pay License Fee": "লাইসেন্স ফি প্রদান করুন",
+    "Pay Platform Fee": "প্ল্যাটফর্ম ফি প্রদান করুন",
+    "Verify": "যাচাই করুন"
 }

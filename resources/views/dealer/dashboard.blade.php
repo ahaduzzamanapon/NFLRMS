@@ -27,38 +27,38 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <!-- Card 1: Dealer's Total Licences (Real DB Count) -->
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('Total Licences') }}</h4>
-            <p class="text-2xl sm:text-3xl font-bold font-serif text-emerald-600 mt-1">{{ number_format($licenses->count()) }}</p>
+            <h4 class="text-xs sm:text-sm font-semibold text-slate-600">{{ __('Total Licences') }}</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-sans text-emerald-600 mt-1">{{ number_format($licenses->count()) }}</p>
         </div>
 
         <!-- Card 2: Total Firearms in Stock (Clickable -> Stock Ledger) -->
         <a href="{{ route('dealer.stock_ledger') }}" class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm hover:border-gov-green/50 hover:shadow-md transition-all flex flex-col justify-between min-h-[5.5rem] h-auto group cursor-pointer">
             <div class="flex items-center justify-between">
-                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">{{ __('Total Firearms in Stock') }}</h4>
+                <h4 class="text-xs sm:text-sm font-semibold text-slate-600 group-hover:text-gov-green transition-colors">{{ __('Total Firearms in Stock') }}</h4>
                 <span class="text-xs text-slate-400 group-hover:text-gov-green transition-colors"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
             </div>
-            <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalFirearms ?? 142) }}</p>
+            <p class="text-2xl sm:text-3xl font-bold font-sans text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalFirearms ?? 142) }}</p>
         </a>
 
         <!-- Card 3: Total Ammunations (Clickable -> Stock Ledger) -->
         <a href="{{ route('dealer.stock_ledger') }}" class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm hover:border-gov-green/50 hover:shadow-md transition-all flex flex-col justify-between min-h-[5.5rem] h-auto group cursor-pointer">
             <div class="flex items-center justify-between">
-                <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider group-hover:text-gov-green transition-colors">{{ __('Total Ammunations') }}</h4>
+                <h4 class="text-xs sm:text-sm font-semibold text-slate-600 group-hover:text-gov-green transition-colors">{{ __('Total Ammunations') }}</h4>
                 <span class="text-xs text-slate-400 group-hover:text-gov-green transition-colors"><i class="fa-solid fa-arrow-right text-[10px]"></i></span>
             </div>
-            <p class="text-2xl sm:text-3xl font-bold font-serif text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalAmmo ?? 15400) }}</p>
+            <p class="text-2xl sm:text-3xl font-bold font-sans text-slate-900 group-hover:text-gov-green transition-colors mt-1">{{ number_format($totalAmmo ?? 15400) }}</p>
         </a>
 
         <!-- Card 4: Applications In Progress (Real DB Count) -->
         <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[5.5rem] h-auto">
-            <h4 class="text-[10px] sm:text-[11px] font-semibold uppercase text-slate-400 tracking-wider">{{ __('In Progress') }}</h4>
-            <p class="text-2xl sm:text-3xl font-bold font-serif text-blue-600 mt-1">{{ number_format($applications->whereNotIn('status', ['approved', 'license_issued', 'rejected'])->count()) }}</p>
+            <h4 class="text-xs sm:text-sm font-semibold text-slate-600">{{ __('In Progress') }}</h4>
+            <p class="text-2xl sm:text-3xl font-bold font-sans text-blue-600 mt-1">{{ number_format($applications->whereNotIn('status', ['approved', 'license_issued', 'rejected'])->count()) }}</p>
         </div>
     </div>
 
     <!-- My Dealer Licence Section -->
     <div class="space-y-3">
-        <h3 class="text-[11px] font-semibold uppercase text-slate-400 tracking-wider">
+        <h3 class="text-xs sm:text-sm font-bold text-slate-700">
             {{ __('My Dealer Licence') }}
         </h3>
 
@@ -92,29 +92,29 @@
                     </div>
 
                     <!-- Fields -->
-                    <div class="grid grid-cols-2 gap-3 sm:gap-4 text-[11px]">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Firm / Business Name') }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('Firm / Business Name') }}</span>
                             <span class="font-semibold text-slate-900">{{ auth()->user()->name }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Licence Class') }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('Licence Class') }}</span>
                             <span class="font-semibold text-slate-900">{{ __('Class A Dealer') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Licence No.') }}</span>
-                            <span class="font-semibold text-slate-900 uppercase font-mono break-all">{{ $l->license_number }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('Licence No.') }}</span>
+                            <span class="font-semibold text-slate-900 font-mono break-all">{{ $l->license_number }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('District') }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('District') }}</span>
                             <span class="font-semibold text-slate-900">{{ auth()->user()->district->name ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Issued') }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('Issued') }}</span>
                             <span class="font-semibold text-slate-900">{{ $l->issue_date?->format('d M Y') ?? '—' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium uppercase tracking-wider text-[9px]">{{ __('Expires') }}</span>
+                            <span class="text-slate-500 block font-medium text-[11px] sm:text-xs">{{ __('Expires') }}</span>
                             <span class="font-semibold text-slate-900 {{ ($l->expiry_date && $l->expiry_date->isPast()) ? 'text-rose-600' : '' }}">
                                 {{ $l->expiry_date?->format('d M Y') ?? '—' }}
                             </span>

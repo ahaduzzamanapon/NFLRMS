@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
@@ -30,8 +30,8 @@
                         }
                     },
                     fontFamily: {
-                        sans:  ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', '"Inter"', 'sans-serif'],
+                        sans:  ['"Noto Sans Bengali"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['"Noto Sans Bengali"', '"Inter"', 'sans-serif'],
                         bn:    ['"Noto Sans Bengali"', '"Kalpurush"', '"Nikosh"', 'sans-serif'],
                     }
                 }
@@ -40,6 +40,13 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: 'Noto Sans Bengali';
+            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
         @font-face {
             font-family: 'Kalpurush';
             src: url('/fonts/kalpurush.ttf') format('truetype');
@@ -54,17 +61,10 @@
             font-style: normal;
             font-display: swap;
         }
-        @font-face {
-            font-family: 'Noto Sans Bengali';
-            src: url('/fonts/NotoSansBengali.ttf') format('truetype');
-            font-weight: 100 900;
-            font-style: normal;
-            font-display: swap;
-        }
-        body { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Inter', ui-sans-serif, system-ui, sans-serif; }
-        h1, .text-3xl, .text-2xl { letter-spacing: -0.02em; }
-        h2, h3, .text-xl, .text-lg { letter-spacing: -0.01em; }
+        body { font-family: 'Noto Sans Bengali', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Noto Sans Bengali', 'Inter', sans-serif; }
+        h1, .text-3xl, .text-2xl { letter-spacing: -0.01em; }
+        h2, h3, .text-xl, .text-lg { letter-spacing: normal; }
         
         /* Land.gov.bd exact typography & universal font application (EXCLUDING icons) */
         html[lang="bn"],
@@ -91,7 +91,7 @@
         html[lang="bn"] .font-serif,
         html[lang="bn"] .text-serif,
         .font-bn, [lang="bn"] {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', sans-serif !important;
+            font-family: 'Noto Sans Bengali', 'Kalpurush', 'Nikosh', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             letter-spacing: normal !important;
         }
 
@@ -116,6 +116,7 @@
             font-weight: 400 !important;
         }
 
+        /* Land.gov.bd Bengali font sizing & readability standards */
         html[lang="bn"] body {
             font-size: 15px !important;
             line-height: 1.6 !important;
@@ -164,19 +165,26 @@
             font-size: 14.5px !important;
             line-height: 1.55 !important;
         }
-        html[lang="bn"] label,
-        html[lang="bn"] .form-label {
+        html[lang="bn"] .uppercase {
             text-transform: none !important;
-            letter-spacing: normal !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            color: #1e293b !important;
         }
-        html[lang="bn"] input,
-        html[lang="bn"] select,
-        html[lang="bn"] textarea {
-            font-size: 14.5px !important;
+        html[lang="bn"] .tracking-wider,
+        html[lang="bn"] .tracking-widest {
             letter-spacing: normal !important;
+        }
+        html[lang="bn"] .text-\[8px\],
+        html[lang="bn"] .text-\[9px\] {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+        }
+        html[lang="bn"] .text-\[10px\],
+        html[lang="bn"] .text-\[11px\] {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+        html[lang="bn"] .text-xs {
+            font-size: 13.5px !important;
+            line-height: 1.45 !important;
         }
         html[lang="bn"] th {
             text-transform: none !important;
